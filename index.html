@@ -193,6 +193,7 @@
   function renderHome() {
     $('materias-list').innerHTML = MATERIAS.map(m => {
       const n = ESTACOES.filter(e => e.materia === m.key).length;
+      if (!n) return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-400"><input type="checkbox" class="w-4 h-4" disabled> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs">aguardando material</span></label>`;
       return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="checkbox" class="w-4 h-4 mat-chk" value="${m.key}" ${prefs.materias.includes(m.key) ? 'checked' : ''}> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs text-slate-400">${n} ${n === 1 ? 'estação' : 'estações'}</span></label>`;
     }).join('');
     $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som;
