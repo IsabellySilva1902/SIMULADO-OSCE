@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado OSCE — 4º semestre</title>
+<meta name="description" content="Simulado de estações OSCE: 4 minutos de estação, 1 minuto de feedback, barema de correção, ditado por voz e treino em dupla.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50' font-size='50'%3E%E2%8F%B1%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background:#f8fafc; color:#1e293b; }
+  .hidden { display: none !important; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  .fade-in { animation: fadeIn .2s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .pre-line { white-space: pre-line; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:.35rem; border-radius:.75rem; padding:.6rem 1rem; font-weight:600; }
+  .toast { animation: fadeIn .2s ease-out; }
+  .rec-dot { width:.6rem; height:.6rem; border-radius:9999px; background:#dc2626; animation: pulse 1s infinite; display:inline-block; }
+  @keyframes pulse { 50% { opacity:.25; } }
+  .st-btn[data-on="1"] { outline: 3px solid currentColor; outline-offset: 1px; }
+  #lightbox { display:none; } #lightbox.open { display:flex; }
+</style>
+</head>
+<body class="min-h-screen">
+<div id="toast-container" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 items-end"></div>
+
+<header class="border-b border-slate-200 bg-white sticky top-0 z-40">
+  <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+    <button id="btn-logo" class="flex items-center gap-2 text-left">
+      <span class="text-2xl" aria-hidden="true">⏱️</span>
+      <div>
+        <h1 class="font-bold text-base sm:text-lg leading-tight">Simulado OSCE</h1>
+        <p class="text-xs text-slate-500 leading-tight">4 min de estação · 1 min de feedback · barema</p>
+      </div>
+    </button>
+    <button id="btn-how" class="text-xs px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100">❓ Como usar</button>
+  </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-6 pb-24">
+
+  <!-- ============ HOME ============ -->
+  <section id="screen-home" class="screen active fade-in">
+    <div id="resume-box" class="hidden mb-4 p-4 rounded-2xl border border-amber-300 bg-amber-50 flex flex-wrap items-center justify-between gap-3">
+      <div class="text-sm"><b>Você tem um circuito em andamento.</b> <span id="resume-info" class="text-slate-600"></span></div>
+      <div class="flex gap-2">
+        <button id="btn-resume" class="btn bg-amber-500 text-white text-sm">▶️ Continuar</button>
+        <button id="btn-discard" class="btn border border-slate-300 bg-white text-sm">Descartar</button>
+      </div>
+    </div>
+
+    <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+      <h2 class="font-bold text-lg mb-1">Montar treino</h2>
+      <p class="text-sm text-slate-500 mb-4">Como na prova: <b>4 minutos</b> para se apresentar, ler o caso e responder em voz alta, e <b>1 minuto de feedback</b> com o barema.</p>
+      <div class="text-sm font-semibold mb-2">Matérias</div>
+      <div id="materias-list" class="grid sm:grid-cols-2 gap-2 mb-4"></div>
+      <div class="flex flex-wrap gap-4 text-sm mb-4">
+        <label class="flex items-center gap-1.5"><input id="opt-ditado" type="checkbox" class="w-4 h-4"> 🎙️ Ditado por voz (transcreve o que eu falo)</label>
+        <label class="flex items-center gap-1.5"><input id="opt-som" type="checkbox" class="w-4 h-4" checked> 🔔 Avisos sonoros</label>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-2">
+        <button id="btn-circuito" class="btn bg-blue-600 text-white hover:bg-blue-700">🔔 Circuito (1 por matéria)</button>
+        <button id="btn-avulsa" class="btn bg-teal-600 text-white hover:bg-teal-700">🎯 Uma estação sorteada</button>
+        <button id="btn-revisao" class="btn bg-rose-600 text-white hover:bg-rose-700">🔁 Rever notas baixas (<span id="rev-count">0</span>)</button>
+      </div>
+    </div>
+
+    <div class="mt-4 p-5 rounded-2xl bg-white border border-violet-300 shadow-sm">
+      <h2 class="font-bold text-lg mb-1">👥 Treino em dupla</h2>
+      <p class="text-sm text-slate-500 mb-3">Um colega é o <b>examinador</b> (vê o roteiro do paciente e marca o barema durante a estação) e você é o <b>candidato</b>. Os dois usam o <b>mesmo código</b> e as mesmas matérias e tocam em "Entrar na estação" juntos.</p>
+      <div class="grid sm:grid-cols-3 gap-2 items-end">
+        <label class="text-sm">Código
+          <input id="dupla-code" type="text" placeholder="ex.: grupo-osce-1" autocomplete="off" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
+        </label>
+        <label class="text-sm">Eu sou
+          <select id="dupla-papel" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white">
+            <option value="candidato">🧑‍⚕️ Candidato</option>
+            <option value="examinador">📋 Examinador</option>
+          </select>
+        </label>
+        <div class="flex gap-2">
+          <button id="btn-dupla" class="btn flex-1 bg-violet-600 text-white hover:bg-violet-700">Começar circuito</button>
+          <button id="btn-dupla-link" class="btn border border-slate-300 bg-white" title="Copiar link para o colega">🔗</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="font-bold text-lg">📋 Estações</h2>
+        <span id="cat-info" class="text-xs text-slate-500"></span>
+      </div>
+      <div id="catalogo" class="text-sm"></div>
+    </div>
+  </section>
+
+  <!-- ============ ESTAÇÃO ============ -->
+  <section id="screen-station" class="screen">
+    <div class="sticky top-[57px] z-30 -mx-4 px-4 py-2 bg-slate-50/95 backdrop-blur border-b border-slate-200 mb-3">
+      <div class="flex items-center justify-between gap-2">
+        <div class="text-sm text-slate-600 min-w-0"><span id="st-progress" class="font-semibold"></span> <span id="st-badges"></span></div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="st-phase" class="text-xs font-semibold px-2 py-1 rounded-lg"></span>
+          <span id="st-clock" class="font-mono font-extrabold text-2xl px-2 rounded-lg">4:00</span>
+        </div>
+      </div>
+      <div class="w-full h-1.5 bg-slate-200 rounded-full mt-2 overflow-hidden"><div id="st-bar" class="h-1.5 bg-blue-600" style="width:100%"></div></div>
+    </div>
+    <div id="st-alert" class="hidden mb-3 p-3 rounded-xl text-center font-extrabold text-white"></div>
+    <div id="st-body"></div>
+  </section>
+
+  <!-- ============ RESULTADO ============ -->
+  <section id="screen-result" class="screen"><div id="result-box"></div></section>
+</main>
+
+<div id="lightbox" class="fixed inset-0 z-[90] bg-black/85 items-center justify-center p-3">
+  <img id="lightbox-img" src="" alt="" style="max-width:100%;max-height:100%;object-fit:contain;background:#fff;border-radius:.5rem">
+</div>
+
+<div id="modal-how" class="hidden fixed inset-0 z-[80] bg-black/50 items-start justify-center p-4 overflow-y-auto">
+  <div class="bg-white rounded-2xl max-w-2xl w-full p-5 my-8 text-sm leading-relaxed">
+    <div class="flex justify-between items-center mb-2"><h2 class="font-bold text-lg">❓ Como usar</h2><button id="btn-how-close" class="text-2xl leading-none px-2">×</button></div>
+    <h3 class="font-semibold mt-2">A estação</h3>
+    <ol class="list-decimal pl-5 space-y-1">
+      <li><b>Porta:</b> você vê o título, o local e o seu papel. Ao tocar em <b>Entrar na estação</b>, o cronômetro de <b>4:00</b> começa e aparecem o caso, os dados da mesa e as tarefas. Como na prova, ler faz parte dos 4 minutos.</li>
+      <li><b>Responda em voz alta</b>, como se a banca estivesse na sala: apresente-se, fale com o paciente e cumpra as tarefas. Avisos com som e vibração quando falta <b>1 minuto</b>, <b>30 segundos</b> e no fim.</li>
+      <li><b>Feedback (1:00):</b> aparecem a fala-modelo (com a analogia destacada) e o <b>barema</b>. Marque cada item: <b>Fez</b>, <b>Parcial</b> ou <b>Não</b>. A nota de 0 a 10 é calculada na hora. Erros críticos aparecem em vermelho.</li>
+    </ol>
+    <h3 class="font-semibold mt-3">O barema</h3>
+    <p>Cada estação é corrigida em três blocos: <b>conteúdo</b> (o que precisava ser atingido em cada tarefa), <b>comunicação e cordialidade</b> (apresentar-se, empatia, linguagem clara, analogia, checar compreensão) e <b>clareza</b> (organização e tempo).</p>
+    <h3 class="font-semibold mt-3">🎙️ Ditado por voz</h3>
+    <p>Com a opção ligada, o celular transcreve o que você fala durante a estação, e o texto aparece no feedback ao lado da fala-modelo para você comparar. Funciona no Chrome (Android/computador) e no Safari do iPhone, com internet. Na primeira vez, o navegador pede permissão para o microfone.</p>
+    <h3 class="font-semibold mt-3">🔔 Circuito</h3>
+    <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
+    <h3 class="font-semibold mt-3">👥 Dupla</h3>
+    <p>Os dois colocam o mesmo código e as mesmas matérias; um escolhe <b>Candidato</b> e o outro <b>Examinador</b>. O examinador vê o caso, o <b>roteiro do paciente</b> (o que responder se o candidato perguntar) e marca o barema enquanto o candidato fala. Toquem em "Entrar na estação" juntos.</p>
+    <h3 class="font-semibold mt-3">🔁 Revisão</h3>
+    <p>Estações com nota abaixo de 7 entram na fila de revisão. Nada se repete até você passar por todas as estações das matérias marcadas.</p>
+  </div>
+</div>
+
+<script src="estacoes.js"></script>
+<script>
+(function () {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const LS = { prefs: 'osce_prefs', hist: 'osce_hist', circ: 'osce_circuito', deck: 'osce_deck' };
+  const T_STATION = 240, T_FEED = 60;
+  const BY_ID = {}; ESTACOES.forEach(e => { BY_ID[e.id] = e; });
+  const MAT = {}; MATERIAS.forEach(m => { MAT[m.key] = m; });
+
+  function load(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+  function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function toast(m) { const d = document.createElement('div'); d.className = 'toast px-4 py-2 rounded-xl bg-slate-800 text-white text-sm shadow max-w-xs'; d.textContent = m; $('toast-container').appendChild(d); setTimeout(() => d.remove(), 3200); }
+  function show(s) { document.querySelectorAll('.screen').forEach(x => x.classList.remove('active')); $('screen-' + s).classList.add('active'); window.scrollTo(0, 0); }
+  function xmur3(str) { let h = 1779033703 ^ str.length; for (let i = 0; i < str.length; i++) { h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = (h << 13) | (h >>> 19); } return () => { h = Math.imul(h ^ (h >>> 16), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); return (h ^= h >>> 16) >>> 0; }; }
+  function mulberry32(a) { return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function rngFor(seed) { return seed ? mulberry32(xmur3(seed)()) : Math.random; }
+  function shuffle(a, rng) { rng = rng || Math.random; a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function fmt(s) { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+
+  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato' }, load(LS.prefs, {}));
+
+  // ---------- barema ----------
+  function baremaItens(e) {
+    const out = [];
+    (e.barema.conteudo || []).forEach((x, i) => out.push({ k: 'c' + i, bloco: 'Conteúdo', tarefa: x.tarefa, item: x.item, pts: x.pts }));
+    const com = e.barema.comunicacao || BAREMA_PADRAO.comunicacao;
+    com.forEach((x, i) => out.push({ k: 'm' + i, bloco: 'Comunicação e cordialidade', item: x.item, pts: x.pts }));
+    const cla = e.barema.clareza || BAREMA_PADRAO.clareza;
+    cla.forEach((x, i) => out.push({ k: 'l' + i, bloco: 'Clareza e tempo', item: x.item, pts: x.pts }));
+    return out;
+  }
+  function nota(e, marks) {
+    const its = baremaItens(e); const tot = its.reduce((a, x) => a + x.pts, 0);
+    const got = its.reduce((a, x) => a + x.pts * (marks[x.k] || 0), 0);
+    return tot ? Math.round(100 * got / tot) / 10 : 0;
+  }
+
+  // ---------- home ----------
+  function hist() { return load(LS.hist, {}); }
+  function lastNota(id) { const h = hist()[id]; return h && h.length ? h[h.length - 1].nota : null; }
+  function revList() { return ESTACOES.filter(e => prefs.materias.includes(e.materia)).filter(e => { const n = lastNota(e.id); return n !== null && n < 7; }); }
+
+  function renderHome() {
+    $('materias-list').innerHTML = MATERIAS.map(m => {
+      const n = ESTACOES.filter(e => e.materia === m.key).length;
+      return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="checkbox" class="w-4 h-4 mat-chk" value="${m.key}" ${prefs.materias.includes(m.key) ? 'checked' : ''}> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs text-slate-400">${n} ${n === 1 ? 'estação' : 'estações'}</span></label>`;
+    }).join('');
+    $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som;
+    $('dupla-code').value = prefs.code || ''; $('dupla-papel').value = prefs.papel || 'candidato';
+    $('rev-count').textContent = revList().length;
+    const h = hist();
+    $('cat-info').textContent = `${ESTACOES.length} estações`;
+    $('catalogo').innerHTML = MATERIAS.map(m => {
+      const es = ESTACOES.filter(e => e.materia === m.key);
+      if (!es.length) return '';
+      return `<div class="mt-3 first:mt-0"><div class="font-semibold mb-1">${m.icon} ${esc(m.label)}</div>` + es.map(e => {
+        const hh = h[e.id] || []; const n = hh.length ? hh[hh.length - 1].nota : null;
+        const cor = n === null ? 'bg-slate-100 text-slate-500' : n >= 7 ? 'bg-green-100 text-green-800' : n >= 5 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800';
+        return `<button class="cat-item w-full text-left flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-slate-50" data-id="${e.id}">
+          <span class="font-mono text-xs text-slate-400 w-14 shrink-0">${e.id}</span><span class="flex-1">${esc(e.titulo)}${e.exemplo ? ' <span class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">exemplo</span>' : ''}</span>
+          <span class="text-xs px-1.5 py-0.5 rounded ${cor}">${n === null ? '—' : n.toFixed(1)}</span></button>`;
+      }).join('') + `</div>`;
+    }).join('');
+    const c = load(LS.circ, null);
+    if (c && c.ids && c.pos < c.ids.length) { $('resume-box').classList.remove('hidden'); $('resume-info').textContent = `Estação ${c.pos + 1} de ${c.ids.length}${c.papel === 'examinador' ? ' (examinador)' : ''}.`; }
+    else $('resume-box').classList.add('hidden');
+  }
+  function readPrefs() {
+    prefs.materias = [...document.querySelectorAll('.mat-chk:checked')].map(x => x.value);
+    prefs.ditado = $('opt-ditado').checked; prefs.som = $('opt-som').checked;
+    prefs.code = $('dupla-code').value.trim(); prefs.papel = $('dupla-papel').value;
+    save(LS.prefs, prefs);
+  }
+
+  // ---------- montar circuito ----------
+  function nextFromDeck(materia, rng, seeded) {
+    // baralho sem repetição por matéria (no modo dupla, ordem determinística pelo código)
+    const pool = ESTACOES.filter(e => e.materia === materia).map(e => e.id);
+    if (!pool.length) return null;
+    if (seeded) return shuffle(pool, rng)[0];
+    const deck = load(LS.deck, {});
+    let d = deck[materia];
+    if (!d || !d.order || d.order.length !== pool.length || !d.order.every(id => BY_ID[id])) d = { order: shuffle(pool), pos: 0 };
+    if (d.pos >= d.order.length) d = { order: shuffle(pool), pos: 0 };
+    const id = d.order[d.pos]; d.pos++; deck[materia] = d; save(LS.deck, deck);
+    return id;
+  }
+  function startCircuit(opts) {
+    readPrefs();
+    if (!prefs.materias.length) { toast('Marque pelo menos uma matéria.'); return; }
+    let ids;
+    const seed = opts.code ? 'osce|' + opts.code.toLowerCase() + '|' + prefs.materias.slice().sort().join(',') : '';
+    const rng = rngFor(seed);
+    if (opts.ids) ids = opts.ids;
+    else if (opts.tipo === 'avulsa') { const m = shuffle(prefs.materias, rng)[0]; ids = [nextFromDeck(m, rng, !!seed)]; }
+    else ids = shuffle(prefs.materias, rng).map(m => nextFromDeck(m, rng, !!seed)).filter(Boolean);
+    ids = ids.filter(Boolean);
+    if (!ids.length) { toast('Ainda não há estações nas matérias marcadas.'); return; }
+    circ = { ids, pos: 0, res: {}, papel: opts.papel || 'candidato', code: opts.code || '', ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
+    save(LS.circ, circ);
+    openStation();
+  }
+
+  // ---------- áudio / avisos ----------
+  let audioCtx = null, wakeLock = null;
+  function ensureAudio() { try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); } catch (e) {} }
+  function beep(n, dur, freq) {
+    if (!circ || !circ.som || !audioCtx) return;
+    for (let i = 0; i < n; i++) {
+      const t0 = audioCtx.currentTime + i * (dur + 0.12), o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = 'sine'; o.frequency.value = freq; o.connect(g); g.connect(audioCtx.destination);
+      g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.4, t0 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.start(t0); o.stop(t0 + dur + 0.02);
+    }
+  }
+  function vib(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
+  function alertBar(txt, bg, hideAfter) {
+    const el = $('st-alert'); el.textContent = txt; el.style.background = bg; el.classList.remove('hidden');
+    el.classList.remove('fade-in'); void el.offsetWidth; el.classList.add('fade-in');
+    if (hideAfter) setTimeout(() => el.classList.add('hidden'), hideAfter);
+  }
+  async function keepAwake(on) { try { if (on && 'wakeLock' in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; } } catch (e) {} }
+
+  // ---------- ditado ----------
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, recOn = false, transcript = '', interim = '';
+  function startRec() {
+    if (!SR) { $('rec-status') && ($('rec-status').innerHTML = '⚠️ Este navegador não faz ditado. Use o Chrome (Android/computador) ou o Safari do iPhone.'); return; }
+    try {
+      rec = new SR(); rec.lang = 'pt-BR'; rec.continuous = true; rec.interimResults = true;
+      rec.onresult = ev => {
+        interim = '';
+        for (let i = ev.resultIndex; i < ev.results.length; i++) {
+          const r = ev.results[i];
+          if (r.isFinal) transcript += (transcript ? ' ' : '') + r[0].transcript.trim(); else interim += r[0].transcript;
+        }
+        const box = $('rec-text'); if (box) box.innerHTML = esc(transcript) + (interim ? ` <span class="text-slate-400">${esc(interim)}</span>` : '');
+      };
+      rec.onerror = ev => { if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') { recOn = false; $('rec-status') && ($('rec-status').textContent = '⚠️ Microfone bloqueado. Libere a permissão do microfone para este site.'); } };
+      rec.onend = () => { if (recOn) { try { rec.start(); } catch (e) {} } };
+      recOn = true; rec.start();
+      $('rec-status') && ($('rec-status').innerHTML = '<span class="rec-dot"></span> Gravando o que você fala…');
+    } catch (e) { recOn = false; }
+  }
+  function stopRec() { recOn = false; try { rec && rec.stop(); } catch (e) {} rec = null; }
+
+  // ---------- estação ----------
+  let circ = null, phase = 'porta', endAt = 0, tick = null, fired = {}, marks = {}, crit = {};
+  function cur() { return BY_ID[circ.ids[circ.pos]]; }
+  function isExam() { return circ.papel === 'examinador'; }
+  function stopTick() { if (tick) { clearInterval(tick); tick = null; } }
+
+  function header() {
+    const e = cur(), m = MAT[e.materia];
+    $('st-progress').textContent = circ.ids.length > 1 ? `Estação ${circ.pos + 1} de ${circ.ids.length}` : 'Estação';
+    $('st-badges').innerHTML = `· ${m.icon} ${esc(m.label)}${circ.code ? ` · <span class="text-violet-700">👥 ${esc(circ.code)} — ${isExam() ? 'examinador' : 'candidato'}</span>` : ''}`;
+  }
+  function setPhase(p) {
+    phase = p;
+    const P = { porta: ['Porta', 'bg-slate-200 text-slate-700'], estacao: ['Estação', 'bg-blue-100 text-blue-800'], feedback: ['Feedback', 'bg-amber-100 text-amber-800'] }[p];
+    $('st-phase').textContent = P[0]; $('st-phase').className = 'text-xs font-semibold px-2 py-1 rounded-lg ' + P[1];
+  }
+  function paintClock(rem, total) {
+    $('st-clock').textContent = fmt(rem);
+    $('st-bar').style.width = (100 * rem / total) + '%';
+    const warn = phase === 'estacao' && rem <= 30;
+    $('st-clock').style.color = warn ? '#dc2626' : '';
+    $('st-bar').style.background = phase === 'feedback' ? '#f59e0b' : warn ? '#dc2626' : rem <= 60 ? '#f59e0b' : '#2563eb';
+  }
+
+  function mesaHtml(e) {
+    return (e.mesa || []).map(x => {
+      if (x.tipo === 'tabela') return `<div class="mt-2"><div class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">${esc(x.titulo || '')}</div><table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">${x.linhas.map((l, i) => `<tr class="${i % 2 ? 'bg-slate-50' : 'bg-white'}"><td class="p-1.5 pl-2 text-slate-600">${esc(l[0])}</td><td class="p-1.5 font-semibold">${esc(l[1])}</td></tr>`).join('')}</table></div>`;
+      if (x.tipo === 'img') return `<figure class="mt-2"><img src="${esc(x.src)}" alt="" data-zoom="1" class="max-h-72 mx-auto rounded-lg bg-white cursor-zoom-in"><figcaption class="text-xs text-slate-500 text-center mt-1">${esc(x.legenda || '')}</figcaption></figure>`;
+      return `<p class="mt-2 text-sm pre-line">${esc(x.texto || '')}</p>`;
+    }).join('');
+  }
+  function tarefasHtml(e) {
+    return `<ol class="list-decimal pl-5 space-y-1.5">${e.tarefas.map(t => `<li class="font-semibold">${esc(t)}</li>`).join('')}</ol>`;
+  }
+  const INTER = { paciente: '🗣️ Paciente/acompanhante (comunicação)', interno: '🎓 Interno/estudante (mentoria)', examinador: '📋 Examinador (raciocínio e conduta)' };
+
+  function renderPorta() {
+    const e = cur(); setPhase('porta'); header(); paintClock(T_STATION, T_STATION);
+    $('st-alert').classList.add('hidden');
+    $('st-body').innerHTML = `<div class="p-5 rounded-2xl bg-white border-2 border-slate-300 shadow-sm fade-in">
+      <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">⏱ Estação ${esc(e.id)}</div>
+      <h2 class="text-xl sm:text-2xl font-extrabold mt-1">${esc(e.titulo)}</h2>
+      <div class="grid sm:grid-cols-3 gap-2 mt-3 text-sm">
+        <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Local</div><b>${esc(e.local)}</b></div>
+        <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Seu papel</div><b>${esc(e.papel)}</b></div>
+        <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Interação</div><b>${esc(INTER[e.interacao] || e.interacao)}</b></div>
+      </div>
+      <p class="text-sm text-slate-500 mt-3">${isExam() ? 'Você é o <b>examinador</b>: toque junto com o candidato. Você verá o caso, o roteiro do paciente e o barema para marcar.' : 'Ao entrar, o cronômetro de <b>4:00</b> começa. Leia, apresente-se e responda em voz alta.'}${circ.ditado && !isExam() ? ' 🎙️ O ditado vai gravar o que você falar.' : ''}</p>
+      <button id="btn-enter" class="btn w-full mt-4 bg-blue-600 text-white hover:bg-blue-700 text-lg">▶️ Entrar na estação (4:00)</button>
+      <div class="flex justify-between mt-3 text-xs"><button id="btn-quit" class="text-slate-500 underline">Sair (salva o circuito)</button>${circ.ids.length > 1 ? '<button id="btn-skip" class="text-slate-500 underline">Pular esta estação</button>' : ''}</div>
+    </div>`;
+    $('btn-enter').onclick = enterStation;
+    $('btn-quit').onclick = quit;
+    if ($('btn-skip')) $('btn-skip').onclick = () => { circ.res[cur().id] = { pulada: true }; advance(); };
+  }
+
+  function enterStation() {
+    ensureAudio(); keepAwake(true);
+    const e = cur(); setPhase('estacao'); marks = {}; crit = {}; transcript = ''; interim = ''; fired = {};
+    const exam = isExam();
+    let h = `<div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in">
+      <div class="text-xs text-slate-500">${esc(e.local)} · ${esc(e.papel)}</div>
+      <h2 class="text-lg font-extrabold">${esc(e.titulo)}</h2>
+      <div class="mt-2 text-[15px] leading-relaxed pre-line">${esc(e.cenario)}</div>
+      ${e.mesa && e.mesa.length ? `<div class="mt-3 p-3 rounded-xl bg-sky-50 border border-sky-200"><div class="font-semibold text-sm text-sky-800">📎 Dados na mesa</div>${mesaHtml(e)}</div>` : ''}
+      <div class="mt-3 p-3 rounded-xl bg-blue-50 border border-blue-200"><div class="font-semibold text-sm text-blue-800 mb-1">📝 Tarefas</div>${tarefasHtml(e)}</div>
+    </div>`;
+    if (!exam && circ.ditado) h += `<div class="mt-3 p-3 rounded-xl bg-white border border-rose-200"><div id="rec-status" class="text-xs text-rose-700"></div><div id="rec-text" class="text-sm text-slate-700 mt-1 min-h-[2rem]"></div></div>`;
+    if (exam) h += examinerPanel(e, true);
+    h += `<button id="btn-end" class="btn w-full mt-3 border border-slate-300 bg-white hover:bg-slate-100">⏹️ Terminei — ir para o feedback</button>`;
+    $('st-body').innerHTML = h;
+    if (exam) bindBarema(e);
+    $('btn-end').onclick = () => startFeedback(false);
+    if (!exam && circ.ditado) startRec();
+    endAt = Date.now() + T_STATION * 1000; stopTick();
+    tick = setInterval(() => {
+      const rem = (endAt - Date.now()) / 1000; paintClock(rem, T_STATION);
+      if (!fired.m1 && rem <= 60) { fired.m1 = 1; alertBar('⚠️ Falta 1 minuto', '#ea580c', 4000); beep(2, 0.25, 880); vib([200, 100, 200]); }
+      if (!fired.s30 && rem <= 30) { fired.s30 = 1; alertBar('⏳ 30 segundos', '#dc2626', 3000); beep(1, 0.25, 988); vib([300]); }
+      if (rem <= 0) { startFeedback(true); }
+    }, 200);
+    paintClock(T_STATION, T_STATION);
+  }
+
+  function examinerPanel(e, live) {
+    let h = '';
+    if (live && e.ator && e.ator.length) h += `<div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200"><div class="font-semibold text-sm text-violet-800 mb-1">🎭 Roteiro do paciente/examinador</div>${e.ator.map(a => `<div class="text-sm mt-1"><span class="text-violet-700 font-semibold">${esc(a.gatilho)}:</span> ${esc(a.fala)}</div>`).join('')}</div>`;
+    h += baremaHtml(e);
+    return h;
+  }
+  function baremaHtml(e) {
+    const its = baremaItens(e); let h = `<div class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><div class="flex items-center justify-between"><div class="font-semibold">📋 Barema</div><div class="text-sm">Nota: <b id="nota-live" class="text-lg">0,0</b></div></div>`;
+    let bloco = '';
+    its.forEach(x => {
+      if (x.bloco !== bloco) { bloco = x.bloco; h += `<div class="mt-3 text-xs font-semibold uppercase tracking-wide text-slate-500">${esc(bloco)}</div>`; }
+      const v = marks[x.k];
+      h += `<div class="mt-1.5 p-2 rounded-lg border border-slate-100 bg-slate-50"><div class="text-sm">${x.tarefa ? `<span class="text-xs font-semibold text-blue-700">T${x.tarefa}</span> ` : ''}${esc(x.item)} <span class="text-xs text-slate-400">(${x.pts} pt${x.pts > 1 ? 's' : ''})</span></div>
+        <div class="grid grid-cols-3 gap-1 mt-1.5">
+          <button class="st-btn btn py-1 text-xs bg-green-100 text-green-800" data-k="${x.k}" data-v="1" data-on="${v === 1 ? 1 : 0}">✅ Fez</button>
+          <button class="st-btn btn py-1 text-xs bg-amber-100 text-amber-800" data-k="${x.k}" data-v="0.5" data-on="${v === 0.5 ? 1 : 0}">🤏 Parcial</button>
+          <button class="st-btn btn py-1 text-xs bg-rose-100 text-rose-800" data-k="${x.k}" data-v="0" data-on="${v === 0 ? 1 : 0}">❌ Não</button>
+        </div></div>`;
+    });
+    if (e.errosCriticos && e.errosCriticos.length) h += `<div class="mt-3 text-xs font-semibold uppercase tracking-wide text-rose-700">Erros críticos (marque se aconteceu)</div>` + e.errosCriticos.map((x, i) => `<label class="mt-1 flex items-start gap-2 p-2 rounded-lg bg-rose-50 border border-rose-200 text-sm"><input type="checkbox" class="crit-chk mt-0.5 w-4 h-4" data-i="${i}" ${crit[i] ? 'checked' : ''}> ${esc(x)}</label>`).join('');
+    return h + `</div>`;
+  }
+  function bindBarema(e) {
+    document.querySelectorAll('.st-btn').forEach(b => { b.onclick = () => {
+      marks[b.dataset.k] = parseFloat(b.dataset.v);
+      document.querySelectorAll(`.st-btn[data-k="${b.dataset.k}"]`).forEach(x => { x.dataset.on = x === b ? 1 : 0; });
+      updNota(e);
+    }; });
+    document.querySelectorAll('.crit-chk').forEach(c => { c.onchange = () => { crit[c.dataset.i] = c.checked; updNota(e); }; });
+    updNota(e);
+  }
+  function updNota(e) {
+    const n = nota(e, marks); const el = $('nota-live'); if (!el) return;
+    el.textContent = n.toFixed(1).replace('.', ',');
+    el.style.color = Object.values(crit).some(Boolean) ? '#dc2626' : n >= 7 ? '#16a34a' : n >= 5 ? '#d97706' : '#dc2626';
+  }
+
+  function startFeedback(timeout) {
+    stopTick(); stopRec();
+    const e = cur(); setPhase('feedback');
+    if (timeout) { alertBar('🔔 Tempo! Feedback de 1 minuto', '#1e293b', 4000); beep(3, 0.5, 660); vib([500, 150, 500]); }
+    else $('st-alert').classList.add('hidden');
+    let h = '';
+    if (transcript) h += `<div class="p-3 rounded-xl bg-white border border-rose-200 mb-3"><div class="text-xs font-semibold text-rose-700">🎙️ O que você falou</div><div class="text-sm mt-1">${esc(transcript)}</div></div>`;
+    h += `<div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 fade-in"><div class="font-bold text-emerald-800">💬 Fala-modelo</div>` +
+      e.falaModelo.map(f => `<div class="mt-3"><div class="text-xs font-semibold text-emerald-700">Tarefa ${f.tarefa}${f.tempo ? ` · ~${esc(f.tempo)}` : ''}</div><div class="text-[15px] mt-0.5">${esc(f.texto)}</div>${f.analogia ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-yellow-200 text-yellow-900">💡 Analogia: ${esc(f.analogia)}</div>` : ''}</div>`).join('') + `</div>`;
+    if (e.extra) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><summary class="cursor-pointer text-sm font-semibold">❔ Pergunta extra da banca</summary><div class="text-sm mt-1">${esc(e.extra)}</div></details>`;
+    if (!isExam() && e.ator && e.ator.length) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-violet-200"><summary class="cursor-pointer text-sm font-semibold text-violet-800">🎭 O que o paciente diria</summary>${e.ator.map(a => `<div class="text-sm mt-1"><b>${esc(a.gatilho)}:</b> ${esc(a.fala)}</div>`).join('')}</details>`;
+    h += baremaHtml(e);
+    h += `<button id="btn-next" class="btn w-full mt-3 bg-blue-600 text-white hover:bg-blue-700">${circ.pos < circ.ids.length - 1 ? 'Salvar e ir para a próxima estação →' : 'Salvar e ver o resultado'}</button>`;
+    $('st-body').innerHTML = h; window.scrollTo(0, 0);
+    bindBarema(e);
+    $('btn-next').onclick = () => { record(); advance(); };
+    endAt = Date.now() + T_FEED * 1000; fired = {};
+    tick = setInterval(() => {
+      const rem = (endAt - Date.now()) / 1000; paintClock(Math.max(0, rem), T_FEED);
+      if (rem <= 0 && !fired.f) { fired.f = 1; stopTick(); beep(1, 0.4, 523); alertBar('⏱️ Fim do feedback — termine de marcar e siga para a próxima', '#f59e0b', 5000); $('btn-next').classList.add('animate-pulse'); }
+    }, 200);
+    paintClock(T_FEED, T_FEED);
+  }
+
+  function record() {
+    const e = cur(); const its = baremaItens(e);
+    const marcados = its.filter(x => x.k in marks).length;
+    const n = nota(e, marks);
+    const faltou = its.filter(x => (marks[x.k] || 0) < 1).map(x => x.item);
+    const critN = Object.values(crit).filter(Boolean).length;
+    circ.res[e.id] = { nota: n, marcados, total: its.length, faltou, crit: critN, transcript };
+    if (marcados) { const h = hist(); (h[e.id] = h[e.id] || []).push({ t: Date.now(), nota: n, crit: critN }); save(LS.hist, h); }
+    save(LS.circ, circ);
+  }
+  function advance() {
+    circ.pos++; save(LS.circ, circ);
+    if (circ.pos >= circ.ids.length) return finish();
+    renderPorta();
+  }
+  function quit() { stopTick(); stopRec(); keepAwake(false); save(LS.circ, circ); circ = null; renderHome(); show('home'); toast('Circuito salvo. Continue quando quiser.'); }
+  function openStation() { show('station'); renderPorta(); }
+
+  function finish() {
+    stopTick(); stopRec(); keepAwake(false);
+    const c = circ; save(LS.circ, null);
+    const rows = c.ids.map(id => ({ e: BY_ID[id], r: c.res[id] || {} }));
+    const ok = rows.filter(x => x.r.marcados);
+    const media = ok.length ? ok.reduce((a, x) => a + x.r.nota, 0) / ok.length : null;
+    const faltas = {}; ok.forEach(x => x.r.faltou.forEach(f => { faltas[f] = (faltas[f] || 0) + 1; }));
+    const top = Object.entries(faltas).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    $('result-box').innerHTML = `<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm text-center">
+        <div class="text-sm text-slate-500">${c.code ? `👥 ${esc(c.code)} · ` : ''}Média do circuito</div>
+        <div class="text-5xl font-extrabold ${media === null ? 'text-slate-400' : media >= 7 ? 'text-green-600' : media >= 5 ? 'text-amber-500' : 'text-rose-600'}">${media === null ? '—' : media.toFixed(1).replace('.', ',')}</div>
+        <div class="flex flex-wrap justify-center gap-2 mt-4">
+          <button id="btn-r-new" class="btn bg-blue-600 text-white">🔔 Novo circuito</button>
+          <button id="btn-r-home" class="btn border border-slate-300 bg-white">🏠 Início</button>
+        </div></div>
+      <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm"><h3 class="font-bold mb-2">Estações</h3>${rows.map(x => `<div class="flex items-center justify-between py-1.5 border-b border-slate-100 text-sm"><span>${MAT[x.e.materia].icon} <span class="font-mono text-xs text-slate-400">${x.e.id}</span> ${esc(x.e.titulo)}</span><span class="font-semibold">${x.r.pulada ? 'pulada' : x.r.marcados ? x.r.nota.toFixed(1).replace('.', ',') + (x.r.crit ? ' ⚠️' : '') : 'sem barema'}</span></div>`).join('')}</div>
+      ${top.length ? `<div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm"><h3 class="font-bold mb-2">O que mais faltou</h3><ul class="list-disc pl-5 text-sm space-y-1">${top.map(([f]) => `<li>${esc(f)}</li>`).join('')}</ul></div>` : ''}`;
+    show('result');
+    $('btn-r-new').onclick = () => startCircuit({ tipo: 'circuito', code: c.code, papel: c.papel });
+    $('btn-r-home').onclick = () => { renderHome(); show('home'); };
+    circ = null;
+  }
+
+  // ---------- eventos ----------
+  document.addEventListener('change', e => { if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, #dupla-papel')) { readPrefs(); renderHome(); } });
+  $('dupla-code').addEventListener('input', readPrefs);
+  $('btn-circuito').onclick = () => startCircuit({ tipo: 'circuito' });
+  $('btn-avulsa').onclick = () => startCircuit({ tipo: 'avulsa' });
+  $('btn-revisao').onclick = () => { readPrefs(); const l = revList(); if (!l.length) { toast('Nenhuma estação com nota abaixo de 7. 🎉'); return; } startCircuit({ ids: shuffle(l.map(e => e.id)) }); };
+  $('btn-dupla').onclick = () => { readPrefs(); if (!prefs.code) { toast('Digite um código combinado com o colega.'); return; } startCircuit({ tipo: 'circuito', code: prefs.code, papel: prefs.papel }); };
+  $('btn-dupla-link').onclick = () => {
+    readPrefs(); if (!prefs.code) { toast('Digite um código primeiro.'); return; }
+    const u = new URL(location.href); u.search = ''; u.hash = '';
+    u.searchParams.set('codigo', prefs.code); u.searchParams.set('materias', prefs.materias.join(','));
+    u.searchParams.set('papel', prefs.papel === 'examinador' ? 'candidato' : 'examinador');
+    const txt = u.toString();
+    const fb = () => window.prompt('Copie o link:', txt);
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast('Link copiado! O colega entra no outro papel.'), fb); else fb();
+  };
+  $('catalogo').addEventListener('click', ev => { const b = ev.target.closest('.cat-item'); if (b) { readPrefs(); startCircuit({ ids: [b.dataset.id], code: prefs.code && prefs.papel === 'examinador' ? prefs.code : '', papel: prefs.code ? prefs.papel : 'candidato' }); } });
+  $('btn-resume').onclick = () => { circ = load(LS.circ, null); if (circ) openStation(); };
+  $('btn-discard').onclick = () => { save(LS.circ, null); renderHome(); };
+  $('btn-logo').onclick = () => { if (circ) quit(); else { renderHome(); show('home'); } };
+  $('btn-how').onclick = () => { $('modal-how').classList.remove('hidden'); $('modal-how').style.display = 'flex'; };
+  $('btn-how-close').onclick = () => { $('modal-how').classList.add('hidden'); $('modal-how').style.display = ''; };
+  $('modal-how').onclick = ev => { if (ev.target === $('modal-how')) $('btn-how-close').onclick(); };
+  document.addEventListener('click', ev => { const z = ev.target.closest('[data-zoom]'); if (z) { $('lightbox-img').src = z.getAttribute('src'); $('lightbox').classList.add('open'); } });
+  $('lightbox').onclick = () => $('lightbox').classList.remove('open');
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && tick) keepAwake(true); });
+
+  (function applyQuery() {
+    const q = new URLSearchParams(location.search);
+    if (q.get('codigo')) {
+      prefs.code = q.get('codigo');
+      const ms = (q.get('materias') || '').split(',').filter(k => MAT[k]); if (ms.length) prefs.materias = ms;
+      if (['candidato', 'examinador'].includes(q.get('papel'))) prefs.papel = q.get('papel');
+      save(LS.prefs, prefs); history.replaceState(null, '', location.pathname);
+      setTimeout(() => toast('Convite de dupla carregado. Toque em "Começar circuito" junto com o colega.'), 300);
+    }
+  })();
+  renderHome();
+})();
+</script>
+</body>
+</html>
