@@ -1,4 +1,4 @@
-// Estações de Farmacologia (FAR-02 a FAR-10). FAR-01 está em estacoes.js.
+// Estações de Farmacologia (FAR-02 a FAR-18). FAR-01 está em estacoes.js.
 ESTACOES.push(
   // ----------------------------------------------------- FAR-02 · Prescrição racional e receita
   {
@@ -345,4 +345,310 @@ ESTACOES.push(
     ],
     extra: 'Quais os efeitos dos antiácidos? (Alumínio constipa; magnésio causa diarreia osmótica.) E da supressão ácida prolongada pelo IBP? (Pode alterar a flora intestinal e favorecer diarreia.)',
   },
+
+  // ----------------------------------------------------- FAR-11 · Escolha do analgésico
+  {
+    id: 'FAR-11', materia: 'farmaco',
+    titulo: 'Alérgica à dipirona, com o rim fraco e com dor',
+    local: 'Enfermaria de cirurgia', papel: 'Médico(a) plantonista', interacao: 'paciente',
+    cenario: 'Dona Beatriz, 72 anos, está no 1º dia de pós-operatório de uma herniorrafia. Refere dor moderada na ferida, que dá nota 6 de 0 a 10. Tem alergia a dipirona e a AAS (urticária e falta de ar). Tem doença renal crônica leve. Toma clonazepam à noite há anos. O interno sugere "um anti-inflamatório forte, porque é dor de cirurgia".',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Dados', linhas: [['Dor (escala numérica)', '6/10'], ['Creatinina', '1,6 mg/dL'], ['Alergias', 'dipirona e AAS']] },
+    ],
+    tarefas: [
+      'Como avaliar a intensidade da dor? Que escalas existem e quando usar cada uma?',
+      'Qual analgesia você prescreve? Por que não o anti-inflamatório, nem a dipirona?',
+      'Quais efeitos do opioide preocupam nesta paciente idosa que usa clonazepam?',
+      'Explique o plano à paciente.',
+    ],
+    ator: [
+      { gatilho: 'Interno, ao começar', fala: '"Um anti-inflamatório forte não resolve? É dor de cirurgia."' },
+      { gatilho: 'Paciente', fala: '"Doutor(a), remédio forte me deixa muito tonta."' },
+      { gatilho: 'Se falar em codeína', fala: '"Codeína não é droga? Vou ficar viciada?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Escala numérica (NRS, 0 a 10), verbal (VRS, categorias) e analógica visual (VAS, marcação contínua, útil com dificuldade de comunicação verbal)', pts: 1 },
+        { tarefa: 1, item: 'Dor aguda pós-operatória: função protetora, remite com a retirada do estímulo, sinais autonômicos', pts: 1 },
+        { tarefa: 2, item: 'Codeína + paracetamol (dor moderada: opioide de média potência + não opioide)', pts: 2 },
+        { tarefa: 2, item: 'Evitar AINE (risco renal e de sangramento) e dipirona/AAS (alergia)', pts: 1 },
+        { tarefa: 3, item: 'Sedação mais fácil em idosos (sonolência, confusão), constipação (peristaltismo reduzido), depressão respiratória dose-dependente', pts: 1 },
+        { tarefa: 3, item: 'Sedativo associado (clonazepam) intensifica a depressão do SNC', pts: 1 },
+        { tarefa: 4, item: 'Explicou o plano e os sinais para avisar (sonolência excessiva, constipação), desfazendo o medo de vício', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Prescrever AINE na doença renal', 'Prescrever dipirona apesar da alergia'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Uso uma escala: a numérica, de 0 a 10, como ela já deu nota 6; a verbal, por categorias como leve, moderada e intensa; ou a analógica visual, uma marcação numa linha, útil quando o paciente tem dificuldade de se comunicar. É uma dor aguda, protetora, que melhora com a cicatrização.', tempo: '30 s' },
+      { tarefa: 2, texto: 'Para dor moderada, associo opioide de média potência ao não opioide: codeína com paracetamol. Evito o anti-inflamatório, pelo risco para o rim e de sangramento, e a dipirona e o AAS, pela alergia.', tempo: '25 s' },
+      { tarefa: 3, texto: 'No idoso, o opioide dá sedação com mais facilidade, com sonolência e até confusão, causa constipação, porque reduz o peristaltismo, e pode deprimir a respiração de forma dose-dependente. Com o clonazepam junto, a depressão do sistema nervoso se soma, então acompanho de perto.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Dona Beatriz, vou usar dois remédios juntos, que funcionam como dois remadores no mesmo barco: cada um rema de um lado, e juntos levam a dor embora com doses menores. Não vou usar a dipirona, por causa da sua alergia, nem anti-inflamatório, para proteger o seu rim. Usado por poucos dias e com acompanhamento, a codeína não vai viciar a senhora. Se ficar muito sonolenta ou com o intestino preso, me avise. Ficou claro?', tempo: '40 s', analogia: 'Dois remadores no mesmo barco' },
+    ],
+    extra: 'Em quem o paracetamol exige cautela? (Etilistas, pelo risco hepático com elevação de transaminases.) Quanto vale a codeína em relação à morfina? (Cerca de 10%.)',
+  },
+
+  // ----------------------------------------------------- FAR-12 · AINE no paciente com risco gastrointestinal
+  {
+    id: 'FAR-12', materia: 'farmaco',
+    titulo: 'Joelho inflamado e uma úlcera que já sangrou',
+    local: 'Ambulatório de clínica médica', papel: 'Médico(a) assistente', interacao: 'paciente',
+    cenario: 'Sr. Nelson, 54 anos, motorista, tem osteoartrite de joelho e agora está com o joelho quente e inchado, sem melhora com paracetamol. Há 2 anos teve uma úlcera gástrica que sangrou e precisou de internação. Não é hipertenso, nunca teve infarto nem AVC, não fuma. A esposa dele usa varfarina e "vive tomando o ibuprofeno dele" para dor de cabeça.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Perfil de risco', linhas: [['Risco gastrointestinal', 'alto (úlcera com sangramento prévio)'], ['Risco cardiovascular', 'baixo'], ['Paracetamol', 'sem resposta']] },
+    ],
+    tarefas: [
+      'Por que os AINEs lesam a mucosa gástrica? Diferencie não seletivos e seletivos da COX-2.',
+      'Qual anti-inflamatório você escolhe para ele, e por quê?',
+      'Em que paciente o coxibe deveria ser evitado, e o que usar nesse caso?',
+      'O que dizer sobre a esposa, que usa varfarina e toma ibuprofeno?',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Doutor(a), tenho medo de sangrar de novo."' },
+      { gatilho: 'Na tarefa 4', fala: '"Minha esposa toma o meu ibuprofeno quase todo dia. Tem problema?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'AINEs inibem prostaglandinas que protegem a mucosa; não seletivos (COX-1 e COX-2) têm maior risco gastrointestinal; seletivos COX-2 reduzem parte desse risco', pts: 2 },
+        { tarefa: 2, item: 'Coxibe: indicado com alto risco gastrointestinal e baixo risco cardiovascular', pts: 2 },
+        { tarefa: 3, item: 'Evitar coxibe em hipertenso mal controlado e com risco de AVC ou infarto; preferir naproxeno (mais seguro do ponto de vista cardiovascular)', pts: 1 },
+        { tarefa: 4, item: 'AINE + anticoagulante: evitar, pelo risco de hemorragia; coxibes têm menor risco hemorrágico que os não seletivos nesse contexto', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Prescrever AINE não seletivo sem considerar a úlcera com sangramento', 'Não alertar sobre AINE com varfarina'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Os AINEs inibem as prostaglandinas que protegem a mucosa do estômago. Os não seletivos inibem a COX-1 e a COX-2 e têm maior risco gastrointestinal; os seletivos da COX-2, os coxibes, reduzem parte desse risco.', tempo: '25 s' },
+      { tarefa: 2, texto: 'Para ele, escolho um coxibe: tem alto risco gastrointestinal, pela úlcera que sangrou, e baixo risco cardiovascular, que é exatamente o perfil em que o coxibe está indicado.', tempo: '20 s' },
+      { tarefa: 3, texto: 'O coxibe deve ser evitado em hipertensos mal controlados e em quem tem risco de AVC ou infarto. Nesses casos, o naproxeno é descrito como o AINE mais seguro do ponto de vista cardiovascular.', tempo: '20 s' },
+      { tarefa: 4, texto: 'Seu Nelson, a sua esposa não deve tomar ibuprofeno junto com a varfarina: os dois juntos aumentam muito o risco de sangramento. É como juntar dois freios soltos na mesma ladeira. Peça para ela conversar com o médico dela sobre a dor de cabeça. E para o senhor, o remédio que vou passar protege mais o estômago. Se notar fezes escuras ou vômito com sangue, procure atendimento na hora. Ficou claro?', tempo: '40 s', analogia: 'Dois freios soltos na mesma ladeira' },
+    ],
+    extra: 'Em quanto tempo aparecem o efeito analgésico e o anti-inflamatório do AINE? (Analgésico em 1–2 h; anti-inflamatório em 2–3 semanas de uso contínuo.)',
+  },
+
+  // ----------------------------------------------------- FAR-13 · Crise de asma grave
+  {
+    id: 'FAR-13', materia: 'farmaco',
+    titulo: 'Três inalações e o chiado não passa',
+    local: 'Pronto-socorro', papel: 'Médico(a) plantonista', interacao: 'paciente',
+    cenario: 'Júlia, 19 anos, asmática, chega com falta de ar há 6 horas, depois de limpar um quarto empoeirado. Já fez 3 inalações de salbutamol no pronto-socorro, sem melhora. Fala frases curtas, está usando a musculatura acessória. Usa só a bombinha de salbutamol, "quase todo dia", e nunca usou outro remédio. A mãe pergunta se não é melhor dobrar a dose da bombinha.\n\nFR 30 irpm · FC 120 bpm · SatO₂ 91% · sibilos difusos.',
+    mesa: [],
+    tarefas: [
+      'O que associar agora? Por que não simplesmente aumentar a dose do salbutamol?',
+      'Explique o mecanismo de cada broncodilatador.',
+      'Por que a teofilina tem papel restrito?',
+      'Por que essa crise aconteceu? O que muda no tratamento depois da alta? Explique à mãe.',
+    ],
+    ator: [
+      { gatilho: 'Mãe, ao começar', fala: '"Não é melhor dobrar a dose da bombinha?"' },
+      { gatilho: 'Na tarefa 4', fala: '"Ela usa a bombinha todo dia, então está tratando, né?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Broncoespasmo grave sem resposta ao beta-2: associar brometo de ipratrópio, sem aumentar a dose do beta-2', pts: 2 },
+        { tarefa: 2, item: 'Beta-2 agonista: relaxa a musculatura lisa brônquica (e estabiliza mastócitos) · Ipratrópio: anticolinérgico, mecanismo distinto', pts: 1 },
+        { tarefa: 3, item: 'Teofilina: baixo índice terapêutico (convulsões, palpitações, morte súbita em doses altas); restrita quando corticoide e cromoglicato são insuficientes', pts: 1 },
+        { tarefa: 4, item: 'Uso de beta-2 de curta ação ≥ 4 vezes por semana indica tratamento anti-inflamatório; a inflamação crônica não tratada leva a exacerbações', pts: 1 },
+        { tarefa: 4, item: 'Após a alta: corticosteroide inalatório de manutenção; salbutamol só para alívio; controle ambiental (gatilho: poeira)', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Apenas repetir ou dobrar o beta-2 de curta ação', 'Dar alta sem iniciar corticoide inalatório de manutenção'],
+    falaModelo: [
+      { tarefa: 1, texto: 'É um broncoespasmo grave que não respondeu a três inalações de beta-2. Associo o brometo de ipratrópio, que tem outro mecanismo, em vez de aumentar a dose do salbutamol.', tempo: '20 s' },
+      { tarefa: 2, texto: 'O salbutamol, beta-2 agonista, relaxa a musculatura lisa dos brônquios. O ipratrópio é anticolinérgico: age por outra via, e por isso os dois se somam.', tempo: '20 s' },
+      { tarefa: 3, texto: 'A teofilina tem baixo índice terapêutico: em doses altas pode causar convulsões, palpitações e até morte súbita. Por isso fica restrita a quando corticoide e cromoglicato não bastam.', tempo: '20 s' },
+      { tarefa: 4, texto: 'A crise aconteceu porque a asma é uma inflamação crônica que nunca foi tratada: usar salbutamol 4 ou mais vezes por semana já indica tratamento anti-inflamatório. Na alta, inicio corticoide inalatório todos os dias. Mãe, a bombinha de salbutamol é como apagar o fogo com um balde; o corticoide é tirar a lenha da fogueira. Sem tirar a lenha, o fogo volta, e a poeira foi o fósforo. Vamos começar o remédio de manutenção e evitar a poeira. Ficou claro?', tempo: '45 s', analogia: 'Balde no fogo × tirar a lenha da fogueira' },
+    ],
+    extra: 'Quando usar o beta-2 por via oral? (Principalmente em crianças que não conseguem usar o dispositivo; dá mais taquicardia e tremores.)',
+  },
+
+  // ----------------------------------------------------- FAR-14 · Osteoporose induzida por corticoide
+  {
+    id: 'FAR-14', materia: 'farmaco',
+    titulo: 'A fratura na coluna que não doeu',
+    local: 'Ambulatório de reumatologia', papel: 'Médico(a) assistente', interacao: 'paciente',
+    cenario: 'Dona Sônia, 58 anos, tem artrite reumatoide e usa prednisona 15 mg/dia há 1 ano e meio. Num raio-X de tórax feito por outro motivo, apareceu uma fratura por compressão numa vértebra, sem que ela tivesse sentido dor. Ela pergunta: "Como eu quebrei a coluna sem cair?".',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Exames', linhas: [['RX de coluna', 'fratura vertebral por compressão em T12'], ['Densitometria (DEXA)', 'compatível com osteoporose']] },
+    ],
+    tarefas: [
+      'Como o corticoide causa osteoporose? Por que a vértebra é um local típico de fratura?',
+      'Qual é a conduta?',
+      'Como acompanhar o tratamento?',
+      'Cite outros medicamentos que causam osteoporose secundária e responda à paciente.',
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Como eu quebrei a coluna sem cair e sem dor?"' },
+      { gatilho: 'Se falar em reduzir a prednisona', fala: '"Mas sem ela a artrite piora!"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Corticoide inibe osteoblastos e estimula osteoclastos', pts: 2 },
+        { tarefa: 1, item: 'Osso trabecular (vértebras), mais poroso e metabolicamente ativo, é mais sensível à perda; cerca de 2/3 das fraturas vertebrais são assintomáticas', pts: 1 },
+        { tarefa: 2, item: 'Reduzir a dose do corticoide quando possível; bisfosfonato (indicado também na osteoporose por glicocorticoide); cálcio e vitamina D; exercício', pts: 2 },
+        { tarefa: 3, item: 'DEXA periódica, novas fraturas, dor óssea, sintomas gastrointestinais da medicação e adesão', pts: 1 },
+        { tarefa: 4, item: 'Heparina, levotiroxina em excesso, fenitoína e fenobarbital (comprometem a vitamina D)', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Não tratar a osteoporose por a fratura ser assintomática', 'Suspender bruscamente o corticoide sem avaliar a doença de base'],
+    falaModelo: [
+      { tarefa: 1, texto: 'O corticoide inibe os osteoblastos, que formam osso, e estimula os osteoclastos, que reabsorvem. A vértebra é rica em osso trabecular, mais poroso e metabolicamente ativo, que sente mais a perda; e cerca de dois terços das fraturas vertebrais não dão sintomas.', tempo: '30 s' },
+      { tarefa: 2, texto: 'Avalio com o reumatologista reduzir a prednisona para a menor dose possível. Associo bisfosfonato, que também é indicado na osteoporose por corticoide, cálcio e vitamina D, e exercício de força.', tempo: '25 s' },
+      { tarefa: 3, texto: 'Acompanho com densitometria periódica, pergunto por novas fraturas, dor óssea, sintomas digestivos do remédio e se ela está conseguindo tomar direito.', tempo: '20 s' },
+      { tarefa: 4, texto: 'Outros remédios que causam osteoporose: heparina, excesso de levotiroxina, fenitoína e fenobarbital. Dona Sônia, o corticoide é muito importante para a sua artrite, mas ele age no osso como cupim na madeira: por fora parece tudo bem, mas por dentro vai ficando oco, até que quebra sem precisar de queda. Por isso vamos reforçar o osso com o tratamento e usar a menor dose possível do corticoide. O que a senhora achou?', tempo: '45 s', analogia: 'Corticoide como cupim na madeira' },
+    ],
+    extra: 'Que alternativa existe para quem não tolera o bisfosfonato oral? (Calcitonina intranasal; outras: denosumabe, que bloqueia o RANKL, e raloxifeno.)',
+  },
+
+  // ----------------------------------------------------- FAR-15 · Úlcera por AINE
+  {
+    id: 'FAR-15', materia: 'farmaco',
+    titulo: 'A úlcera do anti-inflamatório da cólica',
+    local: 'Ambulatório de clínica médica', papel: 'Médico(a) assistente', interacao: 'paciente',
+    cenario: 'Adriana, 34 anos, usa naproxeno quase todos os dias há 6 meses, por dores de cabeça e cólicas. Há 1 mês tem dor epigástrica em queimação. A endoscopia mostrou uma úlcera gástrica; a pesquisa de H. pylori foi negativa. Ela quer engravidar no próximo ano e pergunta se pode continuar com o naproxeno, "porque sem ele não aguento a cólica".',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Endoscopia', linhas: [['Achado', 'úlcera gástrica de 1 cm, sem sangramento ativo'], ['H. pylori', 'negativo']] },
+    ],
+    tarefas: [
+      'Qual é a causa da úlcera e por que o AINE causa lesão? Qual a diferença entre gastrite e úlcera?',
+      'Qual é o tratamento? Como o sucralfato se soma ao IBP?',
+      'Se ela precisar continuar com o AINE, como proteger a mucosa? O misoprostol é uma boa opção para ela?',
+      'Oriente os sinais de alarme e responda à pergunta sobre o naproxeno.',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Sem o naproxeno eu não aguento a cólica."' },
+      { gatilho: 'Se falar em misoprostol', fala: '"E esse remédio tem problema para quem quer engravidar?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Úlcera por AINE: inibição das prostaglandinas que protegem a mucosa · Úlcera penetra a camada muscular da mucosa; gastrite é mais superficial', pts: 1 },
+        { tarefa: 2, item: 'Retirar o fator etiológico (suspender o AINE) + IBP para cicatrização; sem retirar a causa, a úlcera recidiva', pts: 2 },
+        { tarefa: 2, item: 'Sucralfato: barreira aderente sobre a mucosa lesada (citoproteção local, absorção mínima); mecanismo complementar ao IBP', pts: 1 },
+        { tarefa: 3, item: 'Proteção com IBP ou misoprostol (repõe as prostaglandinas: muco e bicarbonato)', pts: 1 },
+        { tarefa: 3, item: 'Misoprostol causa contrações uterinas: cautela em mulher em idade fértil que planeja gravidez', pts: 1 },
+        { tarefa: 4, item: 'Sinais de sangramento: fezes escurecidas e vômito com sangue, mesmo sem dor intensa → procurar emergência', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Manter o naproxeno sem proteção', 'Indicar misoprostol sem alertar sobre o efeito uterino'],
+    falaModelo: [
+      { tarefa: 1, texto: 'A causa é o naproxeno: o AINE inibe as prostaglandinas que protegem a mucosa do estômago. A úlcera é mais profunda, penetra a camada muscular da mucosa; a gastrite é uma lesão mais superficial.', tempo: '25 s' },
+      { tarefa: 2, texto: 'O tratamento é retirar a causa, suspendendo o AINE, e usar IBP, que reduz muito a secreção ácida e favorece a cicatrização. Sem tirar a causa, a úlcera volta. O sucralfato pode se somar: forma uma barreira aderente sobre a lesão, quase sem ser absorvido; é outro mecanismo, complementar ao IBP.', tempo: '35 s' },
+      { tarefa: 3, texto: 'Se o AINE for indispensável, protejo a mucosa com IBP ou com misoprostol, que repõe as prostaglandinas e estimula muco e bicarbonato. Mas o misoprostol provoca contrações uterinas, então não é uma boa opção para quem quer engravidar.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Adriana, o naproxeno é como um guarda-chuva que, ao mesmo tempo que protege da chuva da dor, fura o telhado do estômago. Por enquanto, vamos parar com ele e tratar a úlcera; para a cólica, conversamos sobre outras opções. Se as fezes ficarem escuras ou vomitar sangue, mesmo sem dor forte, vá ao pronto-socorro. Ficou alguma dúvida?', tempo: '40 s', analogia: 'Guarda-chuva que fura o telhado' },
+    ],
+    extra: 'Quais são as três formas comuns de úlcera péptica? (Associada ao H. pylori, aos AINEs e ao estresse.) Que medidas não farmacológicas valem para todas? (Reduzir estresse, parar de fumar, reduzir álcool e cafeína.)',
+  },
+
+  // ----------------------------------------------------- FAR-16 · Crise de ausência
+  {
+    id: 'FAR-16', materia: 'farmaco',
+    titulo: 'A menina que "desliga" na aula',
+    local: 'Ambulatório de neuropediatria', papel: 'Médico(a) assistente', interacao: 'paciente',
+    cenario: 'Ana, 7 anos, é trazida pelos pais porque a professora diz que ela "desliga" várias vezes por dia: para o que está fazendo, fica com o olhar fixo por alguns segundos e depois volta à atividade como se nada tivesse acontecido, sem lembrar do episódio. A escola sugeriu que fosse "déficit de atenção". Nunca teve convulsão. O EEG confirmou crises de ausência típicas.',
+    mesa: [],
+    tarefas: [
+      'Diferencie crise epiléptica, convulsão e epilepsia. Como se classifica a crise da Ana?',
+      'Qual é o fármaco de escolha e como ele age?',
+      'Que anticonvulsivante pode piorar esse tipo de crise? E qual tem amplo espectro?',
+      'Explique aos pais, que acham que "epilepsia é quando a pessoa se debate".',
+    ],
+    ator: [
+      { gatilho: 'Pai, ao começar', fala: '"Mas ela nunca se debateu. Isso é epilepsia mesmo?"' },
+      { gatilho: 'Mãe', fala: '"A escola disse que é déficit de atenção."' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Crise epiléptica: evento por atividade neuronal excessiva/hipersincrônica · Convulsão: só a manifestação motora · Epilepsia: predisposição persistente', pts: 1 },
+        { tarefa: 1, item: 'Crise de início generalizado, não motora: ausência típica (parada breve, olhar fixo, retorno rápido)', pts: 1 },
+        { tarefa: 2, item: 'Etossuximida: fármaco de escolha na ausência típica; bloqueia canais de cálcio tipo T', pts: 2 },
+        { tarefa: 3, item: 'Carbamazepina pode piorar crises de ausência; valproato tem amplo espectro (focais e generalizadas)', pts: 1 },
+        { tarefa: 4, item: 'Explicou que muitas crises não têm convulsão e que a classificação orienta o remédio', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Atribuir o quadro a déficit de atenção sem considerar a crise de ausência', 'Prescrever carbamazepina'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Crise epiléptica é o evento causado por atividade neuronal excessiva e sincronizada. Convulsão é só a manifestação motora, que muitas crises não têm. Epilepsia é a predisposição persistente para ter crises. A da Ana é uma crise de início generalizado, não motora: ausência típica, com parada breve, olhar fixo e retorno rápido.', tempo: '35 s' },
+      { tarefa: 2, texto: 'O fármaco de escolha na ausência típica é a etossuximida, que bloqueia os canais de cálcio tipo T.', tempo: '15 s' },
+      { tarefa: 3, texto: 'A carbamazepina pode piorar as crises de ausência; por isso a classificação é tão importante. O valproato tem amplo espectro, para crises focais e generalizadas.', tempo: '20 s' },
+      { tarefa: 4, texto: 'Pai e mãe, epilepsia não é só quando a pessoa se debate. No cérebro da Ana, por alguns segundos, é como se alguém apertasse o botão de pausa de um filme: ela para, e depois o filme continua. Por isso parece desatenção. O remédio certo para esse tipo de crise ajuda a evitar essas pausas, e escolher o tipo certo importa, porque alguns remédios podem piorar. O que vocês querem perguntar?', tempo: '40 s', analogia: 'Botão de pausa no filme' },
+    ],
+    extra: 'Quando uma única crise já permite diagnosticar epilepsia? (Crise não provocada com risco de recorrência ≥ 60% em 10 anos, ou síndrome epiléptica definida; o critério clássico é de 2 crises não provocadas separadas por mais de 24 h.)',
+  },
+
+  // ----------------------------------------------------- FAR-17 · Epilepsia sem controle
+  {
+    id: 'FAR-17', materia: 'farmaco',
+    titulo: 'As crises continuam com a carbamazepina',
+    local: 'Ambulatório de neurologia', papel: 'Médico(a) assistente', interacao: 'paciente',
+    cenario: 'Sr. Wilson, 40 anos, tem epilepsia focal há 3 anos. Usa carbamazepina desde o diagnóstico, já na maior dose que tolera, e confirma que toma certinho. Ainda tem duas crises por mês. Está com tontura e visão dupla. Bebe nos fins de semana e dorme pouco por trabalhar em turnos. Pergunta se "não existe um remédio mais moderno".',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Exames', linhas: [['Sódio', '131 mEq/L'], ['Adesão', 'confirmada pela família'], ['Ressonância', 'lesão focal antiga']] },
+    ],
+    tarefas: [
+      'Quais efeitos adversos da carbamazepina ele apresenta? Quais outros precisam ser lembrados?',
+      'Qual é o próximo passo, segundo o algoritmo de tratamento? E se falharem duas monoterapias?',
+      'Diferencie as três gerações de anticonvulsivantes e cite uma opção de 2ª geração com seu mecanismo.',
+      'Quais gatilhos ele precisa evitar? Explique ao paciente.',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Não existe um remédio mais moderno?"' },
+      { gatilho: 'Na tarefa 4', fala: '"Mas é só uma cervejinha no fim de semana."' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Tontura, diplopia e hiponatremia (Na 131); lembrar SJS/NET, discrasias sanguíneas e forte indução enzimática (interações)', pts: 1 },
+        { tarefa: 2, item: 'Falha da monoterapia na maior dose tolerada → trocar por outra droga, preferindo mecanismo diferente', pts: 1 },
+        { tarefa: 2, item: 'Falha de duas monoterapias → politerapia racional; farmacorresistência (20–35%) → centro especializado', pts: 1 },
+        { tarefa: 3, item: '1ª geração: eficaz, mas trabalhosa (interações, índice terapêutico estreito) · 2ª: eficácia semelhante, melhor tolerabilidade, em geral primeira escolha · 3ª: uso mais seletivo', pts: 1 },
+        { tarefa: 3, item: 'Ex.: levetiracetam (liga-se à SV2A, poucas interações, eliminação renal; efeitos comportamentais) ou lamotrigina (canais de Na⁺, titulação lenta, risco de rash)', pts: 1 },
+        { tarefa: 4, item: 'Gatilhos: privação de sono, álcool, estresse; explicou o plano sem jargão', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Associar uma segunda droga sem antes tentar outra monoterapia', 'Não reconhecer a hiponatremia como efeito da carbamazepina'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Ele tem tontura, visão dupla e hiponatremia, com sódio de 131, efeitos da carbamazepina. Também é preciso lembrar a síndrome de Stevens-Johnson, as alterações no sangue e que ela é forte indutora enzimática, com muitas interações.', tempo: '25 s' },
+      { tarefa: 2, texto: 'Ele falhou na monoterapia, já na maior dose tolerada e com boa adesão. O próximo passo é trocar por outra droga, de preferência com mecanismo diferente. Se falharem duas monoterapias, penso em politerapia racional; e, se continuar sem controle, é farmacorresistência, que atinge 20 a 35% dos pacientes, e encaminho a um centro especializado.', tempo: '40 s' },
+      { tarefa: 3, texto: 'As de 1ª geração são eficazes, mas trabalhosas, com muitas interações e faixa terapêutica estreita. As de 2ª têm eficácia parecida, são mais bem toleradas e em geral são a primeira escolha. As de 3ª têm uso mais seletivo. Uma opção é o levetiracetam, que se liga à proteína SV2A, tem poucas interações e eliminação renal, mas pode causar irritabilidade.', tempo: '40 s' },
+      { tarefa: 4, texto: 'Seu Wilson, existe, sim, e vamos trocar. Mas o remédio é só parte do caminho: dormir pouco e beber funcionam como vento forte numa vela acesa, a chama apaga com mais facilidade. Tentar regular o sono e evitar o álcool ajuda o remédio a funcionar. Combinado?', tempo: '30 s', analogia: 'Vento forte numa vela acesa' },
+    ],
+    extra: 'Por que a lamotrigina é atrativa no idoso? (Poucos efeitos cognitivos.) Que droga de 3ª geração age na inativação lenta dos canais de sódio? (Lacosamida.)',
+  },
+
+  // ----------------------------------------------------- FAR-18 · Fracasso terapêutico no idoso polimedicado
+  {
+    id: 'FAR-18', materia: 'farmaco',
+    titulo: 'A pressão que "não responde a nenhum remédio"',
+    local: 'UBS', papel: 'Médico(a) de família', interacao: 'paciente',
+    cenario: 'Sr. Olavo, 78 anos, viúvo, mora sozinho. A pressão continua alta apesar de três anti-hipertensivos, e o cardiologista anterior "já ia acrescentar o quarto". Ele traz uma sacola com as caixas. Ao conversar: toma a losartana, prescrita de 12 em 12 horas, "uma vez, quando lembra"; parou a hidroclorotiazida por conta própria porque "fazia urinar muito"; e toma o anlodipino junto com o da esposa falecida, de outra dose, "para não desperdiçar". A receita anterior não tinha orientações de uso.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Prescrição anterior', linhas: [['Losartana 50 mg', '12/12 h'], ['Hidroclorotiazida 25 mg', '1x/dia'], ['Anlodipino 5 mg', '1x/dia']] },
+    ],
+    tarefas: [
+      'Cite as causas clássicas de fracasso terapêutico. Quais estão presentes aqui?',
+      'Quais passos da prescrição racional falharam?',
+      'Qual parte da receita estava faltando, e o que ela deve conter?',
+      'Antes de acrescentar o quarto remédio, o que você faz? Oriente o paciente.',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Nenhum remédio funciona pra mim, doutor(a)."' },
+      { gatilho: 'Se falar no diurético', fala: '"Aquele me fazia levantar toda hora pra urinar."' },
+      { gatilho: 'No final', fala: '"Eu me perco com tanta caixa."' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Causas: seleção imprópria, baixa adesão, dose ou intervalo impróprios, erro diagnóstico, doença simultânea, interações, fatores ambientais ou genéticos', pts: 1 },
+        { tarefa: 1, item: 'Aqui: baixa adesão (intervalo irregular, interrupção não orientada) e dose imprópria (anlodipino de outra dose)', pts: 2 },
+        { tarefa: 2, item: 'Passo 5 (informar, instruir e recomendar) e passo 6 (monitorizar, inclusive reavaliar antes de trocar ou acrescentar)', pts: 1 },
+        { tarefa: 3, item: 'Faltava a adscrição: instruções de uso e recomendações ao paciente', pts: 1 },
+        { tarefa: 4, item: 'Corrigir a adesão antes de acrescentar fármaco; instruções claras e medidas não farmacológicas favorecem a adesão', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Acrescentar um quarto anti-hipertensivo sem avaliar a adesão', 'Não investigar como o paciente toma os remédios'],
+    falaModelo: [
+      { tarefa: 1, texto: 'As causas clássicas de fracasso terapêutico são seleção imprópria, baixa adesão, dose ou intervalo impróprios, erro de diagnóstico, doença simultânea, interações e fatores ambientais ou genéticos. Aqui há baixa adesão, com a losartana em intervalo irregular e o diurético interrompido sem orientação, e dose imprópria, com o anlodipino da esposa, de outra dose.', tempo: '40 s' },
+      { tarefa: 2, texto: 'Falharam o passo 5, fornecer informações, instruções e recomendações claras, e o passo 6, monitorizar: antes de acrescentar um quarto remédio, era preciso reavaliar como ele estava tomando.', tempo: '25 s' },
+      { tarefa: 3, texto: 'Faltava a adscrição, a parte da receita com as instruções de uso e as recomendações ao paciente.', tempo: '15 s' },
+      { tarefa: 4, texto: 'Antes de acrescentar outro remédio, corrijo a forma de tomar os que ele já usa. Seu Olavo, não é que os remédios não funcionem: é como uma orquestra em que cada músico toca na hora que quer; a música não sai. Vamos fazer uma tabela com os horários, separar só os seus remédios e conversar sobre o diurético que o senhor parou. Daqui a duas semanas a gente vê a pressão de novo. Me mostra como o senhor vai tomar amanhã?', tempo: '45 s', analogia: 'Orquestra em que cada músico toca na hora que quer' },
+    ],
+    extra: 'Em que passo da prescrição racional se verificam interações, função renal e comorbidades? (Terceiro passo: verificar a adequação do tratamento ao paciente.)',
+  },
+
 );
