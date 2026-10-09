@@ -27,7 +27,7 @@ const BAREMA_PADRAO = {
 const ESTACOES = [
   // ===================================================== CLÍNICA CIRÚRGICA
   {
-    id: 'CIR-01', materia: 'cir', exemplo: true,
+    id: 'CIR-01', materia: 'cir',
     titulo: 'Queimadura por álcool na churrasqueira',
     local: 'Pronto-socorro — sala de emergência', papel: 'Médico(a) plantonista', interacao: 'examinador',
     cenario: 'Roberto, 40 anos, 70 kg, chega 2 horas após acender a churrasqueira com álcool. Está consciente, voz normal, sem tosse, sem fuligem na boca ou no nariz. A esposa o acompanha, muito nervosa.\n\nPA 128 × 78 mmHg · FC 112 bpm · FR 20 irpm · SatO₂ 97%.\nExame: queimaduras de 2º grau profundo e 3º grau em toda a face anterior do tronco e em todo o membro superior direito; eritema sem bolhas (1º grau) na face.',
@@ -92,6 +92,7 @@ const ESTACOES = [
         { tarefa: 2, item: 'Monitorar reflexo patelar, frequência respiratória e diurese; gluconato de cálcio como antídoto', pts: 1 },
         { tarefa: 2, item: 'Corticoide para maturação pulmonar (betametasona 12 mg IM, 2 doses com 24 h)', pts: 1 },
         { tarefa: 2, item: 'Exames de HELLP e vitalidade fetal; planejar a resolução da gestação após estabilizar', pts: 1 },
+        { tarefa: 3, item: 'Explicou ao casal a doença, o objetivo do magnésio e do corticoide e a possibilidade de parto prematuro', pts: 1 },
       ],
     },
     errosCriticos: ['Não prescrever sulfato de magnésio', 'Liberar para casa ou só "observar a pressão"'],
@@ -105,7 +106,7 @@ const ESTACOES = [
 
   // ===================================================== FARMACOLOGIA
   {
-    id: 'FAR-01', materia: 'farmaco', exemplo: true,
+    id: 'FAR-01', materia: 'farmaco',
     titulo: 'Dor que não passa com codeína',
     local: 'Ambulatório de cuidados paliativos', papel: 'Médico(a) assistente', interacao: 'paciente',
     cenario: 'Seu Antônio, 66 anos, tem câncer de próstata com metástases ósseas. Usa dipirona 1 g de 6/6 h e codeína 30 mg de 6/6 h há 3 semanas, mas a dor na coluna continua em 8/10 e atrapalha o sono. Função renal e hepática normais. Está acompanhado da filha, que tem medo de que ele "fique viciado em morfina".',
@@ -143,7 +144,7 @@ const ESTACOES = [
 
   // ===================================================== SAÚDE MENTAL
   {
-    id: 'MEN-01', materia: 'mental', exemplo: true,
+    id: 'MEN-01', materia: 'mental',
     titulo: 'A avó ficou "outra pessoa" depois da cirurgia',
     local: 'Enfermaria de ortopedia', papel: 'Médico(a) plantonista', interacao: 'paciente',
     cenario: 'Dona Lurdes, 82 anos, está no 2º dia após cirurgia de fratura de fêmur. Antes, era lúcida e independente. Desde a noite passada está confusa, não sabe onde está, alterna momentos de agitação (tentou arrancar o acesso) com sonolência, e não consegue manter a atenção na conversa. A filha diz: "minha mãe ficou louca, ela está com Alzheimer?".\n\nPrescrição atual: tramadol de 8/8 h, diazepam 10 mg à noite (iniciado ontem "para dormir").\nDiurese: sem urinar há 9 horas; bexiga palpável.',
@@ -168,6 +169,7 @@ const ESTACOES = [
         { tarefa: 2, item: 'Suspender o diazepam, sondar/aliviar a bexiga, corrigir o sódio e tratar a dor', pts: 1 },
         { tarefa: 2, item: 'Medidas não farmacológicas: reorientação, família presente, óculos/prótese auditiva, ciclo sono-vigília, evitar contenção', pts: 1 },
         { tarefa: 2, item: 'Antipsicótico (haloperidol em dose baixa) só se agitação com risco; evitar benzodiazepínico', pts: 1 },
+        { tarefa: 3, item: 'Explicou à filha que delirium é agudo, flutuante e geralmente reversível, ao contrário da demência', pts: 1 },
       ],
     },
     errosCriticos: ['Prescrever mais benzodiazepínico para "acalmar"', 'Não investigar a causa orgânica'],
@@ -181,7 +183,7 @@ const ESTACOES = [
 
   // ===================================================== EPIDEMIOLOGIA
   {
-    id: 'EPI-01', materia: 'epi', exemplo: true,
+    id: 'EPI-01', materia: 'epi',
     titulo: 'Diarreia depois da festa da comunidade',
     local: 'Unidade Básica de Saúde', papel: 'Médico(a) da equipe de Saúde da Família', interacao: 'paciente',
     cenario: 'Após uma festa junina da comunidade, 68 pessoas procuraram a UBS com diarreia e vômitos nas 24 horas seguintes. A equipe levantou quem comeu o salpicão (com maionese caseira) e quem não comeu. A presidente da associação de moradores vem saber "o que aconteceu e se a culpa é da barraca dela".',

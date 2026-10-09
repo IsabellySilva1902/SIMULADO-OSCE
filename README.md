@@ -9,4 +9,16 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 - **Treino em dupla:** com o mesmo código, um colega é o examinador e vê o roteiro do paciente e o barema.
 - **Revisão:** as estações com nota abaixo de 7 voltam.
 
-As estações ficam em `estacoes.js`.
+## Estações
+
+41 estações, baseadas no material das disciplinas:
+
+| Matéria | Estações | Arquivo |
+|---|---|---|
+| Clínica Cirúrgica | 10 | `estacoes.js` (CIR-01) e `estacoes-cir.js` |
+| Saúde Mental | 10 | `estacoes.js` (MEN-01) e `estacoes-mental.js` |
+| Farmacologia | 10 | `estacoes.js` (FAR-01) e `estacoes-farmaco.js` |
+| Epidemiologia | 10 | `estacoes.js` (EPI-01) e `estacoes-epi.js` |
+| Saúde da Mulher | 1 (exemplo provisório) | `estacoes.js` |
+
+Matérias, barema padrão e as estações de exemplo ficam em `estacoes.js`.
