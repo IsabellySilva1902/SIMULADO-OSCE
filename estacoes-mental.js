@@ -1,4 +1,4 @@
-// Estações de Saúde Mental (MEN-02 a MEN-10). MEN-01 está em estacoes.js.
+// Estações de Saúde Mental (MEN-02 a MEN-20). MEN-01 está em estacoes.js.
 ESTACOES.push(
   // ----------------------------------------------------- MEN-02 · Esquizofrenia, primeiro episódio
   {
@@ -362,4 +362,399 @@ ESTACOES.push(
     ],
     extra: 'Quando a polissonografia está indicada? (Suspeita de apneia do sono ou movimento periódico de membros, diagnóstico incerto, comportamentos violentos noturnos.) Como se classifica a apneia pelo IAH? (Leve 5–15, moderada 16–30, grave > 30.)',
   },
+
+  // ----------------------------------------------------- MEN-11 · Exame do estado mental e risco de suicídio
+  {
+    id: 'MEN-11', materia: 'mental',
+    titulo: '"Não vejo mais sentido em nada"',
+    local: 'Ambulatório de saúde mental', papel: 'Médico(a)', interacao: 'paciente',
+    cenario: 'Sr. Roberto, 45 anos, foi demitido há 3 meses e é trazido pela esposa, que diz que ele "não sai mais da cama". Durante a entrevista: está com a barba por fazer e a roupa amassada; mantém pouco contato visual; fala baixo, devagar, com respostas curtas; diz que se sente "vazio, um peso para a família"; tem a expressão facial pouco móvel. O discurso é organizado. Nega ouvir vozes. Está orientado no tempo e no espaço e lembra as três palavras pedidas. Diz: "Não sei se isso é doença, acho que é fraqueza minha". O pai dele se matou quando Roberto tinha 20 anos.',
+    mesa: [],
+    tarefas: [
+      'Descreva o exame do estado mental dele, domínio por domínio.',
+      'Diferencie humor de afeto e forma de conteúdo do pensamento, usando o caso.',
+      'Avalie o risco de suicídio: o que perguntar e o que pesa neste caso?',
+      'Qual a diferença entre anamnese e exame psíquico? Como criar vínculo com ele?',
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Não sei nem por que eu vim. Minha mulher que insistiu."' },
+      { gatilho: 'Se perguntar sobre ideia de morrer', fala: '"Às vezes penso que todo mundo estaria melhor sem mim…"' },
+      { gatilho: 'Se perguntar sobre plano', fala: '"Pensei no remédio de pressão da minha mãe, que fica lá em casa."' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Aparência (descuido, pouco contato visual), comportamento/psicomotricidade (lentificado), fala (baixa, lenta, respostas curtas)', pts: 1 },
+        { tarefa: 1, item: 'Sensopercepção (nega alucinações), cognição (orientado, memória preservada), insight (não reconhece o adoecimento: "fraqueza")', pts: 1 },
+        { tarefa: 2, item: 'Humor: subjetivo, nas palavras dele ("vazio") · Afeto: objetivo, expressão observada (pouco móvel), congruente', pts: 1 },
+        { tarefa: 2, item: 'Forma: curso e organização (organizado) · Conteúdo: ideias, delírios, ideação suicida ("peso para a família")', pts: 1 },
+        { tarefa: 3, item: 'Perguntar diretamente: ideação, planejamento, acesso a meios e tentativas anteriores; perguntar não induz', pts: 1 },
+        { tarefa: 3, item: 'Pesam: ideação com plano e acesso a meio (remédio da mãe) e suicídio do pai (antecedentes familiares)', pts: 1 },
+        { tarefa: 4, item: 'Anamnese: o que o paciente relata · Exame psíquico: o que o examinador observa durante a entrevista', pts: 1 },
+        { tarefa: 4, item: 'Técnicas de vínculo: autenticidade, empatia e conhecimento', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Não perguntar diretamente sobre ideação e plano suicida', 'Confundir humor (relatado) com afeto (observado)'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Aparência: descuidado, barba por fazer, pouco contato visual. Comportamento: lentificado. Fala: baixa, lenta, com respostas curtas. Humor relatado "vazio", afeto pouco móvel. Pensamento organizado, com conteúdo de ruína, "peso para a família". Sensopercepção sem alucinações. Cognição: orientado e com memória preservada. Insight prejudicado: acha que é fraqueza.', tempo: '45 s' },
+      { tarefa: 2, texto: 'Humor é o que ele diz sentir, de preferência com as palavras dele: "vazio". Afeto é o que eu observo: a expressão pouco móvel, congruente com o humor. A forma do pensamento é o curso e a organização, aqui organizada; o conteúdo é o que ele pensa, como a ideia de ser um peso, que já me leva a investigar ideação suicida.', tempo: '35 s' },
+      { tarefa: 3, texto: 'Pergunto diretamente: "O senhor pensa em se matar? Já pensou em como? Tem acesso a algum meio? Já tentou antes?". Perguntar não induz. Aqui pesam a ideação com um plano, o acesso ao remédio da mãe e o suicídio do pai.', tempo: '30 s' },
+      { tarefa: 4, texto: 'A anamnese é o que ele me conta; o exame psíquico é o que eu observo durante a conversa. Para criar vínculo, uso autenticidade, empatia e conhecimento. Seu Roberto, o que o senhor sente não é fraqueza. É como uma perna quebrada: ninguém culpa a pessoa por não conseguir andar; a gente trata. Obrigado por me contar sobre o remédio; isso é importante para cuidarmos do senhor com segurança. Posso conversar com a sua esposa junto com o senhor?', tempo: '45 s', analogia: 'Não é fraqueza: é como uma perna quebrada' },
+    ],
+    extra: 'Que perguntas fazer nos hábitos de vida? (Sono, alimentação, atividade física, rotina; sempre tabagismo, álcool, outras substâncias e cafeína.)',
+  },
+
+  // ----------------------------------------------------- MEN-12 · Delirium tremens e Wernicke
+  {
+    id: 'MEN-12', materia: 'mental',
+    titulo: 'Os insetos na parede no 3º dia de internação',
+    local: 'Enfermaria de ortopedia', papel: 'Médico(a) plantonista', interacao: 'paciente',
+    cenario: 'Sr. José, 48 anos, etilista crônico, foi internado para uma cirurgia ortopédica eletiva. No 3º dia de internação, cerca de 72 horas após a última dose de álcool, está desorientado no tempo e no espaço, muito agitado, tentou arrancar o acesso venoso e diz ver "insetos andando na parede" e sentir "bichos na pele". Os sintomas pioram ao entardecer. A enfermagem quer fazer soro glicosado porque a glicemia está 58 mg/dL.\n\nFC 128 bpm · PA 168 × 100 mmHg · T 37,9 °C · sudorese intensa · tremor generalizado. Movimentos oculares normais, sem ataxia.',
+    mesa: [],
+    tarefas: [
+      'Qual é o diagnóstico? Justifique pelo tempo e pelo quadro.',
+      'Qual é o tratamento e onde ele deve ser feito? O haloperidol sozinho resolveria?',
+      'A enfermagem quer fazer glicose. O que você faz antes, e por quê?',
+      'Diferencie delirium tremens, encefalopatia de Wernicke e síndrome de Korsakoff.',
+    ],
+    ator: [
+      { gatilho: 'Ao se aproximar', fala: '"Tira esses bichos de mim! Estão subindo pela parede!"' },
+      { gatilho: 'Enfermagem, na tarefa 3', fala: '"Doutor(a), já posso correr o soro glicosado?"' },
+      { gatilho: 'Esposa, no final', fala: '"Ele vai ficar assim pra sempre?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Delirium tremens: forma grave (nível II) da abstinência alcoólica, 48–96 h após a última dose', pts: 1 },
+        { tarefa: 1, item: 'Desorientação, alucinações visuais e táteis, agitação, tremor intenso, taquicardia, hipertensão, febre baixa, sudorese, piora ao entardecer', pts: 1 },
+        { tarefa: 2, item: 'Internação hospitalar; benzodiazepínico em doses maiores e horárias (primeira escolha)', pts: 1 },
+        { tarefa: 2, item: 'Haloperidol isolado não trata a hiperatividade autonômica; pode ser associado se sintomas psicóticos proeminentes', pts: 1 },
+        { tarefa: 3, item: 'Tiamina 300 mg IM antes (ou junto) da glicose: glicose isolada consome a tiamina residual e pode precipitar Wernicke', pts: 2 },
+        { tarefa: 4, item: 'Wernicke: confusão + oftalmoparesia/nistagmo + ataxia, aguda, por falta de tiamina · Korsakoff: amnésia anterógrada e confabulação, sequela crônica', pts: 2 },
+      ],
+    },
+    errosCriticos: ['Dar glicose antes da tiamina', 'Tratar com haloperidol isolado'],
+    falaModelo: [
+      { tarefa: 1, texto: 'É delirium tremens, a forma mais grave da abstinência alcoólica, nível II. Surge de 48 a 96 horas após a última dose, e ele está com 72 horas: desorientado, com alucinações visuais e táteis, agitado, com tremor, taquicardia, hipertensão, febre baixa, sudorese e piora ao entardecer.', tempo: '35 s' },
+      { tarefa: 2, texto: 'O tratamento é hospitalar, com benzodiazepínico em doses maiores e horárias, que é a primeira escolha. O haloperidol sozinho não trata a hiperatividade autonômica, que é de base gabaérgica; pode ser associado se houver sintomas psicóticos muito intensos.', tempo: '30 s' },
+      { tarefa: 3, texto: 'Antes da glicose, faço tiamina 300 mg intramuscular. Ele é etilista crônico e deve ter pouca tiamina; a glicose sozinha consome o que resta e pode precipitar a encefalopatia de Wernicke. A regra é tiamina antes da glicose, sempre.', tempo: '25 s' },
+      { tarefa: 4, texto: 'O delirium tremens é a abstinência grave. A encefalopatia de Wernicke é aguda, por falta de tiamina, com a tríade de confusão, alteração dos movimentos dos olhos e ataxia. A síndrome de Korsakoff é a sequela crônica de um Wernicke não tratado: amnésia anterógrada e confabulação. Senhora, o cérebro dele está como um motor acostumado a funcionar com um freio puxado, o álcool; sem o freio, ele dispara. O remédio faz o papel desse freio enquanto o corpo se ajusta, e com o tratamento a maioria melhora. Ficou alguma dúvida?', tempo: '55 s', analogia: 'Motor que dispara quando tiram o freio' },
+    ],
+    extra: 'Qual é a mortalidade da SAA grave? (Cerca de 1%.) Em quanto tempo começa a SAA leve/moderada? (24 a 36 horas após a última dose.)',
+  },
+
+  // ----------------------------------------------------- MEN-13 · Overdose de opioides
+  {
+    id: 'MEN-13', materia: 'mental',
+    titulo: 'Encontrado inconsciente duas semanas após a alta',
+    local: 'Pronto-socorro — sala de emergência', papel: 'Médico(a) plantonista', interacao: 'paciente',
+    cenario: 'Marcos, 34 anos, é trazido pela família, que o encontrou inconsciente no quarto. Usa opioides ilícitos há vários anos e teve alta de uma comunidade terapêutica há 2 semanas, depois de meses sem usar.\n\nGlasgow 6 · FR 6 irpm · PA 88 × 50 mmHg · FC 52 bpm · pupilas puntiformes bilaterais · marcas de punção recentes no antebraço.',
+    mesa: [],
+    tarefas: [
+      'Qual é o diagnóstico? Que achados o confirmam?',
+      'Qual é a conduta imediata, com a dose? Por que monitorizar mesmo após melhorar?',
+      'Por que o risco de overdose era maior agora, após a alta?',
+      'Depois de estabilizado, quais são as opções para tratar a dependência? Explique à mãe.',
+    ],
+    ator: [
+      { gatilho: 'Mãe, ao chegar', fala: '"Ele estava tão bem na clínica! Por que agora?"' },
+      { gatilho: 'Se falar em antídoto', fala: '"Esse remédio cura ele?"' },
+      { gatilho: 'Após a naloxona', fala: '(Marcos, acordando agitado) "Que dor no corpo! Me deixa ir embora!"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Overdose de opioide: tríade coma + miose puntiforme + depressão respiratória; marcas de punção', pts: 2 },
+        { tarefa: 2, item: 'Garantir via aérea e ventilação; naloxona IV lenta (~0,8 mg/70 kg), repetindo a cada poucos minutos se necessário', pts: 2 },
+        { tarefa: 2, item: 'A naloxona age por menos tempo que muitos opioides: risco de recorrência → monitorizar; pode precipitar abstinência aguda', pts: 1 },
+        { tarefa: 3, item: 'Após período de abstinência a tolerância cai: a dose antiga pode ser fatal (alto risco de recaída e overdose)', pts: 1 },
+        { tarefa: 4, item: 'Metadona (substituição, longa ação), buprenorfina (agonista parcial), clonidina (sintomas de abstinência), naltrexona (após desintoxicação, prevenir recaída)', pts: 1 },
+        { tarefa: 4, item: 'Dependência como doença crônica, sem julgamento moral; recaída não é fracasso', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Usar flumazenil em vez de naloxona', 'Liberar o paciente logo após acordar com a naloxona'],
+    falaModelo: [
+      { tarefa: 1, texto: 'É overdose de opioide: ele tem a tríade clássica, coma, pupilas puntiformes e depressão respiratória, com frequência de 6, além das marcas de punção.', tempo: '15 s' },
+      { tarefa: 2, texto: 'Garanto via aérea e ventilação e faço naloxona na veia, lentamente, cerca de 0,8 mg para 70 kg, repetindo a cada poucos minutos se precisar. Mesmo que ele acorde, mantenho monitorizado, porque a naloxona dura menos que muitos opioides e o quadro pode voltar. Ela também pode precipitar abstinência, como essa dor no corpo.', tempo: '35 s' },
+      { tarefa: 3, texto: 'Depois de meses sem usar, a tolerância caiu. Se ele volta a usar a mesma dose de antes, ela pode ser fatal. Por isso o risco de overdose é alto logo depois de períodos de abstinência.', tempo: '20 s' },
+      { tarefa: 4, texto: 'Para a dependência, existem a metadona, que substitui o opioide com ação longa, a buprenorfina, um agonista parcial, a clonidina para os sintomas de abstinência e a naltrexona depois da desintoxicação, para prevenir recaída. Senhora, o corpo dele é como um escalador que ficou meses fora da montanha: ele perdeu o condicionamento e tentou subir a mesma trilha de antes. A dependência é uma doença crônica, como a pressão alta, e a recaída faz parte do caminho; não é fracasso dele nem da senhora. O que a senhora gostaria de saber agora?', tempo: '55 s', analogia: 'Escalador que perdeu o condicionamento' },
+    ],
+    extra: 'Quando começa a abstinência de heroína/morfina e quais os sintomas? (6–8 h, pico em 2–3 dias: disforia, náusea, dores musculares, lacrimejamento, rinorreia, midríase, piloereção, sudorese, diarreia, bocejos, febre, insônia.)',
+  },
+
+  // ----------------------------------------------------- MEN-14 · Rastreio e diagnóstico do uso de álcool
+  {
+    id: 'MEN-14', materia: 'mental',
+    titulo: '"Bebo só no fim de semana"',
+    local: 'UBS — consulta de rotina', papel: 'Médico(a) de família', interacao: 'paciente',
+    cenario: 'Sr. Fábio, 41 anos, vendedor, veio por dor de estômago. Ao perguntar sobre hábitos, conta que bebe "só no fim de semana": cerca de 10 latas de cerveja no sábado e 8 no domingo. Nos últimos 12 meses: bebeu mais do que pretendia várias vezes; tentou diminuir duas vezes e não conseguiu; faltou a duas segundas-feiras no trabalho; a esposa reclama das brigas por causa da bebida, mas ele continua; e já dirigiu depois de beber. Nega tremores ou beber pela manhã. Diz: "Sei que exagero, ando pensando em diminuir, mas não agora".',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Rastreio', linhas: [['AUDIT', '17 pontos'], ['CAGE', '2 respostas positivas']] },
+    ],
+    tarefas: [
+      'Interprete o rastreio e o padrão de consumo.',
+      'Quantos critérios do DSM-5-TR ele preenche, e qual é a gravidade? Como o DSM-5 mudou a classificação da CID-10?',
+      'Em que estágio de mudança ele está, e como você conduz?',
+      'Converse com ele sem julgamento.',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Doutor(a), eu não sou alcoólatra. Bebo só no fim de semana."' },
+      { gatilho: 'Se falar em parar', fala: '"Parar de vez? Aí não, né…"' },
+      { gatilho: 'No final', fala: '"E o que o senhor(a) sugere, então?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'AUDIT ≥ 8: uso excessivo, de alto risco · CAGE ≥ 2: consumo de risco', pts: 1 },
+        { tarefa: 1, item: 'Padrão de risco: 5 ou mais doses numa mesma ocasião (homem)', pts: 1 },
+        { tarefa: 2, item: '5 critérios: uso maior que o pretendido, tentativas malsucedidas de reduzir, falha em obrigações, uso apesar de problemas sociais, uso em situação de risco (dirigir)', pts: 1 },
+        { tarefa: 2, item: '4–5 critérios = gravidade moderada (2–3 leve; ≥ 6 grave); DSM-5 unificou uso nocivo e dependência em "transtorno por uso de substância"', pts: 2 },
+        { tarefa: 3, item: 'Contemplação: reconhece o problema, ambivalente, considera mudar', pts: 1 },
+        { tarefa: 3, item: 'Entrevista motivacional: conversa colaborativa, centrada no paciente, trabalhando a ambivalência conforme o estágio', pts: 1 },
+        { tarefa: 4, item: 'Abordou sem rótulo nem julgamento moral, explorando ganhos e prejuízos do consumo', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Concluir que não há problema porque ele "só bebe no fim de semana"', 'Confrontar ou rotular o paciente'],
+    falaModelo: [
+      { tarefa: 1, texto: 'O AUDIT de 17, acima de 8, indica uso excessivo, de alto risco, e o CAGE com 2 respostas positivas indica consumo de risco. Ele bebe 10 latas numa ocasião, acima de 5 doses para homem, e cerca de 18 latas por fim de semana.', tempo: '25 s' },
+      { tarefa: 2, texto: 'Ele preenche 5 critérios nos últimos 12 meses: bebe mais do que pretendia, não conseguiu diminuir, falhou no trabalho, continua apesar das brigas e dirigiu depois de beber. Com 4 a 5 critérios, a gravidade é moderada. O DSM-5 juntou o uso nocivo e a dependência da CID-10 num só diagnóstico, o transtorno por uso de substância, graduado pela contagem.', tempo: '40 s' },
+      { tarefa: 3, texto: 'Ele está em contemplação: reconhece que exagera, está ambivalente e pensa em mudar, mas não agora. Uso a entrevista motivacional, uma conversa colaborativa que trabalha essa ambivalência, sem confrontar.', tempo: '25 s' },
+      { tarefa: 4, texto: 'Seu Fábio, não estou aqui para colocar rótulo no senhor. O que o senhor ganha com a cerveja no fim de semana? E o que ela tem custado, em casa e no trabalho? Parece uma balança: de um lado o prazer, do outro as brigas e as faltas. Quando o senhor se sentir pronto, podemos montar juntos um plano para diminuir. O que acha de conversarmos de novo daqui a duas semanas?', tempo: '40 s', analogia: 'Balança: prazer de um lado, prejuízos do outro' },
+    ],
+    extra: 'Quais são os estágios de Prochaska e DiClemente? (Pré-contemplação, contemplação, preparação, ação, manutenção e recaída — retorno a um estágio anterior, não fracasso.)',
+  },
+
+  // ----------------------------------------------------- MEN-15 · Retirada de benzodiazepínico
+  {
+    id: 'MEN-15', materia: 'mental',
+    titulo: 'Quero parar o calmante de uma vez',
+    local: 'UBS', papel: 'Médico(a) de família', interacao: 'paciente',
+    cenario: 'Dona Ivone, 70 anos, usa alprazolam 2 mg à noite há 10 anos, "para dormir". Caiu duas vezes no último mês, à noite. Leu na internet que o remédio "vicia" e quer parar hoje mesmo, por conta própria. Tem um copo de vinho no jantar. A filha conta que, quando a mãe esquece o comprimido, "no dia seguinte fica tremendo e nervosa".',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Meia-vida de alguns benzodiazepínicos', linhas: [['Alprazolam', '6–20 h'], ['Clonazepam', '19–42 h'], ['Diazepam', '14–61 h']] },
+    ],
+    tarefas: [
+      'Ela pode parar de uma vez? O que pode acontecer e por quê?',
+      'O que a filha descreveu? Por que com o alprazolam isso aparece tão rápido?',
+      'Como fazer a retirada?',
+      'Por que o vinho preocupa, e como explicar o plano à paciente?',
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Quero parar hoje. Li que vicia."' },
+      { gatilho: 'Se falar em trocar de remédio', fala: '"Trocar por outro calmante? Mas eu quero parar!"' },
+      { gatilho: 'No final', fala: '"E um copinho de vinho, tem problema?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Nunca suspender abruptamente um benzodiazepínico de uso prolongado: risco de abstinência grave, inclusive convulsões', pts: 2 },
+        { tarefa: 2, item: 'Abstinência: insônia, ansiedade, tremor, hiperatividade autonômica (semelhante à do álcool, geralmente mais branda)', pts: 1 },
+        { tarefa: 2, item: 'Meia-vida curta (alprazolam): abstinência já em 24 h, mais rápida e intensa; meia-vida longa: 5–10 dias, mais branda', pts: 1 },
+        { tarefa: 3, item: 'Substituir por benzodiazepínico de meia-vida longa (ex.: diazepam) e retirar gradualmente', pts: 2 },
+        { tarefa: 4, item: 'Álcool e benzodiazepínico agem no receptor GABA-A: tolerância cruzada e sedação somada (quedas)', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Orientar suspensão abrupta', 'Trocar por outro benzodiazepínico de meia-vida curta'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Não pode parar de uma vez. Depois de 10 anos de uso, a suspensão abrupta pode causar abstinência grave, inclusive com convulsões.', tempo: '15 s' },
+      { tarefa: 2, texto: 'A filha descreveu abstinência: tremor e nervosismo quando esquece a dose. O alprazolam tem meia-vida curta, então a abstinência começa já em 24 horas e é mais intensa. Com os de meia-vida longa, ela aparece em 5 a 10 dias e é mais branda.', tempo: '30 s' },
+      { tarefa: 3, texto: 'Faço a retirada gradual: troco o alprazolam por um benzodiazepínico de meia-vida longa, como o diazepam, que suaviza a curva, e vou reduzindo aos poucos.', tempo: '20 s' },
+      { tarefa: 4, texto: 'O vinho age no mesmo receptor do calmante, o GABA-A: os dois se somam e aumentam a sonolência e o risco de queda. Dona Ivone, a senhora está certa em querer parar, e eu vou ajudar. Mas parar de uma vez é como descer uma escada pulando os degraus: a senhora cai. Vamos descer degrau por degrau, trocando por um remédio que sai do corpo mais devagar e diminuindo aos poucos. Combinado?', tempo: '45 s', analogia: 'Descer a escada degrau por degrau' },
+    ],
+    extra: 'Qual é o antídoto dos benzodiazepínicos e qual a cautela? (Flumazenil, reservado a intoxicações graves; risco de convulsões em uso crônico ou overdose mista.)',
+  },
+
+  // ----------------------------------------------------- MEN-16 · Maconha e psicose
+  {
+    id: 'MEN-16', materia: 'mental',
+    titulo: 'As vozes voltaram junto com a maconha',
+    local: 'Ambulatório de saúde mental', papel: 'Médico(a)', interacao: 'paciente',
+    cenario: 'Vítor, 24 anos, tem diagnóstico de esquizofrenia há 3 anos e vinha estável. Há 2 meses voltou a fumar maconha quase todo dia, uma variedade "bem forte" que um amigo traz, e passou a tomar o antipsicótico "só quando lembra". A mãe conta que ele voltou a se isolar, a ouvir vozes e a dizer que os vizinhos o perseguem. Ele quer parar de vir às consultas. Diz: "A maconha é natural, me acalma".',
+    mesa: [],
+    tarefas: [
+      'Quais fatores explicam a piora?',
+      'Qual é a relação da maconha (THC e CBD) com a esquizofrenia?',
+      'Qual é a conduta? Existe remédio específico para o uso de maconha?',
+      'Converse com Vítor, que acha a maconha inofensiva.',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Maconha é natural. Me acalma mais que o seu remédio."' },
+      { gatilho: 'Mãe, na tarefa 3', fala: '"Não tem um remédio pra ele parar de fumar?"' },
+      { gatilho: 'No final', fala: '"Não quero mais vir aqui."' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Uso frequente de maconha de alta potência e baixa adesão ao antipsicótico (principal causa de recaída)', pts: 2 },
+        { tarefa: 2, item: 'Maconha: risco 4 vezes maior de esquizofrenia; exacerba sintomas positivos, agrava negativos; mais internações, pior adesão, mais risco de suicídio', pts: 1 },
+        { tarefa: 2, item: 'THC: responsável pela dependência e pelos efeitos deletérios; variedades ricas em THC e pobres em CBD aumentam o risco de psicose', pts: 1 },
+        { tarefa: 3, item: 'Reforçar o vínculo, psicoeducação sobre THC e psicose, reavaliar a adesão ao antipsicótico', pts: 1 },
+        { tarefa: 3, item: 'Sem medicamento aprovado no Brasil para o uso de cannabis: tratamento psicossocial (TCC, manejo de contingências), integrado ao da esquizofrenia', pts: 1 },
+        { tarefa: 4, item: 'Abordagem sem confronto, preservando o vínculo e o seguimento', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Confrontar ou ameaçar o paciente, rompendo o vínculo', 'Prescrever um medicamento "para parar a maconha"'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Dois fatores: a volta ao uso diário de maconha de alta potência e a baixa adesão ao antipsicótico, que é a principal causa de recaída na esquizofrenia.', tempo: '20 s' },
+      { tarefa: 2, texto: 'A maconha aumenta em 4 vezes o risco de esquizofrenia, piora os sintomas positivos, como as vozes, e os negativos, como o isolamento, e está ligada a mais internações e pior adesão. O THC é o responsável pela dependência e pelos efeitos ruins; as variedades ricas em THC e pobres em CBD aumentam o risco de psicose.', tempo: '35 s' },
+      { tarefa: 3, texto: 'Reforço o vínculo, faço psicoeducação e reavalio a adesão ao antipsicótico. Não existe remédio aprovado no Brasil para o uso de maconha: o tratamento é psicossocial, com TCC e manejo de contingências, junto com o tratamento da esquizofrenia.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Vítor, eu entendo que a maconha te dá uma sensação de calma, e não quero brigar com você. Mas essa maconha forte é como colocar gasolina numa fogueira que estava quase apagada: as vozes e a perseguição voltaram justamente agora. Eu prefiro continuar te acompanhando, mesmo que a gente ainda não concorde em tudo. Podemos combinar de você tomar o remédio todos os dias e a gente conversar sobre a maconha na próxima consulta?', tempo: '45 s', analogia: 'Gasolina numa fogueira quase apagada' },
+    ],
+    extra: 'Como rastrear rapidamente o uso de maconha na emergência? (Uma única pergunta, "No ano passado, com que frequência você usou maconha?", é tão eficaz quanto instrumentos longos.)',
+  },
+
+  // ----------------------------------------------------- MEN-17 · Bulimia nervosa
+  {
+    id: 'MEN-17', materia: 'mental',
+    titulo: 'Os calos nos dedos e o potássio baixo',
+    local: 'Ambulatório de clínica médica', papel: 'Médico(a)', interacao: 'paciente',
+    cenario: 'Letícia, 20 anos, universitária, veio por "cansaço e câimbras". IMC 22. Ao exame: aumento bilateral das parótidas, erosão do esmalte na face interna dos dentes e calosidades no dorso da mão direita. Depois de criar confiança, ela conta que, cerca de 3 vezes por semana, "come sem conseguir parar" — às vezes um pacote de biscoitos, um pote de sorvete e pão de uma vez — e depois provoca vômito, por medo de engordar. Sente muita vergonha.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Exames', linhas: [['Potássio', '2,9 mEq/L'], ['Bicarbonato', '34 mEq/L (alcalose metabólica)'], ['Amilase', 'elevada']] },
+    ],
+    tarefas: [
+      'Qual é o diagnóstico? Diferencie da anorexia purgativa e do transtorno de compulsão alimentar.',
+      'Explique os achados do exame físico e dos exames.',
+      'Qual é o tratamento? Que antidepressivo é contraindicado e por quê?',
+      'Converse com Letícia, que sente muita vergonha.',
+    ],
+    ator: [
+      { gatilho: 'Ao contar', fala: '"Eu tenho muita vergonha… ninguém sabe disso."' },
+      { gatilho: 'Se falar em tratamento', fala: '"Eu não estou magra. Isso é doença mesmo?"' },
+      { gatilho: 'No final', fala: '"Tem algum remédio que me ajude?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Bulimia nervosa: compulsão alimentar + comportamento compensatório inadequado recorrente + sobrevalorização do peso, com peso normal', pts: 1 },
+        { tarefa: 1, item: 'Anorexia purgativa: baixo peso · TCA: compulsão sem comportamento compensatório regular', pts: 1 },
+        { tarefa: 2, item: 'Sinal de Russell (calos no dorso da mão), hipertrofia parotídea (sialoadenose), amilase elevada (fração salivar), erosão dentária na face lingual', pts: 1 },
+        { tarefa: 2, item: 'Vômitos: hipocalemia + alcalose metabólica (perda de ácido gástrico); laxantes tenderiam à acidose', pts: 1 },
+        { tarefa: 3, item: 'TCC-TA como primeira escolha; fluoxetina 60 mg/dia (único ISRS aprovado para BN)', pts: 2 },
+        { tarefa: 3, item: 'Bupropiona contraindicada em transtornos alimentares com purgação (risco de convulsões)', pts: 1 },
+        { tarefa: 4, item: 'Acolheu a vergonha sem julgamento e explicou que é uma doença tratável, mesmo com peso normal', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Descartar transtorno alimentar porque o peso é normal', 'Prescrever bupropiona'],
+    falaModelo: [
+      { tarefa: 1, texto: 'É bulimia nervosa: episódios de compulsão, com perda de controle, seguidos de vômito provocado, por medo de engordar, com peso normal. Na anorexia purgativa o peso é baixo; no transtorno de compulsão alimentar há compulsão, mas sem comportamento compensatório regular.', tempo: '30 s' },
+      { tarefa: 2, texto: 'Os calos no dorso da mão são o sinal de Russell, do atrito com os dentes ao provocar o vômito. As parótidas aumentadas e a amilase alta vêm da glândula salivar. A erosão dentária na face interna vem do ácido. E os vômitos causam hipocalemia com alcalose metabólica, pela perda de ácido do estômago; se fosse por laxante, tenderia à acidose.', tempo: '40 s' },
+      { tarefa: 3, texto: 'A primeira escolha é a terapia cognitivo-comportamental específica para transtornos alimentares. A fluoxetina, 60 mg por dia, é o único ISRS aprovado para bulimia. A bupropiona é contraindicada, pelo risco de convulsão em quem tem purgação.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Letícia, obrigada por confiar em mim. Não é falta de força de vontade: é uma doença, e tem tratamento, mesmo com o peso normal. É como um ciclo vicioso de uma roda-gigante: a restrição leva à compulsão, a compulsão à culpa, a culpa ao vômito, e tudo recomeça. O tratamento ajuda a sair dessa roda. E esse potássio baixo explica o cansaço e as câimbras. Como você se sente agora que falou sobre isso?', tempo: '45 s', analogia: 'Ciclo vicioso como uma roda-gigante' },
+    ],
+    extra: 'Qual é o único remédio aprovado para o transtorno de compulsão alimentar? (Lisdexanfetamina, no TCA moderado a grave.) Como se classifica a gravidade do TCA? (Episódios por semana: leve 1–3, moderado 4–7, grave 8–13, extremo ≥ 14.)',
+  },
+
+  // ----------------------------------------------------- MEN-18 · Apneia obstrutiva do sono
+  {
+    id: 'MEN-18', materia: 'mental',
+    titulo: 'Cochilou no volante',
+    local: 'Ambulatório de clínica médica', papel: 'Médico(a)', interacao: 'paciente',
+    cenario: 'Sr. Rogério, 52 anos, taxista, IMC 34, pescoço largo, hipertenso com pressão difícil de controlar. Veio porque cochilou no volante parado no sinal. A esposa conta que ele ronca alto e que "para de respirar" várias vezes à noite, acordando engasgado. Ele acorda cansado, mesmo dormindo 8 horas. Toma clonazepam "para dormir melhor" e uma dose de cachaça à noite.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Avaliação', linhas: [['Escala de Epworth', '16'], ['Polissonografia', 'índice de apneia-hipopneia (IAH) = 38 eventos/hora; esforço respiratório mantido durante as pausas']] },
+    ],
+    tarefas: [
+      'Qual é a hipótese? Quais perguntas de triagem são mais sensíveis e mais específicas?',
+      'Interprete a escala de Epworth e a polissonografia. É obstrutiva ou central? Qual é a gravidade?',
+      'Qual é o tratamento, e o que ele deve evitar?',
+      'Explique ao paciente o CPAP e por que tratar.',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Ronco todo mundo ronca, doutor(a)."' },
+      { gatilho: 'Se falar em CPAP', fala: '"Dormir com uma máscara? Não vou conseguir."' },
+      { gatilho: 'Se falar no clonazepam', fala: '"Mas é ele que me faz dormir!"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Apneia obstrutiva do sono; fatores: sexo masculino, obesidade, pescoço largo, benzodiazepínico/álcool', pts: 1 },
+        { tarefa: 1, item: '"Você ronca?": maior sensibilidade · "Você para de respirar dormindo?": maior especificidade', pts: 1 },
+        { tarefa: 2, item: 'Epworth ≥ 10 sugere sonolência excessiva (rastreamento, não diagnóstico); polissonografia é o padrão-ouro', pts: 1 },
+        { tarefa: 2, item: 'Obstrutiva: esforço respiratório mantido (na central está reduzido/ausente); IAH 38 > 30 = grave', pts: 2 },
+        { tarefa: 3, item: 'CPAP ("tala pneumática" que mantém a via aérea pérvia), com acompanhamento da adesão; perda de peso, terapia posicional', pts: 1 },
+        { tarefa: 3, item: 'Evitar álcool, relaxantes musculares e benzodiazepínicos à noite (agravam a AOS); complicações: hipertensão, arritmias, DM2', pts: 1 },
+        { tarefa: 4, item: 'Explicou o CPAP em linguagem simples e lidou com a resistência à máscara (adaptação acompanhada)', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Manter o clonazepam e o álcool à noite', 'Diagnosticar apenas pela escala de Epworth'],
+    falaModelo: [
+      { tarefa: 1, texto: 'A hipótese é apneia obstrutiva do sono: homem, obeso, pescoço largo, ronco, pausas testemunhadas, sono que não descansa e sonolência ao dirigir. "Você ronca?" é a pergunta mais sensível; "você para de respirar dormindo?", a mais específica, geralmente respondida pelo parceiro.', tempo: '35 s' },
+      { tarefa: 2, texto: 'O Epworth de 16, acima de 10, sugere sonolência excessiva, mas é só rastreio. A polissonografia, padrão-ouro, mostra IAH de 38: acima de 30, grave. Como o esforço respiratório continua durante as pausas, é obstrutiva; na central, o esforço diminui ou some.', tempo: '35 s' },
+      { tarefa: 3, texto: 'O tratamento é o CPAP, com perda de peso e terapia posicional. Ele deve evitar o álcool e o clonazepam à noite, porque relaxam a via aérea e pioram a apneia. Sem tratamento, a apneia piora a pressão, causa arritmias e diabetes.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Seu Rogério, durante o sono a sua garganta fecha, como um canudo mole que gruda quando a gente puxa o ar. O CPAP sopra um ar suave que mantém esse canudo aberto, como uma tala de ar. No começo exige adaptação, mas a gente acompanha. Com ele, o senhor dorme de verdade, fica mais seguro no volante e a pressão melhora. Topa experimentar?', tempo: '40 s', analogia: 'Garganta como um canudo mole' },
+    ],
+    extra: 'Quais são os critérios diagnósticos da AOS (ICSD-3)? (Pelo menos um sintoma ou condição associada, como sonolência, despertar ofegante, ronco/pausas ou hipertensão, mais 5 ou mais eventos obstrutivos por hora na polissonografia.)',
+  },
+
+  // ----------------------------------------------------- MEN-19 · TDAH no adulto
+  {
+    id: 'MEN-19', materia: 'mental',
+    titulo: 'Perdendo prazos desde sempre',
+    local: 'Ambulatório de saúde mental', papel: 'Médico(a)', interacao: 'paciente',
+    cenario: 'Rafael, 29 anos, programador, procura atendimento porque "não consegue terminar nada": perde prazos, esquece reuniões, começa várias tarefas e larga no meio, perde objetos. Sente uma "inquietação por dentro" e não consegue ficar parado em reuniões longas. Já bateu o carro duas vezes por distração. Fuma maconha toda noite "para desligar a cabeça". A mãe, que veio junto, conta que desde os 7 anos os professores diziam que ele "vivia no mundo da lua" e não parava sentado.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Avaliação', linhas: [['Desatenção', '7 sintomas atuais'], ['Hiperatividade/impulsividade', '5 sintomas atuais'], ['Contextos', 'trabalho, casa, trânsito']] },
+    ],
+    tarefas: [
+      'Ele preenche critérios para TDAH? O que muda nos critérios do adulto?',
+      'Como a hiperatividade costuma aparecer no adulto?',
+      'O que você precisa investigar antes de definir a conduta, e por quê?',
+      'Qual é o tratamento de primeira escolha e que cuidados ele exige? Converse com o paciente.',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Eu achava que TDAH era coisa de criança."' },
+      { gatilho: 'Se perguntar sobre a maconha', fala: '"É o único jeito de eu desligar a cabeça."' },
+      { gatilho: 'Se falar em estimulante', fala: '"Isso não vicia? Ouvi dizer que é tipo droga."' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'A partir dos 17 anos bastam 5 sintomas num domínio; sintomas antes dos 12 anos, confirmados retrospectivamente com relato de terceiros (a mãe)', pts: 1 },
+        { tarefa: 1, item: 'Múltiplos contextos e prejuízo funcional: preenche (apresentação combinada)', pts: 1 },
+        { tarefa: 2, item: 'No adulto, a hiperatividade aparece como inquietude subjetiva, mais do que agitação motora', pts: 1 },
+        { tarefa: 3, item: 'Investigar comorbidades: uso de substâncias (até 40%), depressão, transtorno bipolar, ansiedade, transtornos da personalidade (~50%)', pts: 1 },
+        { tarefa: 3, item: 'As comorbidades orientam a escolha terapêutica; TDAH não tratado dobra o risco de abuso de substâncias, incluindo maconha', pts: 1 },
+        { tarefa: 4, item: 'Estimulantes (metilfenidato, lisdexanfetamina) como primeira escolha; avaliar história cardiovascular; não estimulantes se contraindicação ou intolerância', pts: 1 },
+        { tarefa: 4, item: 'Potencial de abuso do estimulante fora da prescrição: uso acompanhado e orientado', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Diagnosticar sem confirmar o início na infância', 'Iniciar estimulante sem investigar comorbidades e uso de substâncias'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Sim. A partir dos 17 anos bastam 5 sintomas num domínio, e ele tem 7 de desatenção e 5 de hiperatividade. A mãe confirma sintomas desde os 7 anos, antes dos 12, e há prejuízo no trabalho, em casa e no trânsito: TDAH, apresentação combinada.', tempo: '30 s' },
+      { tarefa: 2, texto: 'No adulto, a hiperatividade costuma aparecer como inquietude por dentro, mais do que correr ou subir nas coisas, como ele descreve.', tempo: '15 s' },
+      { tarefa: 3, texto: 'Antes de tratar, investigo comorbidades, que são muito frequentes no adulto: uso de substâncias, até 40%, depressão, transtorno bipolar, ansiedade e transtornos da personalidade. Elas orientam a escolha do tratamento. E o TDAH sem tratamento dobra o risco de abuso de substâncias, como a maconha que ele usa.', tempo: '35 s' },
+      { tarefa: 4, texto: 'A primeira escolha é o estimulante, metilfenidato ou lisdexanfetamina, depois de avaliar a história cardiovascular. Rafael, TDAH não é coisa só de criança: muita gente chega à vida adulta sem diagnóstico. O seu cérebro é como um carro com o volante solto: o motor é bom, mas é difícil manter a direção. O remédio ajusta o volante. Ele tem potencial de abuso quando usado sem receita, por isso vamos acompanhar de perto. E a gente vai conversar sobre a maconha também. O que você acha?', tempo: '50 s', analogia: 'Carro com o volante solto' },
+    ],
+    extra: 'Quais são as consequências do TDAH não tratado no adulto? (Acidentes de trânsito, problemas no trabalho, uso de substâncias e criminalidade, entre outras.)',
+  },
+
+  // ----------------------------------------------------- MEN-20 · Transtorno da personalidade antissocial
+  {
+    id: 'MEN-20', materia: 'mental',
+    titulo: 'O atestado de 15 dias',
+    local: 'Pronto-socorro', papel: 'Médico(a) plantonista', interacao: 'paciente',
+    cenario: 'Diego, 30 anos, chega dizendo estar com "uma dor nas costas terrível" e pede um atestado de 15 dias e uma receita de clonazepam. No início é simpático, elogia você e diz que "só você entende". Ao ouvir que o exame não justifica o atestado, fica irritado, fala alto e insinua ameaças. No prontuário: três passagens pela delegacia por brigas e estelionato e vários atestados em outros serviços. A irmã, que o acompanha, conta que na adolescência ele fugia de casa, maltratava animais e roubava colegas, e "nunca se arrepende de nada".',
+    mesa: [],
+    tarefas: [
+      'Qual é a hipótese? Quais critérios sustentam e que exigência de idade existe?',
+      'Por que "psicopatia" não é sinônimo automático desse diagnóstico?',
+      'Como manejar o atendimento? Que sentimento seu pode ser um sinal de manipulação?',
+      'Responda ao pedido de atestado e de clonazepam.',
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Você é a única pessoa aqui que me entende. Só preciso do atestado e da receita."' },
+      { gatilho: 'Ao ouvir "não"', fala: '"Você não sabe com quem está falando. Isso não vai ficar assim."' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Transtorno da personalidade antissocial: falsidade/trapaça, impulsividade, agressividade, irresponsabilidade, ausência de remorso, desrespeito a normas', pts: 1 },
+        { tarefa: 1, item: 'Diagnóstico só a partir dos 18 anos, com evidência de transtorno de conduta antes dos 15 (fugas, crueldade com animais, furtos)', pts: 2 },
+        { tarefa: 2, item: '"Psicopatia" é reservada por alguns autores a traços afetivos/interpessoais específicos e associação com criminalidade; não é sinônimo automático', pts: 1 },
+        { tarefa: 3, item: 'Comunicação clara, objetiva e não punitiva; limites firmes e consistentes; investigar motivações', pts: 1 },
+        { tarefa: 3, item: 'Contratransferência: medo/ameaça (ou sentir-se "especial"); questionar-se sempre que a própria conduta desviar do padrão habitual', pts: 1 },
+        { tarefa: 4, item: 'Negou o atestado e a receita sem indicação, sem punir nem humilhar, oferecendo o cuidado adequado à queixa', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Ceder ao atestado ou à receita por pressão', 'Responder com hostilidade ou punição'],
+    falaModelo: [
+      { tarefa: 1, texto: 'A hipótese é transtorno da personalidade antissocial: trapaça e estelionato, impulsividade, brigas, irresponsabilidade e ausência de remorso. O diagnóstico só pode ser feito a partir dos 18 anos e exige transtorno de conduta antes dos 15, como as fugas, a crueldade com animais e os furtos que a irmã contou.', tempo: '35 s' },
+      { tarefa: 2, texto: 'Alguns autores reservam o termo psicopatia para pacientes com traços afetivos e interpessoais mais específicos, como frieza, e forte associação com criminalidade; então não é sinônimo automático de personalidade antissocial.', tempo: '25 s' },
+      { tarefa: 3, texto: 'O manejo é comunicação clara, objetiva e não punitiva, com limites firmes e consistentes, investigando o que ele realmente quer. Se eu me sentir ameaçado, ou especial pelos elogios, isso é contratransferência; e se eu começar a fazer algo fora do meu padrão, como dar um atestado sem indicação, é sinal de manipulação em curso.', tempo: '35 s' },
+      { tarefa: 4, texto: 'Diego, eu levo a sua dor a sério e vou examinar e tratar a sua dor nas costas. Mas o exame não justifica um atestado de 15 dias, e o clonazepam não é o tratamento para essa dor, então não vou prescrever. Isso vale para qualquer paciente que eu atender. É como um juiz de futebol: a regra é a mesma para os dois times. Posso fazer agora o que está indicado para a sua dor. Quer que eu faça?', tempo: '40 s', analogia: 'Juiz de futebol: a regra é a mesma para todos' },
+    ],
+    extra: 'Como manejar um paciente com transtorno da personalidade narcisista que desvaloriza a equipe? (Validar preocupações legítimas sem alimentar a grandiosidade, respostas objetivas e factuais, manter a rotina habitual e resistir ao impulso de desvalorizá-lo de volta.)',
+  },
+
 );
