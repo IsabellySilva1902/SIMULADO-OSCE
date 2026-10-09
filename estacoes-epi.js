@@ -1,4 +1,4 @@
-// Estações de Epidemiologia (EPI-02 a EPI-10). EPI-01 está em estacoes.js.
+// Estações de Epidemiologia (EPI-02 a EPI-20). EPI-01 está em estacoes.js.
 ESTACOES.push(
   // ----------------------------------------------------- EPI-02 · Mortalidade infantil e materna
   {
@@ -241,41 +241,44 @@ ESTACOES.push(
     extra: 'Quais são as três variáveis clássicas da epidemiologia descritiva? (Tempo, lugar e pessoa.)',
   },
 
-  // ----------------------------------------------------- EPI-08 · PICO, desenhos e causalidade
+  // ----------------------------------------------------- EPI-08 · PICO, hierarquia e validade
   {
     id: 'EPI-08', materia: 'epi',
-    titulo: 'Qual estudo responde a cada pergunta?',
-    local: 'Reunião científica do internato', papel: 'Médico(a) residente', interacao: 'examinador',
-    cenario: 'O preceptor (examinador) traz quatro perguntas que surgiram na enfermaria e quer saber como você buscaria a resposta.\n\nPergunta 1: "Em idosos com fibrilação atrial, a anticoagulação reduz AVC em comparação com o AAS?"\nPergunta 2: "Um remédio para enxaqueca, usado por milhões de pessoas, causa uma hepatite rara (1 caso em 50.000)?"\nPergunta 3: "Qual a proporção de hipertensos na nossa área de cobertura hoje?"\nPergunta 4: Um gráfico mostra que, nos meses em que se vende mais sorvete, há mais afogamentos.',
-    mesa: [],
+    titulo: 'Qual evidência vale mais?',
+    local: 'Enfermaria de clínica médica — visita', papel: 'Interno(a)', interacao: 'examinador',
+    cenario: 'Na visita, o preceptor (examinador) discute o caso do Sr. Aurélio, 74 anos, com fibrilação atrial, que toma AAS por conta própria. A equipe quer saber se anticoagular reduziria o risco de AVC em comparação com o AAS. Na busca, foram encontrados cinco estudos sobre essa pergunta.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Estudos encontrados', linhas: [['1', 'Relato de caso: um idoso que teve AVC usando AAS'], ['2', 'Série de 40 casos de AVC em idosos com fibrilação atrial'], ['3', 'Coorte de 8.000 idosos, com análise ajustada para confundidores'], ['4', 'Ensaio clínico randomizado que recrutou só metade da amostra planejada e excluiu os pacientes de maior risco'], ['5', 'Revisão sistemática com metanálise de 12 ensaios clínicos randomizados']] },
+    ],
     tarefas: [
-      'Estruture a pergunta 1 no formato PICO e diga qual desenho de estudo a responde melhor.',
-      'Qual desenho você usaria para as perguntas 2 e 3? Justifique.',
-      'Interprete a pergunta 4 à luz dos critérios de causalidade.',
-      'Qual tipo de estudo está no topo da hierarquia das evidências, e por quê? Onde ficam relatos e séries de casos?',
+      'Estruture a pergunta clínica no formato PICO.',
+      'Qual desenho de estudo responde melhor a essa pergunta, e por quê?',
+      'Ordene a força das evidências encontradas. O ensaio (4) é automaticamente melhor que a coorte (3)?',
+      'Explique o que é validade interna e validade externa, usando o ensaio (4) como exemplo.',
     ],
     ator: [
-      { gatilho: 'Preceptor, na pergunta 2', fala: '"Por que não um ensaio clínico? É o padrão-ouro."' },
-      { gatilho: 'Preceptor, na pergunta 4', fala: '"Então vamos proibir o sorvete no verão?"' },
+      { gatilho: 'Preceptor, ao começar', fala: '"Achei um relato de caso de AVC com AAS. Já basta para mudar a conduta?"' },
+      { gatilho: 'Preceptor, na tarefa 3', fala: '"Mas o ensaio 4 é randomizado. Então ganha da coorte, certo?"' },
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'P: idosos com FA · I: anticoagulação · C: AAS · O: AVC', pts: 1 },
-        { tarefa: 1, item: 'Ensaio clínico randomizado (intervenção comparada, ética e viável)', pts: 1 },
-        { tarefa: 2, item: 'Pergunta 2: caso-controle (desfecho raro; um ensaio exigiria um número inviável de pacientes) ou farmacovigilância/fase IV', pts: 2 },
-        { tarefa: 2, item: 'Pergunta 3: estudo transversal (prevalência num momento)', pts: 1 },
-        { tarefa: 3, item: 'Correlação ecológica espúria: confundidor (calor do verão); falta plausibilidade/coerência; falácia ecológica', pts: 2 },
-        { tarefa: 4, item: 'Topo: revisão sistemática com metanálise de ECR (sintetiza vários estudos experimentais); relatos e séries de casos têm baixa capacidade de generalização e servem para gerar hipóteses', pts: 1 },
+        { tarefa: 1, item: 'P: idosos com fibrilação atrial · I: anticoagulação · C: AAS · O: AVC', pts: 1 },
+        { tarefa: 2, item: 'Ensaio clínico randomizado: intervenção que pode ser alocada de forma ética', pts: 1 },
+        { tarefa: 2, item: 'A randomização distribui igualmente características conhecidas e desconhecidas, controlando o confundimento', pts: 1 },
+        { tarefa: 3, item: 'Topo: revisão sistemática com metanálise de ECR (sintetiza vários experimentos); relato de caso é a evidência mais frágil, série de casos é intermediária', pts: 1 },
+        { tarefa: 3, item: 'A posição do desenho não garante a validade do estudo: ensaio subdimensionado e que excluiu os de maior risco é inconclusivo, mesmo diante de coorte maior e ajustada', pts: 2 },
+        { tarefa: 4, item: 'Validade interna: resultado não distorcido por vieses ou confundimento dentro da amostra · Validade externa: possibilidade de generalizar para outras populações', pts: 1 },
+        { tarefa: 4, item: 'Critérios de elegibilidade restritivos podem favorecer a validade interna, mas limitam a externa', pts: 1 },
       ],
     },
-    errosCriticos: ['Indicar ensaio clínico para efeito adverso raro', 'Concluir causalidade a partir da correlação sorvete–afogamento'],
+    errosCriticos: ['Considerar o relato ou a série de casos suficientes para mudar a conduta', 'Aceitar o ensaio (4) como conclusivo só por ser randomizado'],
     falaModelo: [
-      { tarefa: 1, texto: 'PICO: paciente, idosos com fibrilação atrial; intervenção, anticoagulação; comparação, AAS; desfecho, AVC. O melhor desenho é o ensaio clínico randomizado, porque é uma intervenção que posso sortear de forma ética.', tempo: '25 s' },
-      { tarefa: 2, texto: 'Para a hepatite rara, caso-controle: parto dos casos de hepatite e comparo o uso do remédio com controles. Um ensaio precisaria de centenas de milhares de pessoas para ver poucos casos. Também serve a farmacovigilância, a fase IV. Para a proporção de hipertensos hoje, um estudo transversal, que mede prevalência num momento.', tempo: '35 s' },
-      { tarefa: 3, texto: 'Sorvete e afogamento andam juntos por causa de uma terceira variável, o calor do verão: é confusão. Não há plausibilidade biológica, um critério de Bradford Hill, e é um dado agregado, sujeito à falácia ecológica. Proibir sorvete não reduziria afogamentos.', tempo: '30 s' },
-      { tarefa: 4, texto: 'No topo está a revisão sistemática com metanálise de ensaios clínicos randomizados, porque sintetiza vários estudos experimentais. Relatos e séries de casos ficam abaixo dos estudos com mais participantes: descrevem poucos indivíduos, generalizam pouco e servem principalmente para gerar hipóteses. A hierarquia é como uma escada de confiança. Ficou claro?', tempo: '30 s', analogia: 'Hierarquia como escada de confiança' },
+      { tarefa: 1, texto: 'P: idosos com fibrilação atrial; I: anticoagulação; C: AAS; O: AVC.', tempo: '10 s' },
+      { tarefa: 2, texto: 'O melhor desenho é o ensaio clínico randomizado: é uma intervenção que posso sortear de forma ética, e o sorteio distribui igualmente entre os grupos tanto as características que conheço quanto as que não conheço, controlando o confundimento.', tempo: '25 s' },
+      { tarefa: 3, texto: 'No topo, a revisão sistemática com metanálise dos 12 ensaios, porque sintetiza vários estudos experimentais. O relato de caso é a evidência mais frágil, e a série de casos é intermediária. Mas o ensaio 4 não ganha automaticamente da coorte: recrutou só metade da amostra e excluiu os pacientes de maior risco, então sozinho é inconclusivo. A posição do desenho na hierarquia não garante a qualidade de um estudo específico.', tempo: '45 s' },
+      { tarefa: 4, texto: 'Validade interna é a confiança de que o resultado não foi distorcido por vieses ou confundimento dentro da própria amostra. Validade externa é poder generalizar para outras populações. Ao excluir os de maior risco, o ensaio pode ganhar em validade interna, mas perde a externa: não sei se o resultado vale para alguém como o Sr. Aurélio. É como testar um carro só numa pista lisa: o resultado é confiável para a pista, mas não sei como ele anda na estrada de terra.', tempo: '45 s', analogia: 'Carro testado só na pista lisa' },
     ],
-    extra: 'Qual é a diferença entre validade interna e externa? (Interna: o resultado é verdadeiro para a amostra estudada, sem vieses; externa: pode ser generalizado para outras populações.)',
+    extra: 'Que diretriz orienta o relato de ensaios randomizados? (CONSORT.) O que é um desfecho substituto? (Mais rápido de medir, como o LDL, mas sua melhora nem sempre se traduz em benefício clínico.)',
   },
 
   // ----------------------------------------------------- EPI-09 · Nelson de Moraes e padronização
@@ -353,4 +356,398 @@ ESTACOES.push(
     ],
     extra: 'Como se calculam APVP e DALY? (APVP = óbitos × [expectativa padrão − idade do óbito]; DALY = APVP + anos vividos com incapacidade.)',
   },
+
+  // ----------------------------------------------------- EPI-11 · Coorte × caso-controle
+  {
+    id: 'EPI-11', materia: 'epi',
+    titulo: 'Coorte ou caso-controle?',
+    local: 'Núcleo de vigilância em saúde do trabalhador', papel: 'Médico(a) epidemiologista', interacao: 'examinador',
+    cenario: 'Numa região agrícola, a secretaria de saúde quer estudar o efeito da exposição a agrotóxicos. A coordenadora (examinadora) traz duas perguntas e quer saber qual desenho usar em cada uma, antes de pedir o financiamento.\n\nPergunta 1: "A exposição a agrotóxicos está associada a um tipo raro de câncer hematológico (cerca de 3 casos por 100.000 habitantes por ano)?"\nPergunta 2: "Entre trabalhadores que começam agora a aplicar agrotóxicos, quantos vão desenvolver intoxicação, dermatite ou alterações respiratórias nos próximos anos?"',
+    mesa: [],
+    tarefas: [
+      'Qual desenho você escolhe para cada pergunta? Justifique.',
+      'Compare coorte e caso-controle: ponto de partida, direção da investigação e medida de associação.',
+      'Compare as vantagens e as limitações de cada um.',
+      'Os dois estudos podem ser apresentados numa tabela 2×2 parecida. Que pergunta você faz para não confundir os desenhos?',
+    ],
+    ator: [
+      { gatilho: 'Examinadora, na pergunta 1', fala: '"Por que não acompanhar a região inteira por 10 anos e ver quem tem câncer?"' },
+      { gatilho: 'Examinadora, na tarefa 2', fala: '"E por que no caso-controle não dá para calcular o risco relativo?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Pergunta 1: caso-controle (desfecho raro: parte dos casos, sem acompanhar um contingente enorme)', pts: 1 },
+        { tarefa: 1, item: 'Pergunta 2: coorte (parte da exposição, acompanha até o desfecho, permite estudar vários desfechos e calcular incidência)', pts: 1 },
+        { tarefa: 2, item: 'Coorte: parte da exposição e segue até o desfecho → incidência e risco relativo', pts: 1 },
+        { tarefa: 2, item: 'Caso-controle: parte do desfecho (casos e controles) e investiga a exposição passada → odds ratio (a incidência não é obtida diretamente)', pts: 1 },
+        { tarefa: 3, item: 'Coorte: garante a temporalidade; limitações: alto custo, longo seguimento, perdas de seguimento, inadequada para doença rara', pts: 1 },
+        { tarefa: 3, item: 'Caso-controle: rápido, barato, ideal para doença rara; limitações: viés de memória, escolha dos controles, necessidade de definição clara de caso', pts: 1 },
+        { tarefa: 4, item: '"Por qual critério os participantes foram selecionados: pela exposição ou pela doença?"', pts: 2 },
+      ],
+    },
+    errosCriticos: ['Indicar coorte para o câncer raro', 'Calcular risco relativo no caso-controle'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Para o câncer raro, caso-controle: parto dos casos e de controles sem a doença e investigo a exposição passada, sem precisar acompanhar milhares de pessoas para ver três casos. Para a pergunta 2, coorte: parto dos trabalhadores expostos e não expostos e acompanho até os desfechos, que são comuns e podem ser vários.', tempo: '35 s' },
+      { tarefa: 2, texto: 'A coorte parte da exposição e caminha para o desfecho: como acompanho os grupos, consigo calcular incidência e risco relativo. O caso-controle parte do desfecho e olha para trás, para a exposição: como fui eu quem escolheu quantos casos e controles entrariam, não tenho incidência, e a medida é a odds ratio.', tempo: '35 s' },
+      { tarefa: 3, texto: 'A coorte garante a temporalidade, mas é cara, demorada, sofre com perdas de seguimento e não serve para doença rara. O caso-controle é rápido, barato e ideal para doença rara, mas tem viés de memória, depende de uma boa escolha dos controles e de uma definição clara de caso.', tempo: '35 s' },
+      { tarefa: 4, texto: 'A pergunta-chave é: por qual critério os participantes foram selecionados, pela exposição ou pela doença? Se foi pela exposição, é coorte; se foi pela doença, é caso-controle. É como um detetive: a coorte acompanha os suspeitos para ver quem comete o crime; o caso-controle chega depois do crime e procura as pistas.', tempo: '30 s', analogia: 'Detetive antes e depois do crime' },
+    ],
+    extra: 'Qual a diferença entre coorte fechada e aberta? (Fechada: recrutamento único no início; aberta ou dinâmica: entrada e saída contínuas de participantes.)',
+  },
+
+  // ----------------------------------------------------- EPI-12 · A pegadinha: coorte retrospectiva × caso-controle × randomizado
+  {
+    id: 'EPI-12', materia: 'epi',
+    titulo: 'A pegadinha dos quatro resumos',
+    local: 'Banca do OSCE — leitura crítica', papel: 'Estudante', interacao: 'examinador',
+    cenario: 'O examinador entrega quatro resumos de estudos sobre gestação e pede que você classifique cada um e explique o raciocínio. Todos falam de "dados do passado" ou de "comparação de grupos".',
+    mesa: [
+      { tipo: 'texto', texto: 'Resumo A — Foram levantados os prontuários de todos os recém-nascidos de uma maternidade entre 2015 e 2018. As gestantes foram separadas em fumantes e não fumantes, conforme registrado no pré-natal, e verificou-se nos mesmos registros a ocorrência de baixo peso ao nascer. Calculou-se o risco relativo.\n\nResumo B — Mães de bebês com uma malformação rara e mães de bebês sem malformação, do mesmo hospital, foram entrevistadas sobre o uso de um medicamento durante a gestação.\n\nResumo C — Gestantes foram sorteadas para receber um suplemento ou placebo, sem que elas ou os médicos soubessem o grupo, e foram acompanhadas até o parto.\n\nResumo D — Em 2024, um programa de suplementação foi oferecido a todas as gestantes do município. Os desfechos foram comparados com os de 2022, antes do programa. Não houve sorteio.' },
+    ],
+    tarefas: [
+      'Classifique os quatro estudos.',
+      'A e B usam informações do passado. O que torna A uma coorte e B um caso-controle? Quais as vantagens e limitações da coorte retrospectiva?',
+      'C e D têm intervenção. O que os diferencia? O que diferencia C de A?',
+      'Por que a randomização dá ao estudo C uma evidência mais forte? Qual medida de associação cabe em A, B e C?',
+    ],
+    ator: [
+      { gatilho: 'Examinador, no resumo A', fala: '"Se os dados são do passado, não é caso-controle?"' },
+      { gatilho: 'Examinador, no resumo D', fala: '"Teve intervenção e comparação. Então é ensaio clínico randomizado, certo?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'A: coorte retrospectiva (histórica) · B: caso-controle · C: ensaio clínico randomizado duplo-cego · D: ensaio não randomizado (quase-experimento)', pts: 2 },
+        { tarefa: 2, item: 'O critério de seleção decide: A selecionou pela exposição (tabagismo) e verificou o desfecho depois; B selecionou pela doença e investigou a exposição', pts: 2 },
+        { tarefa: 2, item: 'Coorte retrospectiva: resultados mais rápidos, mas depende da qualidade dos registros; a prospectiva dá mais controle, porém exige mais tempo', pts: 1 },
+        { tarefa: 3, item: '"Quem decidiu quem recebeu a intervenção, e de que forma?" C: pesquisador, por sorteio; D: intervenção aplicada a todos, sem sorteio, comparada a período histórico', pts: 1 },
+        { tarefa: 3, item: 'A é observacional: o pesquisador só observa uma exposição já existente, sem alocá-la', pts: 1 },
+        { tarefa: 4, item: 'Randomização: mesma chance de alocação, equilibrando características conhecidas e desconhecidas (controla o confundimento)', pts: 1 },
+        { tarefa: 4, item: 'A: risco relativo · B: odds ratio · C: risco relativo entre os grupos sorteados', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Classificar A como caso-controle por usar dados do passado', 'Classificar D como ensaio randomizado'],
+    falaModelo: [
+      { tarefa: 1, texto: 'A é uma coorte retrospectiva; B, um caso-controle; C, um ensaio clínico randomizado duplo-cego; e D, um ensaio não randomizado, um quase-experimento.', tempo: '15 s' },
+      { tarefa: 2, texto: 'O que decide não é se os dados são do passado, e sim por qual critério os participantes foram selecionados. Em A, as gestantes foram separadas pela exposição, o tabagismo, e o desfecho foi verificado depois: é coorte, só que reconstruída a partir de registros. Em B, a seleção foi pela doença, a malformação, e depois se investigou a exposição: é caso-controle. A coorte retrospectiva dá resultado rápido, porque o desfecho já aconteceu, mas depende da qualidade dos registros; a prospectiva dá mais controle, mas demora.', tempo: '50 s' },
+      { tarefa: 3, texto: 'A pergunta aqui é: quem decidiu quem recebeu a intervenção, e de que forma? Em C, o pesquisador decidiu por sorteio; em D, a intervenção foi dada a todos, sem sorteio, e comparada com um período anterior. Já em A ninguém alocou nada: o pesquisador só observou quem fumava. Por isso A é observacional.', tempo: '35 s' },
+      { tarefa: 4, texto: 'A randomização dá a cada gestante a mesma chance de cair em qualquer grupo, e isso equilibra até as características que eu nem medi, como numa moeda jogada para cada uma. Em A e C, a medida é o risco relativo; em B, a odds ratio.', tempo: '30 s', analogia: 'Sorteio como moeda jogada para cada participante' },
+    ],
+    extra: 'O que é análise por intenção de tratar? (Analisar cada participante no grupo para o qual foi sorteado, mesmo que não tenha completado o tratamento, preservando a randomização.)',
+  },
+
+  // ----------------------------------------------------- EPI-13 · Estudo transversal e causalidade reversa
+  {
+    id: 'EPI-13', materia: 'epi',
+    titulo: 'O sedentarismo causa dor nas costas?',
+    local: 'Empresa de logística — saúde ocupacional', papel: 'Médico(a) do trabalho', interacao: 'paciente',
+    cenario: 'Você aplicou um questionário único a todos os 700 funcionários administrativos de uma empresa, numa mesma semana, perguntando sobre atividade física e dor lombar crônica. Não houve acompanhamento posterior. A gerente de recursos humanos (atriz) leu o relatório e quer "obrigar todo mundo a fazer academia, já que o sedentarismo causa dor nas costas".',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Resultados', linhas: [['Sedentários', '300 funcionários · 90 com dor lombar crônica'], ['Fisicamente ativos', '400 funcionários · 40 com dor lombar crônica']] },
+    ],
+    tarefas: [
+      'Qual é o desenho do estudo? O que o caracteriza?',
+      'Calcule a medida de frequência e a medida de associação adequadas e interprete.',
+      'Dê duas explicações alternativas para essa associação, além de "o sedentarismo causa dor".',
+      'Que desenho responderia melhor se o sedentarismo vem antes da dor? Explique à gerente.',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Está provado, né? Vou colocar academia obrigatória."' },
+      { gatilho: 'Se falar em causalidade reversa', fala: '"Como assim, a dor pode ter vindo antes?"' },
+      { gatilho: 'No final', fala: '"Então essa pesquisa não serviu para nada?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Estudo transversal: exposição e desfecho medidos no mesmo momento, numa única coleta, sem acompanhamento', pts: 1 },
+        { tarefa: 2, item: 'Prevalência: sedentários 90 ÷ 300 = 30%; ativos 40 ÷ 400 = 10%', pts: 1 },
+        { tarefa: 2, item: 'Razão de prevalência = 30% ÷ 10% = 3: prevalência três vezes maior entre os sedentários', pts: 2 },
+        { tarefa: 3, item: 'Causalidade reversa: a dor lombar pode levar ao sedentarismo (o transversal não mostra o que veio antes)', pts: 1 },
+        { tarefa: 3, item: 'Confundimento: uma terceira variável (ex.: idade, nível socioeconômico) associada à exposição e ao desfecho', pts: 1 },
+        { tarefa: 4, item: 'Coorte: acompanha os ativos e os sedentários sem dor até o surgimento da dor, garantindo a temporalidade', pts: 1 },
+        { tarefa: 4, item: 'Valorizou o transversal: descreve a prevalência e identifica grupos de risco, com baixo custo', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Calcular risco relativo ou incidência num estudo transversal', 'Afirmar que o estudo prova que o sedentarismo causa a dor'],
+    falaModelo: [
+      { tarefa: 1, texto: 'É um estudo transversal: uma única coleta, na mesma semana, em que exposição e desfecho foram medidos ao mesmo tempo, sem acompanhamento.', tempo: '15 s' },
+      { tarefa: 2, texto: 'A medida de frequência é a prevalência: 90 em 300 sedentários, 30%; 40 em 400 ativos, 10%. A medida de associação é a razão de prevalência: 30 dividido por 10, igual a 3. A dor lombar é três vezes mais prevalente entre os sedentários.', tempo: '30 s' },
+      { tarefa: 3, texto: 'Primeira explicação: causalidade reversa. Como medi tudo junto, pode ser que a dor tenha levado a pessoa a parar de se exercitar, e não o contrário. Segunda: confundimento, uma terceira variável, como a idade, que pode estar ligada tanto ao sedentarismo quanto à dor.', tempo: '35 s' },
+      { tarefa: 4, texto: 'Para saber o que vem antes, eu precisaria de uma coorte: acompanhar pessoas sem dor, ativas e sedentárias, e ver quem desenvolve dor ao longo do tempo. A pesquisa serviu, sim: mostrou quantos têm dor e que grupo concentra mais casos. É como uma fotografia: mostra quem está junto no mesmo momento, mas não conta quem chegou primeiro; para isso, precisamos de um filme. Faz sentido?', tempo: '45 s', analogia: 'Fotografia × filme' },
+    ],
+    extra: 'Por que o transversal não serve para doença rara? (Precisaria de amostras enormes; doença rara pede caso-controle.) E o viés de prevalência-incidência? (Os casos mais graves podem já ter saído da população estudada, mascarando a associação.)',
+  },
+
+  // ----------------------------------------------------- EPI-14 · Estudo ecológico e falácia ecológica
+  {
+    id: 'EPI-14', materia: 'epi',
+    titulo: 'O gráfico do vereador',
+    local: 'Câmara Municipal — audiência pública', papel: 'Médico(a) sanitarista', interacao: 'paciente',
+    cenario: 'Um vereador (ator) apresenta um gráfico com os 40 municípios da região: em cada ponto, a cobertura de esgotamento sanitário do município e a taxa de internação de crianças por diarreia. Os municípios com maior cobertura têm menos internações. Ele quer anunciar: "Cada criança que mora numa casa com esgoto tem 60% menos chance de internar por diarreia".',
+    mesa: [
+      { tipo: 'texto', texto: 'Gráfico de dispersão: eixo X = cobertura de esgoto por município (%); eixo Y = internações por diarreia em menores de 5 anos por 10.000 (por município). Correlação negativa forte. Fonte: dados secundários de sistemas de informação.' },
+    ],
+    tarefas: [
+      'Qual é o desenho do estudo, qual é a unidade de análise e qual o subtipo?',
+      'O que está errado na frase do vereador? Explique o conceito.',
+      'Quais são as vantagens desse desenho?',
+      'Compare com um estudo transversal e com uma coorte: qual desses daria evidência mais robusta para decidir a política, e por quê?',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"A correlação é fortíssima! Isso não prova?"' },
+      { gatilho: 'Se falar em falácia ecológica', fala: '"Falácia? Mas os números são verdadeiros."' },
+      { gatilho: 'No final', fala: '"Então o que eu posso dizer sem errar?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Estudo ecológico: unidade de análise é o agregado (município), sem dados individuais', pts: 1 },
+        { tarefa: 1, item: 'Subtipo espacial (territorial): compara indicadores entre unidades geográficas no mesmo período', pts: 1 },
+        { tarefa: 2, item: 'Falácia ecológica: transferir uma associação vista entre municípios para o nível do indivíduo, independentemente da força da correlação', pts: 2 },
+        { tarefa: 3, item: 'Usa dados secundários já existentes: rápido, barato; útil para gerar hipóteses', pts: 1 },
+        { tarefa: 4, item: 'Transversal: unidade de análise é o indivíduo, mas sem temporalidade', pts: 1 },
+        { tarefa: 4, item: 'Coorte: vincula exposição e desfecho no mesmo indivíduo e garante a temporalidade → evidência mais robusta para a política', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Concluir sobre o risco individual a partir de dados agregados', 'Classificar o estudo como transversal'],
+    falaModelo: [
+      { tarefa: 1, texto: 'É um estudo ecológico: cada ponto é um município, e não uma pessoa. A unidade de análise é o agregado. Como compara municípios no mesmo período, é do tipo espacial, ou territorial.', tempo: '20 s' },
+      { tarefa: 2, texto: 'A frase do vereador comete a falácia ecológica: ele pega uma associação vista entre municípios e afirma sobre cada criança. Dentro do mesmo município moram crianças com e sem esgoto, e o gráfico não mostra quais delas internaram. Por mais forte que seja a correlação, ela é do coletivo.', tempo: '35 s' },
+      { tarefa: 3, texto: 'As vantagens: usa dados secundários que já existem, é rápido e barato, e é ótimo para gerar hipóteses.', tempo: '15 s' },
+      { tarefa: 4, texto: 'Um transversal olharia cada criança, mas tudo no mesmo momento, sem saber o que veio antes. Uma coorte acompanharia as crianças com e sem esgoto em casa até as internações, ligando exposição e desfecho na mesma pessoa e garantindo a temporalidade: é a evidência mais robusta. Vereador, é como olhar a média de notas de duas escolas: a escola com média maior não garante que cada aluno dela seja melhor. O senhor pode dizer que os municípios com mais esgoto têm menos internações, e que isso merece investigação. Ficou claro?', tempo: '55 s', analogia: 'Média da escola × nota de cada aluno' },
+    ],
+    extra: 'Quais são os outros subtipos de estudo ecológico? (Série temporal: um indicador agregado ao longo dos anos na mesma área; agregados institucionais: compara serviços de uma mesma instituição.)',
+  },
+
+  // ----------------------------------------------------- EPI-15 · Estudos descritivos
+  {
+    id: 'EPI-15', materia: 'epi',
+    titulo: 'Seis pacientes com o mesmo quadro estranho',
+    local: 'Hospital regional — comissão de controle de infecção', papel: 'Médico(a) epidemiologista', interacao: 'examinador',
+    cenario: 'Em 3 semanas, a neurologia de um hospital regional atendeu 6 adultos com um quadro neurológico incomum, todos moradores de dois bairros vizinhos. A equipe primeiro publicou o caso do primeiro paciente e, depois, um relato reunindo os 6, com idade, sexo, bairro, profissão, data de início dos sintomas e evolução. Não há grupo de comparação. O diretor clínico (examinador) quer entender o que esses estudos podem e o que não podem dizer.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'O que foi descrito', linhas: [['Pessoa', 'idade 34–61 anos, 4 homens, 3 trabalham na mesma feira'], ['Lugar', 'dois bairros vizinhos, perto de um córrego'], ['Tempo', 'início dos sintomas concentrado em 3 semanas']] },
+    ],
+    tarefas: [
+      'Classifique as duas publicações. Qual é a diferença entre elas?',
+      'São estudos descritivos ou analíticos? O que diferencia os dois tipos?',
+      'Quais são as três variáveis da epidemiologia descritiva aplicadas a esse caso, e qual é o papel desses estudos?',
+      'Eles permitem concluir a causa? Qual seria o próximo passo?',
+    ],
+    ator: [
+      { gatilho: 'Diretor, ao começar', fala: '"Seis casos já não provam que é algo do córrego?"' },
+      { gatilho: 'Na tarefa 4', fala: '"E se eu quiser testar se foi a feira?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Primeira: relato de caso (um único paciente) · Segunda: série de casos (vários pacientes com quadro semelhante); ambos sem grupo controle', pts: 1 },
+        { tarefa: 2, item: 'Descritivos: descrevem frequência e características, sem testar hipótese de associação · Analíticos: testam hipótese comparando grupos', pts: 2 },
+        { tarefa: 3, item: 'Tempo (3 semanas), lugar (bairros vizinhos, córrego), pessoa (idade, sexo, profissão na feira)', pts: 1 },
+        { tarefa: 3, item: 'Papel: alerta precoce de agravo emergente e geração de hipóteses', pts: 1 },
+        { tarefa: 4, item: 'Não permitem inferência causal (sem comparação); relato é a evidência mais frágil, série é intermediária', pts: 1 },
+        { tarefa: 4, item: 'Próximo passo: estudo analítico; para casos raros, caso-controle comparando a exposição (feira, córrego) entre casos e controles', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Concluir a causa a partir da série de casos', 'Chamar a série de casos de estudo analítico'],
+    falaModelo: [
+      { tarefa: 1, texto: 'A primeira é um relato de caso, porque descreve um único paciente. A segunda é uma série de casos, porque reúne vários pacientes com quadro parecido. Nenhuma tem grupo de comparação.', tempo: '20 s' },
+      { tarefa: 2, texto: 'São descritivos: descrevem a frequência e as características do evento, sem testar uma hipótese de associação. Um estudo analítico compara grupos para testar se uma exposição está associada ao desfecho.', tempo: '25 s' },
+      { tarefa: 3, texto: 'As três variáveis são tempo, lugar e pessoa: os casos se concentraram em 3 semanas, em dois bairros perto de um córrego, em adultos, a maioria homens, metade trabalhando na mesma feira. O papel desses estudos é dar o alerta de algo novo e gerar hipóteses: o córrego e a feira.', tempo: '35 s' },
+      { tarefa: 4, texto: 'Eles não provam a causa, porque não há comparação: o relato é a evidência mais frágil e a série é intermediária. Diretor, a série de casos é como o detetive que encontra várias vítimas com o mesmo detalhe: aponta um suspeito, mas não condena. O próximo passo é um estudo analítico; como os casos são raros, um caso-controle, comparando a frequência de ida à feira e de contato com o córrego entre os doentes e pessoas sem a doença.', tempo: '45 s', analogia: 'Pista que aponta o suspeito, mas não condena' },
+    ],
+    extra: 'Um mesmo estudo pode ser descritivo e analítico? (Sim: numa coorte, a caracterização basal é descritiva e a comparação da incidência com risco relativo é analítica.)',
+  },
+
+  // ----------------------------------------------------- EPI-16 · Eficácia × efetividade, tipos de ensaio
+  {
+    id: 'EPI-16', materia: 'epi',
+    titulo: 'Funcionou no estudo, não funcionou na UBS',
+    local: 'Secretaria Municipal de Saúde', papel: 'Médico(a) da gestão', interacao: 'paciente',
+    cenario: 'Um ensaio clínico randomizado, feito num centro acadêmico de excelência, mostrou que um programa de acompanhamento de hipertensos com enfermeiro dedicado reduziu muito as internações. Os critérios de inclusão eram rígidos: só pacientes de 40 a 60 anos, sem outras doenças, com boa escolaridade. O município implantou o programa em todas as UBS, e um ano depois a redução foi bem menor. A secretária de saúde (atriz) acha que "o estudo estava errado".',
+    mesa: [],
+    tarefas: [
+      'Diferencie eficácia de efetividade e explique o resultado do município.',
+      'O estudo estava errado? Explique validade interna e externa e o papel dos critérios de elegibilidade.',
+      'Diferencie ensaio explicativo de pragmático. Qual responderia melhor à pergunta da secretaria?',
+      'Se a intervenção fosse alocada por UBS inteiras, e não por paciente, como se chamaria o ensaio? E se testasse uma vacina em pessoas saudáveis?',
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Gastamos com um programa que não funciona. O estudo mentiu?"' },
+      { gatilho: 'Se falar em validade externa', fala: '"Mas se o estudo foi bem feito, por que não vale para nós?"' },
+      { gatilho: 'No final', fala: '"E como eu testo se funciona aqui?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Eficácia: desempenho em condições ideais e controladas · Efetividade: desempenho em condições reais, geralmente menor', pts: 2 },
+        { tarefa: 2, item: 'O estudo pode ter boa validade interna (sem vieses e confundimento na amostra) e ainda assim limitada validade externa (generalização)', pts: 1 },
+        { tarefa: 2, item: 'Critérios de elegibilidade restritivos favorecem a validade interna, mas limitam a generalização para os excluídos (idosos, com comorbidades)', pts: 1 },
+        { tarefa: 3, item: 'Explicativo: condições ideais, mede eficácia · Pragmático: condições próximas da prática real, mede efetividade → o pragmático responde à pergunta da secretaria', pts: 2 },
+        { tarefa: 4, item: 'Alocação por agrupamento (UBS): ensaio comunitário · Intervenção preventiva em saudáveis (vacina): ensaio de campo', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Afirmar que o estudo estava errado só porque o resultado no município foi menor', 'Confundir eficácia com efetividade'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Eficácia é o resultado em condições ideais e controladas, como no centro de excelência. Efetividade é o resultado em condições reais, como nas nossas UBS, e costuma ser menor. Foi o que aconteceu aqui.', tempo: '25 s' },
+      { tarefa: 2, texto: 'O estudo não estava necessariamente errado. Ele pode ter boa validade interna, ou seja, o resultado não foi distorcido por vieses dentro da amostra. O problema é a validade externa: os critérios eram tão restritos, sem idosos e sem comorbidades, que o resultado não se generaliza para os nossos pacientes. Critérios rígidos ajudam a validade interna, mas limitam a externa.', tempo: '40 s' },
+      { tarefa: 3, texto: 'O ensaio explicativo testa em condições ideais e mede eficácia; o pragmático testa em condições próximas da prática real e mede efetividade. Secretária, para saber se funciona nas nossas UBS, o ideal é um ensaio pragmático. É como uma receita de bolo testada na cozinha de um chef: dá certo lá, mas na cozinha de casa, com outro forno, o resultado muda; por isso testamos na nossa cozinha.', tempo: '45 s', analogia: 'Receita testada na cozinha do chef × na de casa' },
+      { tarefa: 4, texto: 'Se o sorteio fosse por UBS inteiras, seria um ensaio comunitário, porque a unidade de alocação é o agrupamento. Se testasse uma vacina em pessoas saudáveis, seria um ensaio de campo.', tempo: '20 s' },
+    ],
+    extra: 'O que é um ensaio de não inferioridade? (Mostra que a nova intervenção não é significativamente pior que a padrão, útil quando tem outra vantagem, como menor custo.) E o crossover? (Cada participante recebe as intervenções em sequência e é o seu próprio controle.)',
+  },
+
+  // ----------------------------------------------------- EPI-17 · Densidade de incidência
+  {
+    id: 'EPI-17', materia: 'epi',
+    titulo: 'Cada um foi acompanhado por um tempo diferente',
+    local: 'Hospital universitário — grupo de pesquisa', papel: 'Médico(a) pesquisador(a)', interacao: 'examinador',
+    cenario: 'Uma coorte acompanhou profissionais de enfermagem sem hipertensão para avaliar se o trabalho em plantão noturno aumenta o risco de desenvolver hipertensão. Ao longo de 8 anos, novos profissionais entraram no estudo, alguns saíram do hospital e outros se aposentaram, então cada participante foi acompanhado por um tempo diferente. A orientadora (examinadora) pede a análise.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Resultados', linhas: [['Plantão noturno', '45 casos novos · 9.000 pessoas-ano de acompanhamento'], ['Plantão diurno', '20 casos novos · 10.000 pessoas-ano de acompanhamento']] },
+    ],
+    tarefas: [
+      'Por que a incidência acumulada não é a melhor medida aqui? Qual medida usar?',
+      'Calcule essa medida nos dois grupos e a razão entre elas. Interprete.',
+      'Calcule o risco atribuível e o risco atribuível percentual. Interprete.',
+      'Esta coorte é aberta ou fechada? Cite duas limitações típicas de uma coorte.',
+    ],
+    ator: [
+      { gatilho: 'Orientadora, ao começar', fala: '"Por que não dividir os casos pelo número de pessoas, como sempre?"' },
+      { gatilho: 'Na tarefa 3', fala: '"Qual a diferença entre dizer 2,5 vezes e dizer 3 casos a mais?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Tempos de acompanhamento diferentes (entradas, saídas, perdas): usar densidade de incidência, com pessoas-tempo no denominador', pts: 1 },
+        { tarefa: 2, item: 'Noturno: 45 ÷ 9.000 = 5 por 1.000 pessoas-ano · Diurno: 20 ÷ 10.000 = 2 por 1.000 pessoas-ano', pts: 2 },
+        { tarefa: 2, item: 'Razão das densidades = 5 ÷ 2 = 2,5 (análoga ao risco relativo): risco 2,5 vezes maior no plantão noturno', pts: 1 },
+        { tarefa: 3, item: 'Risco atribuível = 5 − 2 = 3 casos a mais por 1.000 pessoas-ano (medida de diferença, impacto absoluto)', pts: 1 },
+        { tarefa: 3, item: 'RA% = 3 ÷ 5 = 60% dos casos entre os expostos atribuíveis ao plantão noturno', pts: 1 },
+        { tarefa: 4, item: 'Coorte aberta (dinâmica), com entradas e saídas · Limitações: perdas de seguimento, mudança de exposição ao longo do tempo, custo, confundimento', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Dividir os casos pelo número de participantes ignorando o tempo de acompanhamento', 'Confundir risco atribuível (diferença) com risco relativo (razão)'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Como cada pessoa foi acompanhada por um tempo diferente, com entradas e saídas, a incidência acumulada distorce. Uso a densidade de incidência, que coloca no denominador a soma das pessoas-tempo sob risco.', tempo: '20 s' },
+      { tarefa: 2, texto: 'No plantão noturno, 45 casos em 9.000 pessoas-ano: 5 por 1.000 pessoas-ano. No diurno, 20 em 10.000: 2 por 1.000 pessoas-ano. A razão é 5 dividido por 2, igual a 2,5: quem faz plantão noturno tem risco 2,5 vezes maior de desenvolver hipertensão.', tempo: '35 s' },
+      { tarefa: 3, texto: 'O risco atribuível é a diferença: 5 menos 2, 3 casos a mais por 1.000 pessoas-ano. O percentual é 3 dividido por 5, 60%: seis em cada dez casos entre os do plantão noturno seriam atribuíveis a ele. A razão diz quantas vezes maior; a diferença diz quantos casos a mais. É como comparar dois carros: um gasta o dobro do outro, mas a diferença em reais é o que pesa no bolso.', tempo: '45 s', analogia: 'Quantas vezes × quantos reais a mais' },
+      { tarefa: 4, texto: 'É uma coorte aberta, ou dinâmica, porque entram e saem participantes ao longo do tempo. Duas limitações típicas: perda de seguimento, que pode distorcer a comparação, e a mudança de exposição, como alguém que passa do noturno para o diurno.', tempo: '25 s' },
+    ],
+    extra: 'Qual a diferença entre incidência e densidade de incidência? (A incidência acumulada usa as pessoas sob risco no início; a densidade usa o tempo que cada uma ficou sob risco, em pessoas-tempo.)',
+  },
+
+  // ----------------------------------------------------- EPI-18 · Risco atribuível e prioridade em saúde pública
+  {
+    id: 'EPI-18', materia: 'epi',
+    titulo: 'Onde investir a campanha?',
+    local: 'Secretaria Municipal de Saúde', papel: 'Médico(a) da vigilância', interacao: 'examinador',
+    cenario: 'O município tem 100.000 adultos e recurso para uma única campanha de prevenção de uma doença crônica. Dois fatores de risco foram estudados em coortes locais. O secretário (examinador) quer escolher "o fator com o maior risco relativo".',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Dados (incidência em 10 anos)', linhas: [['Exposição X (ocupacional rara)', '1.000 expostos · incidência 100 por 1.000'], ['Exposição Y (comum)', '50.000 expostos · incidência 20 por 1.000'], ['Não expostos a X nem a Y', 'incidência 10 por 1.000']] },
+    ],
+    tarefas: [
+      'Calcule o risco relativo de cada exposição.',
+      'Calcule o risco atribuível e o risco atribuível percentual de cada uma. O que cada medida informa?',
+      'Quantos casos seriam evitados na população eliminando cada exposição? Onde investir?',
+      'Explique ao secretário a diferença entre medidas de razão e de diferença.',
+    ],
+    ator: [
+      { gatilho: 'Secretário, ao começar', fala: '"O X tem risco relativo 10! É óbvio que é ali que eu invisto."' },
+      { gatilho: 'Na tarefa 3', fala: '"Mas o Y nem é tão perigoso assim…"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'RR X = 100 ÷ 10 = 10 · RR Y = 20 ÷ 10 = 2', pts: 1 },
+        { tarefa: 2, item: 'RA X = 90 por 1.000 (RA% = 90%) · RA Y = 10 por 1.000 (RA% = 50%)', pts: 2 },
+        { tarefa: 2, item: 'RA%: fração evitável dentro do grupo exposto; não mede o impacto na população', pts: 1 },
+        { tarefa: 3, item: 'Casos evitáveis: X = 1.000 × 90/1.000 = 90 · Y = 50.000 × 10/1.000 = 500 → investir em Y', pts: 2 },
+        { tarefa: 3, item: 'Para priorizar, considerar também a prevalência da exposição', pts: 1 },
+        { tarefa: 4, item: 'Razão (RR, OR): quantas vezes maior, força da associação · Diferença (risco atribuível): impacto absoluto, casos a mais', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Priorizar apenas pelo risco relativo', 'Usar o RA% como se fosse o impacto populacional'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Risco relativo de X: 100 dividido por 10, igual a 10. De Y: 20 dividido por 10, igual a 2.', tempo: '15 s' },
+      { tarefa: 2, texto: 'O risco atribuível de X é 100 menos 10, 90 por 1.000, e o percentual, 90 sobre 100, 90%. De Y: 20 menos 10, 10 por 1.000, e 50%. O RA% mostra quanto do risco dos expostos é evitável, mas só dentro do grupo exposto.', tempo: '30 s' },
+      { tarefa: 3, texto: 'Na população: X tem só 1.000 expostos, então evitaria 90 casos. Y tem 50.000 expostos: 50.000 vezes 10 por 1.000, 500 casos. Investo em Y, porque, além da força da associação, conta a prevalência da exposição.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Secretário, o risco relativo diz quantas vezes maior é o risco: é a força da associação. O risco atribuível diz quantos casos a mais: é o impacto. É como dois vazamentos: um cano estourado num quarto vazio vaza muito, mas molha pouca gente; uma goteira em cada casa do bairro parece pouca coisa, mas no total alaga mais. O Y é a goteira em 50 mil casas. Faz sentido?', tempo: '45 s', analogia: 'Cano estourado × goteira em cada casa' },
+    ],
+    extra: 'Como se calcula o risco atribuível populacional pelo conceito do banco? (Diferença entre a incidência observada na população e a esperada na ausência da exposição: estima os casos evitáveis com uma política.)',
+  },
+
+  // ----------------------------------------------------- EPI-19 · Confundimento e variável intermediária
+  {
+    id: 'EPI-19', materia: 'epi',
+    titulo: '"Café causa infarto", diz a manchete',
+    local: 'Ambulatório de cardiologia', papel: 'Médico(a) assistente', interacao: 'paciente',
+    cenario: 'Sr. Wagner, 55 anos, fumante, toma 6 xícaras de café por dia e chega assustado com uma reportagem: "Estudo mostra que café aumenta em 80% o risco de infarto". Você leu o artigo: é uma coorte de 20.000 adultos. Entre os que tomam muito café, a proporção de fumantes era bem maior. A análise bruta deu risco relativo de 1,8; a análise ajustada para tabagismo, 1,1, com intervalo de confiança incluindo 1.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Resultados do artigo', linhas: [['Análise bruta', 'RR = 1,8 (IC95% 1,4–2,3)'], ['Análise ajustada para tabagismo', 'RR = 1,1 (IC95% 0,9–1,4)']] },
+    ],
+    tarefas: [
+      'O que é confundimento? Por que o tabagismo é um confundidor aqui?',
+      'Interprete a análise bruta e a ajustada. O que o intervalo de confiança da ajustada mostra?',
+      'Qual a diferença entre um confundidor e uma variável intermediária? Por que não se deve ajustar para uma intermediária?',
+      'Explique ao paciente o que o estudo realmente mostra e o que mais pesa no risco dele.',
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Doutor(a), vou ter que parar o café? Saiu na televisão!"' },
+      { gatilho: 'Se falar em tabagismo', fala: '"Mas o cigarro eu fumo há 30 anos e nunca deu nada…"' },
+      { gatilho: 'No final', fala: '"Então posso continuar com o meu cafezinho?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Confundidor: terceira variável, causa comum, associada à exposição e ao desfecho, que distorce a associação', pts: 1 },
+        { tarefa: 1, item: 'Tabagismo: mais frequente entre quem toma muito café e associado ao infarto', pts: 1 },
+        { tarefa: 2, item: 'A associação bruta (1,8) quase desaparece após ajuste (1,1): grande parte era efeito do tabagismo', pts: 1 },
+        { tarefa: 2, item: 'IC95% da ajustada inclui 1: associação não estatisticamente significativa', pts: 1 },
+        { tarefa: 3, item: 'Confundidor é causa comum, anterior à exposição e ao desfecho; a intermediária é um elo no caminho causal entre eles', pts: 1 },
+        { tarefa: 3, item: 'Ajustar para uma intermediária mascara parte do efeito real que se quer medir; a randomização é o que controla confundidores conhecidos e desconhecidos', pts: 1 },
+        { tarefa: 4, item: 'Explicou sem jargão que o estudo não mostra que o café causa infarto e destacou o tabagismo como fator de risco dele', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Interpretar a análise bruta como efeito do café', 'Ajustar para variável intermediária como se fosse confundidor'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Confundimento é quando uma terceira variável, ligada tanto à exposição quanto ao desfecho, distorce a associação. Aqui, quem toma mais café fuma mais, e o cigarro está ligado ao infarto: o tabagismo é o confundidor.', tempo: '25 s' },
+      { tarefa: 2, texto: 'Na análise bruta, o risco parecia 80% maior. Quando se ajusta para o tabagismo, cai para 1,1, e o intervalo de confiança inclui 1, então não há associação estatisticamente significativa. Quase todo o efeito era do cigarro.', tempo: '30 s' },
+      { tarefa: 3, texto: 'O confundidor é uma causa comum, que vem antes da exposição e do desfecho. A variável intermediária fica no meio do caminho causal: a exposição causa a intermediária, que causa o desfecho. Se eu ajustar para ela, apago parte do efeito que quero medir. E o único jeito de controlar até os confundidores que não conheço é a randomização.', tempo: '35 s' },
+      { tarefa: 4, texto: 'Seu Wagner, a manchete pegou o número errado. É como achar que guarda-chuva causa trânsito, porque nos dias de muito guarda-chuva tem muito engarrafamento: quem causa os dois é a chuva. No seu caso, a chuva é o cigarro. O estudo, depois de considerar o cigarro, não mostrou que o café aumente o infarto. O que mais pesa no seu risco é o cigarro, e é aí que eu gostaria de ajudar o senhor. O que acha?', tempo: '50 s', analogia: 'Guarda-chuva e trânsito: a causa é a chuva' },
+    ],
+    extra: 'O que é causalidade reversa? (O desfecho influenciando a exposição; aparece sobretudo em estudos transversais.) Qual critério de Bradford Hill a correlação sorvete–afogamento viola? (Plausibilidade biológica/coerência: o calor do verão explica os dois.)',
+  },
+
+  // ----------------------------------------------------- EPI-20 · APVP e DALY
+  {
+    id: 'EPI-20', materia: 'epi',
+    titulo: 'Poucas mortes, muitos anos perdidos',
+    local: 'Secretaria Estadual de Saúde — planejamento', papel: 'Médico(a) sanitarista', interacao: 'examinador',
+    cenario: 'O conselho de saúde vai decidir entre dois programas. A conselheira (examinadora) argumenta que "a doença B mata cinco vezes mais, então é óbvio que é a prioridade". Os dados do último ano estão na mesa. Considere a expectativa de vida padrão de 75 anos.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Dados do último ano', linhas: [['Agravo A (acidentes de moto)', '40 óbitos · idade média 22 anos · 2.000 sobreviventes com sequela (peso de incapacidade 0,3) por 1 ano'], ['Agravo B (doença crônica de idosos)', '200 óbitos · idade média 70 anos · sem dados de incapacidade']] },
+    ],
+    tarefas: [
+      'Calcule os anos potenciais de vida perdidos (APVP) de cada agravo.',
+      'Calcule os anos vividos com incapacidade (YLD) e o DALY do agravo A.',
+      'Interprete: por que um agravo com menos mortes pode ter carga maior?',
+      'Responda à conselheira, explicando o que o DALY acrescenta ao número de óbitos.',
+    ],
+    ator: [
+      { gatilho: 'Conselheira, ao começar', fala: '"200 mortes contra 40. Não tem discussão."' },
+      { gatilho: 'Na tarefa 4', fala: '"Mas morte é morte, não importa a idade."' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'APVP = óbitos × (expectativa padrão − idade do óbito)', pts: 1 },
+        { tarefa: 1, item: 'A: 40 × (75 − 22) = 2.120 · B: 200 × (75 − 70) = 1.000', pts: 2 },
+        { tarefa: 2, item: 'YLD A = prevalência × peso de incapacidade × duração = 2.000 × 0,3 × 1 = 600', pts: 1 },
+        { tarefa: 2, item: 'DALY A = APVP + YLD = 2.120 + 600 = 2.720 anos de vida saudável perdidos', pts: 1 },
+        { tarefa: 3, item: 'A atinge jovens (mortalidade prematura) e deixa sequelas: mais anos perdidos com menos óbitos', pts: 1 },
+        { tarefa: 4, item: 'DALY mede a carga total da doença, somando mortalidade prematura e incapacidade; complementa o número de óbitos', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Priorizar só pelo número absoluto de óbitos', 'Somar os óbitos com os anos de incapacidade'],
+    falaModelo: [
+      { tarefa: 1, texto: 'APVP é o número de óbitos vezes a diferença entre a expectativa padrão e a idade do óbito. Agravo A: 40 vezes 75 menos 22, 40 vezes 53, 2.120 anos. Agravo B: 200 vezes 5, 1.000 anos.', tempo: '30 s' },
+      { tarefa: 2, texto: 'YLD do A: prevalência vezes peso de incapacidade vezes duração, 2.000 vezes 0,3 vezes 1, 600 anos. O DALY soma os dois: 2.120 mais 600, 2.720 anos de vida saudável perdidos.', tempo: '25 s' },
+      { tarefa: 3, texto: 'O A mata menos, mas mata jovens, que perderiam muitos anos de vida, e ainda deixa milhares com sequela. Por isso perde mais anos de vida saudável.', tempo: '20 s' },
+      { tarefa: 4, texto: 'Conselheira, toda morte importa, mas o número de óbitos não mostra tudo. É como comparar duas lojas pelo número de clientes perdidos: perder um cliente que compraria por 50 anos pesa mais do que perder um que compraria por 5. O DALY soma os anos perdidos por morte precoce e os anos vividos com incapacidade e mostra a carga total. Por ele, o agravo A pesa mais que o dobro do B. Faz sentido?', tempo: '45 s', analogia: 'Clientes perdidos por 50 anos × por 5 anos' },
+    ],
+    extra: 'O que é mortalidade proporcional, e qual o erro comum? (A fração dos óbitos que ocorreu num grupo; não é o risco de morrer dentro do grupo.)',
+  },
+
 );
