@@ -11,11 +11,11 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 
 ## Estações
 
-50 estações, escritas só com o conteúdo dos slides e do banco de questões das disciplinas:
+62 estações, escritas só com o conteúdo dos slides e do banco de questões das disciplinas:
 
 | Matéria | Estações | Arquivo |
 |---|---|---|
-| Clínica Cirúrgica | 10 | `estacoes.js` (CIR-01) e `estacoes-cir.js` |
+| Clínica Cirúrgica | 22 | `estacoes.js` (CIR-01) e `estacoes-cir.js` |
 | Saúde Mental | 10 | `estacoes.js` (MEN-01) e `estacoes-mental.js` |
 | Farmacologia | 10 | `estacoes.js` (FAR-01) e `estacoes-farmaco.js` |
 | Epidemiologia | 20 | `estacoes.js` (EPI-01) e `estacoes-epi.js` |
