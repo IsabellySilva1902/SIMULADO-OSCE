@@ -8,6 +8,7 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 - **Circuito:** uma estação de cada matéria, uma atrás da outra.
 - **Treino em dupla:** com o mesmo código, um colega é o examinador e vê o roteiro do paciente e o barema.
 - **Revisão:** as estações com nota abaixo de 7 voltam.
+- **Resumo do assunto:** no fim do feedback e pelo botão 📚 do catálogo (sem cronômetro), com os pontos principais e a pegadinha do tema; o botão Copiar leva o texto para o WhatsApp.
 
 ## Estações
 
@@ -21,4 +22,4 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 | Epidemiologia | 20 | `estacoes.js` (EPI-01) e `estacoes-epi.js` |
 | Saúde da Mulher | aguardando material | — |
 
-Matérias, barema padrão e a primeira estação de cada matéria ficam em `estacoes.js`.
+Matérias, barema padrão e a primeira estação de cada matéria ficam em `estacoes.js`. Os resumos ficam em `resumos.js`.
