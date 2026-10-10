@@ -734,4 +734,132 @@ const RESUMOS = {
     'Mortalidade proporcional mostra a fração dos óbitos, não o risco.',
     'Indicadores de morbidade e de mortalidade se complementam.',
   ], pegadinha: 'O número de óbitos sozinho esconde as mortes precoces e as sequelas.' },
+
+  // ===================================================== SAÚDE DA MULHER
+  'MUL-01': { tema: 'Queixa de corrimento: anamnese, exame e meio vaginal normal', pontos: [
+    'Vulvovaginites e vaginoses são as queixas mais frequentes no consultório de ginecologia (cerca de 40% das consultas).',
+    'Vaginite: alteração da microbiota com inflamação. Vaginose: sem evidência de inflamação.',
+    'Flora normal: lactobacilos (80–95%), células epiteliais e raros polimorfonucleares. pH de 3,8 a 4,5.',
+    'Lactobacilos convertem o glicogênio do epitélio em ácido lático (pH baixo) e produzem peróxido de hidrogênio (antibacteriano e antiviral).',
+    'Anamnese: caracterizar o corrimento (aspecto, quantidade, cor, odor), relação com o ciclo, DM e imunidade, medicações, contracepção, gestação, história sexual, dispareunia e dor pélvica.',
+    'Exame: genitais externos (corrimento, hiperemia, fissuras, escoriações, verrugas, úlceras) e internos (conteúdo vaginal e colo).',
+    'Típicas: vaginose bacteriana, candidíase, tricomoníase. Atípicas: vaginose citolítica, vaginite aeróbica, vaginite inflamatória descamativa.',
+  ], pegadinha: 'Vaginose não é "vaginite leve": o nome indica ausência de inflamação.' },
+
+  'MUL-02': { tema: 'Vaginose bacteriana', pontos: [
+    'Lactobacilos substituídos por bactérias anaeróbias (Gardnerella, Mobiluncus, Atopobium, Prevotella...). Sem resposta inflamatória.',
+    'É o corrimento genital mais comum entre as mulheres. Recorrência de 15–30%.',
+    'Corrimento branco-acinzentado, homogêneo, com odor fétido que piora com substâncias alcalinas (sêmen, sangue menstrual).',
+    'Amsel (3 de 4): corrimento branco-acinzentado fino e homogêneo; pH > 4,5; teste das aminas positivo; clue cells. Nugent (Gram) = padrão-ouro.',
+    'Metronidazol 500 mg VO 12/12 h por 7 dias. Alternativas: metronidazol gel 0,75% por 5 dias; clindamicina VO ou creme 2% por 7 dias; tinidazol.',
+    'Recidivas: metronidazol gel 2 vezes por semana por 4 a 6 meses. Álcool proibido durante o metronidazol e por 24 h depois.',
+    'Deixa o meio suscetível a HPV, HIV e outras ISTs. Na gestação: parto prematuro, corioamnionite, endometrite, infecção pós-aborto.',
+  ], pegadinha: 'Sem prurido e sem hiperemia não quer dizer sem doença: na vaginose não há inflamação.' },
+
+  'MUL-03': { tema: 'Candidíase vulvovaginal não complicada', pontos: [
+    'Candida albicans: 85–95% dos casos. Pode fazer parte da flora em baixa concentração. É dimórfica (levedura e pseudo-hifa).',
+    'Prurido, corrimento esbranquiçado (leite talhado), disúria, dispareunia; hiperemia, edema e fissuras vulvares.',
+    'pH < 4,5 e teste das aminas negativo.',
+    'Confirmação: exame a fresco com KOH 10% ou SF (sensibilidade 50–60%), Gram ou cultura (Sabouraud, Nickerson). Exame a fresco positivo dispensa continuar a investigação.',
+    'Predisponentes: gestação, DM, obesidade, corticoide, antibiótico, contraceptivo oral, imunossupressão, HIV, calor e umidade locais, produtos íntimos irritantes.',
+    'Não complicada: fluconazol 150 mg VO dose única; miconazol creme vaginal por 7 noites; nistatina vaginal por 14 dias.',
+  ], pegadinha: 'Fluconazol oral não deve ser prescrito para gestantes.' },
+
+  'MUL-04': { tema: 'Candidíase de repetição e complicada', pontos: [
+    'Repetição: 4 ou mais episódios ao ano, confirmados laboratorialmente.',
+    'Confirmar fungos porque vaginose citolítica, alergias e dermatites dão os mesmos sintomas; a cultura identifica espécies não albicans.',
+    'Complicada: recorrente, severa, não albicans, ou em diabética, imunossuprimida, debilitada ou em uso de imunossupressores.',
+    'Biofilme da Candida facilita as recidivas.',
+    'Tratamento prolongado (7–14 dias, local ou oral) ou fluconazol 150 mg de 3/3 dias, 3 doses.',
+    'Supressão na recorrente: fluconazol 150 mg VO 1 vez por semana por 6 meses.',
+    'Não albicans: sem tratamento comprovadamente eficaz; 7–14 dias sem fluconazol ou ácido bórico 600 mg vaginal por 14 dias.',
+  ], pegadinha: '"Cinco episódios" contados pela paciente não fecham o diagnóstico: só valem os confirmados em laboratório.' },
+
+  'MUL-05': { tema: 'Tricomoníase', pontos: [
+    'Trichomonas vaginalis: protozoário flagelado anaeróbio, de transmissão sexual. Cerca de 30% são assintomáticas.',
+    'Corrimento intenso amarelo ou amarelo-esverdeado, bolhoso; prurido, ardor, disúria, dispareunia; edema vulvar; colo em framboesa (colpite tigroide).',
+    'pH > 4,5. Teste das aminas pode ser positivo (germes anaeróbios associados).',
+    'Exame a fresco mostra o parasita em movimento (sensibilidade 51–65%); no Gram ele aparece imóvel. Cultura em meio de Diamond se houver sintomas e exames negativos.',
+    'Metronidazol 2 g VO dose única ou 500 mg 12/12 h por 7 dias; tinidazol 2 g VO dose única.',
+    'Sem álcool por 24 h (metronidazol) ou 72 h (tinidazol). Referenciar parceria(s) e pesquisar outras ISTs.',
+    'Facilita a aquisição de outras infecções, inclusive HIV, e associa-se a complicações no ciclo gravídico-puerperal.',
+  ], pegadinha: 'Teste das aminas positivo não fecha vaginose bacteriana: na tricomoníase ele também pode ser positivo.' },
+
+  'MUL-06': { tema: 'Vaginose citolítica', pontos: [
+    'Proliferação excessiva de lactobacilos → pH mais baixo e citólise; os produtos da citólise causam os sintomas. Desencadeante desconhecido.',
+    'Corrimento esbranquiçado, prurido que piora no período pré-menstrual, ardor, disúria, dispareunia.',
+    'Conteúdo flocular, fluido ou em grumos. pH < 4,0.',
+    'Gram: excesso de lactobacilos, leucócitos raros ou ausentes, núcleos desnudos, ausência de fungos.',
+    'Sem tratamento específico: alcalinizar o meio temporariamente com bicarbonato de sódio (óvulos ou duchas).',
+    'Principal diferencial da candidíase, sobretudo da complicada.',
+  ], pegadinha: 'A "candidíase que nunca cura" pode ser excesso de lactobacilos, e não fungo.' },
+
+  'MUL-07': { tema: 'Vaginite aeróbica e vaginite inflamatória descamativa', pontos: [
+    'Vaginite aeróbica: bactérias aeróbicas entéricas (E. coli, Enterococcus faecalis, S. aureus, S. epidermidis, estreptococo do grupo B), redução ou ausência de lactobacilos e inflamação.',
+    'Corrimento por vezes purulento, odor desagradável, inflamação do vestíbulo, aumento de polimorfonucleares.',
+    'Sem normatização: excesso de bactérias → clindamicina 2% vaginal por 21 dias; inflamação → hidrocortisona 10% vaginal por 21 dias; pode-se manipular um creme com os dois.',
+    'Atrofia → estrogênio vaginal: melhora o trofismo e previne recorrências.',
+    'Vaginite inflamatória descamativa: pouco frequente e severa; considerada o espectro mais grave da vaginite aeróbica. Eritema, petéquias e até equimoses.',
+    'Na descamativa, é importante afastar tricomoníase. Tratamento: clindamicina 2% por 21 dias, hidrocortisona 10% por 2 a 4 semanas, estrogênio vaginal para reduzir recidivas.',
+  ], pegadinha: 'Vaginite aeróbica não é vaginose bacteriana: aqui as bactérias são aeróbicas e há inflamação.' },
+
+  'MUL-08': { tema: 'Diferenciando os corrimentos', pontos: [
+    'Vaginose bacteriana: pH > 4,5, aminas positivas, clue cells, sem inflamação.',
+    'Candidíase: pH < 4,5, aminas negativas, pseudo-hifas e leveduras, com inflamação.',
+    'Tricomoníase: pH > 4,5, aminas podem ser positivas, parasita móvel no exame a fresco, com inflamação.',
+    'Vaginose citolítica: pH < 4,0, excesso de lactobacilos, núcleos desnudos, sem fungos.',
+    'Normal: lactobacilos dominantes e pH 3,8–4,5. Na VB os lactobacilos caem; na citolítica, sobram.',
+    'Tricomoníase: tratar a parceria e pesquisar outras ISTs.',
+  ], pegadinha: 'pH abaixo de 4,0 com prurido e grumos sem fungo é vaginose citolítica, não candidíase.' },
+
+  'MUL-09': { tema: 'Cervicites', pontos: [
+    'Agentes: Neisseria gonorrhoeae e Chlamydia trachomatis.',
+    '70–80% são assintomáticas. Corrimento é incomum.',
+    'Queixas: sangramento intermenstrual ou pós-coito, dispareunia, polaciúria, dor pélvica.',
+    'Fatores de risco: idade < 25 anos, novas ou múltiplas parcerias, parceria com IST, uso irregular de preservativo.',
+    'Exame: dor à mobilização do colo, colo friável (sangrante), mucopus pelo orifício externo, edema cervical.',
+    'Padrão-ouro: biologia molecular.',
+  ], pegadinha: 'Não ter corrimento não afasta cervicite: a maioria é assintomática.' },
+
+  'MUL-10': { tema: 'Herpes genital: primoinfecção', pontos: [
+    'Lesões dolorosas: vesícula → úlcera (fase de maior dor) → crosta. As três fases podem coexistir.',
+    'Primoinfecção: incubação média de 6 dias, sintomas severos e sistêmicos (prostração, febrícula, mialgia, astenia), linfadenomegalia bilateral, 2–3 semanas.',
+    'Recorrência: prurido e ardência, sintomas leves e localizados, sem linfadenomegalia, 7–10 dias.',
+    'Primeiro episódio: aciclovir 200 mg, 2 comprimidos 3x/dia, ou 1 comprimido 5x/dia, por 7–10 dias. Iniciar o mais cedo possível; prolongar se a cicatrização estiver incompleta após 10 dias.',
+    'Doença recorrente e incurável: o tratamento acelera a melhora dos sintomas.',
+    'Imunossuprimidas com lesões extensas: aciclovir EV 5–10 mg/kg de 8/8 h por 5 a 7 dias.',
+  ], pegadinha: 'O aciclovir não cura o herpes: ele encurta a crise.' },
+
+  'MUL-11': { tema: 'Herpes recorrente, supressão e gestação', pontos: [
+    'Recidiva: aciclovir 200 mg, 2 comprimidos 3x/dia ou 4 comprimidos 2x/dia, por 5 dias.',
+    'Iniciar de preferência no pródromo: sensibilidade local, ardor, dor, prurido, hiperemia.',
+    'Supressão com 6 ou mais episódios por ano: aciclovir 200 mg, 2 comprimidos 2x/dia por até 6 meses (até 2 anos); acompanhar as funções renal e hepática.',
+    'Gestação: tratar o primeiro episódio em qualquer trimestre.',
+    'Primoinfecção na gestação ou recidivas frequentes: supressão a partir da 36ª semana com aciclovir 400 mg 3x/dia.',
+  ], pegadinha: 'Esperar a ferida aparecer para tratar a recidiva perde o melhor momento, que é o pródromo.' },
+
+  'MUL-12': { tema: 'Sífilis primária', pontos: [
+    'Cancro duro: lesão única, indolor, endurecida, de fundo limpo.',
+    'Incubação de 10 a 90 dias (média de 21). A lesão dura de 2 a 6 semanas.',
+    'Sífilis recente (primária, secundária e latente com até 1 ano): benzilpenicilina benzatina 2,4 milhões UI IM, dose única (1,2 milhão em cada glúteo).',
+    'Alternativa, exceto para gestantes: doxiciclina 100 mg VO 12/12 h por 15 dias.',
+    'Seguimento: teste não treponêmico trimestral.',
+  ], pegadinha: 'A ferida sumir sozinha não é cura: sem tratamento a infecção continua.' },
+
+  'MUL-13': { tema: 'Úlceras genitais: diagnóstico diferencial', pontos: [
+    'Herpes (HSV-1/2): vesículas → úlceras dolorosas → crostas; linfonodos bilaterais na primoinfecção.',
+    'Sífilis (Treponema pallidum): úlcera única, indolor, endurecida, fundo limpo.',
+    'Cancro mole (Haemophilus ducreyi): úlceras dolorosas, geralmente múltiplas, base amolecida, fundo purulento, mau odor; adenite satélite supurativa que pode fistulizar. Incubação 3–7 dias.',
+    'Donovanose (Klebsiella granulomatis): indolor, fundo granuloso vermelho vivo e sangrante, lesões em espelho (autoinoculação), sem adenite. Biópsia: corpúsculos de Donovan.',
+    'LGV (Chlamydia trachomatis L1–L3): pequena úlcera indolor e autolimitada; linfadenopatia inguinal dolorosa que drena por múltiplos orifícios ("bico de regador").',
+    'Nem toda úlcera genital é IST: úlcera de Lipschütz, doença de Behçet.',
+  ], pegadinha: 'Cancro duro é indolor e limpo; cancro mole é doloroso e purulento.' },
+
+  'MUL-14': { tema: 'Linfogranuloma venéreo', pontos: [
+    'Agente: Chlamydia trachomatis sorotipos L1, L2 e L3.',
+    'Fase de inoculação: pequena úlcera única, indolor e autolimitada, que some sozinha.',
+    'Disseminação linfática regional: linfadenopatia inguinal dolorosa, com supuração em múltiplos orifícios ("bico de regador" ou "chuveirinho").',
+    'Sequelas: elefantíase genital, estenose retal e uretral.',
+    'Diferencial da adenopatia: cancro mole (com úlceras dolorosas e purulentas), herpes (bilateral na primoinfecção), donovanose (sem adenite).',
+  ], pegadinha: 'A úlcera do LGV é pequena, indolor e some sozinha: quando a paciente chega com a íngua, é preciso perguntar por ela.' },
 };
