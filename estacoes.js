@@ -63,43 +63,6 @@ const ESTACOES = [
     extra: 'Quais sinais indicam via aérea definitiva precoce? (Estridor, rouquidão, sobrancelhas chamuscadas e escarro carbonáceo, sobretudo em ambiente fechado.)',
   },
 
-  // ===================================================== FARMACOLOGIA
-  {
-    id: 'FAR-01', materia: 'farmaco',
-    titulo: 'Dor que não passa com codeína',
-    local: 'Ambulatório de cuidados paliativos', papel: 'Médico(a) assistente', interacao: 'paciente',
-    cenario: 'Seu Antônio, 66 anos, tem câncer de próstata com metástases ósseas. Usa dipirona 1 g de 6/6 h e codeína 30 mg de 6/6 h há 3 semanas, mas a dor na coluna continua em 8/10 e atrapalha o sono. Função renal e hepática normais. Está acompanhado da filha, que tem medo de que ele "fique viciado em morfina".',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Avaliação', linhas: [['Dor (EVA)', '8/10'], ['Hábito intestinal', 'evacua a cada 3 dias'], ['Creatinina', '0,9 mg/dL']] },
-    ],
-    tarefas: [
-      'Em que degrau do tratamento da dor ele está e qual é o próximo passo?',
-      'Que cuidados acompanham o opioide forte?',
-      'Responda à preocupação da filha sobre "vício".',
-    ],
-    ator: [
-      { gatilho: 'Filha, ao ouvir "morfina"', fala: '"Morfina? Isso não é para quem está morrendo? Ele vai ficar viciado."' },
-      { gatilho: 'Se falar em efeitos adversos', fala: '"E se ele ficar muito sonolento?"' },
-    ],
-    barema: {
-      conteudo: [
-        { tarefa: 1, item: 'Dor moderada tratada com opioide de média potência (codeína) + não opioide, sem controle', pts: 1 },
-        { tarefa: 1, item: 'Dor intensa: progredir para opioide forte (morfina), mantendo o não opioide', pts: 2 },
-        { tarefa: 1, item: 'Opioide fraco equivale a cerca de 10% da morfina: cálculo cuidadoso ao escalonar', pts: 1 },
-        { tarefa: 2, item: 'Constipação induzida por opioide: orientar terapia laxante (ele já evacua a cada 3 dias)', pts: 1 },
-        { tarefa: 2, item: 'Depressão respiratória dose-dependente e sedação (mais fácil em idosos); antídoto: naloxona', pts: 2 },
-        { tarefa: 3, item: 'Dependência física (resposta esperada, abstinência se suspensão abrupta) ≠ dependência psicológica (desejo compulsivo)', pts: 1 },
-      ],
-    },
-    errosCriticos: ['Manter o opioide fraco com dor intensa sem progredir de degrau', 'Não orientar terapia laxante'],
-    falaModelo: [
-      { tarefa: 1, texto: 'A dor dele era moderada e foi tratada com opioide de média potência, a codeína, junto com a dipirona. Agora a dor é intensa, 8 de 10: o próximo degrau é o opioide forte, a morfina, mantendo a dipirona. Lembrando que a codeína equivale a cerca de 10% da morfina, então o cálculo ao trocar precisa ser cuidadoso.', tempo: '20 s' },
-      { tarefa: 2, texto: 'O opioide reduz o peristaltismo e causa constipação, e ele já evacua a cada 3 dias: oriento terapia laxante. A depressão respiratória é dose-dependente, e a sedação é mais fácil em idosos, então acompanho de perto. Se houver depressão respiratória, o antídoto é a naloxona.', tempo: '40 s' },
-      { tarefa: 3, texto: 'Entendo o seu medo. Pense na dor como um incêndio: um extintor pequeno, que é a codeína, não está dando conta, e agora precisamos do caminhão de bombeiros. Com o uso prolongado, o corpo se acostuma ao remédio, e por isso ele não pode ser parado de repente: isso é dependência física, uma resposta esperada. Vício é outra coisa, é o desejo compulsivo pela droga, e não é o que acontece aqui. O objetivo é ele voltar a dormir. O que mais preocupa a senhora?', tempo: '40 s', analogia: 'Dor como incêndio: extintor × caminhão de bombeiros' },
-    ],
-    extra: 'Quais efeitos estão ligados ao receptor mu? (Analgesia, euforia, sedação, inibição respiratória e dependência.)',
-  },
-
   // ===================================================== SAÚDE MENTAL
   {
     id: 'MEN-01', materia: 'mental',

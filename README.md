@@ -18,8 +18,8 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 |---|---|---|
 | Clínica Cirúrgica | 22 | `estacoes.js` (CIR-01) e `estacoes-cir.js` |
 | Saúde Mental | 20 | `estacoes.js` (MEN-01) e `estacoes-mental.js` |
-| Farmacologia | 18 | `estacoes.js` (FAR-01) e `estacoes-farmaco.js` |
+| Farmacologia | 18 (manejo de reações adversas: anti-histamínicos, asma e outros temas) | `estacoes-farmaco.js` |
 | Epidemiologia | 20 | `estacoes.js` (EPI-01) e `estacoes-epi.js` |
 | Saúde da Mulher | 14 (infecções genitais; mais temas a caminho) | `estacoes-mulher.js` |
 
-Matérias, barema padrão e a primeira estação de cada matéria ficam em `estacoes.js`. Os resumos ficam em `resumos.js`.
+Matérias, barema padrão e a primeira estação de Clínica Cirúrgica, Saúde Mental e Epidemiologia ficam em `estacoes.js`. Os resumos ficam em `resumos.js`.
