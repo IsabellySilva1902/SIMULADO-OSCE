@@ -25,44 +25,7 @@ const BAREMA_PADRAO = {
 };
 
 const ESTACOES = [
-  // ===================================================== CLÍNICA CIRÚRGICA
-  {
-    id: 'CIR-01', materia: 'cir',
-    titulo: 'Queimadura por álcool na churrasqueira',
-    local: 'Pronto-socorro — sala de emergência', papel: 'Médico(a) plantonista', interacao: 'examinador',
-    cenario: 'Roberto, 40 anos, 70 kg, chega 2 horas após acender a churrasqueira com álcool. Está consciente, voz normal, sem tosse, sem fuligem na boca ou no nariz. A esposa o acompanha, muito nervosa.\n\nPA 128 × 78 mmHg · FC 112 bpm · FR 20 irpm · SatO₂ 97%.\nExame: queimaduras de 2º grau profundo e 3º grau em toda a face anterior do tronco e em todo o membro superior direito; eritema sem bolhas (1º grau) na face.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Regra dos nove (adulto)', linhas: [['Cada membro superior', '9%'], ['Tronco anterior', '18%'], ['Tronco posterior', '18%'], ['Cada membro inferior', '18%']] },
-    ],
-    tarefas: [
-      'Calcule a superfície corporal queimada (SCQ) e diga o que entra e o que não entra na conta.',
-      'Calcule a reposição volêmica pela fórmula de Parkland e diga como distribuí-la, considerando que já se passaram 2 horas.',
-      'Ele precisa ser transferido para um centro especializado? Explique à esposa a gravidade e por que ele precisa de tanto soro.',
-    ],
-    ator: [
-      { gatilho: 'Se perguntar ao examinador sobre via aérea', fala: '"Sem rouquidão, sem estridor, sobrancelhas íntegras e sem escarro escuro."' },
-      { gatilho: 'Esposa, no final', fala: '"Por que tanto soro se ele está bebendo água?"' },
-    ],
-    barema: {
-      conteudo: [
-        { tarefa: 1, item: 'SCQ = 27%: tronco anterior (18%) + membro superior direito (9%)', pts: 2 },
-        { tarefa: 1, item: 'Não somou o 1º grau da face (só entram 2º e 3º graus)', pts: 1 },
-        { tarefa: 2, item: 'Parkland: 4 mL × 70 kg × 27 = 7.560 mL de Ringer lactato em 24 h', pts: 2 },
-        { tarefa: 2, item: 'Metade (3.780 mL) nas primeiras 8 h contadas da queimadura → nas próximas 6 h (≈ 630 mL/h); o restante nas 16 h seguintes (≈ 236 mL/h)', pts: 2 },
-        { tarefa: 2, item: 'Titular pela diurese: meta de 0,5 mL/kg/h no adulto (≈ 35 mL/h)', pts: 1 },
-        { tarefa: 3, item: 'Grande queimado: 2º grau ou mais em > 20% da SCQ no adulto', pts: 1 },
-        { tarefa: 3, item: 'Transferir: queimadura de espessura parcial/total na mão (região nobre) transfere independentemente da área', pts: 1 },
-      ],
-    },
-    errosCriticos: ['Somar a área de 1º grau na SCQ', 'Contar as 8 horas a partir da chegada ao hospital, e não do momento da queimadura'],
-    falaModelo: [
-      { tarefa: 1, texto: 'Pela regra dos nove: tronco anterior 18% mais membro superior direito 9% dá 27% de superfície queimada. A face tem só 1º grau, que não entra na conta.', tempo: '20 s' },
-      { tarefa: 2, texto: 'Parkland: 4 vezes 70 vezes 27 dá 7.560 mL de Ringer lactato em 24 horas. Metade, 3.780, nas primeiras 8 horas contadas da queimadura; como já passaram 2, faço em 6 horas, cerca de 630 mL por hora. O restante vai nas 16 horas seguintes, uns 236 mL por hora, ajustando pela diurese de 0,5 mL/kg/h.', tempo: '45 s' },
-      { tarefa: 3, texto: 'Ele é um grande queimado, com mais de 20% de superfície queimada, e a queimadura pega a mão, que é região nobre: por isso transfiro para o centro de queimados. Senhora, a pele funciona como a lona de uma barraca que segura a água lá dentro. Com um quarto da pele queimada, o corpo vaza líquido por esses buracos, e beber água não dá conta. Por isso o soro precisa ir pela veia, na quantidade certa, e vamos acompanhar pelo xixi dele. Ficou alguma dúvida?', tempo: '45 s', analogia: 'Pele como a lona de uma barraca' },
-    ],
-    extra: 'Quais sinais indicam via aérea definitiva precoce? (Estridor, rouquidão, sobrancelhas chamuscadas e escarro carbonáceo, sobretudo em ambiente fechado.)',
-  },
-
+  // Clínica Cirúrgica: estacoes-cir.js (CIR-01 a CIR-25) e estacoes-prova.js (CIR-23).
   // ===================================================== SAÚDE MENTAL
   {
     id: 'MEN-01', materia: 'mental',
