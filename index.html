@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulado OSCE — 4º semestre</title>
-<meta name="description" content="Simulado de estações OSCE: 4 minutos de estação, 1 minuto de feedback, barema de correção, ditado por voz e treino em dupla.">
+<meta name="description" content="Simulado de estações OSCE: 4 minutos de estação, feedback sem pressa com barema de correção, ditado por voz e treino em dupla.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50' font-size='50'%3E%E2%8F%B1%EF%B8%8F%3C/text%3E%3C/svg%3E">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -32,7 +32,7 @@
       <span class="text-2xl" aria-hidden="true">⏱️</span>
       <div>
         <h1 class="font-bold text-base sm:text-lg leading-tight">Simulado OSCE</h1>
-        <p class="text-xs text-slate-500 leading-tight">4 min de estação · 1 min de feedback · barema</p>
+        <p class="text-xs text-slate-500 leading-tight">4 min de estação · feedback sem tempo · barema</p>
       </div>
     </button>
     <button id="btn-how" class="text-xs px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100">❓ Como usar</button>
@@ -53,7 +53,7 @@
 
     <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
       <h2 class="font-bold text-lg mb-1">Montar treino</h2>
-      <p class="text-sm text-slate-500 mb-4">Como na prova: <b>4 minutos</b> para se apresentar, ler o caso e responder em voz alta, e <b>1 minuto de feedback</b> com o barema.</p>
+      <p class="text-sm text-slate-500 mb-4">Como na prova: <b>4 minutos</b> para se apresentar, ler o caso e responder em voz alta. Depois, o <b>feedback</b> com o barema, sem cronômetro, para você ler com calma.</p>
       <div class="text-sm font-semibold mb-2">Matérias</div>
       <div id="materias-list" class="grid sm:grid-cols-2 gap-2 mb-4"></div>
       <div class="flex flex-wrap gap-4 text-sm mb-4">
@@ -128,7 +128,7 @@
     <ol class="list-decimal pl-5 space-y-1">
       <li><b>Porta:</b> você vê o título, o local e o seu papel. Ao tocar em <b>Entrar na estação</b>, o cronômetro de <b>4:00</b> começa e aparecem o caso, os dados da mesa e as tarefas. Como na prova, ler faz parte dos 4 minutos.</li>
       <li><b>Responda em voz alta</b>, como se a banca estivesse na sala: apresente-se, fale com o paciente e cumpra as tarefas. Avisos com som e vibração quando falta <b>1 minuto</b>, <b>30 segundos</b> e no fim.</li>
-      <li><b>Feedback (1:00):</b> aparecem a fala-modelo (com a analogia destacada) e o <b>barema</b>. Marque cada item: <b>Fez</b>, <b>Parcial</b> ou <b>Não</b>. A nota de 0 a 10 é calculada na hora. Erros críticos aparecem em vermelho.</li>
+      <li><b>Feedback (sem cronômetro):</b> leia com calma. Aparecem a fala-modelo (com a analogia destacada) e o <b>barema</b>. Marque cada item: <b>Fez</b>, <b>Parcial</b> ou <b>Não</b>. A nota de 0 a 10 é calculada na hora. Erros críticos aparecem em vermelho.</li>
     </ol>
     <h3 class="font-semibold mt-3">O barema</h3>
     <p>Cada estação é corrigida em três blocos: <b>conteúdo</b> (o que precisava ser atingido em cada tarefa), <b>comunicação e cordialidade</b> (apresentar-se, empatia, linguagem clara, analogia, checar compreensão) e <b>clareza</b> (organização e tempo).</p>
@@ -170,7 +170,7 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const LS = { prefs: 'osce_prefs', hist: 'osce_hist', circ: 'osce_circuito', deck: 'osce_deck' };
-  const T_STATION = 240, T_FEED = 60;
+  const T_STATION = 240;
   const BY_ID = {}; ESTACOES.forEach(e => { BY_ID[e.id] = e; });
   const MAT = {}; MATERIAS.forEach(m => { MAT[m.key] = m; });
   const RES = (typeof RESUMOS !== 'undefined') ? RESUMOS : {};
@@ -328,7 +328,7 @@
   }
   function setPhase(p) {
     phase = p;
-    const P = { porta: ['Porta', 'bg-slate-200 text-slate-700'], estacao: ['Estação', 'bg-blue-100 text-blue-800'], feedback: ['Feedback', 'bg-amber-100 text-amber-800'] }[p];
+    const P = { porta: ['Porta', 'bg-slate-200 text-slate-700'], estacao: ['Estação', 'bg-blue-100 text-blue-800'], feedback: ['Feedback · sem tempo', 'bg-amber-100 text-amber-800'] }[p];
     $('st-phase').textContent = P[0]; $('st-phase').className = 'text-xs font-semibold px-2 py-1 rounded-lg ' + P[1];
   }
   function paintClock(rem, total) {
@@ -478,7 +478,7 @@
   function startFeedback(timeout) {
     stopTick(); stopRec();
     const e = cur(); setPhase('feedback');
-    if (timeout) { alertBar('🔔 Tempo! Feedback de 1 minuto', '#1e293b', 4000); beep(3, 0.5, 660); vib([500, 150, 500]); }
+    if (timeout) { alertBar('🔔 Tempo! Agora o feedback, sem pressa', '#1e293b', 4000); beep(3, 0.5, 660); vib([500, 150, 500]); }
     else $('st-alert').classList.add('hidden');
     let h = '';
     if (transcript) h += `<div class="p-3 rounded-xl bg-white border border-rose-200 mb-3"><div class="text-xs font-semibold text-rose-700">🎙️ O que você falou</div><div class="text-sm mt-1">${esc(transcript)}</div></div>`;
@@ -494,12 +494,9 @@
     $('st-body').innerHTML = h; window.scrollTo(0, 0);
     bindBarema(e);
     $('btn-next').onclick = () => { record(); advance(); };
-    endAt = Date.now() + T_FEED * 1000; fired = {};
-    tick = setInterval(() => {
-      const rem = (endAt - Date.now()) / 1000; paintClock(Math.max(0, rem), T_FEED);
-      if (rem <= 0 && !fired.f) { fired.f = 1; stopTick(); beep(1, 0.4, 523); alertBar('⏱️ Fim do feedback — termine de marcar e siga para a próxima', '#f59e0b', 5000); $('btn-next').classList.add('animate-pulse'); }
-    }, 200);
-    paintClock(T_FEED, T_FEED);
+    fired = {};
+    $('st-clock').textContent = '—'; $('st-clock').style.color = '';
+    $('st-bar').style.width = '100%'; $('st-bar').style.background = '#cbd5e1';
   }
 
   function record() {

@@ -1,6 +1,6 @@
 # Simulado OSCE
 
-Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresentar, ler o caso e responder em voz alta, e **1 minuto de feedback** com o barema.
+Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresentar, ler o caso e responder em voz alta, e, depois, o **feedback** com o barema, sem cronômetro, para ler com calma.
 
 - **Matérias:** Clínica Cirúrgica, Saúde da Mulher, Farmacologia, Saúde Mental e Epidemiologia.
 - **Barema:** cada item é marcado como fez, parcial ou não, em três blocos: conteúdo, comunicação e cordialidade, e clareza. Os erros críticos aparecem em destaque.
