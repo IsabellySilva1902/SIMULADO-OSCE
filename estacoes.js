@@ -70,14 +70,21 @@ const ESTACOES = [
     id: 'EPI-01', materia: 'epi',
     titulo: 'Diarreia depois da festa da comunidade',
     local: 'Unidade Básica de Saúde', papel: 'Médico(a) da equipe de Saúde da Família', interacao: 'paciente',
-    cenario: 'Após uma festa junina da comunidade, 68 pessoas procuraram a UBS com diarreia e vômitos nas 24 horas seguintes. A equipe levantou quem comeu o salpicão (com maionese caseira) e quem não comeu. A presidente da associação de moradores vem saber "o que aconteceu e se a culpa é da barraca dela".',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Investigação', linhas: [['Comeram salpicão', '120 pessoas · 60 adoeceram'], ['Não comeram salpicão', '80 pessoas · 8 adoeceram']] },
-    ],
+    cenario: 'Depois da festa junina da comunidade, muitas pessoas procuraram a UBS com diarreia e vômitos. A presidente da associação de moradores vem saber "o que aconteceu e se a culpa é da barraca dela". Investigue com ela, calcule a medida adequada e oriente. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Calcule a taxa de ataque em cada grupo e a medida de associação adequada, interpretando o resultado.',
       'Quais providências de vigilância a equipe deve tomar?',
       'Explique o resultado à presidente da associação, sem culpabilizar.',
+    ],
+    anamnese: [
+      { tema: 'Quantos adoeceram e quando', resposta: '"Foram 68 pessoas, todas nas 24 horas depois da festa."' },
+      { tema: 'Quantas pessoas estavam na festa', resposta: '"Umas 200 pessoas."' },
+      { tema: 'O que foi servido', resposta: '"Salpicão com maionese caseira, milho, canjica e quentão. O salpicão ficou fora da geladeira a tarde toda."' },
+      { tema: 'Gravidade', resposta: '"Ninguém precisou internar, graças a Deus."' },
+    ],
+    placas: [
+      { pedido: 'a tabela da investigação', placa: 'Comeram salpicão: 120 pessoas, 60 adoeceram · Não comeram: 80 pessoas, 8 adoeceram.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Vão fechar minha barraca? Foi tudo feito com carinho!"' },
@@ -90,7 +97,7 @@ const ESTACOES = [
         { tarefa: 1, item: 'Risco relativo = 50% ÷ 10% = 5', pts: 2 },
         { tarefa: 1, item: 'Interpretou: quem comeu o salpicão teve 5 vezes mais risco de adoecer; forte associação', pts: 1 },
         { tarefa: 2, item: 'Acionar a vigilância epidemiológica: detecção do excesso de casos, investigação e resposta ao surto', pts: 2 },
-        { tarefa: 2, item: 'Surto: ocorrência localizada acima do esperado', pts: 1 },
+        { tarefa: 2, item: 'Perguntou quantos adoeceram, quando e o que foi servido; reconheceu um surto (ocorrência localizada acima do esperado)', pts: 1 },
         { tarefa: 3, item: 'Explicou o resultado sem culpar, em linguagem simples', pts: 1 },
       ],
     },

@@ -1,4 +1,5 @@
-// Estações de Epidemiologia (EPI-02 a EPI-20). EPI-01 está em estacoes.js.
+// Estações de Epidemiologia (EPI-02 a EPI-24). EPI-01 está em estacoes.js e EPI-21 em estacoes-prova.js.
+// Nas estações com ator, a anamnese é ativa: o candidato pergunta como o estudo foi feito e pede os dados.
 ESTACOES.push(
   // ----------------------------------------------------- EPI-02 · Mortalidade infantil e materna
   {
@@ -46,15 +47,21 @@ ESTACOES.push(
     id: 'EPI-03', materia: 'epi',
     titulo: 'Câncer de bexiga e o corante da fábrica',
     local: 'Ambulatório de saúde do trabalhador', papel: 'Médico(a) do trabalho', interacao: 'paciente',
-    cenario: 'O representante do sindicato dos trabalhadores de uma fábrica de tintas pede uma reunião. Vários colegas tiveram câncer de bexiga, e ele quer saber se o corante usado na fábrica tem relação. Uma equipe da universidade fez um estudo: selecionou pacientes com câncer de bexiga atendidos no hospital regional e pessoas sem a doença, do mesmo hospital e da mesma faixa etária, e perguntou sobre a exposição ao corante no passado.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resultados do estudo', linhas: [['Casos (câncer de bexiga) expostos ao corante', '40'], ['Casos não expostos', '60'], ['Controles (sem câncer) expostos', '20'], ['Controles não expostos', '180']] },
-    ],
+    cenario: 'O representante do sindicato de uma fábrica de tintas pede uma reunião: vários colegas tiveram câncer de bexiga, e uma equipe da universidade fez um estudo sobre o corante usado na fábrica. Pergunte como o estudo foi feito, interprete o resultado e explique. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual é o desenho do estudo? Por que ele foi escolhido para esta pergunta?',
       'Calcule a medida de associação adequada e interprete. Por que não se calcula risco relativo?',
       'Cite dois vieses ou fatores de confusão que podem distorcer esse resultado e como lidar com eles.',
       'Explique o resultado ao representante do sindicato.',
+    ],
+    anamnese: [
+      { tema: 'Como os participantes foram escolhidos', resposta: '"Pegaram 100 pacientes com câncer de bexiga atendidos no hospital regional e 200 pessoas sem a doença, do mesmo hospital e da mesma idade."' },
+      { tema: 'O que foi investigado', resposta: '"Perguntaram a todos se tinham trabalhado com o corante no passado."' },
+      { tema: 'Hábitos dos trabalhadores', resposta: '"Muita gente lá fuma, inclusive eu."' },
+    ],
+    placas: [
+      { pedido: 'a tabela de resultados', placa: 'Casos expostos ao corante: 40 · casos não expostos: 60 · controles expostos: 20 · controles não expostos: 180.' },
     ],
     ator: [
       { gatilho: 'Ao começar', fala: '"Doutor(a), então está provado que o corante dá câncer?"' },
@@ -63,7 +70,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Estudo de caso-controle: parte do desfecho e investiga a exposição no passado', pts: 1 },
+        { tarefa: 1, item: 'Perguntou como os participantes foram escolhidos: caso-controle, que parte do desfecho e investiga a exposição no passado', pts: 1 },
         { tarefa: 1, item: 'Adequado para doença rara: parte dos casos, sem precisar acompanhar milhares de pessoas', pts: 1 },
         { tarefa: 2, item: 'OR = (40 × 180) ÷ (60 × 20) = 7.200 ÷ 1.200 = 6', pts: 2 },
         { tarefa: 2, item: 'Interpretou: a chance de exposição entre os casos é 6 vezes a dos controles; associação forte', pts: 1 },
@@ -87,15 +94,22 @@ ESTACOES.push(
     id: 'EPI-04', materia: 'epi',
     titulo: 'O barulho da metalúrgica e a audição',
     local: 'Serviço de saúde ocupacional', papel: 'Médico(a) do trabalho', interacao: 'paciente',
-    cenario: 'Uma metalúrgica acompanhou por 5 anos todos os trabalhadores admitidos com audiometria normal, separando os que trabalhavam em setores ruidosos e os de setores silenciosos. Ao final, contou quem desenvolveu perda auditiva induzida por ruído (PAIR). O operador Carlos, que trabalha na prensa, pede para entender o resultado.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resultados após 5 anos', linhas: [['Expostos ao ruído', '400 trabalhadores · 60 com PAIR'], ['Não expostos', '600 trabalhadores · 30 com PAIR'], ['Perdas de seguimento', '8% nos expostos; 2% nos não expostos']] },
-    ],
+    cenario: 'Carlos, operador da prensa de uma metalúrgica, recebeu o relatório de um estudo da empresa sobre perda auditiva induzida por ruído (PAIR) e pede para entender o resultado. Pergunte como o estudo foi feito, calcule e explique. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual é o desenho do estudo? Calcule a incidência em cada grupo e o risco relativo.',
       'Calcule o risco atribuível e o risco atribuível percentual. Interprete.',
       'Cite duas limitações deste estudo.',
       'Explique o resultado ao Carlos e oriente-o.',
+    ],
+    anamnese: [
+      { tema: 'Como o estudo foi feito', resposta: '"A empresa pegou todo mundo que entrou com audiometria normal, separou quem trabalha em setor barulhento e quem trabalha em setor silencioso, e acompanhou por 5 anos."' },
+      { tema: 'Quem saiu do estudo', resposta: '"Alguns colegas saíram da empresa antes do fim, mais gente do setor barulhento."' },
+      { tema: 'Outros fatores', resposta: '"Tenho 50 anos e, no fim de semana, toco bateria numa banda."' },
+      { tema: 'Uso de protetor', resposta: '"Uso o protetor de vez em quando. Incomoda."' },
+    ],
+    placas: [
+      { pedido: 'a tabela de resultados', placa: 'Expostos ao ruído: 400 trabalhadores, 60 com PAIR · Não expostos: 600 trabalhadores, 30 com PAIR · Perdas de seguimento: 8% nos expostos e 2% nos não expostos.' },
     ],
     ator: [
       { gatilho: 'Ao começar', fala: '"Então todo mundo da prensa vai ficar surdo?"' },
@@ -104,12 +118,12 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Coorte prospectiva (parte da exposição e acompanha até o desfecho)', pts: 1 },
+        { tarefa: 1, item: 'Perguntou como o estudo foi feito: coorte prospectiva (parte da exposição e acompanha até o desfecho)', pts: 1 },
         { tarefa: 1, item: 'Incidência: expostos 60 ÷ 400 = 15%; não expostos 30 ÷ 600 = 5%', pts: 1 },
         { tarefa: 1, item: 'RR = 15% ÷ 5% = 3', pts: 1 },
         { tarefa: 2, item: 'Risco atribuível = 15% − 5% = 10 casos por 100 expostos', pts: 1 },
         { tarefa: 2, item: 'RA% = 10 ÷ 15 ≈ 66,7% dos casos entre expostos atribuíveis ao ruído (evitáveis)', pts: 1 },
-        { tarefa: 3, item: 'Perda diferencial de seguimento (8% × 2%); confusão (idade, ototóxicos, ruído fora do trabalho) → ajuste', pts: 1 },
+        { tarefa: 3, item: 'Perguntou quem saiu e outros fatores: perda diferencial de seguimento (8% × 2%); confusão (idade, ototóxicos, ruído fora do trabalho, como a bateria) → ajuste', pts: 1 },
         { tarefa: 4, item: 'Explicou RR e risco atribuível em linguagem simples: risco maior não significa que todo exposto vai adoecer; casos evitáveis', pts: 2 },
       ],
     },
@@ -128,14 +142,20 @@ ESTACOES.push(
     id: 'EPI-05', materia: 'epi',
     titulo: 'Convite para participar de uma pesquisa',
     local: 'Ambulatório de cardiologia', papel: 'Médico(a) pesquisador(a)', interacao: 'paciente',
-    cenario: 'Sr. Josué, 67 anos, hipertenso, foi convidado a participar de um ensaio clínico de fase III que compara um novo medicamento com placebo, ambos somados ao tratamento habitual, para prevenir AVC. Ele está desconfiado. Depois da conversa com ele, o examinador mostra os resultados de um estudo anterior semelhante.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resultados do estudo anterior (3 anos)', linhas: [['Novo medicamento', '1.000 randomizados · 20 AVC'], ['Placebo', '1.000 randomizados · 40 AVC'], ['Abandonaram o tratamento', '150 no grupo do novo medicamento']] },
-    ],
+    cenario: 'Sr. Josué, 67 anos, hipertenso, foi convidado a participar de um ensaio clínico de fase III que compara um novo medicamento com placebo, ambos somados ao tratamento habitual, para prevenir AVC. Ele está desconfiado. Converse com ele e, depois, peça ao avaliador os resultados de um estudo anterior semelhante.',
+    mesa: [],
     tarefas: [
       'Explique ao Sr. Josué como funciona o estudo e os direitos dele.',
       'Calcule o risco em cada grupo, o risco relativo e a redução absoluta de risco. Interprete.',
       'Os 150 que abandonaram devem ser analisados em qual grupo? Justifique.',
+    ],
+    anamnese: [
+      { tema: 'Medos e dúvidas', resposta: '"Tenho medo de ser cobaia. E se eu cair no grupo do remédio de mentira, fico sem tratamento?"' },
+      { tema: 'Tratamento atual', resposta: '"Tomo losartana e hidroclorotiazida todo dia, e a pressão está controlada."' },
+      { tema: 'O que espera do estudo', resposta: '"Queria receber o remédio novo, se for melhor."' },
+    ],
+    placas: [
+      { pedido: 'os resultados do estudo anterior', placa: 'Novo medicamento: 1.000 randomizados, 20 AVC em 3 anos · Placebo: 1.000 randomizados, 40 AVC · 150 pacientes do grupo do novo medicamento abandonaram o tratamento.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Vou ser cobaia? E se eu cair no grupo do remédio de mentira?"' },
@@ -167,15 +187,21 @@ ESTACOES.push(
     id: 'EPI-06', materia: 'epi',
     titulo: 'O diabetes aumentou no bairro?',
     local: 'Unidade de Saúde da Família', papel: 'Médico(a) da equipe', interacao: 'paciente',
-    cenario: 'A agente comunitária de saúde Rita está preocupada: "O número de diabéticos no nosso território não para de subir! O diabetes está piorando aqui?". Neste ano, a equipe também fez um mutirão de rastreamento com glicemia capilar e passou a acompanhar melhor os pacientes, que estão vivendo mais. Considere a população adulta estável em 8.000 pessoas.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Dados do território (adultos)', linhas: [['População adulta', '8.000'], ['Diabéticos em 1º de janeiro', '640'], ['Novos diagnósticos no ano', '72'], ['Diabéticos que morreram ou se mudaram', '20']] },
-    ],
+    cenario: 'A agente comunitária de saúde Rita está preocupada: "O número de diabéticos no nosso território não para de subir! O diabetes está piorando aqui?". Converse com ela, calcule as medidas e responda à pergunta. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Calcule a prevalência no início e no fim do ano e a incidência acumulada no ano.',
       'Diferencie incidência e prevalência e explique a relação entre elas.',
       'Por que a prevalência subiu? Responda à Rita.',
     ],
+    anamnese: [
+      { tema: 'População do território', resposta: '"São 8.000 adultos, a população é estável."' },
+      { tema: 'Diabéticos no começo do ano', resposta: '"Em 1º de janeiro eram 640 no cadastro."' },
+      { tema: 'Casos novos', resposta: '"Tivemos 72 diagnósticos novos no ano, muitos no mutirão de glicemia capilar."' },
+      { tema: 'Saídas', resposta: '"20 diabéticos morreram ou se mudaram."' },
+      { tema: 'Mudanças no cuidado', resposta: '"Agora acompanhamos melhor, e eles estão vivendo mais."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao começar', fala: '"Doutora(o), se tem mais diabético, é porque o bairro está adoecendo mais, não é?"' },
       { gatilho: 'Se falar em incidência', fala: '"Incidência e prevalência não é a mesma coisa?"' },
@@ -188,7 +214,7 @@ ESTACOES.push(
         { tarefa: 1, item: 'Incidência acumulada = 72 ÷ (8.000 − 640) = 72 ÷ 7.360 ≈ 0,98% (≈ 9,8 por 1.000 sob risco)', pts: 2 },
         { tarefa: 2, item: 'Incidência = casos novos na população sob risco (risco, velocidade); prevalência = casos existentes (carga)', pts: 1 },
         { tarefa: 2, item: 'Prevalência ≈ incidência × duração', pts: 1 },
-        { tarefa: 3, item: 'Subiu pela maior duração (pacientes vivendo mais) e pela detecção de casos antigos no rastreamento, não necessariamente por mais casos novos', pts: 1 },
+        { tarefa: 3, item: 'Perguntou o que mudou no território: subiu pela maior duração (pacientes vivendo mais) e pela detecção de casos antigos no mutirão, não necessariamente por mais casos novos', pts: 1 },
         { tarefa: 3, item: 'Explicou à ACS com analogia e sem jargão', pts: 1 },
       ],
     },
@@ -206,15 +232,21 @@ ESTACOES.push(
     id: 'EPI-07', materia: 'epi',
     titulo: 'Os casos passaram do canal endêmico',
     local: 'Vigilância epidemiológica municipal', papel: 'Médico(a) da vigilância', interacao: 'paciente',
-    cenario: 'Município de 50.000 habitantes. Todo inverno aumentam os casos de uma doença respiratória, e a vigilância acompanha os casos notificados por semana epidemiológica (SE), comparando com o canal endêmico construído a partir da série histórica dos últimos anos. Neste ano, as unidades de saúde estão lotadas.\n\nUm líder comunitário vem até a vigilância saber "se é epidemia mesmo ou se é exagero da televisão", porque "todo ano é assim".',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Casos notificados × limite superior do canal endêmico', linhas: [['SE 10', '22 casos · limite 30'], ['SE 11', '28 casos · limite 32'], ['SE 12', '45 casos · limite 35'], ['SE 13', '63 casos · limite 38'], ['SE 14', '85 casos · limite 40']] },
-    ],
+    cenario: 'Todo inverno aumentam os casos de uma doença respiratória no município, e a vigilância acompanha os casos notificados por semana epidemiológica (SE). Um líder comunitário vem saber "se é epidemia mesmo ou se é exagero da televisão". Converse com ele, interprete os dados e explique. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Interprete o diagrama: há epidemia? A partir de quando? Calcule a incidência da SE 14 por 100.000 habitantes.',
       'Diferencie surto, epidemia, endemia e pandemia.',
       'Que tipo de vigilância atua aqui e quais são as suas ações?',
       'Explique a situação ao líder comunitário.',
+    ],
+    anamnese: [
+      { tema: 'O que ele percebe', resposta: '"As unidades estão lotadas. Mas todo inverno é assim, não é?"' },
+      { tema: 'População do município', resposta: '"Somos uns 50.000 habitantes."' },
+      { tema: 'Casos leves', resposta: '"Muita gente com gripe leve fica em casa e nem procura o posto."' },
+    ],
+    placas: [
+      { pedido: 'os casos por semana e o canal endêmico', placa: 'Casos notificados × limite superior do canal endêmico (série histórica): SE 10: 22 × 30 · SE 11: 28 × 32 · SE 12: 45 × 35 · SE 13: 63 × 38 · SE 14: 85 × 40.' },
     ],
     ator: [
       { gatilho: 'Ao começar', fala: '"Todo inverno tem essa doença aqui. Por que agora virou epidemia?"' },
@@ -323,14 +355,19 @@ ESTACOES.push(
     id: 'EPI-10', materia: 'epi',
     titulo: 'Qual doença é mais perigosa?',
     local: 'Secretaria de Saúde — entrevista à imprensa', papel: 'Médico(a) da vigilância epidemiológica', interacao: 'paciente',
-    cenario: 'Uma jornalista local (papel do ator) prepara uma matéria e quer saber qual doença "é mais perigosa" na cidade, que tem 200.000 habitantes. Você tem os dados do último ano.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Dados do último ano (200.000 habitantes)', linhas: [['Doença meningocócica', '40 casos · 8 óbitos'], ['Influenza (casos notificados)', '6.000 casos · 12 óbitos']] },
-    ],
+    cenario: 'Uma jornalista local quer saber qual doença "é mais perigosa" na cidade e vai publicar a matéria hoje. Converse com ela, calcule as medidas adequadas e responda. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Calcule a incidência, a mortalidade e a letalidade de cada doença.',
       'Interprete: qual é mais grave para quem adoece e qual pesa mais para a população?',
       'Por que a letalidade da influenza pode estar superestimada mesmo assim? Explique à jornalista.',
+    ],
+    anamnese: [
+      { tema: 'Tamanho da cidade', resposta: '"A cidade tem 200.000 habitantes."' },
+      { tema: 'O que ela já ouviu', resposta: '"Me disseram que morreram 12 de gripe e 8 de meningite no ano passado."' },
+    ],
+    placas: [
+      { pedido: 'os dados do último ano', placa: 'Doença meningocócica: 40 casos e 8 óbitos · Influenza (casos notificados): 6.000 casos e 12 óbitos.' },
     ],
     ator: [
       { gatilho: 'Ao começar', fala: '"Morreram 12 de gripe e 8 de meningite, então gripe é pior, certo?"' },
@@ -440,15 +477,21 @@ ESTACOES.push(
     id: 'EPI-13', materia: 'epi',
     titulo: 'O sedentarismo causa dor nas costas?',
     local: 'Empresa de logística — saúde ocupacional', papel: 'Médico(a) do trabalho', interacao: 'paciente',
-    cenario: 'Você aplicou um questionário único a todos os 700 funcionários administrativos de uma empresa, numa mesma semana, perguntando sobre atividade física e dor lombar crônica. Não houve acompanhamento posterior. A gerente de recursos humanos (atriz) leu o relatório e quer "obrigar todo mundo a fazer academia, já que o sedentarismo causa dor nas costas".',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resultados', linhas: [['Sedentários', '300 funcionários · 90 com dor lombar crônica'], ['Fisicamente ativos', '400 funcionários · 40 com dor lombar crônica']] },
-    ],
+    cenario: 'A gerente de recursos humanos de uma empresa de logística leu o relatório de uma pesquisa de saúde ocupacional e quer "obrigar todo mundo a fazer academia, já que o sedentarismo causa dor nas costas". Pergunte como a pesquisa foi feita, interprete e oriente. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual é o desenho do estudo? O que o caracteriza?',
       'Calcule a medida de frequência e a medida de associação adequadas e interprete.',
       'Dê duas explicações alternativas para essa associação, além de "o sedentarismo causa dor".',
       'Que desenho responderia melhor se o sedentarismo vem antes da dor? Explique à gerente.',
+    ],
+    anamnese: [
+      { tema: 'Como a pesquisa foi feita', resposta: '"Aplicamos um questionário a todos os 700 funcionários administrativos, numa mesma semana, uma vez só."' },
+      { tema: 'Acompanhamento', resposta: '"Não acompanhamos ninguém depois."' },
+      { tema: 'Perfil dos funcionários', resposta: '"Os sedentários são, em geral, os mais velhos da empresa."' },
+    ],
+    placas: [
+      { pedido: 'a tabela de resultados', placa: 'Sedentários: 300 funcionários, 90 com dor lombar crônica · Fisicamente ativos: 400 funcionários, 40 com dor lombar crônica.' },
     ],
     ator: [
       { gatilho: 'Ao começar', fala: '"Está provado, né? Vou colocar academia obrigatória."' },
@@ -457,11 +500,11 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Estudo transversal: exposição e desfecho medidos no mesmo momento, numa única coleta, sem acompanhamento', pts: 1 },
+        { tarefa: 1, item: 'Perguntou como e quando os dados foram coletados: estudo transversal, com exposição e desfecho medidos no mesmo momento, sem acompanhamento', pts: 1 },
         { tarefa: 2, item: 'Prevalência: sedentários 90 ÷ 300 = 30%; ativos 40 ÷ 400 = 10%', pts: 1 },
         { tarefa: 2, item: 'Razão de prevalência = 30% ÷ 10% = 3: prevalência três vezes maior entre os sedentários', pts: 2 },
         { tarefa: 3, item: 'Causalidade reversa: a dor lombar pode levar ao sedentarismo (o transversal não mostra o que veio antes)', pts: 1 },
-        { tarefa: 3, item: 'Confundimento: uma terceira variável (ex.: idade, nível socioeconômico) associada à exposição e ao desfecho', pts: 1 },
+        { tarefa: 3, item: 'Confundimento: uma terceira variável associada à exposição e ao desfecho (ex.: a idade, já que os sedentários são os mais velhos)', pts: 1 },
         { tarefa: 4, item: 'Coorte: acompanha os ativos e os sedentários sem dor até o surgimento da dor, garantindo a temporalidade', pts: 1 },
         { tarefa: 4, item: 'Valorizou o transversal: descreve a prevalência e identifica grupos de risco, com baixo custo', pts: 1 },
       ],
@@ -481,15 +524,21 @@ ESTACOES.push(
     id: 'EPI-14', materia: 'epi',
     titulo: 'O gráfico do vereador',
     local: 'Câmara Municipal — audiência pública', papel: 'Médico(a) sanitarista', interacao: 'paciente',
-    cenario: 'Um vereador (ator) apresenta um gráfico com os 40 municípios da região: em cada ponto, a cobertura de esgotamento sanitário do município e a taxa de internação de crianças por diarreia. Os municípios com maior cobertura têm menos internações. Ele quer anunciar: "Cada criança que mora numa casa com esgoto tem 60% menos chance de internar por diarreia".',
-    mesa: [
-      { tipo: 'texto', texto: 'Gráfico de dispersão: eixo X = cobertura de esgoto por município (%); eixo Y = internações por diarreia em menores de 5 anos por 10.000 (por município). Correlação negativa forte. Fonte: dados secundários de sistemas de informação.' },
-    ],
+    cenario: 'Numa audiência pública, um vereador apresenta um gráfico sobre esgoto e internações de crianças por diarreia e quer anunciar: "Cada criança que mora numa casa com esgoto tem 60% menos chance de internar por diarreia". Pergunte como o gráfico foi feito, classifique o estudo e responda. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual é o desenho do estudo, qual é a unidade de análise e qual o subtipo?',
       'O que está errado na frase do vereador? Explique o conceito.',
       'Quais são as vantagens desse desenho?',
       'Compare com um estudo transversal e com uma coorte: qual desses daria evidência mais robusta para decidir a política, e por quê?',
+    ],
+    anamnese: [
+      { tema: 'De onde vêm os dados', resposta: '"Peguei dos sistemas de informação: cobertura de esgoto e internações de crianças por diarreia."' },
+      { tema: 'O que é cada ponto', resposta: '"Cada ponto é um município. São os 40 da região."' },
+      { tema: 'Dados de cada criança', resposta: '"Não sei quais crianças tinham esgoto em casa. Só tenho o número de cada cidade."' },
+    ],
+    placas: [
+      { pedido: 'o gráfico', placa: 'Dispersão: eixo X = cobertura de esgoto por município (%); eixo Y = internações por diarreia em menores de 5 anos por 10.000 (por município). Correlação negativa forte.' },
     ],
     ator: [
       { gatilho: 'Ao começar', fala: '"A correlação é fortíssima! Isso não prova?"' },
@@ -498,7 +547,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Estudo ecológico: unidade de análise é o agregado (município), sem dados individuais', pts: 1 },
+        { tarefa: 1, item: 'Perguntou o que é cada ponto e de onde vêm os dados: estudo ecológico, com o agregado (município) como unidade de análise, sem dados individuais', pts: 1 },
         { tarefa: 1, item: 'Subtipo espacial (territorial): compara indicadores entre unidades geográficas no mesmo período', pts: 1 },
         { tarefa: 2, item: 'Falácia ecológica: transferir uma associação vista entre municípios para o nível do indivíduo, independentemente da força da correlação', pts: 2 },
         { tarefa: 3, item: 'Usa dados secundários já existentes: rápido, barato; útil para gerar hipóteses', pts: 1 },
@@ -560,7 +609,7 @@ ESTACOES.push(
     id: 'EPI-16', materia: 'epi',
     titulo: 'Funcionou no estudo, não funcionou na UBS',
     local: 'Secretaria Municipal de Saúde', papel: 'Médico(a) da gestão', interacao: 'paciente',
-    cenario: 'Um ensaio clínico randomizado, feito num centro acadêmico de excelência, mostrou que um programa de acompanhamento de hipertensos com enfermeiro dedicado reduziu muito as internações. Os critérios de inclusão eram rígidos: só pacientes de 40 a 60 anos, sem outras doenças, com boa escolaridade. O município implantou o programa em todas as UBS, e um ano depois a redução foi bem menor. A secretária de saúde (atriz) acha que "o estudo estava errado".',
+    cenario: 'A secretária de saúde implantou um programa de acompanhamento de hipertensos baseado num ensaio clínico e acha que "o estudo estava errado", porque o resultado no município foi bem menor. Pergunte como foi o estudo e como foi a implantação, e responda. Peça os dados de que precisar.',
     mesa: [],
     tarefas: [
       'Diferencie eficácia de efetividade e explique o resultado do município.',
@@ -568,6 +617,13 @@ ESTACOES.push(
       'Diferencie ensaio explicativo de pragmático. Qual responderia melhor à pergunta da secretaria?',
       'Se a intervenção fosse alocada por UBS inteiras, e não por paciente, como se chamaria o ensaio? E se testasse uma vacina em pessoas saudáveis?',
     ],
+    anamnese: [
+      { tema: 'Como foi o estudo original', resposta: '"Um ensaio clínico randomizado, num centro acadêmico de excelência, com enfermeiro dedicado só ao programa. Reduziu muito as internações."' },
+      { tema: 'Quem participou do estudo', resposta: '"Só pacientes de 40 a 60 anos, sem outras doenças, com boa escolaridade."' },
+      { tema: 'Como foi a implantação aqui', resposta: '"Colocamos em todas as UBS. Nossos hipertensos são mais velhos, muitos com diabetes, e falta enfermeiro."' },
+      { tema: 'Resultado no município', resposta: '"Um ano depois, a redução das internações foi bem menor."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao começar', fala: '"Gastamos com um programa que não funciona. O estudo mentiu?"' },
       { gatilho: 'Se falar em validade externa', fala: '"Mas se o estudo foi bem feito, por que não vale para nós?"' },
@@ -577,7 +633,7 @@ ESTACOES.push(
       conteudo: [
         { tarefa: 1, item: 'Eficácia: desempenho em condições ideais e controladas · Efetividade: desempenho em condições reais, geralmente menor', pts: 2 },
         { tarefa: 2, item: 'O estudo pode ter boa validade interna (sem vieses e confundimento na amostra) e ainda assim limitada validade externa (generalização)', pts: 1 },
-        { tarefa: 2, item: 'Critérios de elegibilidade restritivos favorecem a validade interna, mas limitam a generalização para os excluídos (idosos, com comorbidades)', pts: 1 },
+        { tarefa: 2, item: 'Perguntou quem participou: critérios de elegibilidade restritivos favorecem a validade interna, mas limitam a generalização para os excluídos (idosos, com comorbidades)', pts: 1 },
         { tarefa: 3, item: 'Explicativo: condições ideais, mede eficácia · Pragmático: condições próximas da prática real, mede efetividade → o pragmático responde à pergunta da secretaria', pts: 2 },
         { tarefa: 4, item: 'Alocação por agrupamento (UBS): ensaio comunitário · Intervenção preventiva em saudáveis (vacina): ensaio de campo', pts: 1 },
       ],
@@ -675,15 +731,21 @@ ESTACOES.push(
     id: 'EPI-19', materia: 'epi',
     titulo: '"Café causa infarto", diz a manchete',
     local: 'Ambulatório de cardiologia', papel: 'Médico(a) assistente', interacao: 'paciente',
-    cenario: 'Sr. Wagner, 55 anos, fumante, toma 6 xícaras de café por dia e chega assustado com uma reportagem: "Estudo mostra que café aumenta em 80% o risco de infarto". Você leu o artigo: é uma coorte de 20.000 adultos. Entre os que tomam muito café, a proporção de fumantes era bem maior. A análise bruta deu risco relativo de 1,8; a análise ajustada para tabagismo, 1,1, com intervalo de confiança incluindo 1.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resultados do artigo', linhas: [['Análise bruta', 'RR = 1,8 (IC95% 1,4–2,3)'], ['Análise ajustada para tabagismo', 'RR = 1,1 (IC95% 0,9–1,4)']] },
-    ],
+    cenario: 'Sr. Wagner, 55 anos, chega assustado com uma reportagem: "Estudo mostra que café aumenta em 80% o risco de infarto". Converse com ele, interprete o estudo e oriente. Peça os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'O que é confundimento? Por que o tabagismo é um confundidor aqui?',
       'Interprete a análise bruta e a ajustada. O que o intervalo de confiança da ajustada mostra?',
       'Qual a diferença entre um confundidor e uma variável intermediária? Por que não se deve ajustar para uma intermediária?',
       'Explique ao paciente o que o estudo realmente mostra e o que mais pesa no risco dele.',
+    ],
+    anamnese: [
+      { tema: 'Hábitos', resposta: '"Tomo 6 xícaras de café por dia. E fumo um maço por dia há 30 anos."' },
+      { tema: 'Doenças', resposta: '"Tenho pressão alta, tomo remédio."' },
+      { tema: 'O que ele espera', resposta: '"Vou ter que parar o café?"' },
+    ],
+    placas: [
+      { pedido: 'o artigo da reportagem', placa: 'Coorte de 20.000 adultos. Entre os que tomam muito café, a proporção de fumantes era bem maior. Análise bruta: RR = 1,8 (IC95% 1,4–2,3). Análise ajustada para tabagismo: RR = 1,1 (IC95% 0,9–1,4).' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), vou ter que parar o café? Saiu na televisão!"' },
@@ -698,7 +760,7 @@ ESTACOES.push(
         { tarefa: 2, item: 'IC95% da ajustada inclui 1: associação não estatisticamente significativa', pts: 1 },
         { tarefa: 3, item: 'Confundidor é causa comum, anterior à exposição e ao desfecho; a intermediária é um elo no caminho causal entre eles', pts: 1 },
         { tarefa: 3, item: 'Ajustar para uma intermediária mascara parte do efeito real que se quer medir; a randomização é o que controla confundidores conhecidos e desconhecidos', pts: 1 },
-        { tarefa: 4, item: 'Explicou sem jargão que o estudo não mostra que o café causa infarto e destacou o tabagismo como fator de risco dele', pts: 1 },
+        { tarefa: 4, item: 'Perguntou os hábitos; explicou sem jargão que o estudo não mostra que o café causa infarto e destacou o tabagismo como fator de risco dele', pts: 1 },
       ],
     },
     errosCriticos: ['Interpretar a análise bruta como efeito do café', 'Ajustar para variável intermediária como se fosse confundidor'],
@@ -748,6 +810,150 @@ ESTACOES.push(
       { tarefa: 4, texto: 'Conselheira, toda morte importa, mas o número de óbitos não mostra tudo. É como comparar duas lojas pelo número de clientes perdidos: perder um cliente que compraria por 50 anos pesa mais do que perder um que compraria por 5. O DALY soma os anos perdidos por morte precoce e os anos vividos com incapacidade e mostra a carga total. Por ele, o agravo A pesa mais que o dobro do B. Faz sentido?', tempo: '45 s', analogia: 'Clientes perdidos por 50 anos × por 5 anos' },
     ],
     extra: 'O que é mortalidade proporcional, e qual o erro comum? (A fração dos óbitos que ocorreu num grupo; não é o risco de morrer dentro do grupo.)',
+  },
+
+  // ----------------------------------------------------- EPI-22 · Sistemas de informação e notificação compulsória
+  {
+    id: 'EPI-22', materia: 'epi',
+    titulo: 'Notificação fica para segunda-feira?',
+    local: 'Pronto atendimento — fim do plantão', papel: 'Médico(a) plantonista', interacao: 'interno',
+    cenario: 'No fim do plantão de sexta-feira, o interno mostra três atendimentos da noite e pergunta o que precisa ser notificado. Ele preencheu uma das fichas "só com o essencial, porque depois a vigilância completa". Oriente o interno. Pergunte o que precisar sobre os casos.',
+    mesa: [],
+    tarefas: [
+      'Quais desses atendimentos devem ser notificados, e com que urgência?',
+      'Em qual sistema de informação entra cada informação gerada nesses atendimentos?',
+      'Quem é responsável por notificar? Corrija a ficha do interno, explicando os atributos de qualidade dos dados.',
+      'Por que o número registrado no sistema não é necessariamente o número real de casos? Explique ao interno.',
+    ],
+    anamnese: [
+      { tema: 'Caso 1', resposta: '"Criança de 6 anos mordida por um cão de rua no braço. Lavei a ferida e encaminhei para a vacina."' },
+      { tema: 'Caso 2', resposta: '"Adolescente de 16 anos que tomou vários comprimidos dizendo que queria morrer. Ficou em observação e está estável."' },
+      { tema: 'Caso 3', resposta: '"Senhor de 58 anos com dengue grave, que morreu na madrugada."' },
+      { tema: 'O que ele preencheu', resposta: '"Só nome e diagnóstico. Endereço, raça/cor e data de início dos sintomas deixei em branco."' },
+      { tema: 'Quando pretende enviar', resposta: '"Pensei em deixar as fichas para segunda-feira."' },
+    ],
+    placas: [
+      { pedido: 'a ficha de notificação do interno', placa: 'Ficha do SINAN com nome e agravo preenchidos; endereço, raça/cor, escolaridade e data de início dos sintomas em branco.' },
+      { pedido: 'a documentação do caso 3', placa: 'Declaração de óbito ainda não preenchida.' },
+    ],
+    ator: [
+      { gatilho: 'Interno, ao começar', fala: '"Preciso notificar tudo isso? Notificação não é coisa da vigilância?"' },
+      { gatilho: 'Interno, na tarefa 3', fala: '"Se faltar um campo, a vigilância completa depois, não?"' },
+      { gatilho: 'Interno, no final', fala: '"Se o sistema mostra poucas tentativas de suicídio aqui, é porque o problema é pequeno, né?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Perguntou os detalhes dos casos: os três estão na lista de notificação compulsória (atendimento antirrábico, tentativa de suicídio, óbito por dengue)', pts: 1 },
+        { tarefa: 1, item: 'Óbito suspeito ou confirmado de dengue: aviso em até 24 h; violência sexual e tentativa de suicídio: atenção prioritária em até 24 h; não deixar para segunda-feira', pts: 1 },
+        { tarefa: 2, item: 'SINAN: agravos de notificação (dengue, atendimento antirrábico, tentativa de suicídio) · SIM: o óbito, pela declaração de óbito', pts: 1 },
+        { tarefa: 2, item: 'Outros sistemas: SINASC (nascidos vivos), SIH (internações), SIA (produção ambulatorial), SI-PNI (doses de vacina aplicadas), CNES (estabelecimentos)', pts: 1 },
+        { tarefa: 3, item: 'Notificam os profissionais de saúde ou os responsáveis pelo estabelecimento, conforme o fluxo da vigilância: aqui, a própria equipe', pts: 1 },
+        { tarefa: 3, item: 'Qualidade: completude (campos em branco), consistência, cobertura, oportunidade (dado a tempo), validade e confiabilidade → completar a ficha agora', pts: 1 },
+        { tarefa: 4, item: 'Subnotificação: número registrado ≠ número real; outras limitações: duplicidade, erro de preenchimento, ausência de informação, atraso, diferenças de acesso', pts: 1 },
+        { tarefa: 4, item: 'Explicou o fluxo dado → informação → indicador → decisão: dado ruim gera decisão ruim', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Deixar a notificação do óbito por dengue para depois do prazo', 'Considerar que notificar é tarefa só da vigilância'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Os três estão na lista de notificação compulsória: o atendimento antirrábico pela mordedura de cão, a tentativa de suicídio e o óbito por dengue. O óbito por dengue exige aviso à autoridade de saúde em até 24 horas, e a tentativa de suicídio tem atenção prioritária em até 24 horas. Nada fica para segunda-feira.', tempo: '35 s' },
+      { tarefa: 2, texto: 'A dengue, o atendimento antirrábico e a tentativa de suicídio entram no SINAN, o sistema de agravos de notificação. O óbito entra no SIM, pela declaração de óbito. Se fossem um parto, uma internação ou uma vacina, entrariam no SINASC, no SIH e no SI-PNI.', tempo: '30 s' },
+      { tarefa: 3, texto: 'Quem notifica são os profissionais de saúde ou os responsáveis pelo estabelecimento, conforme o fluxo da vigilância: aqui, nós. E a ficha precisa estar completa: completude é não deixar campo em branco, oportunidade é o dado chegar a tempo de ser usado, além de consistência, cobertura, validade e confiabilidade. O endereço e a data de início dos sintomas são o que permite à vigilância agir no bairro.', tempo: '40 s' },
+      { tarefa: 4, texto: 'O número no sistema não é o número real: há subnotificação, além de duplicidade, erro de preenchimento, campos vazios e atraso. Pense no fluxo: o evento vira registro, o registro vira banco de dados, o banco vira indicador, e o indicador vira decisão. É como uma receita: se o ingrediente chega estragado, o bolo sai ruim, por melhor que seja o cozinheiro. Poucas tentativas de suicídio no sistema podem significar que estamos notificando pouco. Ficou claro?', tempo: '45 s', analogia: 'Ingrediente estragado, bolo ruim' },
+    ],
+    extra: 'Onde se acessam esses dados? (No DATASUS, pelo TABNET.) Quais são as fontes de dados dos sistemas? (Hospitais, UBS, laboratórios, vigilância, cartórios, profissionais, declarações de óbito e de nascido vivo, notificações e registros administrativos.)',
+  },
+
+  // ----------------------------------------------------- EPI-23 · Medidas de tendência central e de dispersão
+  {
+    id: 'EPI-23', materia: 'epi',
+    titulo: 'O paciente típico fica 9 dias internado?',
+    local: 'Hospital — reunião da diretoria', papel: 'Médico(a) da comissão de qualidade', interacao: 'examinador',
+    cenario: 'O diretor do hospital (examinador) quer divulgar que "o paciente típico da enfermaria fica 9 dias internado" e pede sua análise do tempo de permanência de uma amostra de pacientes deste mês. Peça ao avaliador os dados de que precisar.',
+    mesa: [
+      { tipo: 'tabela', titulo: 'Tempo de permanência (dias) de 9 pacientes, ordenado', linhas: [['Este mês', '2 · 3 · 3 · 4 · 4 · 4 · 5 · 6 · 50']] },
+    ],
+    tarefas: [
+      'Classifique a variável "tempo de permanência" e calcule a média, a mediana e a moda.',
+      'Qual medida representa melhor o "paciente típico", e por quê? O que o paciente de 50 dias faz com cada medida?',
+      'Calcule a amplitude. Que medida de dispersão resiste a valores extremos, e o que ela representa?',
+      'Responda ao diretor. E se a pressão sistólica dos pacientes tem média de 120 mmHg e desvio-padrão de 10, como interpretar?',
+    ],
+    anamnese: [],
+    placas: [
+      { pedido: 'a história do paciente de 50 dias', placa: 'Complicação grave após cirurgia; caso isolado no mês.' },
+      { pedido: 'os dados do mês anterior', placa: 'Mês anterior: 2 · 3 · 3 · 4 · 4 · 4 · 5 · 6 · 14 dias.' },
+    ],
+    ator: [
+      { gatilho: 'Diretor, ao começar', fala: '"A média deu 9. A conta não mente, certo?"' },
+      { gatilho: 'Diretor, na tarefa 2', fala: '"Mas nenhum paciente ficou 9 dias. Isso é um problema?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Quantitativa contínua (tempo de internação)', pts: 1 },
+        { tarefa: 1, item: 'Média = 81 ÷ 9 = 9 dias · mediana = 5º valor = 4 dias · moda = 4 dias', pts: 2 },
+        { tarefa: 2, item: 'A média é sensível a valores extremos: um único paciente a puxou para 9 (no mês anterior, com o maior tempo de 14 dias, era 5)', pts: 1 },
+        { tarefa: 2, item: 'A mediana (4 dias) representa melhor o centro: resistente a extremos, divide os dados em 50% e 50%; uma medida-resumo não precisa coincidir com uma observação', pts: 1 },
+        { tarefa: 3, item: 'Amplitude = 50 − 2 = 48 dias: depende só do mínimo e do máximo, sensível a extremos', pts: 1 },
+        { tarefa: 3, item: 'Intervalo interquartil (Q3 − Q1): dispersão dos 50% centrais, resistente a extremos', pts: 1 },
+        { tarefa: 4, item: 'Distribuição aproximadamente normal: cerca de 68% entre 110 e 130 mmHg (±1 DP) e 95% entre 100 e 140 mmHg (±2 DP)', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Divulgar a média de 9 dias como o paciente típico', 'Usar a amplitude como se fosse resistente a extremos'],
+    falaModelo: [
+      { tarefa: 1, texto: 'O tempo de permanência é uma variável quantitativa contínua. A média é a soma, 81, dividida por 9: 9 dias. A mediana é o valor do meio dos dados ordenados, o quinto: 4 dias. A moda, o valor mais frequente, também é 4 dias.', tempo: '30 s' },
+      { tarefa: 2, texto: 'A média é sensível a valores extremos: no mês anterior, com o maior tempo de 14 dias, ela era 5; um único paciente de 50 dias, com complicação grave, a puxou para 9. A mediana quase não muda e representa melhor o paciente típico, porque divide os dados ao meio. E nenhuma medida-resumo precisa coincidir com um paciente real.', tempo: '35 s' },
+      { tarefa: 3, texto: 'A amplitude é 50 menos 2, 48 dias: depende só do mínimo e do máximo, por isso é sensível ao extremo. Mais resistente é o intervalo interquartil, Q3 menos Q1, que mostra a dispersão dos 50% centrais e ignora os 25% menores e os 25% maiores.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Diretor, a média é como a altura média de um time de basquete em que joga um gigante: um só jogador muda a média, mas não o time. O paciente típico fica 4 dias. E, se a pressão sistólica tem média de 120 e desvio-padrão de 10, numa distribuição aproximadamente normal cerca de 68% dos pacientes estão entre 110 e 130, e 95% entre 100 e 140. Faz sentido divulgarmos a mediana?', tempo: '45 s', analogia: 'Time de basquete com um gigante' },
+    ],
+    extra: 'Como se calcula a variância amostral, e por que usar o desvio-padrão? (s² = soma dos desvios ao quadrado ÷ (n − 1), em unidade ao quadrado; o desvio-padrão é a raiz e volta à unidade original. Ex.: 2, 4 e 6 kg: s² = 8 ÷ 2 = 4 kg²; s = 2 kg.)',
+  },
+
+  // ----------------------------------------------------- EPI-24 · Números absolutos × relativos e transição demográfica
+  {
+    id: 'EPI-24', materia: 'epi',
+    titulo: 'Morre mais gente, então a saúde piorou?',
+    local: 'Conselho Municipal de Saúde', papel: 'Médico(a) da vigilância', interacao: 'paciente',
+    cenario: 'Uma conselheira de saúde está preocupada: "Morre muito mais gente hoje do que em 2010. A saúde do município piorou!". Ela trouxe os dados do município. Converse com ela, analise a situação e oriente. Peça os dados de que precisar.',
+    mesa: [],
+    tarefas: [
+      'O número de óbitos basta para dizer que a saúde piorou? Calcule o coeficiente de mortalidade geral de 2010 e de 2025.',
+      'Que fenômeno demográfico os dados mostram? Que forma a pirâmide etária está assumindo?',
+      'Relacione com a transição epidemiológica. Que cuidado ter ao comparar o coeficiente geral de populações com idades diferentes?',
+      'Como deve mudar a demanda para o SUS? Explique à conselheira.',
+    ],
+    anamnese: [
+      { tema: 'Óbitos', resposta: '"Em 2010 foram 1.200 óbitos. Em 2025, 1.650."' },
+      { tema: 'População', resposta: '"Em 2010 éramos 120 mil habitantes. Hoje somos 150 mil."' },
+      { tema: 'Nascimentos', resposta: '"Nasciam uns 2.400 bebês por ano. Em 2025 foram 1.800."' },
+      { tema: 'Principais causas de morte', resposta: '"Hoje é coração, AVC e câncer. Antigamente era muita diarreia e infecção."' },
+    ],
+    placas: [
+      { pedido: 'a população por faixa etária', placa: 'Menores de 5 anos: 12.000 (2010) → 9.000 (2025) · 20 a 59 anos: 72.000 → 87.000 · 60 anos ou mais: 12.000 → 30.000.' },
+    ],
+    ator: [
+      { gatilho: 'Ao começar', fala: '"Foram 450 mortes a mais! Precisa de explicação?"' },
+      { gatilho: 'Se pedir a população', fala: '"E o que a população tem a ver com as mortes?"' },
+      { gatilho: 'No final', fala: '"Então onde o município precisa investir agora?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Número absoluto não basta: perguntou a população para relacionar os óbitos ao tamanho da população', pts: 1 },
+        { tarefa: 1, item: 'CMG 2010 = 1.200 ÷ 120.000 × 1.000 = 10 por 1.000 · 2025 = 1.650 ÷ 150.000 × 1.000 = 11 por 1.000', pts: 2 },
+        { tarefa: 2, item: 'Pediu a faixa etária: envelhecimento populacional (idosos de 10% para 20%, +150%); menores de 5 anos −25%; menos nascimentos', pts: 1 },
+        { tarefa: 2, item: 'Transição demográfica: queda da natalidade e da fecundidade; pirâmide estreitando na base, rumo à regressiva', pts: 1 },
+        { tarefa: 3, item: 'Transição epidemiológica: das doenças infecciosas para as crônicas não transmissíveis e as causas externas', pts: 1 },
+        { tarefa: 3, item: 'O CMG bruto depende da estrutura etária: com mais idosos, sobe; para comparar, usar coeficientes por faixa etária', pts: 1 },
+        { tarefa: 4, item: 'Mais demanda por doenças crônicas, acompanhamento de idosos, prevenção de quedas, reabilitação, cuidados de longa duração e paliativos; reorganizar a APS', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Concluir que a saúde piorou pelo número absoluto de óbitos', 'Ignorar o envelhecimento da população ao interpretar o coeficiente geral'],
+    falaModelo: [
+      { tarefa: 1, texto: 'O número de óbitos sozinho não basta: preciso saber de quantas pessoas eles vieram. Em 2010, 1.200 óbitos em 120 mil habitantes: 10 por 1.000. Em 2025, 1.650 em 150 mil: 11 por 1.000. O risco de morrer subiu um pouco, mas bem menos do que os números absolutos sugerem.', tempo: '35 s' },
+      { tarefa: 2, texto: 'Os dados mostram envelhecimento: os idosos passaram de 12 para 30 mil, de 10% para 20% da população, enquanto as crianças menores de 5 anos caíram 25% e os nascimentos caíram de 2.400 para 1.800. É a transição demográfica: queda da natalidade e da fecundidade, com a pirâmide estreitando na base e se aproximando da regressiva.', tempo: '35 s' },
+      { tarefa: 3, texto: 'Junto vem a transição epidemiológica: saem as infecções e a diarreia, entram coração, AVC e câncer. E, como idosos morrem mais, uma população mais velha tem coeficiente geral mais alto mesmo com boa saúde: para comparar 2010 e 2025 de forma justa, uso coeficientes por faixa etária.', tempo: '35 s' },
+      { tarefa: 4, texto: 'Conselheira, a cidade é como uma família em que os filhos cresceram e os avós vivem mais: a casa precisa de menos berço e de mais corrimão. O SUS vai precisar de mais cuidado com hipertensão, diabetes e câncer, acompanhamento de idosos, prevenção de quedas, reabilitação, cuidados de longa duração e paliativos, com a atenção primária organizada para isso. O que a senhora acha?', tempo: '45 s', analogia: 'Menos berço, mais corrimão' },
+    ],
+    extra: 'Como se calculam o crescimento vegetativo e o saldo migratório? (Vegetativo = nascimentos − óbitos; saldo migratório = imigração − emigração; crescimento populacional = vegetativo + migratório.) O que é o índice de Swaroop-Uemura? (Óbitos com 50 anos ou mais ÷ total de óbitos × 100.)',
   },
 
 );

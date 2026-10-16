@@ -743,6 +743,34 @@ const RESUMOS = {
     'Indicadores de morbidade e de mortalidade se complementam.',
   ], pegadinha: 'O número de óbitos sozinho esconde as mortes precoces e as sequelas.' },
 
+  'EPI-22': { tema: 'Sistemas de informação em saúde e notificação compulsória', pontos: [
+    'Dado = registro bruto; informação = dado organizado e interpretado; indicador = medida que permite avaliar uma situação de saúde.',
+    'SINAN (agravos de notificação), SIM (mortalidade, pela declaração de óbito), SINASC (nascidos vivos), SIH (internações), SIA (ambulatorial), SI-PNI (imunização), e-SUS APS e SISAB (atenção primária), CNES (estabelecimentos).',
+    'Notificam os profissionais de saúde ou os responsáveis pelos estabelecimentos, conforme o fluxo da vigilância.',
+    'Óbitos suspeitos ou confirmados de doenças de notificação imediata (como dengue e febre amarela): aviso em até 24 h. Violência sexual e tentativa de suicídio: atenção prioritária em até 24 h.',
+    'Qualidade dos dados: completude, consistência, cobertura, oportunidade, validade e confiabilidade.',
+    'Limitações: subnotificação, duplicidade, erro de preenchimento, ausência de informação, mudanças de metodologia, atraso, erros de diagnóstico, diferenças de acesso. Dados no DATASUS/TABNET.',
+  ], pegadinha: 'Notificar não é tarefa só da vigilância: começa no profissional que atendeu.' },
+
+  'EPI-23': { tema: 'Medidas de tendência central e de dispersão', pontos: [
+    'Variáveis: quantitativas contínuas (peso, glicemia, PA, tempo de internação) e discretas (nº de filhos, de internações); qualitativas nominais (sexo, diagnóstico) e ordinais (escolaridade, faixa etária).',
+    'Média: soma ÷ n, sensível a valores extremos. Mediana: valor central dos dados ordenados (n par: média dos dois centrais), resistente a extremos. Moda: valor mais frequente.',
+    'Amplitude = máximo − mínimo: simples, mas sensível a extremos.',
+    'Variância amostral: s² = Σ(xᵢ − x̄)² ÷ (n − 1), em unidade ao quadrado; desvio-padrão = √s², na unidade original.',
+    'Distribuição aproximadamente normal: ±1 DP ≈ 68%; ±2 DP ≈ 95%; ±3 DP ≈ 99,7%.',
+    'Quartis dividem os dados em quatro partes; Q2 = mediana; intervalo interquartil = Q3 − Q1 (50% centrais), resistente a extremos.',
+  ], pegadinha: 'Uma medida-resumo não precisa coincidir com nenhuma observação: a média de 9 dias pode não ser de ninguém.' },
+
+  'EPI-24': { tema: 'Números absolutos × relativos, transições demográfica e epidemiológica', pontos: [
+    'Número absoluto dá a carga e dimensiona serviços; número relativo (razão, proporção, taxa) permite comparar populações de tamanhos diferentes.',
+    'Coeficiente de mortalidade geral = óbitos ÷ população × 1.000. Ex.: 1.200/120.000 = 10 por 1.000; 1.650/150.000 = 11 por 1.000.',
+    'Transição demográfica: queda da mortalidade, depois da fecundidade (Brasil ≈ 1,6 filho por mulher) → envelhecimento. Pirâmide expansiva (base larga) → regressiva (base estreita).',
+    'Transição epidemiológica: das doenças infecciosas para as crônicas não transmissíveis (diabetes, hipertensão, câncer) e as causas externas (violências, acidentes).',
+    'O coeficiente geral bruto depende da estrutura etária: para comparar populações com idades diferentes, usar coeficientes por faixa etária.',
+    'Impacto no SUS: mais doenças crônicas, cuidados de longa duração, reabilitação, atenção domiciliar e paliativos; reorganizar a APS.',
+    'Crescimento vegetativo = nascimentos − óbitos; saldo migratório = imigração − emigração; densidade demográfica = população ÷ área.',
+  ], pegadinha: 'Mais óbitos não significa saúde pior: antes, divida pela população e olhe a idade dela.' },
+
   // ===================================================== SAÚDE DA MULHER
   'MUL-01': { tema: 'Queixa de corrimento: anamnese, exame e meio vaginal normal', pontos: [
     'Vulvovaginites e vaginoses são as queixas mais frequentes no consultório de ginecologia (cerca de 40% das consultas).',
