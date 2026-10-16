@@ -139,7 +139,7 @@
     <h3 class="font-semibold mt-3">👥 Dupla</h3>
     <p>Os dois colocam o mesmo código e as mesmas matérias; um escolhe <b>Candidato</b> e o outro <b>Examinador</b>. O examinador vê o caso, o <b>roteiro do paciente</b> (o que responder se o candidato perguntar) e marca o barema enquanto o candidato fala. Toquem em "Entrar na estação" juntos.</p>
     <h3 class="font-semibold mt-3">🗣️ Anamnese e placas (como na prova)</h3>
-    <p>Nas estações com anamnese, o paciente só conta o que você perguntar, e o avaliador só mostra a placa do exame que você pedir. Faça as perguntas em voz alta e, quando terminar, toque em <b>"Terminei a anamnese"</b> para ver o que o paciente contou e as placas; depois siga com o diagnóstico e as orientações. Na dupla, o examinador vê as respostas e as placas desde o início e só revela o que for pedido.</p>
+    <p>Nas estações com anamnese, o paciente só conta o que você perguntar, e o avaliador só mostra a placa do exame que você pedir. Faça cada pergunta em voz alta e marque a caixinha do tema que perguntou: a resposta do paciente aparece na hora e guia a próxima pergunta. Para exames, marque o que pediria ao avaliador e veja a placa. No feedback aparece o que você perguntou e o que ficou faltando. Na dupla, o examinador vê as respostas e as placas desde o início e só revela o que for pedido.</p>
     <h3 class="font-semibold mt-3">⭐ Prova anterior</h3>
     <p>As estações marcadas com ⭐ reproduzem os casos da prova do 4º semestre B 25.2. O botão amarelo da página inicial monta um circuito só com elas.</p>
     <h3 class="font-semibold mt-3">📚 Resumo do assunto</h3>
@@ -222,7 +222,7 @@
     const h = hist();
     $('cat-info').textContent = `${ESTACOES.length} estações`;
     $('catalogo').innerHTML = MATERIAS.map(m => {
-      const es = ESTACOES.filter(e => e.materia === m.key);
+      const es = ESTACOES.filter(e => e.materia === m.key).sort((a, b) => a.id.localeCompare(b.id, 'pt', { numeric: true }));
       if (!es.length) return '';
       return `<div class="mt-3 first:mt-0"><div class="font-semibold mb-1">${m.icon} ${esc(m.label)}</div>` + es.map(e => {
         const hh = h[e.id] || []; const n = hh.length ? hh[hh.length - 1].nota : null;
@@ -316,7 +316,7 @@
   function stopRec() { recOn = false; try { rec && rec.stop(); } catch (e) {} rec = null; }
 
   // ---------- estação ----------
-  let circ = null, phase = 'porta', endAt = 0, tick = null, fired = {}, marks = {}, crit = {};
+  let circ = null, phase = 'porta', endAt = 0, tick = null, fired = {}, marks = {}, crit = {}, asked = { a: {}, p: {} };
   function cur() { return BY_ID[circ.ids[circ.pos]]; }
   function isExam() { return circ.papel === 'examinador'; }
   function stopTick() { if (tick) { clearInterval(tick); tick = null; } }
@@ -348,11 +348,37 @@
   }
   function provaIds() { return MATERIAS.flatMap(m => ESTACOES.filter(e => e.prova && e.materia === m.key).map(e => e.id)); }
   function temAnam(e) { return !!((e.anamnese && e.anamnese.length) || (e.placas && e.placas.length)); }
-  function anamHtml(e) {
+  function anamHtml(e, marc) {
+    const tag = (t, i) => !marc ? '' : marc[t][i] ? '<span class="text-green-700">✅</span> ' : '<span class="text-rose-700 text-xs font-semibold">⬜ não perguntou ·</span> ';
     let h = '';
-    if (e.anamnese && e.anamnese.length) h += `<div class="mt-2"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🗣️ O que o paciente conta, se perguntado</div>${e.anamnese.map(a => `<div class="text-sm mt-1"><b>${esc(a.tema)}:</b> ${esc(a.resposta)}</div>`).join('')}</div>`;
-    if (e.placas && e.placas.length) h += `<div class="mt-3"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🪧 Placas do avaliador</div>${e.placas.map(p => `<div class="mt-1 p-2 rounded-lg bg-white border border-amber-300 text-sm"><span class="text-amber-800 font-semibold">Se pedir ${esc(p.pedido)}:</span> ${esc(p.placa)}</div>`).join('')}</div>`;
+    if (e.anamnese && e.anamnese.length) h += `<div class="mt-2"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🗣️ O que o paciente conta, se perguntado</div>${e.anamnese.map((a, i) => `<div class="text-sm mt-1">${tag('a', i)}<b>${esc(a.tema)}:</b> ${esc(a.resposta)}</div>`).join('')}</div>`;
+    if (e.placas && e.placas.length) h += `<div class="mt-3"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🪧 Placas do avaliador</div>${e.placas.map((p, i) => `<div class="mt-1 p-2 rounded-lg bg-white border border-amber-300 text-sm">${tag('p', i).replace('não perguntou', 'não pediu')}<span class="text-amber-800 font-semibold">Se pedir ${esc(p.pedido)}:</span> ${esc(p.placa)}</div>`).join('')}</div>`;
     return h;
+  }
+  function anamResumo(e) {
+    const na = (e.anamnese || []).length, np = (e.placas || []).length;
+    const fa = Object.keys(asked.a).length, fp = Object.keys(asked.p).length;
+    const partes = [];
+    if (na) partes.push(`perguntou <b>${fa} de ${na}</b> temas`);
+    if (np) partes.push(`pediu <b>${fp} de ${np}</b> exames`);
+    return partes.length ? 'Você ' + partes.join(' e ') + '.' : '';
+  }
+  function anamInterHtml(e, exam) {
+    const q = (t, i, rot, resp, cls) => `<label class="anam-q flex items-start gap-2 mt-1.5 p-2 rounded-lg bg-white border border-amber-200 cursor-pointer text-sm"><input type="checkbox" class="anam-chk mt-0.5 w-4 h-4 shrink-0" data-t="${t}" data-i="${i}"><span class="flex-1 min-w-0"><b>${rot}</b><span class="anam-r ${exam ? '' : 'hidden'} block mt-1 ${cls}">${resp}</span></span></label>`;
+    let h = '';
+    if (e.anamnese && e.anamnese.length) h += `<div class="mt-2 text-xs font-semibold uppercase tracking-wide text-amber-800">🗣️ Perguntas ao paciente</div>` + e.anamnese.map((a, i) => q('a', i, esc(a.tema), esc(a.resposta), 'text-slate-800')).join('');
+    if (e.placas && e.placas.length) h += `<div class="mt-3 text-xs font-semibold uppercase tracking-wide text-amber-800">🪧 Pedidos ao avaliador</div>` + e.placas.map((p, i) => q('p', i, 'Pedir ' + esc(p.pedido), esc(p.placa), 'p-2 rounded-lg bg-amber-100 border border-amber-300 text-amber-950')).join('');
+    return h + `<div id="anam-cont" class="mt-2 text-xs text-amber-900"></div>`;
+  }
+  function bindAnam(e) {
+    const upd = () => { const c = $('anam-cont'); if (c) c.innerHTML = anamResumo(e); };
+    document.querySelectorAll('.anam-chk').forEach(c => { c.onchange = () => {
+      if (!c.checked) { c.checked = true; return; }
+      asked[c.dataset.t][c.dataset.i] = 1; c.disabled = true;
+      const r = c.closest('.anam-q'); r.classList.remove('cursor-pointer'); r.classList.add('bg-amber-50');
+      r.querySelector('.anam-r').classList.remove('hidden'); upd();
+    }; });
+    upd();
   }
   function tarefasHtml(e) {
     return `<ol class="list-decimal pl-5 space-y-1.5">${e.tarefas.map(t => `<li class="font-semibold">${esc(t)}</li>`).join('')}</ol>`;
@@ -382,7 +408,7 @@
 
   function enterStation() {
     ensureAudio(); keepAwake(true);
-    const e = cur(); setPhase('estacao'); marks = {}; crit = {}; transcript = ''; interim = ''; fired = {};
+    const e = cur(); setPhase('estacao'); marks = {}; crit = {}; asked = { a: {}, p: {} }; transcript = ''; interim = ''; fired = {};
     const exam = isExam();
     let h = `<div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in">
       <div class="text-xs text-slate-500">${esc(e.local)} · ${esc(e.papel)}</div>
@@ -391,14 +417,15 @@
       ${e.mesa && e.mesa.length ? `<div class="mt-3 p-3 rounded-xl bg-sky-50 border border-sky-200"><div class="font-semibold text-sm text-sky-800">📎 Dados na mesa</div>${mesaHtml(e)}</div>` : ''}
       <div class="mt-3 p-3 rounded-xl bg-blue-50 border border-blue-200"><div class="font-semibold text-sm text-blue-800 mb-1">📝 Tarefas</div>${tarefasHtml(e)}</div>
     </div>`;
-    if (!exam && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: o paciente só conta o que você perguntar, e o avaliador só mostra a placa do exame que você pedir. Faça as perguntas em voz alta; quando terminar a anamnese, toque abaixo e siga com o diagnóstico e as orientações.</p><button id="btn-anam" class="btn w-full mt-2 bg-amber-500 text-white hover:bg-amber-600">✋ Terminei a anamnese — ver o que o paciente contou</button><div id="anam-rev" class="hidden">${anamHtml(e)}</div></div>`;
+    if (!exam && temAnam(e) && circ.code) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: pergunte ao paciente em voz alta e peça ao avaliador os exames de que precisar. O examinador está com as respostas e as placas e só conta o que você perguntar.</p></div>`;
+    else if (!exam && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: faça a pergunta em voz alta e marque o tema que você perguntou. A resposta do paciente aparece na hora e ajuda a decidir a próxima pergunta. Para exames, marque o que você pediria ao avaliador e veja a placa. Pergunte só o que faria sentido no caso: no feedback aparece o que ficou faltando.</p>${anamInterHtml(e)}</div>`;
     if (!exam && circ.ditado) h += `<div class="mt-3 p-3 rounded-xl bg-white border border-rose-200"><div id="rec-status" class="text-xs text-rose-700"></div><div id="rec-text" class="text-sm text-slate-700 mt-1 min-h-[2rem]"></div></div>`;
     if (exam) h += examinerPanel(e, true);
     h += `<button id="btn-end" class="btn w-full mt-3 border border-slate-300 bg-white hover:bg-slate-100">⏹️ Terminei — ir para o feedback</button>`;
     $('st-body').innerHTML = h;
     if (exam) bindBarema(e);
     $('btn-end').onclick = () => startFeedback(false);
-    if ($('btn-anam')) $('btn-anam').onclick = () => { $('anam-rev').classList.remove('hidden'); $('btn-anam').remove(); };
+    if (temAnam(e) && (exam || !circ.code)) bindAnam(e);
     if (!exam && circ.ditado) startRec();
     endAt = Date.now() + T_STATION * 1000; stopTick();
     tick = setInterval(() => {
@@ -412,7 +439,7 @@
 
   function examinerPanel(e, live) {
     let h = '';
-    if (live && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Respostas do paciente e placas — conte só o que o candidato perguntar e mostre a placa só quando ele pedir</div>${anamHtml(e)}</div>`;
+    if (live && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Respostas do paciente e placas</div><p class="text-sm text-amber-900 mt-1">Conte só o que o candidato perguntar e mostre a placa só quando ele pedir. Marque cada tema que ele perguntou: no feedback aparece o que ficou faltando.</p>${anamInterHtml(e, true)}</div>`;
     if (live && e.ator && e.ator.length) h += `<div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200"><div class="font-semibold text-sm text-violet-800 mb-1">🎭 Roteiro do paciente/examinador</div>${e.ator.map(a => `<div class="text-sm mt-1"><span class="text-violet-700 font-semibold">${esc(a.gatilho)}:</span> ${esc(a.fala)}</div>`).join('')}</div>`;
     h += baremaHtml(e);
     return h;
@@ -458,7 +485,8 @@
     h += `<div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 fade-in"><div class="font-bold text-emerald-800">💬 Fala-modelo</div>` +
       e.falaModelo.map(f => `<div class="mt-3"><div class="text-xs font-semibold text-emerald-700">Tarefa ${f.tarefa}${f.tempo ? ` · ~${esc(f.tempo)}` : ''}</div><div class="text-[15px] mt-0.5">${esc(f.texto)}</div>${f.analogia ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-yellow-200 text-yellow-900">💡 Analogia: ${esc(f.analogia)}</div>` : ''}</div>`).join('') + `</div>`;
     if (e.extra) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><summary class="cursor-pointer text-sm font-semibold">❔ Pergunta extra da banca</summary><div class="text-sm mt-1">${esc(e.extra)}</div></details>`;
-    if (!isExam() && temAnam(e)) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-amber-200"><summary class="cursor-pointer text-sm font-semibold text-amber-800">🗣️ O que o paciente contava e as placas</summary>${anamHtml(e)}</details>`;
+    if (temAnam(e)) { const marc = circ.code && !isExam() ? null : asked;
+      h += `<details class="mt-3 p-3 rounded-xl bg-white border border-amber-200" open><summary class="cursor-pointer text-sm font-semibold text-amber-800">${marc ? '🗣️ Anamnese: o que foi perguntado e o que ficou faltando' : '🗣️ O que o paciente contava e as placas'}</summary>${marc ? `<div class="text-sm mt-1 text-amber-900">${anamResumo(e).replace('Você', isExam() ? 'O candidato' : 'Você')}</div>` : ''}${anamHtml(e, marc)}</details>`; }
     if (!isExam() && e.ator && e.ator.length) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-violet-200"><summary class="cursor-pointer text-sm font-semibold text-violet-800">🎭 O que o paciente diria</summary>${e.ator.map(a => `<div class="text-sm mt-1"><b>${esc(a.gatilho)}:</b> ${esc(a.fala)}</div>`).join('')}</details>`;
     h += baremaHtml(e);
     h += resumoHtml(e.id);
