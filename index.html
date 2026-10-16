@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulado OSCE — 4º semestre</title>
-<meta name="description" content="Simulado de estações OSCE: 4 minutos de estação, feedback sem pressa com barema de correção, ditado por voz e treino em dupla.">
+<meta name="description" content="Simulado de estações OSCE: 4 minutos de estação, feedback sem pressa com barema de correção, ditado por voz e treino em dupla ou trio.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50' font-size='50'%3E%E2%8F%B1%EF%B8%8F%3C/text%3E%3C/svg%3E">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -69,23 +69,32 @@
     </div>
 
     <div class="mt-4 p-5 rounded-2xl bg-white border border-violet-300 shadow-sm">
-      <h2 class="font-bold text-lg mb-1">👥 Treino em dupla</h2>
-      <p class="text-sm text-slate-500 mb-3">Um colega é o <b>examinador</b> (vê o roteiro do paciente e marca o barema durante a estação) e você é o <b>candidato</b>. Os dois usam o <b>mesmo código</b> e as mesmas matérias e tocam em "Entrar na estação" juntos.</p>
-      <div class="grid sm:grid-cols-3 gap-2 items-end">
+      <h2 class="font-bold text-lg mb-1">👥 Treino em dupla ou trio</h2>
+      <p class="text-sm text-slate-500 mb-3"><b>Dupla:</b> um é o <b>candidato</b> e o outro é o <b>avaliador</b>, que faz o paciente, mostra as placas e marca o barema. <b>Trio:</b> entra o <b>ator</b>, que faz o paciente (ou o acompanhante, o gestor, o preceptor) seguindo o roteiro, e o avaliador fica com as placas e o barema. Todos usam o <b>mesmo código</b> e as mesmas matérias e tocam em "Entrar na estação" juntos.</p>
+      <div class="grid sm:grid-cols-2 gap-2">
         <label class="text-sm">Código
           <input id="dupla-code" type="text" placeholder="ex.: grupo-osce-1" autocomplete="off" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
+        </label>
+        <label class="text-sm">Formato
+          <select id="dupla-formato" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white">
+            <option value="dupla">Dupla: candidato + avaliador</option>
+            <option value="trio">Trio: candidato + avaliador + ator</option>
+          </select>
         </label>
         <label class="text-sm">Eu sou
           <select id="dupla-papel" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white">
             <option value="candidato">🧑‍⚕️ Candidato</option>
-            <option value="examinador">📋 Examinador</option>
+            <option value="examinador">📋 Avaliador</option>
+            <option value="ator">🎭 Ator</option>
           </select>
         </label>
-        <div class="flex gap-2">
-          <button id="btn-dupla" class="btn flex-1 bg-violet-600 text-white hover:bg-violet-700">Começar circuito</button>
-          <button id="btn-dupla-link" class="btn border border-slate-300 bg-white" title="Copiar link para o colega">🔗</button>
-        </div>
+        <label class="text-sm flex items-center gap-2 sm:mt-6"><input id="dupla-rodizio" type="checkbox" class="w-4 h-4"> 🔄 Revezar os papéis a cada estação</label>
       </div>
+      <div class="flex gap-2 mt-3">
+        <button id="btn-dupla" class="btn flex-1 bg-violet-600 text-white hover:bg-violet-700">Começar circuito</button>
+        <button id="btn-dupla-link" class="btn border border-slate-300 bg-white" title="Copiar link para os colegas">🔗</button>
+      </div>
+      <div id="grupo-ativo" class="hidden mt-3 p-2 rounded-lg bg-violet-50 border border-violet-200 text-xs text-violet-900 flex flex-wrap items-center justify-between gap-2"><span id="grupo-info"></span><button id="btn-grupo-sair" class="underline">Sair do modo grupo</button></div>
     </div>
 
     <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
@@ -136,10 +145,10 @@
     <p>Com a opção ligada, o celular transcreve o que você fala durante a estação, e o texto aparece no feedback ao lado da fala-modelo para você comparar. Funciona no Chrome (Android/computador) e no Safari do iPhone, com internet. Na primeira vez, o navegador pede permissão para o microfone.</p>
     <h3 class="font-semibold mt-3">🔔 Circuito</h3>
     <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
-    <h3 class="font-semibold mt-3">👥 Dupla</h3>
-    <p>Os dois colocam o mesmo código e as mesmas matérias; um escolhe <b>Candidato</b> e o outro <b>Examinador</b>. O examinador vê o caso, o <b>roteiro do paciente</b> (o que responder se o candidato perguntar) e marca o barema enquanto o candidato fala. Toquem em "Entrar na estação" juntos.</p>
+    <h3 class="font-semibold mt-3">👥 Dupla ou trio</h3>
+    <p>Todos colocam o mesmo código, o mesmo formato e as mesmas matérias, e cada um escolhe o seu papel. Na <b>dupla</b>, o <b>avaliador</b> vê o caso, o roteiro do paciente (o que responder se o candidato perguntar), as placas e o barema. No <b>trio</b>, o <b>ator</b> recebe uma tela própria, com quem ele é, o cenário, as falas e o que contar só se perguntarem, sem barema; o <b>avaliador</b> mostra as placas, marca o que o candidato perguntou e preenche o barema. Com <b>🔄 Revezar os papéis</b>, os papéis giram a cada estação (candidato → avaliador → ator), para todos treinarem como candidato. Toquem em "Entrar na estação" juntos. Enquanto o código estiver preenchido, as estações abertas pelo catálogo e pela prova anterior também entram no modo grupo.</p>
     <h3 class="font-semibold mt-3">🗣️ Anamnese e placas (como na prova)</h3>
-    <p>Nas estações com anamnese, o paciente só conta o que você perguntar, e o avaliador só mostra a placa do exame que você pedir. Faça cada pergunta em voz alta e marque a caixinha do tema que perguntou: a resposta do paciente aparece na hora e guia a próxima pergunta. Para exames, marque o que pediria ao avaliador e veja a placa. No feedback aparece o que você perguntou e o que ficou faltando. Na dupla, o examinador vê as respostas e as placas desde o início e só revela o que for pedido.</p>
+    <p>Nas estações com anamnese, o paciente só conta o que você perguntar, e o avaliador só mostra a placa do exame que você pedir. Faça cada pergunta em voz alta e marque a caixinha do tema que perguntou: a resposta do paciente aparece na hora e guia a próxima pergunta. Para exames, marque o que pediria ao avaliador e veja a placa. No feedback aparece o que você perguntou e o que ficou faltando. Na dupla, o avaliador vê as respostas e as placas desde o início e só revela o que for pedido; no trio, quem responde à anamnese é o ator.</p>
     <h3 class="font-semibold mt-3">⭐ Prova anterior</h3>
     <p>As estações marcadas com ⭐ reproduzem os casos da prova do 4º semestre B 25.2. O botão amarelo da página inicial monta um circuito só com elas.</p>
     <h3 class="font-semibold mt-3">📚 Resumo do assunto</h3>
@@ -186,7 +195,9 @@
   function shuffle(a, rng) { rng = rng || Math.random; a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
   function fmt(s) { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 
-  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato' }, load(LS.prefs, {}));
+  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false }, load(LS.prefs, {}));
+  const PAPEL = { candidato: '🧑‍⚕️ candidato', examinador: '📋 avaliador', ator: '🎭 ator' };
+  function papeisDo(formato) { return formato === 'trio' ? ['candidato', 'examinador', 'ator'] : ['candidato', 'examinador']; }
 
   // ---------- barema ----------
   function baremaItens(e) {
@@ -216,7 +227,11 @@
       return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="checkbox" class="w-4 h-4 mat-chk" value="${m.key}" ${prefs.materias.includes(m.key) ? 'checked' : ''}> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs text-slate-400">${n} ${n === 1 ? 'estação' : 'estações'}</span></label>`;
     }).join('');
     $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som;
-    $('dupla-code').value = prefs.code || ''; $('dupla-papel').value = prefs.papel || 'candidato';
+    $('dupla-code').value = prefs.code || ''; $('dupla-formato').value = prefs.formato || 'dupla';
+    $('dupla-papel').querySelector('option[value="ator"]').disabled = prefs.formato !== 'trio';
+    $('dupla-papel').value = prefs.papel || 'candidato'; $('dupla-rodizio').checked = !!prefs.rodizio;
+    $('grupo-ativo').classList.toggle('hidden', !prefs.code);
+    $('grupo-info').innerHTML = prefs.code ? `Modo grupo ativo: código <b>${esc(prefs.code)}</b>, ${prefs.formato === 'trio' ? 'trio' : 'dupla'}, você é ${PAPEL[prefs.papel]}${prefs.rodizio ? ' (revezando)' : ''}. O catálogo e a prova anterior também abrem nesse modo.` : '';
     $('rev-count').textContent = revList().length;
     $('prova-count').textContent = provaIds().length;
     const h = hist();
@@ -233,13 +248,15 @@
       }).join('') + `</div>`;
     }).join('');
     const c = load(LS.circ, null);
-    if (c && c.ids && c.pos < c.ids.length) { $('resume-box').classList.remove('hidden'); $('resume-info').textContent = `Estação ${c.pos + 1} de ${c.ids.length}${c.papel === 'examinador' ? ' (examinador)' : ''}.`; }
+    if (c && c.ids && c.pos < c.ids.length) { $('resume-box').classList.remove('hidden'); $('resume-info').textContent = `Estação ${c.pos + 1} de ${c.ids.length}${c.code ? ` (${PAPEL[c.papel] || c.papel}${c.rodizio ? ', revezando' : ''})` : ''}.`; }
     else $('resume-box').classList.add('hidden');
   }
   function readPrefs() {
     prefs.materias = [...document.querySelectorAll('.mat-chk:checked')].map(x => x.value);
     prefs.ditado = $('opt-ditado').checked; prefs.som = $('opt-som').checked;
     prefs.code = $('dupla-code').value.trim(); prefs.papel = $('dupla-papel').value;
+    prefs.formato = $('dupla-formato').value; prefs.rodizio = $('dupla-rodizio').checked;
+    if (prefs.formato !== 'trio' && prefs.papel === 'ator') prefs.papel = 'candidato';
     save(LS.prefs, prefs);
   }
 
@@ -267,7 +284,7 @@
     else ids = shuffle(prefs.materias, rng).map(m => nextFromDeck(m, rng, !!seed)).filter(Boolean);
     ids = ids.filter(Boolean);
     if (!ids.length) { toast('Ainda não há estações nas matérias marcadas.'); return; }
-    circ = { ids, pos: 0, res: {}, papel: opts.papel || 'candidato', code: opts.code || '', ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
+    circ = { ids, pos: 0, res: {}, papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodizio: !!(opts.code && prefs.rodizio), ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
     save(LS.circ, circ);
     openStation();
   }
@@ -318,13 +335,21 @@
   // ---------- estação ----------
   let circ = null, phase = 'porta', endAt = 0, tick = null, fired = {}, marks = {}, crit = {}, asked = { a: {}, p: {} };
   function cur() { return BY_ID[circ.ids[circ.pos]]; }
-  function isExam() { return circ.papel === 'examinador'; }
+  function papelAtual() {
+    if (!circ.code) return 'candidato';
+    const r = papeisDo(circ.formato); const i = r.indexOf(circ.papel);
+    if (!circ.rodizio || i < 0) return circ.papel;
+    return r[(i + circ.pos) % r.length];
+  }
+  function isExam() { return papelAtual() === 'examinador'; }
+  function isAtor() { return papelAtual() === 'ator'; }
+  function isTrio() { return circ.formato === 'trio'; }
   function stopTick() { if (tick) { clearInterval(tick); tick = null; } }
 
   function header() {
     const e = cur(), m = MAT[e.materia];
     $('st-progress').textContent = circ.ids.length > 1 ? `Estação ${circ.pos + 1} de ${circ.ids.length}` : 'Estação';
-    $('st-badges').innerHTML = `· ${m.icon} ${esc(m.label)}${circ.code ? ` · <span class="text-violet-700">👥 ${esc(circ.code)} — ${isExam() ? 'examinador' : 'candidato'}</span>` : ''}`;
+    $('st-badges').innerHTML = `· ${m.icon} ${esc(m.label)}${circ.code ? ` · <span class="text-violet-700">👥 ${esc(circ.code)} — ${PAPEL[papelAtual()]}</span>` : ''}`;
   }
   function setPhase(p) {
     phase = p;
@@ -397,7 +422,8 @@
         <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Seu papel</div><b>${esc(e.papel)}</b></div>
         <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Interação</div><b>${esc(INTER[e.interacao] || e.interacao)}</b></div>
       </div>
-      <p class="text-sm text-slate-500 mt-3">${isExam() ? 'Você é o <b>examinador</b>: toque junto com o candidato. Você verá o caso, o roteiro do paciente e o barema para marcar.' : 'Ao entrar, o cronômetro de <b>4:00</b> começa. Leia, apresente-se e responda em voz alta.'}${circ.ditado && !isExam() ? ' 🎙️ O ditado vai gravar o que você falar.' : ''}</p>
+      ${circ.code ? `<div class="mt-3 p-2 rounded-lg bg-violet-50 border border-violet-200 text-sm text-violet-900">Nesta estação você é: <b>${PAPEL[papelAtual()]}</b>${circ.rodizio ? ' (os papéis giram a cada estação)' : ''}</div>` : ''}
+      <p class="text-sm text-slate-500 mt-3">${isExam() ? (isTrio() ? 'Você é o <b>avaliador</b>: toque junto com os colegas. Você verá o caso, as placas para mostrar quando o candidato pedir e o barema para marcar.' : 'Você é o <b>avaliador</b>: toque junto com o candidato. Você verá o caso, o roteiro do paciente, as placas e o barema para marcar.') : isAtor() ? 'Você é o <b>ator</b>: toque junto com os colegas. Você verá quem você é, o cenário, as suas falas e o que contar só se o candidato perguntar.' : 'Ao entrar, o cronômetro de <b>4:00</b> começa. Leia, apresente-se e responda em voz alta.'}${circ.ditado && papelAtual() === 'candidato' ? ' 🎙️ O ditado vai gravar o que você falar.' : ''}</p>
       <button id="btn-enter" class="btn w-full mt-4 bg-blue-600 text-white hover:bg-blue-700 text-lg">▶️ Entrar na estação (4:00)</button>
       <div class="flex justify-between mt-3 text-xs"><button id="btn-quit" class="text-slate-500 underline">Sair (salva o circuito)</button>${circ.ids.length > 1 ? '<button id="btn-skip" class="text-slate-500 underline">Pular esta estação</button>' : ''}</div>
     </div>`;
@@ -409,24 +435,24 @@
   function enterStation() {
     ensureAudio(); keepAwake(true);
     const e = cur(); setPhase('estacao'); marks = {}; crit = {}; asked = { a: {}, p: {} }; transcript = ''; interim = ''; fired = {};
-    const exam = isExam();
-    let h = `<div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in">
+    const exam = isExam(), ator = isAtor(), cand = !exam && !ator;
+    let h = ator ? atorPanel(e) : `<div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in">
       <div class="text-xs text-slate-500">${esc(e.local)} · ${esc(e.papel)}</div>
       <h2 class="text-lg font-extrabold">${esc(e.titulo)}</h2>
       <div class="mt-2 text-[15px] leading-relaxed pre-line">${esc(e.cenario)}</div>
       ${e.mesa && e.mesa.length ? `<div class="mt-3 p-3 rounded-xl bg-sky-50 border border-sky-200"><div class="font-semibold text-sm text-sky-800">📎 Dados na mesa</div>${mesaHtml(e)}</div>` : ''}
       <div class="mt-3 p-3 rounded-xl bg-blue-50 border border-blue-200"><div class="font-semibold text-sm text-blue-800 mb-1">📝 Tarefas</div>${tarefasHtml(e)}</div>
     </div>`;
-    if (!exam && temAnam(e) && circ.code) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: pergunte ao paciente em voz alta e peça ao avaliador os exames de que precisar. O examinador está com as respostas e as placas e só conta o que você perguntar.</p></div>`;
-    else if (!exam && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: faça a pergunta em voz alta e marque o tema que você perguntou. A resposta do paciente aparece na hora e ajuda a decidir a próxima pergunta. Para exames, marque o que você pediria ao avaliador e veja a placa. Pergunte só o que faria sentido no caso: no feedback aparece o que ficou faltando.</p>${anamInterHtml(e)}</div>`;
-    if (!exam && circ.ditado) h += `<div class="mt-3 p-3 rounded-xl bg-white border border-rose-200"><div id="rec-status" class="text-xs text-rose-700"></div><div id="rec-text" class="text-sm text-slate-700 mt-1 min-h-[2rem]"></div></div>`;
+    if (cand && temAnam(e) && circ.code) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: pergunte ao paciente em voz alta e peça ao avaliador os exames de que precisar. ${isTrio() ? 'O ator responde só ao que você perguntar, e o avaliador mostra a placa quando você pedir.' : 'O avaliador está com as respostas e as placas e só conta o que você perguntar.'}</p></div>`;
+    else if (cand && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: faça a pergunta em voz alta e marque o tema que você perguntou. A resposta do paciente aparece na hora e ajuda a decidir a próxima pergunta. Para exames, marque o que você pediria ao avaliador e veja a placa. Pergunte só o que faria sentido no caso: no feedback aparece o que ficou faltando.</p>${anamInterHtml(e)}</div>`;
+    if (cand && circ.ditado) h += `<div class="mt-3 p-3 rounded-xl bg-white border border-rose-200"><div id="rec-status" class="text-xs text-rose-700"></div><div id="rec-text" class="text-sm text-slate-700 mt-1 min-h-[2rem]"></div></div>`;
     if (exam) h += examinerPanel(e, true);
     h += `<button id="btn-end" class="btn w-full mt-3 border border-slate-300 bg-white hover:bg-slate-100">⏹️ Terminei — ir para o feedback</button>`;
     $('st-body').innerHTML = h;
     if (exam) bindBarema(e);
     $('btn-end').onclick = () => startFeedback(false);
     if (temAnam(e) && (exam || !circ.code)) bindAnam(e);
-    if (!exam && circ.ditado) startRec();
+    if (cand && circ.ditado) startRec();
     endAt = Date.now() + T_STATION * 1000; stopTick();
     tick = setInterval(() => {
       const rem = (endAt - Date.now()) / 1000; paintClock(rem, T_STATION);
@@ -437,10 +463,26 @@
     paintClock(T_STATION, T_STATION);
   }
 
+  function atorPanel(e) {
+    const quem = e.interacao === 'paciente' ? 'o paciente (ou o acompanhante) descrito no caso' : e.interacao === 'interno' ? 'o interno ou estudante descrito no caso' : 'a pessoa da banca descrita no caso (preceptor, gestor, colega)';
+    let h = `<div class="p-4 sm:p-5 rounded-2xl bg-white border-2 border-violet-300 shadow-sm fade-in">
+      <div class="text-xs font-semibold uppercase tracking-wide text-violet-700">🎭 Você é o ator</div>
+      <h2 class="text-lg font-extrabold">${esc(e.titulo)}</h2>
+      <p class="text-sm text-slate-600 mt-1">Você faz <b>${quem}</b>. O candidato está lendo este cenário:</p>
+      <div class="mt-2 p-3 rounded-xl bg-slate-50 text-[15px] leading-relaxed pre-line">${esc(e.cenario)}</div>
+      <div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200 text-sm text-violet-900"><b>Como atuar:</b> responda só ao que for perguntado, com as palavras do roteiro; não entregue o diagnóstico nem a conduta; mostre as emoções do caso (medo, pressa, desconfiança); se o candidato usar um termo técnico sem explicar, pergunte o que significa. As placas e o barema ficam com o avaliador.</div>
+    </div>`;
+    if (e.ator && e.ator.length) h += `<div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200"><div class="font-semibold text-sm text-violet-800 mb-1">🗨️ Suas falas (use no momento indicado)</div>${e.ator.map(a => `<div class="text-sm mt-1.5"><span class="text-violet-700 font-semibold">${esc(a.gatilho)}:</span> ${esc(a.fala)}</div>`).join('')}</div>`;
+    if (e.anamnese && e.anamnese.length) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800 mb-1">🤫 O que você conta só se perguntarem</div>${e.anamnese.map(a => `<div class="text-sm mt-1.5"><b>${esc(a.tema)}:</b> ${esc(a.resposta)}</div>`).join('')}</div>`;
+    else h += `<div class="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-600">Esta estação não tem anamnese: use as falas acima e reaja ao que o candidato explicar.</div>`;
+    h += `<details class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><summary class="cursor-pointer text-sm font-semibold">📝 Tarefas do candidato</summary>${tarefasHtml(e)}</details>`;
+    return h;
+  }
   function examinerPanel(e, live) {
     let h = '';
-    if (live && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Respostas do paciente e placas</div><p class="text-sm text-amber-900 mt-1">Conte só o que o candidato perguntar e mostre a placa só quando ele pedir. Marque cada tema que ele perguntou: no feedback aparece o que ficou faltando.</p>${anamInterHtml(e, true)}</div>`;
-    if (live && e.ator && e.ator.length) h += `<div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200"><div class="font-semibold text-sm text-violet-800 mb-1">🎭 Roteiro do paciente/examinador</div>${e.ator.map(a => `<div class="text-sm mt-1"><span class="text-violet-700 font-semibold">${esc(a.gatilho)}:</span> ${esc(a.fala)}</div>`).join('')}</div>`;
+    if (live && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ ${isTrio() ? 'Anamnese e placas' : 'Respostas do paciente e placas'}</div><p class="text-sm text-amber-900 mt-1">${isTrio() ? 'No trio, quem responde à anamnese é o ator. Marque cada tema que o candidato perguntou e mostre a placa só quando ele pedir: no feedback aparece o que ficou faltando.' : 'Conte só o que o candidato perguntar e mostre a placa só quando ele pedir. Marque cada tema que ele perguntou: no feedback aparece o que ficou faltando.'}</p>${anamInterHtml(e, true)}</div>`;
+    const rot = (e.ator || []).map(a => `<div class="text-sm mt-1"><span class="text-violet-700 font-semibold">${esc(a.gatilho)}:</span> ${esc(a.fala)}</div>`).join('');
+    if (live && rot) h += isTrio() ? `<details class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200"><summary class="cursor-pointer font-semibold text-sm text-violet-800">🎭 Roteiro do ator (para acompanhar)</summary>${rot}</details>` : `<div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200"><div class="font-semibold text-sm text-violet-800 mb-1">🎭 Roteiro do paciente/examinador</div>${rot}</div>`;
     h += baremaHtml(e);
     return h;
   }
@@ -481,14 +523,16 @@
     if (timeout) { alertBar('🔔 Tempo! Agora o feedback, sem pressa', '#1e293b', 4000); beep(3, 0.5, 660); vib([500, 150, 500]); }
     else $('st-alert').classList.add('hidden');
     let h = '';
+    const ator = isAtor();
+    if (ator) h += `<div class="p-3 rounded-xl bg-violet-50 border border-violet-200 text-sm text-violet-900 mb-3">🎭 O avaliador marca o barema. Compare a fala do colega com a fala-modelo e conte a ele como foi ser o paciente: ele se apresentou, acolheu, explicou de um jeito que você entendeu?</div>`;
     if (transcript) h += `<div class="p-3 rounded-xl bg-white border border-rose-200 mb-3"><div class="text-xs font-semibold text-rose-700">🎙️ O que você falou</div><div class="text-sm mt-1">${esc(transcript)}</div></div>`;
     h += `<div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 fade-in"><div class="font-bold text-emerald-800">💬 Fala-modelo</div>` +
       e.falaModelo.map(f => `<div class="mt-3"><div class="text-xs font-semibold text-emerald-700">Tarefa ${f.tarefa}${f.tempo ? ` · ~${esc(f.tempo)}` : ''}</div><div class="text-[15px] mt-0.5">${esc(f.texto)}</div>${f.analogia ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-yellow-200 text-yellow-900">💡 Analogia: ${esc(f.analogia)}</div>` : ''}</div>`).join('') + `</div>`;
     if (e.extra) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><summary class="cursor-pointer text-sm font-semibold">❔ Pergunta extra da banca</summary><div class="text-sm mt-1">${esc(e.extra)}</div></details>`;
     if (temAnam(e)) { const marc = circ.code && !isExam() ? null : asked;
       h += `<details class="mt-3 p-3 rounded-xl bg-white border border-amber-200" open><summary class="cursor-pointer text-sm font-semibold text-amber-800">${marc ? '🗣️ Anamnese: o que foi perguntado e o que ficou faltando' : '🗣️ O que o paciente contava e as placas'}</summary>${marc ? `<div class="text-sm mt-1 text-amber-900">${anamResumo(e).replace('Você', isExam() ? 'O candidato' : 'Você')}</div>` : ''}${anamHtml(e, marc)}</details>`; }
-    if (!isExam() && e.ator && e.ator.length) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-violet-200"><summary class="cursor-pointer text-sm font-semibold text-violet-800">🎭 O que o paciente diria</summary>${e.ator.map(a => `<div class="text-sm mt-1"><b>${esc(a.gatilho)}:</b> ${esc(a.fala)}</div>`).join('')}</details>`;
-    h += baremaHtml(e);
+    if (!isExam() && !ator && e.ator && e.ator.length) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-violet-200"><summary class="cursor-pointer text-sm font-semibold text-violet-800">🎭 O que o paciente diria</summary>${e.ator.map(a => `<div class="text-sm mt-1"><b>${esc(a.gatilho)}:</b> ${esc(a.fala)}</div>`).join('')}</details>`;
+    if (!ator) h += baremaHtml(e);
     h += resumoHtml(e.id);
     h += `<button id="btn-next" class="btn w-full mt-3 bg-blue-600 text-white hover:bg-blue-700">${circ.pos < circ.ids.length - 1 ? 'Salvar e ir para a próxima estação →' : 'Salvar e ver o resultado'}</button>`;
     $('st-body').innerHTML = h; window.scrollTo(0, 0);
@@ -505,7 +549,7 @@
     const n = nota(e, marks);
     const faltou = its.filter(x => (marks[x.k] || 0) < 1).map(x => x.item);
     const critN = Object.values(crit).filter(Boolean).length;
-    circ.res[e.id] = { nota: n, marcados, total: its.length, faltou, crit: critN, transcript };
+    circ.res[e.id] = { nota: n, marcados, total: its.length, faltou, crit: critN, transcript, papel: circ.code ? papelAtual() : 'candidato' };
     if (marcados) { const h = hist(); (h[e.id] = h[e.id] || []).push({ t: Date.now(), nota: n, crit: critN }); save(LS.hist, h); }
     save(LS.circ, circ);
   }
@@ -532,7 +576,7 @@
           <button id="btn-r-new" class="btn bg-blue-600 text-white">🔔 Novo circuito</button>
           <button id="btn-r-home" class="btn border border-slate-300 bg-white">🏠 Início</button>
         </div></div>
-      <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm"><h3 class="font-bold mb-2">Estações</h3>${rows.map(x => `<div class="flex items-center justify-between py-1.5 border-b border-slate-100 text-sm"><span>${MAT[x.e.materia].icon} <span class="font-mono text-xs text-slate-400">${x.e.id}</span> ${esc(x.e.titulo)}</span><span class="flex items-center gap-2 shrink-0">${RES[x.e.id] ? `<button class="res-open px-1" data-id="${x.e.id}" aria-label="Resumo do assunto">📚</button>` : ''}<span class="font-semibold">${x.r.pulada ? 'pulada' : x.r.marcados ? x.r.nota.toFixed(1).replace('.', ',') + (x.r.crit ? ' ⚠️' : '') : 'sem barema'}</span></span></div>`).join('')}</div>
+      <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm"><h3 class="font-bold mb-2">Estações</h3>${rows.map(x => `<div class="flex items-center justify-between py-1.5 border-b border-slate-100 text-sm"><span>${MAT[x.e.materia].icon} <span class="font-mono text-xs text-slate-400">${x.e.id}</span> ${esc(x.e.titulo)}</span><span class="flex items-center gap-2 shrink-0">${RES[x.e.id] ? `<button class="res-open px-1" data-id="${x.e.id}" aria-label="Resumo do assunto">📚</button>` : ''}<span class="font-semibold">${x.r.pulada ? 'pulada' : x.r.papel === 'ator' && !x.r.marcados ? '🎭 ator' : x.r.marcados ? x.r.nota.toFixed(1).replace('.', ',') + (x.r.crit ? ' ⚠️' : '') : 'sem barema'}</span></span></div>`).join('')}</div>
       ${top.length ? `<div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm"><h3 class="font-bold mb-2">O que mais faltou</h3><ul class="list-disc pl-5 text-sm space-y-1">${top.map(([f]) => `<li>${esc(f)}</li>`).join('')}</ul></div>` : ''}`;
     show('result');
     $('btn-r-new').onclick = () => startCircuit({ tipo: 'circuito', code: c.code, papel: c.papel });
@@ -541,23 +585,27 @@
   }
 
   // ---------- eventos ----------
-  document.addEventListener('change', e => { if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, #dupla-papel')) { readPrefs(); renderHome(); } });
-  $('dupla-code').addEventListener('input', readPrefs);
+  document.addEventListener('change', e => { if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); } });
+  $('btn-grupo-sair').onclick = () => { $('dupla-code').value = ''; readPrefs(); renderHome(); toast('Modo grupo desligado. Agora você treina sozinho(a).'); };
+  $('dupla-code').addEventListener('input', () => { readPrefs(); renderHome(); });
   $('btn-circuito').onclick = () => startCircuit({ tipo: 'circuito' });
   $('btn-avulsa').onclick = () => startCircuit({ tipo: 'avulsa' });
-  $('btn-prova').onclick = () => { readPrefs(); const ids = provaIds(); if (!ids.length) { toast('Ainda não há estações da prova anterior.'); return; } startCircuit({ ids, code: prefs.code && prefs.papel === 'examinador' ? prefs.code : '', papel: prefs.code ? prefs.papel : 'candidato' }); };
+  $('btn-prova').onclick = () => { readPrefs(); const ids = provaIds(); if (!ids.length) { toast('Ainda não há estações da prova anterior.'); return; } startCircuit({ ids, code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); };
   $('btn-revisao').onclick = () => { readPrefs(); const l = revList(); if (!l.length) { toast('Nenhuma estação com nota abaixo de 7. 🎉'); return; } startCircuit({ ids: shuffle(l.map(e => e.id)) }); };
   $('btn-dupla').onclick = () => { readPrefs(); if (!prefs.code) { toast('Digite um código combinado com o colega.'); return; } startCircuit({ tipo: 'circuito', code: prefs.code, papel: prefs.papel }); };
   $('btn-dupla-link').onclick = () => {
     readPrefs(); if (!prefs.code) { toast('Digite um código primeiro.'); return; }
     const u = new URL(location.href); u.search = ''; u.hash = '';
     u.searchParams.set('codigo', prefs.code); u.searchParams.set('materias', prefs.materias.join(','));
-    u.searchParams.set('papel', prefs.papel === 'examinador' ? 'candidato' : 'examinador');
+    const r = papeisDo(prefs.formato); const outro = r[(r.indexOf(prefs.papel) + 1) % r.length];
+    u.searchParams.set('papel', outro); u.searchParams.set('formato', prefs.formato);
+    if (prefs.rodizio) u.searchParams.set('rodizio', '1');
     const txt = u.toString();
     const fb = () => window.prompt('Copie o link:', txt);
-    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast('Link copiado! O colega entra no outro papel.'), fb); else fb();
+    const msg = prefs.formato === 'trio' ? `Link copiado! Ele abre como ${PAPEL[outro]}; o terceiro escolhe o papel que falta.` : 'Link copiado! O colega entra no outro papel.';
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast(msg), fb); else fb();
   };
-  $('catalogo').addEventListener('click', ev => { const b = ev.target.closest('.cat-item'); if (b) { readPrefs(); startCircuit({ ids: [b.dataset.id], code: prefs.code && prefs.papel === 'examinador' ? prefs.code : '', papel: prefs.code ? prefs.papel : 'candidato' }); } });
+  $('catalogo').addEventListener('click', ev => { const b = ev.target.closest('.cat-item'); if (b) { readPrefs(); startCircuit({ ids: [b.dataset.id], code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); } });
   $('btn-resume').onclick = () => { circ = load(LS.circ, null); if (circ) openStation(); };
   $('btn-discard').onclick = () => { save(LS.circ, null); renderHome(); };
   $('btn-logo').onclick = () => { if (circ) quit(); else { renderHome(); show('home'); } };
@@ -597,7 +645,7 @@
   });
   $('btn-res-close').onclick = closeResumo;
   $('modal-res').onclick = ev => { if (ev.target === $('modal-res')) closeResumo(); };
-  $('res-start').onclick = () => { const id = $('res-start').dataset.id; closeResumo(); readPrefs(); startCircuit({ ids: [id], code: prefs.code && prefs.papel === 'examinador' ? prefs.code : '', papel: prefs.code ? prefs.papel : 'candidato' }); };
+  $('res-start').onclick = () => { const id = $('res-start').dataset.id; closeResumo(); readPrefs(); startCircuit({ ids: [id], code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); };
 
   $('btn-how').onclick = () => { $('modal-how').classList.remove('hidden'); $('modal-how').style.display = 'flex'; };
   $('btn-how-close').onclick = () => { $('modal-how').classList.add('hidden'); $('modal-how').style.display = ''; };
@@ -611,9 +659,12 @@
     if (q.get('codigo')) {
       prefs.code = q.get('codigo');
       const ms = (q.get('materias') || '').split(',').filter(k => MAT[k]); if (ms.length) prefs.materias = ms;
-      if (['candidato', 'examinador'].includes(q.get('papel'))) prefs.papel = q.get('papel');
+      if (['dupla', 'trio'].includes(q.get('formato'))) prefs.formato = q.get('formato');
+      if (['candidato', 'examinador', 'ator'].includes(q.get('papel'))) prefs.papel = q.get('papel');
+      if (prefs.formato !== 'trio' && prefs.papel === 'ator') prefs.papel = 'candidato';
+      prefs.rodizio = q.get('rodizio') === '1';
       save(LS.prefs, prefs); history.replaceState(null, '', location.pathname);
-      setTimeout(() => toast('Convite de dupla carregado. Toque em "Começar circuito" junto com o colega.'), 300);
+      setTimeout(() => toast(`Convite de ${prefs.formato === 'trio' ? 'trio' : 'dupla'} carregado. Confira o seu papel e toque em "Começar circuito" junto com os colegas.`), 300);
     }
   })();
   renderHome();
