@@ -65,6 +65,7 @@
         <button id="btn-avulsa" class="btn bg-teal-600 text-white hover:bg-teal-700">🎯 Uma estação sorteada</button>
         <button id="btn-revisao" class="btn bg-rose-600 text-white hover:bg-rose-700">🔁 Rever notas baixas (<span id="rev-count">0</span>)</button>
       </div>
+      <button id="btn-prova" class="btn w-full mt-2 bg-amber-500 text-white hover:bg-amber-600">⭐ Estações que caíram na prova anterior (25.2) · <span id="prova-count">0</span></button>
     </div>
 
     <div class="mt-4 p-5 rounded-2xl bg-white border border-violet-300 shadow-sm">
@@ -137,6 +138,10 @@
     <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
     <h3 class="font-semibold mt-3">👥 Dupla</h3>
     <p>Os dois colocam o mesmo código e as mesmas matérias; um escolhe <b>Candidato</b> e o outro <b>Examinador</b>. O examinador vê o caso, o <b>roteiro do paciente</b> (o que responder se o candidato perguntar) e marca o barema enquanto o candidato fala. Toquem em "Entrar na estação" juntos.</p>
+    <h3 class="font-semibold mt-3">🗣️ Anamnese e placas (como na prova)</h3>
+    <p>Nas estações com anamnese, o paciente só conta o que você perguntar, e o avaliador só mostra a placa do exame que você pedir. Faça as perguntas em voz alta e, quando terminar, toque em <b>"Terminei a anamnese"</b> para ver o que o paciente contou e as placas; depois siga com o diagnóstico e as orientações. Na dupla, o examinador vê as respostas e as placas desde o início e só revela o que for pedido.</p>
+    <h3 class="font-semibold mt-3">⭐ Prova anterior</h3>
+    <p>As estações marcadas com ⭐ reproduzem os casos da prova do 4º semestre B 25.2. O botão amarelo da página inicial monta um circuito só com elas.</p>
     <h3 class="font-semibold mt-3">📚 Resumo do assunto</h3>
     <p>No fim do feedback de cada estação aparece um resumo do tema, com os pontos principais e a pegadinha. Para revisar sem cronômetro, toque no 📚 ao lado da estação no catálogo ou na tela de resultado. O botão <b>Copiar</b> leva o resumo para colar no WhatsApp e discutir com os amigos.</p>
     <h3 class="font-semibold mt-3">🔁 Revisão</h3>
@@ -158,6 +163,7 @@
 <script src="estacoes-farmaco.js"></script>
 <script src="estacoes-epi.js"></script>
 <script src="estacoes-mulher.js"></script>
+<script src="estacoes-prova.js"></script>
 <script src="resumos.js"></script>
 <script>
 (function () {
@@ -212,6 +218,7 @@
     $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som;
     $('dupla-code').value = prefs.code || ''; $('dupla-papel').value = prefs.papel || 'candidato';
     $('rev-count').textContent = revList().length;
+    $('prova-count').textContent = provaIds().length;
     const h = hist();
     $('cat-info').textContent = `${ESTACOES.length} estações`;
     $('catalogo').innerHTML = MATERIAS.map(m => {
@@ -221,7 +228,7 @@
         const hh = h[e.id] || []; const n = hh.length ? hh[hh.length - 1].nota : null;
         const cor = n === null ? 'bg-slate-100 text-slate-500' : n >= 7 ? 'bg-green-100 text-green-800' : n >= 5 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800';
         return `<div class="flex items-center gap-1"><button class="cat-item flex-1 min-w-0 text-left flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-slate-50" data-id="${e.id}">
-          <span class="font-mono text-xs text-slate-400 w-14 shrink-0">${e.id}</span><span class="flex-1">${esc(e.titulo)}${e.exemplo ? ' <span class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">exemplo</span>' : ''}</span>
+          <span class="font-mono text-xs text-slate-400 w-14 shrink-0">${e.id}</span><span class="flex-1">${esc(e.titulo)}${e.exemplo ? ' <span class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">exemplo</span>' : ''}${e.prova ? ` <span class="text-[10px] px-1 rounded bg-amber-200 text-amber-900">⭐ prova ${esc(e.prova)}</span>` : ''}</span>
           <span class="text-xs px-1.5 py-0.5 rounded ${cor}">${n === null ? '—' : n.toFixed(1)}</span></button>${RES[e.id] ? `<button class="res-open shrink-0 px-2 py-1 rounded-lg hover:bg-indigo-50" data-id="${e.id}" title="Resumo do assunto" aria-label="Resumo do assunto">📚</button>` : ''}</div>`;
       }).join('') + `</div>`;
     }).join('');
@@ -251,7 +258,7 @@
   }
   function startCircuit(opts) {
     readPrefs();
-    if (!prefs.materias.length) { toast('Marque pelo menos uma matéria.'); return; }
+    if (!opts.ids && !prefs.materias.length) { toast('Marque pelo menos uma matéria.'); return; }
     let ids;
     const seed = opts.code ? 'osce|' + opts.code.toLowerCase() + '|' + prefs.materias.slice().sort().join(',') : '';
     const rng = rngFor(seed);
@@ -339,6 +346,14 @@
       return `<p class="mt-2 text-sm pre-line">${esc(x.texto || '')}</p>`;
     }).join('');
   }
+  function provaIds() { return MATERIAS.flatMap(m => ESTACOES.filter(e => e.prova && e.materia === m.key).map(e => e.id)); }
+  function temAnam(e) { return !!((e.anamnese && e.anamnese.length) || (e.placas && e.placas.length)); }
+  function anamHtml(e) {
+    let h = '';
+    if (e.anamnese && e.anamnese.length) h += `<div class="mt-2"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🗣️ O que o paciente conta, se perguntado</div>${e.anamnese.map(a => `<div class="text-sm mt-1"><b>${esc(a.tema)}:</b> ${esc(a.resposta)}</div>`).join('')}</div>`;
+    if (e.placas && e.placas.length) h += `<div class="mt-3"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🪧 Placas do avaliador</div>${e.placas.map(p => `<div class="mt-1 p-2 rounded-lg bg-white border border-amber-300 text-sm"><span class="text-amber-800 font-semibold">Se pedir ${esc(p.pedido)}:</span> ${esc(p.placa)}</div>`).join('')}</div>`;
+    return h;
+  }
   function tarefasHtml(e) {
     return `<ol class="list-decimal pl-5 space-y-1.5">${e.tarefas.map(t => `<li class="font-semibold">${esc(t)}</li>`).join('')}</ol>`;
   }
@@ -350,6 +365,7 @@
     $('st-body').innerHTML = `<div class="p-5 rounded-2xl bg-white border-2 border-slate-300 shadow-sm fade-in">
       <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">⏱ Estação ${esc(e.id)}</div>
       <h2 class="text-xl sm:text-2xl font-extrabold mt-1">${esc(e.titulo)}</h2>
+      ${e.prova ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-amber-200 text-amber-900">⭐ Caiu na prova ${esc(e.prova)}</div>` : ''}
       <div class="grid sm:grid-cols-3 gap-2 mt-3 text-sm">
         <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Local</div><b>${esc(e.local)}</b></div>
         <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Seu papel</div><b>${esc(e.papel)}</b></div>
@@ -375,12 +391,14 @@
       ${e.mesa && e.mesa.length ? `<div class="mt-3 p-3 rounded-xl bg-sky-50 border border-sky-200"><div class="font-semibold text-sm text-sky-800">📎 Dados na mesa</div>${mesaHtml(e)}</div>` : ''}
       <div class="mt-3 p-3 rounded-xl bg-blue-50 border border-blue-200"><div class="font-semibold text-sm text-blue-800 mb-1">📝 Tarefas</div>${tarefasHtml(e)}</div>
     </div>`;
+    if (!exam && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: o paciente só conta o que você perguntar, e o avaliador só mostra a placa do exame que você pedir. Faça as perguntas em voz alta; quando terminar a anamnese, toque abaixo e siga com o diagnóstico e as orientações.</p><button id="btn-anam" class="btn w-full mt-2 bg-amber-500 text-white hover:bg-amber-600">✋ Terminei a anamnese — ver o que o paciente contou</button><div id="anam-rev" class="hidden">${anamHtml(e)}</div></div>`;
     if (!exam && circ.ditado) h += `<div class="mt-3 p-3 rounded-xl bg-white border border-rose-200"><div id="rec-status" class="text-xs text-rose-700"></div><div id="rec-text" class="text-sm text-slate-700 mt-1 min-h-[2rem]"></div></div>`;
     if (exam) h += examinerPanel(e, true);
     h += `<button id="btn-end" class="btn w-full mt-3 border border-slate-300 bg-white hover:bg-slate-100">⏹️ Terminei — ir para o feedback</button>`;
     $('st-body').innerHTML = h;
     if (exam) bindBarema(e);
     $('btn-end').onclick = () => startFeedback(false);
+    if ($('btn-anam')) $('btn-anam').onclick = () => { $('anam-rev').classList.remove('hidden'); $('btn-anam').remove(); };
     if (!exam && circ.ditado) startRec();
     endAt = Date.now() + T_STATION * 1000; stopTick();
     tick = setInterval(() => {
@@ -394,6 +412,7 @@
 
   function examinerPanel(e, live) {
     let h = '';
+    if (live && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Respostas do paciente e placas — conte só o que o candidato perguntar e mostre a placa só quando ele pedir</div>${anamHtml(e)}</div>`;
     if (live && e.ator && e.ator.length) h += `<div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200"><div class="font-semibold text-sm text-violet-800 mb-1">🎭 Roteiro do paciente/examinador</div>${e.ator.map(a => `<div class="text-sm mt-1"><span class="text-violet-700 font-semibold">${esc(a.gatilho)}:</span> ${esc(a.fala)}</div>`).join('')}</div>`;
     h += baremaHtml(e);
     return h;
@@ -439,6 +458,7 @@
     h += `<div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 fade-in"><div class="font-bold text-emerald-800">💬 Fala-modelo</div>` +
       e.falaModelo.map(f => `<div class="mt-3"><div class="text-xs font-semibold text-emerald-700">Tarefa ${f.tarefa}${f.tempo ? ` · ~${esc(f.tempo)}` : ''}</div><div class="text-[15px] mt-0.5">${esc(f.texto)}</div>${f.analogia ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-yellow-200 text-yellow-900">💡 Analogia: ${esc(f.analogia)}</div>` : ''}</div>`).join('') + `</div>`;
     if (e.extra) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><summary class="cursor-pointer text-sm font-semibold">❔ Pergunta extra da banca</summary><div class="text-sm mt-1">${esc(e.extra)}</div></details>`;
+    if (!isExam() && temAnam(e)) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-amber-200"><summary class="cursor-pointer text-sm font-semibold text-amber-800">🗣️ O que o paciente contava e as placas</summary>${anamHtml(e)}</details>`;
     if (!isExam() && e.ator && e.ator.length) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-violet-200"><summary class="cursor-pointer text-sm font-semibold text-violet-800">🎭 O que o paciente diria</summary>${e.ator.map(a => `<div class="text-sm mt-1"><b>${esc(a.gatilho)}:</b> ${esc(a.fala)}</div>`).join('')}</details>`;
     h += baremaHtml(e);
     h += resumoHtml(e.id);
@@ -500,6 +520,7 @@
   $('dupla-code').addEventListener('input', readPrefs);
   $('btn-circuito').onclick = () => startCircuit({ tipo: 'circuito' });
   $('btn-avulsa').onclick = () => startCircuit({ tipo: 'avulsa' });
+  $('btn-prova').onclick = () => { readPrefs(); const ids = provaIds(); if (!ids.length) { toast('Ainda não há estações da prova anterior.'); return; } startCircuit({ ids, code: prefs.code && prefs.papel === 'examinador' ? prefs.code : '', papel: prefs.code ? prefs.papel : 'candidato' }); };
   $('btn-revisao').onclick = () => { readPrefs(); const l = revList(); if (!l.length) { toast('Nenhuma estação com nota abaixo de 7. 🎉'); return; } startCircuit({ ids: shuffle(l.map(e => e.id)) }); };
   $('btn-dupla').onclick = () => { readPrefs(); if (!prefs.code) { toast('Digite um código combinado com o colega.'); return; } startCircuit({ tipo: 'circuito', code: prefs.code, papel: prefs.papel }); };
   $('btn-dupla-link').onclick = () => {

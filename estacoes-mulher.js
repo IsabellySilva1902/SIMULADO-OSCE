@@ -1,5 +1,6 @@
 // Estações de Saúde da Mulher. Conteúdo restrito aos slides da disciplina.
 // MUL-01 a MUL-14: Infecções genitais (vulvovaginites, cervicites e úlceras genitais).
+// MUL-16 a MUL-24: Fisiologia do ciclo menstrual. MUL-15 (prova 25.2) está em estacoes-prova.js.
 ESTACOES.push(
   // ----------------------------------------------------- MUL-01 · Abordagem da queixa de corrimento
   {
@@ -574,5 +575,392 @@ ESTACOES.push(
       { tarefa: 3, texto: 'As sequelas possíveis são elefantíase genital, estenose retal e estenose uretral. Michele, essa infecção anda em etapas, como uma enchente: a feridinha foi a chuva que passou rápido, a íngua é o rio que encheu, e, se a água não for tratada, ela entope os canos e deixa estrago, como inchaço crônico na região genital e estreitamento do reto e da uretra. Por isso vamos tratar agora, mesmo que a íngua melhore. Me conta o que você entendeu?', tempo: '45 s', analogia: 'Enchente que entope os canos' },
     ],
     extra: 'Quais são os agentes mais comuns de úlcera genital entre as ISTs? (HSV-1 e HSV-2, Treponema pallidum, Haemophilus ducreyi, Chlamydia trachomatis L1–L3 e Klebsiella granulomatis.)',
+  },
+  // ===================================================== FISIOLOGIA DO CICLO MENSTRUAL (MUL-16 a MUL-24)
+  // ----------------------------------------------------- MUL-16 · Fases do ciclo e ovulação
+  {
+    id: 'MUL-16', materia: 'mulher',
+    titulo: 'Quando é o meu dia fértil?',
+    local: 'UBS — planejamento reprodutivo', papel: 'Médico(a) da UBS', interacao: 'paciente',
+    cenario: 'Carolina, 29 anos, quer engravidar e pede que você explique como funciona o ciclo menstrual e quando ela ovula. Colha os dados do ciclo e oriente a paciente.',
+    mesa: [],
+    tarefas: [
+      'Como se conta o ciclo, e quais são as fases do ciclo ovariano e do endometrial? Como elas se correspondem?',
+      'O que desencadeia a ovulação, e quanto tempo depois ela ocorre?',
+      'Com o ciclo dela, em que dia ela provavelmente ovula? Por que não é sempre o dia 14?',
+      'Explique à Carolina e diga como seria possível acompanhar a ovulação.',
+    ],
+    anamnese: [
+      { tema: 'Duração e regularidade do ciclo', resposta: '"Meu ciclo é certinho, de 32 dias. A menstruação dura uns 5 dias."' },
+      { tema: 'Data da última menstruação', resposta: '"Começou hoje."' },
+      { tema: 'Tentativas e contracepção', resposta: '"Parei o anticoncepcional há 4 meses. Li que a ovulação é sempre no dia 14, então a gente tenta só nesse dia."' },
+      { tema: 'Doenças e medicamentos', resposta: '"Sou saudável e não tomo nenhum remédio."' },
+    ],
+    placas: [
+      { pedido: 'um ultrassom seriado do ciclo', placa: 'No 17º dia: folículo dominante de 19 mm no ovário esquerdo; endométrio trilaminar de 9 mm.' },
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Doutor(a), a gente tenta sempre no dia 14 e nada."' },
+      { gatilho: 'Se falar em fase lútea', fala: '"Por que essa segunda parte do ciclo não muda?"' },
+      { gatilho: 'No final', fala: '"Tem algum exame que mostra que eu estou ovulando?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'D1 = primeiro dia da menstruação; ciclo ovariano: folicular, ovulatória e lútea; endometrial: menstrual, proliferativa e secretora', pts: 1 },
+        { tarefa: 1, item: 'Correspondência: folicular ↔ proliferativa; lútea ↔ secretora', pts: 1 },
+        { tarefa: 2, item: 'Estradiol acima de um limiar crítico (geralmente > 200 pg/mL) por mais de 36 a 48 h → feedback positivo → pico de LH', pts: 1 },
+        { tarefa: 2, item: 'Ovulação cerca de 36 h após o início do pico de LH (~12 h após o ápice); prostaglandinas e colagenases rompem o folículo', pts: 1 },
+        { tarefa: 3, item: 'Perguntou a duração do ciclo e a data da última menstruação', pts: 1 },
+        { tarefa: 3, item: 'Fase lútea fixa (~14 dias, vida do corpo lúteo); a folicular é que varia → ciclo de 32 dias: ovulação por volta do 18º dia', pts: 1 },
+        { tarefa: 4, item: 'Explicou em linguagem acessível; ultrassom: folículo pré-ovulatório > 18 mm e endométrio trilaminar', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Afirmar que a ovulação ocorre sempre no 14º dia', 'Contar o ciclo a partir do fim da menstruação'],
+    falaModelo: [
+      { tarefa: 1, texto: 'O ciclo começa no primeiro dia da menstruação, o D1. No ovário há três fases: folicular, ovulatória e lútea. No endométrio, menstrual, proliferativa e secretora. A primeira metade é folicular no ovário e proliferativa no endométrio; a segunda é lútea e secretora.', tempo: '25 s' },
+      { tarefa: 2, texto: 'O folículo dominante produz estradiol. Quando ele passa de um limiar crítico, geralmente acima de 200 pg/mL, e se mantém por 36 a 48 horas, o estrogênio passa a fazer feedback positivo e gera o pico de LH. A ovulação ocorre cerca de 36 horas depois do início do pico, com prostaglandinas e colagenases rompendo o folículo.', tempo: '35 s' },
+      { tarefa: 3, texto: 'O ciclo dela é de 32 dias. A fase lútea é fixa, de cerca de 14 dias, porque depende da vida do corpo lúteo; quem varia é a fase folicular. Então ela ovula por volta do 18º dia, e não do 14º.', tempo: '20 s' },
+      { tarefa: 4, texto: 'Carolina, o "dia 14" só vale para quem tem ciclo de 28 dias. Depois que o óvulo sai, o ciclo corre num tempo fixo de uns 14 dias, como um cronômetro que só começa a contar na ovulação; a primeira parte é que muda de mulher para mulher. Como o seu ciclo tem 32 dias, a ovulação deve ser perto do dia 18, contando a partir do primeiro dia da menstruação. O ultrassom pode acompanhar: um folículo acima de 18 mm está pronto para ovular. Me conta: como você vai contar os dias agora?', tempo: '45 s', analogia: 'Cronômetro que só começa na ovulação' },
+    ],
+    extra: 'Como o GnRH muda ao longo do ciclo? (Fase folicular: pulsos de maior frequência e menor amplitude, estimulando FSH. Fase lútea: menor frequência e maior amplitude, estimulando LH.)',
+  },
+
+  // ----------------------------------------------------- MUL-17 · Amenorreia por alteração da pulsatilidade
+  {
+    id: 'MUL-17', materia: 'mulher',
+    titulo: 'Parei de menstruar desde que comecei a treinar para a maratona',
+    local: 'Ambulatório de ginecologia', papel: 'Médico(a) ginecologista', interacao: 'paciente',
+    cenario: 'Isadora, 24 anos, procura atendimento porque não menstrua há 5 meses. Conduza a anamnese, explique o mecanismo provável e oriente a paciente.',
+    mesa: [],
+    tarefas: [
+      'Conduza a anamnese da amenorreia. Que fatores que modulam o eixo hipotálamo–hipófise–ovário você investiga?',
+      'Qual é o mecanismo provável da amenorreia dela?',
+      'Quais as consequências se a falta de estrogênio persistir?',
+      'Explique à Isadora, que acha que "não menstruar é ótimo para o treino".',
+    ],
+    anamnese: [
+      { tema: 'Padrão menstrual anterior', resposta: '"Era certinho, todo mês. Parou há 5 meses."' },
+      { tema: 'Gestação', resposta: '"Fiz teste semana passada, deu negativo."' },
+      { tema: 'Atividade física', resposta: '"Treino duas vezes por dia, bem pesado, para uma maratona."' },
+      { tema: 'Alimentação e peso', resposta: '"Cortei muita coisa para ficar leve. Perdi 7 kg em 6 meses." (IMC atual 17,5)' },
+      { tema: 'Estresse', resposta: '"Ando ansiosa com a prova, mas é normal."' },
+      { tema: 'Medicamentos e doenças', resposta: '"Não tomo nenhum remédio. Nunca tive problema de tireoide."' },
+    ],
+    placas: [
+      { pedido: 'exames', placa: 'Beta-hCG negativo; TSH e prolactina normais.' },
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Doutor(a), na verdade estou achando ótimo não menstruar."' },
+      { gatilho: 'Se falar em reduzir o treino', fala: '"Mas a maratona é daqui a 3 meses!"' },
+      { gatilho: 'No final', fala: '"Mas eu sou nova. Osso fraco é coisa de idosa, não é?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Afastou gestação e caracterizou o padrão menstrual anterior', pts: 1 },
+        { tarefa: 1, item: 'Investigou os moduladores do eixo: exercício intenso, estresse, anorexia/bulimia (alimentação e peso), hiperprolactinemia/fármacos e hipotireoidismo', pts: 1 },
+        { tarefa: 2, item: 'Amenorreia por alteração da pulsatilidade gonadotrófica: o GnRH pulsátil comanda FSH e LH', pts: 1 },
+        { tarefa: 2, item: 'Exercício intenso eleva as endorfinas, inibidoras do GnRH (como a dopamina); restrição alimentar também altera o eixo; sem folículo dominante, não há ovulação e o estrogênio cai', pts: 1 },
+        { tarefa: 3, item: 'Deficiência estrogênica: osteoporose, aterosclerose e atrofia urogenital e mamária', pts: 1 },
+        { tarefa: 4, item: 'Explicou que a menstruação é sinal de que o eixo funciona; acolheu e propôs ajustar treino e alimentação com acompanhamento', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Tratar a amenorreia como benéfica', 'Não afastar gestação'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Primeiro afasto gestação e pergunto como era a menstruação antes. Depois investigo o que modula o eixo: exercício intenso, estresse, alimentação e perda de peso, uso de remédios que mexem na prolactina e sintomas de tireoide. Ela treina duas vezes por dia, cortou a alimentação e perdeu 7 kg.', tempo: '30 s' },
+      { tarefa: 2, texto: 'O mais provável é amenorreia por alteração da pulsatilidade do GnRH. O hipotálamo libera GnRH em pulsos, e são esses pulsos que comandam o FSH e o LH. No exercício intenso as endorfinas ficam elevadas e, como a dopamina, inibem esse comando; a restrição alimentar também altera o eixo. Sem os pulsos certos, não há folículo dominante nem ovulação, e o estrogênio cai.', tempo: '35 s' },
+      { tarefa: 3, texto: 'Se a falta de estrogênio persistir, o osso perde massa, com risco de osteoporose; o sistema cardiovascular fica mais exposto à aterosclerose; e há atrofia da vagina, do útero e das mamas.', tempo: '20 s' },
+      { tarefa: 4, texto: 'Isadora, a menstruação é como a luz do painel que mostra que o motor está funcionando: quando ela apaga, não é economia, é sinal de que o comando do cérebro para os ovários está desligado. Sem estrogênio, o osso enfraquece mesmo em quem é jovem. Vamos ajustar o treino e a alimentação, com acompanhamento, para o comando voltar. Me conta: o que você acha possível mudar até a prova?', tempo: '40 s', analogia: 'Luz do painel do carro' },
+    ],
+    extra: 'Por que a liberação contínua de GnRH não funciona? (Causa downregulation dos receptores de GnRH, bloqueando sua ação; o GnRH precisa ser pulsátil.)',
+  },
+
+  // ----------------------------------------------------- MUL-18 · Contracepção hormonal e reserva ovariana
+  {
+    id: 'MUL-18', materia: 'mulher',
+    titulo: 'A pílula guarda os meus óvulos?',
+    local: 'UBS — planejamento reprodutivo', papel: 'Médico(a) da UBS', interacao: 'paciente',
+    cenario: 'Marina, 23 anos, usa anticoncepcional hormonal combinado (estrogênio + progestagênio) há 5 anos. Leu que "a pílula guarda os óvulos, porque a mulher não ovula", e pensa em usar até os 40 anos para "atrasar a menopausa". Quer entender como a pílula funciona.',
+    mesa: [],
+    tarefas: [
+      'Qual é o principal mecanismo do anticoncepcional hormonal combinado? Explique pelo eixo HHO.',
+      'Como a reserva de folículos evolui ao longo da vida?',
+      'A pílula preserva a reserva ovariana? Por quê?',
+      'Explique à Marina e responda ao plano dela.',
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Se eu não ovulo, os óvulos ficam guardados, né?"' },
+      { gatilho: 'Ao ouvir sobre a reserva', fala: '"Então eu perco óvulo mesmo tomando a pílula?"' },
+      { gatilho: 'No final', fala: '"Então a pílula não atrasa a menopausa?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Estrogênio + progestagênio exógenos fazem feedback negativo sobre FSH e LH', pts: 1 },
+        { tarefa: 1, item: 'Sem folículo dominante e sem pico de LH: suprime o eixo e impede a ovulação', pts: 1 },
+        { tarefa: 2, item: 'Pico de 6 a 8 milhões de folículos com 18–20 semanas de gestação; 1–2 milhões ao nascer; 300 a 500 mil na puberdade', pts: 1 },
+        { tarefa: 2, item: 'A cada ciclo, atresia de cerca de 1.000 folículos; menopausa = esgotamento da reserva', pts: 1 },
+        { tarefa: 3, item: 'Não: a perda folicular ocorre principalmente por apoptose, e nenhuma intervenção a freia, nem o bloqueio da ovulação com anticoncepcional', pts: 2 },
+        { tarefa: 4, item: 'Corrigiu a crença com linguagem acessível e respeito, sem desestimular o método contraceptivo', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Afirmar que a pílula preserva a reserva ovariana ou atrasa a menopausa'],
+    falaModelo: [
+      { tarefa: 1, texto: 'O anticoncepcional combinado traz estrogênio e progestagênio de fora. Eles fazem feedback negativo sobre o hipotálamo e a hipófise, o FSH e o LH caem, nenhum folículo vira dominante e não há pico de LH. Sem pico, não há ovulação.', tempo: '25 s' },
+      { tarefa: 2, texto: 'A produção de folículos começa na vida intrauterina e chega ao máximo com 18 a 20 semanas de gestação, 6 a 8 milhões. Ao nascer restam 1 a 2 milhões; na puberdade, 300 a 500 mil. A cada ciclo, cerca de mil sofrem atresia, e a menopausa é o esgotamento dessa reserva.', tempo: '30 s' },
+      { tarefa: 3, texto: 'A pílula não preserva a reserva. A perda folicular acontece principalmente por apoptose, uma morte celular programada, e até hoje nenhuma intervenção consegue freá-la, nem o bloqueio da ovulação com anticoncepcional.', tempo: '20 s' },
+      { tarefa: 4, texto: 'Marina, a pílula impede que um óvulo seja liberado a cada mês, mas não para o relógio dos ovários. É como uma ampulheta: a areia continua caindo mesmo que ninguém olhe para ela. A pílula é um ótimo método para evitar gravidez, mas não guarda óvulos nem atrasa a menopausa, e isso vale para planejar quando você quer engravidar. Me conta: o que você entendeu sobre a pílula?', tempo: '40 s', analogia: 'Ampulheta que continua caindo' },
+    ],
+    extra: 'Qual é a sequência da foliculogênese? (Primordial, primário, secundário — com células da teca e resposta às gonadotrofinas —, terciário, com antro, e maduro de Graaf, pré-ovulatório.)',
+  },
+
+  // ----------------------------------------------------- MUL-19 · Ciclos anovulatórios
+  {
+    id: 'MUL-19', materia: 'mulher',
+    titulo: 'A menstruação vem quando quer',
+    local: 'Ambulatório de ginecologia', papel: 'Médico(a) ginecologista', interacao: 'paciente',
+    cenario: 'Débora, 31 anos, há 1 ano tem menstruações irregulares. Conduza a anamnese, interprete os exames e explique o que está acontecendo.',
+    mesa: [],
+    tarefas: [
+      'Conduza a anamnese do sangramento. O que os exames sugerem?',
+      'Por que, sem ovulação, o endométrio cresce demais e sangra de forma irregular?',
+      'Quais são os principais riscos dos ciclos anovulatórios?',
+      'Explique à Débora o que está acontecendo.',
+    ],
+    anamnese: [
+      { tema: 'Padrão do sangramento', resposta: '"Às vezes fico 2 ou 3 meses sem menstruar, e depois vem muito, por vários dias."' },
+      { tema: 'Gestação e contracepção', resposta: '"Não uso anticoncepcional. O teste de gravidez deu negativo."' },
+      { tema: 'Antes do problema', resposta: '"Antes era certinho, todo mês."' },
+      { tema: 'Medicamentos e doenças', resposta: '"Não tomo nenhum remédio."' },
+    ],
+    placas: [
+      { pedido: 'o ultrassom transvaginal', placa: 'Endométrio espessado; ovários sem corpo lúteo.' },
+      { pedido: 'a progesterona na segunda metade do ciclo', placa: 'Progesterona baixa.' },
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Doutor(a), minha menstruação vem quando quer, e quando vem é uma hemorragia."' },
+      { gatilho: 'Se falar em câncer', fala: '"Câncer? Eu tenho câncer?"' },
+      { gatilho: 'No final', fala: '"Por que antes era certinho?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Caracterizou o sangramento (intervalo, duração, volume) e afastou gestação', pts: 1 },
+        { tarefa: 1, item: 'Ciclos anovulatórios: sem pico efetivo de LH, não há ovulação nem corpo lúteo (principal produtor de progesterona) — por isso a progesterona baixa', pts: 1 },
+        { tarefa: 2, item: 'Estrogênio sem oposição da progesterona: proliferação endometrial exacerbada (mitoses, proliferação glandular e estromal)', pts: 1 },
+        { tarefa: 2, item: 'Sem fase secretora e sem a queda cíclica de progesterona e estrogênio, o endométrio não descama de forma organizada', pts: 1 },
+        { tarefa: 3, item: 'Riscos: sangramento irregular, hiperplasia endometrial e câncer de endométrio', pts: 2 },
+        { tarefa: 4, item: 'Explicou que é um risco a acompanhar, não um diagnóstico de câncer, com linguagem acessível', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Dizer que ela tem câncer', 'Não relacionar o sangramento irregular à falta de ovulação'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Pergunto o intervalo, a duração e o volume do sangramento e afasto gestação: ela fica meses sem menstruar e depois sangra muito. Os exames sugerem ciclos anovulatórios: sem pico efetivo de LH não há ovulação, e sem ovulação não se forma o corpo lúteo, principal produtor de progesterona. Por isso a progesterona está baixa e o ultrassom não mostra corpo lúteo.', tempo: '35 s' },
+      { tarefa: 2, texto: 'Sem progesterona, o estrogênio age sem oposição sobre o endométrio, estimulando mitoses e proliferação glandular e estromal, e o endométrio engrossa demais. Num ciclo normal, a progesterona transforma o endométrio em secretor, e a queda do estrogênio e da progesterona no fim do ciclo produz uma descamação organizada. Sem isso, ele sangra de forma irregular.', tempo: '35 s' },
+      { tarefa: 3, texto: 'Os principais riscos são sangramento irregular, hiperplasia endometrial e câncer de endométrio.', tempo: '10 s' },
+      { tarefa: 4, texto: 'Débora, quando o ovário libera o óvulo, ele passa a produzir progesterona, que funciona como o maestro do útero: organiza o revestimento e marca a hora da menstruação. Sem ovulação, não tem maestro; o revestimento cresce sem ordem e se solta de forma bagunçada. Isso não quer dizer que você tem câncer: é um risco que vamos acompanhar e tratar. Me conta o que você entendeu?', tempo: '40 s', analogia: 'Progesterona como maestro do útero' },
+    ],
+    extra: 'Que ambiente hormonal no ovário atrapalha a maturação do folículo? (Ambiente predominantemente androgênico inibe a maturação folicular e favorece a atresia.)',
+  },
+
+  // ----------------------------------------------------- MUL-20 · Teoria das duas células, duas gonadotrofinas
+  {
+    id: 'MUL-20', materia: 'mulher',
+    titulo: 'Explique o esquema das duas células',
+    local: 'Banca do OSCE — fisiologia aplicada', papel: 'Estudante', interacao: 'examinador',
+    cenario: 'O examinador coloca na mesa um esquema com lacunas e pede que você explique a produção hormonal do folículo e a seleção do folículo dominante.',
+    mesa: [
+      { tipo: 'texto', texto: 'Célula da teca — receptor de [ ? ] · colesterol → pregnenolona → progesterona → [ ? ]\nCélula da granulosa — receptor de [ ? ] · enzima [ ? ] → [ ? ]\n\nE1, E2 e E3: de onde vem cada um?' },
+    ],
+    tarefas: [
+      'Complete o esquema e explique a teoria das duas células, duas gonadotrofinas.',
+      'Quais são os três estrogênios e de onde vem cada um?',
+      'Como um folículo se torna dominante, e o que acontece com os demais?',
+      'Por que um ambiente predominantemente androgênico prejudica o folículo?',
+    ],
+    ator: [
+      { gatilho: 'Examinador, na tarefa 1', fala: '"Então a granulosa produz estrogênio sozinha, a partir do colesterol?"' },
+      { gatilho: 'Examinador, na tarefa 3', fala: '"Se o FSH cai no meio da fase folicular, como o dominante continua crescendo?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Teca: receptor de LH; colesterol → pregnenolona → progesterona → androgênios', pts: 1 },
+        { tarefa: 1, item: 'Granulosa: receptor de FSH; a aromatase (induzida pelo FSH) converte os androgênios da teca em estrogênios', pts: 1 },
+        { tarefa: 1, item: 'Todos os esteroides sexuais vêm do colesterol; a granulosa depende dos androgênios da teca', pts: 1 },
+        { tarefa: 2, item: 'Estradiol (E2): principal ovariano, maior atividade biológica · Estrona (E1): conversão periférica (tecido adiposo, músculo, fígado) · Estriol (E3): predomínio placentário, na gestação', pts: 1 },
+        { tarefa: 3, item: '8 a 12 folículos recrutados por ciclo; 1 dominante, pela disponibilidade preferencial de FSH', pts: 1 },
+        { tarefa: 3, item: 'FSH → aromatase → estrogênio → up-regulation dos receptores de FSH e LH: o dominante cresce mesmo com FSH baixo; estrogênio e inibina B fazem feedback negativo sobre o FSH; os demais sofrem atresia (antimülleriano + inibina B)', pts: 1 },
+        { tarefa: 4, item: 'Ambiente androgênico inibe a maturação folicular e favorece a atresia', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Atribuir a aromatase à célula da teca', 'Dizer que a granulosa produz estrogênio sem os androgênios da teca'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Na célula da teca, o LH estimula a conversão do colesterol em pregnenolona, progesterona e, por fim, androgênios. Esses androgênios passam para a célula da granulosa, onde o FSH induz a aromatase, que os converte em estrogênios. São duas células e duas gonadotrofinas trabalhando juntas, e todos os esteroides partem do colesterol.', tempo: '30 s' },
+      { tarefa: 2, texto: 'O estradiol, E2, é o principal estrogênio ovariano e o de maior atividade biológica. A estrona, E1, vem da conversão periférica, no tecido adiposo, no músculo e no fígado. O estriol, E3, predomina na gestação, de origem placentária.', tempo: '25 s' },
+      { tarefa: 3, texto: 'Por ciclo são recrutados 8 a 12 folículos, e um se torna dominante: o que tem disponibilidade preferencial de FSH. O FSH ativa a aromatase, e o estrogênio produzido aumenta os receptores de FSH e LH; com mais receptores, esse folículo continua crescendo mesmo quando o FSH cai. O estrogênio e a inibina B fazem feedback negativo sobre o FSH, e os outros folículos sofrem atresia, acelerada pelo antimülleriano e pela inibina B.', tempo: '40 s' },
+      { tarefa: 4, texto: 'Se o ambiente for predominantemente androgênico, a maturação folicular é inibida e a atresia é favorecida. É como uma linha de montagem: a teca entrega a peça bruta, o androgênio, e a granulosa dá o acabamento, o estrogênio; se a peça bruta se acumula sem acabamento, a linha emperra.', tempo: '30 s', analogia: 'Linha de montagem: peça bruta e acabamento' },
+    ],
+    extra: 'Qual é a função do FSH e a do LH? (FSH: crescimento e desenvolvimento folicular e indução da aromatase. LH: luteinização da teca e da granulosa, produção de androgênios e, no pico, a ovulação.)',
+  },
+
+  // ----------------------------------------------------- MUL-21 · Endométrio ao ultrassom
+  {
+    id: 'MUL-21', materia: 'mulher',
+    titulo: 'Três laudos de endométrio',
+    local: 'Ambulatório de ginecologia — discussão com o interno', papel: 'Médico(a) preceptor(a)', interacao: 'interno',
+    cenario: 'O interno separou três laudos de ultrassom transvaginal de pacientes com ciclos regulares de 28 dias e não entende "por que o endométrio muda tanto". Ele pede que você explique usando os laudos.',
+    mesa: [
+      { tipo: 'texto', texto: 'Laudo 1 — endométrio fino, linear; paciente no 2º dia da menstruação.\n\nLaudo 2 — endométrio trilaminar, com linha ecogênica central, 9 mm; folículo de 19 mm no ovário direito.\n\nLaudo 3 — endométrio hiperecogênico, sem aspecto trilaminar, 13 mm; ovário com corpo lúteo.' },
+    ],
+    tarefas: [
+      'Em que fase do ciclo endometrial e do ovariano está cada paciente?',
+      'Que hormônio comanda a fase proliferativa, e o que ele faz no endométrio?',
+      'Que hormônio comanda a fase secretora, o que ele faz, e para que serve essa transformação?',
+      'Explique ao interno como a menstruação acontece e como o novo ciclo começa.',
+    ],
+    ator: [
+      { gatilho: 'Interno, no laudo 2', fala: '"Esse folículo de 19 mm significa o quê?"' },
+      { gatilho: 'Interno, no final', fala: '"Então a menstruação é o endométrio morrendo por falta de sangue?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Laudo 1: menstrual (início do ciclo) · Laudo 2: proliferativa tardia/pré-ovulatória, com folículo pré-ovulatório (> 18 mm) · Laudo 3: secretora, fase lútea', pts: 2 },
+        { tarefa: 2, item: 'Estrogênio: tamponamento dos vasos e efeito cicatricial; mitoses e proliferação glandular e estromal (espessamento); vasos maiores e tortuosidade glandular; mais receptores de progesterona', pts: 1 },
+        { tarefa: 3, item: 'Progesterona: aumenta a tortuosidade e a secreção glandular; acúmulo de glicogênio e glicoproteínas; arteríolas espiraladas tortuosas', pts: 1 },
+        { tarefa: 3, item: 'Finalidade: nutrir o blastocisto e facilitar a implantação e a invasão trofoblástica', pts: 1 },
+        { tarefa: 4, item: 'Sem fecundação: luteólise em ~14 dias, queda de progesterona e estrogênio, vasoespasmo das arteríolas espiraladas, isquemia e descamação da camada funcional (a basal regenera)', pts: 1 },
+        { tarefa: 4, item: 'A queda hormonal retira o feedback negativo: o FSH sobe e recruta a próxima coorte de folículos', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Atribuir a fase proliferativa à progesterona', 'Confundir o padrão trilaminar com a fase secretora'],
+    falaModelo: [
+      { tarefa: 1, texto: 'O laudo 1 é do início do ciclo, na menstruação, com o endométrio fino. O laudo 2 é a fase proliferativa tardia, pré-ovulatória: endométrio trilaminar de 8 a 10 mm e um folículo de 19 mm, pré-ovulatório porque passa de 18 mm. O laudo 3 é a fase secretora, já na fase lútea: endométrio hiperecogênico, sem o aspecto trilaminar, de 10 a 15 mm, e corpo lúteo no ovário.', tempo: '40 s' },
+      { tarefa: 2, texto: 'A fase proliferativa é comandada pelo estrogênio. Ele tampona os vasos que sangraram e tem efeito cicatricial, aumenta as mitoses e a proliferação de glândulas e estroma, engrossando o endométrio, faz os vasos crescerem até a superfície e aumenta os receptores de progesterona, preparando a fase seguinte.', tempo: '30 s' },
+      { tarefa: 3, texto: 'A fase secretora é comandada pela progesterona do corpo lúteo. Ela aumenta a tortuosidade e a secreção das glândulas, acumula glicogênio e glicoproteínas nas células e deixa as arteríolas espiraladas tortuosas. Tudo isso prepara o endométrio para nutrir o blastocisto e facilita a implantação.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Sem fecundação, o corpo lúteo atrofia em cerca de 14 dias. Caem a progesterona e o estrogênio, as arteríolas espiraladas entram em vasoespasmo, há isquemia e a camada funcional descama: é a menstruação, e a basal regenera tudo. Com a queda hormonal, some o feedback negativo, o FSH volta a subir e recruta os próximos folículos. É como um quarto de hóspedes arrumado todo mês: se o hóspede não chega, troca-se a roupa de cama e prepara-se tudo de novo. Ficou claro? Me explica com suas palavras.', tempo: '45 s', analogia: 'Quarto de hóspedes arrumado de novo' },
+    ],
+    extra: 'Qual camada do endométrio regenera após a menstruação? (A camada basal; a funcional é a que descama.)',
+  },
+
+  // ----------------------------------------------------- MUL-22 · Corpo lúteo e hCG
+  {
+    id: 'MUL-22', materia: 'mulher',
+    titulo: 'A menstruação não veio e o teste deu positivo',
+    local: 'UBS — primeira consulta de pré-natal', papel: 'Médico(a) da UBS', interacao: 'paciente',
+    cenario: 'Letícia, 27 anos, ciclos regulares de 28 dias, está com 10 dias de atraso menstrual e teste de gravidez positivo, numa gestação planejada. Ela quer entender por que a menstruação "não desceu" e leu que "um tal de corpo lúteo segura a gravidez no começo".',
+    mesa: [],
+    tarefas: [
+      'O que é o corpo lúteo, como ele se forma e o que produz?',
+      'O que acontece com o corpo lúteo quando não há gravidez? Por que a menstruação vem?',
+      'Por que, na gravidez, a menstruação não veio? Até quando o corpo lúteo é mantido?',
+      'Explique à Letícia, em linguagem simples.',
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Doutor(a), por que a menstruação não desceu? É o tal corpo lúteo?"' },
+      { gatilho: 'No final', fala: '"E esse corpo lúteo fica a gravidez toda?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Corpo lúteo: células foliculares remanescentes após a ovulação', pts: 1 },
+        { tarefa: 1, item: 'Produz principalmente progesterona (também estrogênio e inibina A); a elevação hormonal inibe o eixo e impede novo recrutamento folicular', pts: 1 },
+        { tarefa: 2, item: 'Sem gravidez: luteólise em ~14 dias (fase lútea fixa) → corpo albicans', pts: 1 },
+        { tarefa: 2, item: 'Queda acentuada de progesterona e estradiol descama o endométrio funcional: menstruação', pts: 1 },
+        { tarefa: 3, item: 'O hCG do sinciciotrofoblasto liga-se aos receptores de LH e mantém o corpo lúteo ativo', pts: 1 },
+        { tarefa: 3, item: 'Até a 10ª–12ª semana de gestação', pts: 1 },
+        { tarefa: 4, item: 'Explicou com linguagem acessível e verificou a compreensão', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Dizer que o corpo lúteo dura a gestação inteira', 'Atribuir a manutenção do corpo lúteo ao FSH'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Depois da ovulação, as células do folículo que ficaram no ovário formam o corpo lúteo. Ele produz principalmente progesterona, e também estrogênio e inibina A; essa elevação hormonal inibe o eixo e impede o recrutamento de novos folículos.', tempo: '25 s' },
+      { tarefa: 2, texto: 'Sem gravidez, o corpo lúteo atrofia em cerca de 14 dias, a luteólise, e vira o corpo albicans. A progesterona e o estradiol caem bruscamente e a camada funcional do endométrio descama: é a menstruação. Por isso a fase lútea é fixa, de cerca de 14 dias.', tempo: '25 s' },
+      { tarefa: 3, texto: 'Na gravidez, o sinciciotrofoblasto produz hCG, que se liga aos receptores de LH e mantém o corpo lúteo funcionando. A progesterona não cai, e a menstruação não vem. Ele é mantido até a 10ª a 12ª semana de gestação.', tempo: '25 s' },
+      { tarefa: 4, texto: 'Letícia, depois que o óvulo sai, fica no ovário uma estrutura, o corpo lúteo, que produz o hormônio que segura o revestimento do útero. Ela dura uns 14 dias, como uma vela de tempo certo. Sem gravidez, a vela apaga, o hormônio cai e a menstruação vem. Com gravidez, o embrião manda um sinal, o hormônio que o teste detecta, que mantém a vela acesa até umas 10 a 12 semanas. Por isso a menstruação não desceu. Me conta com suas palavras o que você entendeu?', tempo: '45 s', analogia: 'Vela de tempo certo' },
+    ],
+    extra: 'Para que serve o endométrio secretor na implantação? (O acúmulo de glicogênio e glicoproteínas nutre os estágios iniciais da implantação; as arteríolas espiraladas facilitam a invasão trofoblástica.)',
+  },
+
+  // ----------------------------------------------------- MUL-23 · Menopausa e deficiência estrogênica
+  {
+    id: 'MUL-23', materia: 'mulher',
+    titulo: 'Calorões, insônia e desânimo aos 51 anos',
+    local: 'Ambulatório de ginecologia', papel: 'Médico(a) ginecologista', interacao: 'paciente',
+    cenario: 'Dona Rita, 51 anos, procura atendimento porque "o corpo mudou muito". Conduza a anamnese, interprete os exames e explique o que está acontecendo e os riscos para a saúde.',
+    mesa: [],
+    tarefas: [
+      'Conduza a anamnese. Por que a menopausa acontece? Relacione com a reserva ovariana.',
+      'Explique os exames: por que o FSH está alto se o ovário parou?',
+      'Que sintomas e que consequências a longo prazo a deficiência estrogênica traz?',
+      'Explique à Dona Rita.',
+    ],
+    anamnese: [
+      { tema: 'Menstruação', resposta: '"Não menstruo há 14 meses."' },
+      { tema: 'Sintomas', resposta: '"Tenho ondas de calor várias vezes por dia, acordo de madrugada e ando desanimada."' },
+      { tema: 'Sintomas geniturinários', resposta: '"A vagina está seca, e a relação passou a doer."' },
+      { tema: 'Doenças e medicamentos', resposta: '"Tenho pressão um pouco alta, controlada. Nunca quebrei osso."' },
+    ],
+    placas: [
+      { pedido: 'os exames hormonais', placa: 'FSH elevado · estradiol baixo.' },
+    ],
+    ator: [
+      { gatilho: 'Ao se apresentar', fala: '"Doutor(a), parece que tem um fogo subindo pelo corpo."' },
+      { gatilho: 'Se explicar o FSH alto', fala: '"Se esse hormônio está alto, por que ele não faz o ovário funcionar?"' },
+      { gatilho: 'No final', fala: '"Isso traz algum perigo além dos calores?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Caracterizou a amenorreia e os sintomas (vasomotores, sono, humor, geniturinários)', pts: 1 },
+        { tarefa: 1, item: 'Menopausa = esgotamento da reserva folicular (atresia contínua, cerca de 1.000 folículos por ciclo, por apoptose)', pts: 1 },
+        { tarefa: 2, item: 'Sem estrogênio e inibina ovarianos, some o feedback negativo: FSH e LH sobem, mas não há folículos para responder', pts: 1 },
+        { tarefa: 3, item: 'Sintomas: fogachos, insônia e depressão (com aumento de noradrenalina, dopamina e prostaglandinas)', pts: 1 },
+        { tarefa: 3, item: 'Longo prazo: osteoporose, aterosclerose e atrofia de útero, vagina e mamas (secura e dor na relação)', pts: 1 },
+        { tarefa: 4, item: 'Explicou com linguagem acessível e acolhimento, e verificou a compreensão', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Interpretar o FSH alto como ovário funcionando', 'Não citar os riscos ósseo e cardiovascular'],
+    falaModelo: [
+      { tarefa: 1, texto: 'Ela está há 14 meses sem menstruar, com ondas de calor, insônia, desânimo, secura vaginal e dor na relação. A menopausa é o esgotamento da reserva de folículos: a perda é contínua, cerca de mil por ciclo, por apoptose, até que acabam.', tempo: '25 s' },
+      { tarefa: 2, texto: 'Sem folículos, o ovário deixa de produzir estradiol e inibina. Isso tira o feedback negativo sobre a hipófise, e o FSH e o LH sobem. O FSH está alto justamente porque não há mais folículos para responder.', tempo: '20 s' },
+      { tarefa: 3, texto: 'A deficiência estrogênica causa ondas de calor, insônia e depressão, ligadas ao aumento de noradrenalina, dopamina e prostaglandinas. A longo prazo traz osteoporose, aterosclerose e atrofia do útero, da vagina e das mamas, que explica a secura e a dor na relação.', tempo: '30 s' },
+      { tarefa: 4, texto: 'Dona Rita, os ovários nascem com um estoque de óvulos que vai sendo gasto ao longo da vida. Agora o estoque acabou e o hormônio feminino caiu. O cérebro percebe e aumenta o FSH, como alguém que toca a campainha cada vez mais forte numa casa onde não mora mais ninguém. A falta de hormônio explica os calores, o sono ruim, o desânimo e a secura; também enfraquece os ossos e favorece problemas nos vasos, por isso vamos acompanhar de perto. Me conta o que a senhora entendeu?', tempo: '45 s', analogia: 'Campainha tocada numa casa vazia' },
+    ],
+    extra: 'Quantos folículos há em cada fase da vida? (Pico de 6 a 8 milhões com 18–20 semanas de gestação; 1 a 2 milhões ao nascer; 300 a 500 mil na puberdade.)',
+  },
+
+  // ----------------------------------------------------- MUL-24 · Eixo hipotálamo–hipófise–ovário
+  {
+    id: 'MUL-24', materia: 'mulher',
+    titulo: 'Quem dá a largada do ciclo?',
+    local: 'Banca do OSCE — fisiologia aplicada', papel: 'Estudante', interacao: 'examinador',
+    cenario: 'O examinador pergunta: "Qual estrutura dá o estímulo inicial do ciclo menstrual?" e pede que você explique o eixo hipotálamo–hipófise–ovário e seus mecanismos de controle.',
+    mesa: [
+      { tipo: 'texto', texto: 'Hipotálamo → (GnRH) → hipófise → (FSH e LH) → ovário → (estrogênio, progesterona, inibinas) → ?' },
+    ],
+    tarefas: [
+      'Qual estrutura dá o estímulo inicial? Como o GnRH é liberado, e o que acontece se a liberação for contínua?',
+      'Onde fica a hipófise, o que ela produz e qual a função de cada gonadotrofina?',
+      'Explique os feedbacks do eixo, incluindo o feedback positivo que leva à ovulação.',
+      'Que neurotransmissores modulam o GnRH, e como o padrão dos pulsos muda nas fases do ciclo?',
+    ],
+    ator: [
+      { gatilho: 'Examinador, na tarefa 1', fala: '"Se o GnRH é tão importante, por que não dar GnRH contínuo para estimular mais?"' },
+      { gatilho: 'Examinador, na tarefa 3', fala: '"O estrogênio não faz só feedback negativo?"' },
+    ],
+    barema: {
+      conteudo: [
+        { tarefa: 1, item: 'Hipotálamo (diencéfalo, junto ao 3º ventrículo); eixo bloqueado até a puberdade; produz GnRH em liberação pulsátil', pts: 1 },
+        { tarefa: 1, item: 'Liberação contínua causa downregulation dos receptores de GnRH, bloqueando sua ação', pts: 1 },
+        { tarefa: 2, item: 'Adeno-hipófise, na sela túrcica, ligada pela haste e pelo sistema porta; FSH: crescimento folicular e indução da aromatase · LH: luteinização (teca e granulosa), androgênios e, no pico, ovulação', pts: 1 },
+        { tarefa: 3, item: 'Estrogênio e inibina B: feedback negativo sobre o FSH na fase folicular; progesterona, estrogênio e inibina A do corpo lúteo inibem o eixo na fase lútea', pts: 1 },
+        { tarefa: 3, item: 'Feedback positivo: estradiol > 200 pg/mL por mais de 36 a 48 h no fim da fase folicular → pico de LH → ovulação', pts: 1 },
+        { tarefa: 4, item: 'Excitatórios: glutamato, neuropeptídeo Y e noradrenalina · inibitórios: endorfinas e dopamina', pts: 1 },
+        { tarefa: 4, item: 'Fase folicular: pulsos mais frequentes e de menor amplitude (FSH) · fase lútea: menos frequentes e de maior amplitude (LH)', pts: 1 },
+      ],
+    },
+    errosCriticos: ['Dizer que o GnRH contínuo estimula o eixo', 'Ignorar o feedback positivo do estrogênio na ovulação'],
+    falaModelo: [
+      { tarefa: 1, texto: 'O estímulo inicial vem do hipotálamo, no diencéfalo, junto ao terceiro ventrículo; o eixo fica bloqueado até a puberdade. O hipotálamo produz GnRH de forma pulsátil. Se a liberação for contínua, há downregulation dos receptores de GnRH na hipófise e a ação dele é bloqueada.', tempo: '30 s' },
+      { tarefa: 2, texto: 'A hipófise fica na sela túrcica; a adeno-hipófise recebe o GnRH pela haste e pelo sistema porta e produz as gonadotrofinas. O FSH faz o folículo crescer e induz a aromatase. O LH luteiniza a teca e a granulosa, estimula a produção de androgênios e, no pico, desencadeia a ovulação.', tempo: '30 s' },
+      { tarefa: 3, texto: 'Na fase folicular, o estrogênio e a inibina B fazem feedback negativo sobre o FSH. Mas, no fim dessa fase, quando o estradiol passa de cerca de 200 pg/mL por 36 a 48 horas, o feedback vira positivo e gera o pico de LH, que leva à ovulação. Na fase lútea, a progesterona, o estrogênio e a inibina A do corpo lúteo inibem o eixo.', tempo: '35 s' },
+      { tarefa: 4, texto: 'Glutamato, neuropeptídeo Y e noradrenalina estimulam o GnRH; endorfinas e dopamina inibem. Na fase folicular, os pulsos são mais frequentes e de menor amplitude, favorecendo o FSH; na lútea, menos frequentes e de maior amplitude, favorecendo o LH. É como um código Morse: a mesma tecla, mas o ritmo dos toques muda a mensagem.', tempo: '30 s', analogia: 'Código Morse: o ritmo muda a mensagem' },
+    ],
+    extra: 'Que fatores podem alterar a pulsatilidade e causar amenorreia? (Exercício intenso, estresse, anorexia/bulimia, hiperprolactinemia/fármacos e hipotireoidismo.)',
   },
 );

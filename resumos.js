@@ -856,4 +856,127 @@ const RESUMOS = {
     'Sequelas: elefantíase genital, estenose retal e uretral.',
     'Diferencial da adenopatia: cancro mole (com úlceras dolorosas e purulentas), herpes (bilateral na primoinfecção), donovanose (sem adenite).',
   ], pegadinha: 'A úlcera do LGV é pequena, indolor e some sozinha: quando a paciente chega com a íngua, é preciso perguntar por ela.' },
+
+  // ===================================================== PROVA ANTERIOR (25.2)
+  'CIR-23': { tema: 'Queimadura: profundidade, extensão, local de tratamento, via aérea e CO', pontos: [
+    '1º grau: eritema e ardor, sem bolhas (não entra na SCQ). 2º superficial: bolhas, base rósea, dor, empalidece. 3º grau: seco, esbranquiçado, endurecido, indolor.',
+    'Regra dos nove (adulto): tronco anterior 18%, cada membro superior 9%, cada membro inferior 18%.',
+    'Grande queimado: 2º grau acima de 20% no adulto (10% na criança) → centro especializado.',
+    'Transferem independentemente da área: face, mãos, pés, genitália, períneo e grandes articulações; químicas; elétricas de alta voltagem.',
+    'Via aérea definitiva precoce se estridor, rouquidão, sobrancelhas chamuscadas e escarro carbonáceo em ambiente fechado. Sem esses sinais: oxigênio e reavaliação.',
+    'Tontura e cefaleia após incêndio em ambiente fechado: pensar em intoxicação por CO e pedir gasometria arterial.',
+  ], pegadinha: 'Saturação de 98% não afasta CO: o oxímetro lê carboxi-hemoglobina como oxi-hemoglobina.' },
+
+  'MEN-21': { tema: 'Anamnese psiquiátrica e transtorno bipolar tipo I (mania)', pontos: [
+    'Queixa principal com as palavras do paciente; início e curso dos sintomas.',
+    'História psiquiátrica, medicamentos e hábitos de vida (tabaco, álcool, outras substâncias, cafeína).',
+    'Impacto funcional: trabalho, finanças, relações.',
+    'Antecedentes familiares: transtornos mentais, suicídio, dependência química.',
+    'Pergunta direta sobre ideação suicida: não aumenta o risco e é indispensável.',
+    'EEM: aparência, comportamento, fala, humor e afeto, pensamento, sensopercepção, cognição, insight e julgamento.',
+    'Na prova 25.2: mania com prejuízo funcional + tia com transtorno bipolar → transtorno bipolar tipo I, episódio maníaco; explicar à paciente e ao acompanhante.',
+  ], pegadinha: 'O irmão "lá fora" que não entra na sala não é alucinação: siga explicando como se ele estivesse presente.' },
+
+  'FAR-19': { tema: 'AINEs: mecanismo, efeitos, riscos e uso racional', pontos: [
+    'Inibem a COX-1 e a COX-2 e reduzem a produção de prostaglandinas.',
+    'Efeitos analgésico, antitérmico e anti-inflamatório; analgesia em 1–2 h, anti-inflamatório pleno em 2–3 semanas.',
+    'Gastrointestinal: menos prostaglandinas protetoras da mucosa (gastrite, úlcera, sangramento); maior nos não seletivos.',
+    'Renal: inibição das prostaglandinas vasodilatadoras renais; piora com diurético.',
+    'Cardiovascular: coxibes menos seguros; naproxeno é o mais seguro desse ponto de vista.',
+    'Uso racional: só com indicação e pelo tempo necessário; paracetamol é primeira linha na dor leve a moderada.',
+  ], pegadinha: 'Pergunte se ainda há dor: na prova 25.2 a paciente nem tinha mais dor, e a conduta era suspender.' },
+
+  'EPI-21': { tema: 'Caso-controle, odds ratio e intervalo de confiança', pontos: [
+    'Para classificar, pergunte como os participantes foram escolhidos: no caso-controle, pela doença.',
+    'Parte do desfecho e investiga a exposição no passado, com controles comparáveis.',
+    'Vantagens: rápido e adequado a doenças raras. Limitação clássica: viés de memória.',
+    'Medida: odds ratio (chance de exposição entre casos ÷ entre controles). Não se calcula risco relativo.',
+    'IC 95% que não inclui o 1: associação estatisticamente significativa; amplitude grande = estimativa imprecisa.',
+    'Um estudo observacional mostra associação, não prova causalidade sozinho.',
+  ], pegadinha: 'Usar dados do passado não faz um estudo ser caso-controle: o que decide é a seleção pela doença.' },
+
+  'MUL-15': { tema: 'Vulvovaginite: anamnese dirigida e candidíase', pontos: [
+    'Anamnese do corrimento: cor, odor, consistência, quantidade, sintomas associados e fatores de piora.',
+    'Antecedentes ginecológicos, episódios prévios, consultas e tratamentos anteriores, história sexual, contracepção e gestação.',
+    'Candidíase: branco grumoso (leite talhado), sem odor, prurido, disúria, dispareunia; pH < 4,5; aminas negativas.',
+    'Diferenciais: vaginose bacteriana (acinzentado, odor de peixe, pH > 4,5) e tricomoníase (amarelo-esverdeado, bolhoso).',
+    'Tratamento: fluconazol 150 mg dose única (não em gestantes) ou miconazol creme vaginal por 7 noites.',
+    'Não é IST; parceiro assintomático não precisa tratar, mas deve ser avaliado se tiver sintomas.',
+  ], pegadinha: 'Na prova 25.2, alguns atores responderam como vaginose: o diagnóstico tem que seguir as respostas.' },
+
+  // ===================================================== SAÚDE DA MULHER — CICLO MENSTRUAL
+  'MUL-16': { tema: 'Fases do ciclo e ovulação', pontos: [
+    'D1 = primeiro dia da menstruação.',
+    'Ovário: folicular, ovulatória e lútea. Endométrio: menstrual, proliferativa e secretora. Folicular ↔ proliferativa; lútea ↔ secretora.',
+    'Estradiol > 200 pg/mL por 36–48 h → feedback positivo → pico de LH.',
+    'Ovulação cerca de 36 h após o início do pico de LH (~12 h após o ápice); prostaglandinas e colagenases rompem o folículo.',
+    'Fase lútea fixa (~14 dias); a folicular varia. Ovulação ≈ duração do ciclo − 14.',
+    'Ultrassom: folículo pré-ovulatório > 18 mm; endométrio trilaminar de 8 a 10 mm.',
+  ], pegadinha: 'Ovulação no dia 14 só vale para ciclo de 28 dias.' },
+
+  'MUL-17': { tema: 'Amenorreia por alteração da pulsatilidade do GnRH', pontos: [
+    'O GnRH pulsátil comanda FSH e LH; a liberação contínua causa downregulation.',
+    'Moduladores do eixo: exercício intenso (endorfinas elevadas), estresse, anorexia/bulimia, hiperprolactinemia/fármacos, hipotireoidismo.',
+    'Neurotransmissores inibitórios: endorfinas e dopamina. Excitatórios: glutamato, neuropeptídeo Y, noradrenalina.',
+    'Sem pulsos adequados: sem folículo dominante, sem ovulação, estrogênio baixo.',
+    'Deficiência estrogênica: osteoporose, aterosclerose, atrofia urogenital e mamária.',
+  ], pegadinha: 'Não menstruar não é "bom para o treino": é sinal de estrogênio baixo e osso em risco.' },
+
+  'MUL-18': { tema: 'Contracepção hormonal combinada e reserva ovariana', pontos: [
+    'Estrogênio + progestagênio exógenos → feedback negativo sobre FSH e LH → sem folículo dominante e sem pico de LH.',
+    'Folículos: 6–8 milhões com 18–20 semanas de gestação; 1–2 milhões ao nascer; 300–500 mil na puberdade.',
+    'Cerca de 1.000 folículos sofrem atresia a cada ciclo; menopausa é o esgotamento da reserva.',
+    'A perda folicular é principalmente por apoptose.',
+    'Foliculogênese: primordial, primário, secundário (teca; passa a responder às gonadotrofinas), terciário (antro), Graaf.',
+  ], pegadinha: 'A pílula não guarda óvulos nem atrasa a menopausa: nada freia a perda folicular.' },
+
+  'MUL-19': { tema: 'Ciclos anovulatórios', pontos: [
+    'Sem pico efetivo de LH → sem ovulação → sem corpo lúteo → sem progesterona.',
+    'Estrogênio sem oposição da progesterona → proliferação endometrial exacerbada.',
+    'Sem fase secretora e sem queda hormonal cíclica, a descamação é desorganizada.',
+    'Riscos: sangramento irregular, hiperplasia endometrial e câncer de endométrio.',
+    'Ambiente androgênico inibe a maturação folicular e favorece a atresia.',
+  ], pegadinha: 'Risco de câncer de endométrio não é diagnóstico de câncer: explique sem assustar.' },
+
+  'MUL-20': { tema: 'Esteroidogênese: duas células, duas gonadotrofinas', pontos: [
+    'Todos os esteroides sexuais vêm do colesterol.',
+    'Teca (LH): colesterol → pregnenolona → progesterona → androgênios.',
+    'Granulosa (FSH): aromatase converte os androgênios da teca em estrogênios.',
+    'E2: principal ovariano. E1: conversão periférica (adiposo, músculo, fígado). E3: placentário.',
+    'Dominância: FSH preferencial → aromatase → estrogênio → mais receptores de FSH e LH; o dominante cresce com FSH baixo.',
+    'Atresia dos demais: antimülleriano + inibina B; estrogênio e inibina B fazem feedback negativo sobre o FSH.',
+  ], pegadinha: 'A aromatase está na granulosa, não na teca.' },
+
+  'MUL-21': { tema: 'Ciclo endometrial e ultrassom', pontos: [
+    'Camada basal regenera; camada funcional descama.',
+    'Proliferativa (estrogênio): mitoses, proliferação glandular e estromal, vasos, receptores de progesterona; trilaminar, 8–10 mm no pré-ovulatório.',
+    'Secretora (progesterona): tortuosidade e secreção glandular, glicogênio, arteríolas espiraladas; hiperecogênico, 10–15 mm.',
+    'Finalidade: implantação e nutrição do blastocisto.',
+    'Menstruação: luteólise → queda de progesterona e estrogênio → vasoespasmo das arteríolas espiraladas → isquemia → descamação.',
+    'Queda hormonal retira o feedback negativo: o FSH sobe e recruta novos folículos.',
+  ], pegadinha: 'Endométrio trilaminar é fase proliferativa (pré-ovulatória), não secretora.' },
+
+  'MUL-22': { tema: 'Corpo lúteo, luteólise e hCG', pontos: [
+    'Corpo lúteo: células foliculares remanescentes após a ovulação.',
+    'Produz principalmente progesterona, além de estrogênio e inibina A; inibe o eixo.',
+    'Sem gravidez: luteólise em ~14 dias → corpo albicans → queda hormonal → menstruação.',
+    'Com gravidez: hCG do sinciciotrofoblasto age nos receptores de LH e mantém o corpo lúteo até a 10ª–12ª semana.',
+    'Fase lútea fixa porque depende da vida do corpo lúteo.',
+  ], pegadinha: 'O corpo lúteo não dura a gestação toda: é mantido até a 10ª–12ª semana.' },
+
+  'MUL-23': { tema: 'Menopausa e deficiência estrogênica', pontos: [
+    'Menopausa: esgotamento da reserva folicular.',
+    'Sem estradiol e inibina, some o feedback negativo: FSH e LH elevados.',
+    'Aumento de noradrenalina, dopamina e prostaglandinas: fogachos, insônia, depressão.',
+    'Longo prazo: osteoporose, aterosclerose, atrofia de útero, vagina e mamas.',
+  ], pegadinha: 'FSH alto na menopausa não é ovário funcionando: é a hipófise sem resposta do ovário.' },
+
+  'MUL-24': { tema: 'Eixo hipotálamo–hipófise–ovário', pontos: [
+    'Hipotálamo (diencéfalo, 3º ventrículo): GnRH pulsátil; eixo bloqueado até a puberdade.',
+    'Fase folicular: pulsos frequentes e de baixa amplitude (FSH). Lútea: menos frequentes e de alta amplitude (LH).',
+    'Adeno-hipófise (sela túrcica, haste, sistema porta): FSH (crescimento folicular, aromatase) e LH (luteinização, androgênios, ovulação).',
+    'Feedback negativo: estrogênio e inibina B (folicular); progesterona, estrogênio e inibina A (lútea).',
+    'Feedback positivo: estradiol > 200 pg/mL por 36–48 h → pico de LH.',
+    'Neurotransmissores: glutamato, NPY e noradrenalina estimulam; endorfinas e dopamina inibem.',
+  ], pegadinha: 'GnRH contínuo não estimula: bloqueia, por downregulation dos receptores.' },
 };
