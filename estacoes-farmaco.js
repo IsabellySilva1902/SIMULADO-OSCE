@@ -1,5 +1,6 @@
 // Estações de Farmacologia (FAR-01 a FAR-18): manejo de reações adversas.
 // Formato da prova: reconhecer a reação, explicar o mecanismo, manejar (sem prescrever) e orientar.
+// Nas estações com paciente, a anamnese é ativa: o paciente só conta o que for perguntado.
 // FAR-01 a FAR-06: anti-histamínicos e rinite · FAR-07 a FAR-11: asma · FAR-12 a FAR-18: outros temas.
 ESTACOES.push(
   // ===================================================== ANTI-HISTAMÍNICOS E RINITE
@@ -8,15 +9,24 @@ ESTACOES.push(
     id: 'FAR-01', materia: 'farmaco',
     titulo: 'Dormi em cima do livro depois do antialérgico',
     local: 'UBS — consulta', papel: 'Médico(a) da UBS', interacao: 'paciente',
-    cenario: 'Lucas, 20 anos, estudante de engenharia, tem rinite alérgica com espirros, coceira no nariz e coriza sempre que mexe na poeira do quarto. Há 1 semana começou, por conta própria, um antialérgico de primeira geração que a avó usava, 3 vezes ao dia. Os espirros melhoraram, mas ele está com muito sono, "cabeça lenta" nas aulas, e cochilou pilotando a moto na volta da faculdade. Tem prova na semana que vem.\n\nSem outras doenças; não usa outros medicamentos.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'O que ele relata', linhas: [['Medicamento', 'anti-histamínico H1 de primeira geração, 3 vezes ao dia'], ['Quando toma', 'só depois que os espirros começam'], ['Ambiente', 'quarto com muita poeira e umidade']] },
-    ],
+    cenario: 'Lucas, 20 anos, estudante de engenharia, tem rinite alérgica e veio porque o antialérgico que começou por conta própria "resolveu o espirro, mas deu muito sono". Avalie a reação, maneje e oriente o paciente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual reação adversa ele apresenta, e por que ela acontece com esse grupo de anti-histamínicos?',
       'Que medida você toma em relação ao medicamento? Justifique pela farmacologia.',
       'Ele toma o remédio só depois que os espirros começam, e piora quando mexe na poeira. Como usar melhor o anti-histamínico, e o que associar?',
       'Explique ao Lucas o que aconteceu e oriente-o, considerando a moto e a prova.',
+    ],
+    anamnese: [
+      { tema: 'Qual remédio e como usa', resposta: '"É a prometazina que a minha avó usava. Tomo 3 vezes ao dia, quando os espirros começam."' },
+      { tema: 'Sintomas da rinite', resposta: '"Espirro, coceira no nariz e coriza, sempre que mexo na poeira do quarto."' },
+      { tema: 'Sono e atenção', resposta: '"Fico com a cabeça lenta nas aulas. Ontem cochilei pilotando a moto na volta da faculdade."' },
+      { tema: 'Rotina', resposta: '"Tenho prova na semana que vem e estudo à noite."' },
+      { tema: 'Ambiente', resposta: '"Meu quarto tem muita poeira e é úmido."' },
+      { tema: 'Outras doenças e remédios', resposta: '"Não tenho outra doença nem tomo outro remédio."' },
+    ],
+    placas: [
+      { pedido: 'o exame do nariz', placa: 'Mucosa nasal pálida e edemaciada, com secreção clara.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), o remédio resolveu o espirro, mas eu viro um zumbi. Quase caí da moto."' },
@@ -25,7 +35,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Sedação (sonolência, lentidão) pelo anti-histamínico H1 de primeira geração', pts: 1 },
+        { tarefa: 1, item: 'Perguntou o fármaco e o impacto: sedação pela prometazina, anti-H1 de primeira geração muito sedativo (+++), com risco ao pilotar', pts: 1 },
         { tarefa: 1, item: 'Primeira geração tem maior penetração no SNC (atravessa a barreira hematoencefálica) e mais efeitos anticolinérgicos', pts: 1 },
         { tarefa: 2, item: 'Trocar por anti-histamínico de segunda geração (cetirizina, loratadina ou fexofenadina)', pts: 1 },
         { tarefa: 2, item: 'Segunda geração não atravessa facilmente a barreira hematoencefálica: menos sedação, atenção preservada', pts: 1 },
@@ -36,7 +46,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Manter o anti-histamínico de primeira geração em quem dirige e precisa de atenção', 'Não relacionar a sonolência ao fármaco'],
     falaModelo: [
-      { tarefa: 1, texto: 'É sedação causada pelo anti-histamínico de primeira geração. Esses fármacos penetram mais no sistema nervoso central, porque atravessam a barreira hematoencefálica, e por isso dão sonolência e lentidão; também têm mais efeitos anticolinérgicos.', tempo: '25 s' },
+      { tarefa: 1, texto: 'É sedação causada pela prometazina, um anti-histamínico de primeira geração dos mais sedativos. Esses fármacos penetram mais no sistema nervoso central, porque atravessam a barreira hematoencefálica, e por isso dão sonolência e lentidão; também têm mais efeitos anticolinérgicos.', tempo: '25 s' },
       { tarefa: 2, texto: 'Troco por um anti-histamínico de segunda geração, como cetirizina, loratadina ou fexofenadina. Eles não atravessam facilmente a barreira hematoencefálica, então dão menos sedação e preservam a atenção, que é o que ele precisa para estudar e pilotar.', tempo: '25 s' },
       { tarefa: 3, texto: 'O anti-histamínico funciona melhor de forma preventiva, antes da exposição, do que depois que a crise começou. E o bloqueio do receptor H1 é competitivo e reversível: quando ele mexe na poeira, libera muita histamina, que vence o bloqueio. Por isso associo o controle do ambiente: limpar a poeira e controlar a umidade.', tempo: '30 s' },
       { tarefa: 4, texto: 'Lucas, esse antialérgico mais antigo entra no cérebro e dá sono, como um remédio para dormir disfarçado. Os mais novos agem no nariz quase sem chegar ao cérebro, por isso dão muito menos sono. Enquanto estiver sonolento, não pilote a moto. Use o novo todo dia, antes de se expor à poeira, e não só quando a crise começar, e cuide da poeira do quarto. Me conta como você vai tomar o remédio novo?', tempo: '40 s', analogia: 'Antialérgico antigo como um remédio para dormir disfarçado' },
@@ -49,15 +59,23 @@ ESTACOES.push(
     id: 'FAR-02', materia: 'farmaco',
     titulo: 'Não consegui urinar depois do remédio da alergia',
     local: 'Ambulatório de clínica médica — retorno', papel: 'Médico(a) clínico(a)', interacao: 'paciente',
-    cenario: 'Seu Armando, 72 anos, tem hiperplasia prostática benigna, com jato urinário fraco há anos. Há 5 dias, por coceira no nariz e espirros, começou um antialérgico de primeira geração indicado por um vizinho. Ontem não conseguiu urinar, com a barriga estufada e dolorida; no pronto-socorro foi sondado e orientado a procurar o clínico. Hoje está urinando, mas tem medo de "travar de novo". Também anda sonolento.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resumo', linhas: [['Diagnóstico prévio', 'hiperplasia prostática benigna'], ['Medicamento novo', 'anti-histamínico H1 de primeira geração, há 5 dias'], ['Pronto-socorro (ontem)', 'retenção urinária aguda, aliviada com sondagem']] },
-    ],
+    cenario: 'Seu Armando, 72 anos, foi sondado ontem no pronto-socorro porque não conseguia urinar e veio ao clínico com medo de "travar de novo". Investigue a causa, maneje e oriente o paciente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Quais reações adversas ele teve? Que propriedades do fármaco as explicam, e por que ele estava mais vulnerável?',
       'Que medida você toma com o antialérgico? Que alternativa é mais segura para ele, e por quê?',
       'Além do medicamento, que medidas ajudam a controlar a rinite dele?',
       'Explique ao Seu Armando o que aconteceu e o que ele deve fazer daqui para frente.',
+    ],
+    anamnese: [
+      { tema: 'Problemas urinários', resposta: '"Tenho a próstata aumentada há anos, o jato é fraco. Mas nunca tinha travado."' },
+      { tema: 'Remédios novos', resposta: '"Há 5 dias comecei um antialérgico que o vizinho indicou, a difenidramina, por coceira no nariz e espirros."' },
+      { tema: 'Outros sintomas', resposta: '"Ando sonolento e com a boca seca."' },
+      { tema: 'Outras doenças e remédios', resposta: '"Tenho pressão alta e tomo anlodipino."' },
+    ],
+    placas: [
+      { pedido: 'o resumo do pronto-socorro', placa: 'Retenção urinária aguda com globo vesical, aliviada com sondagem (900 mL).' },
+      { pedido: 'o exame atual', placa: 'Bexiga não palpável. Mucosas secas.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), nunca tinha travado assim. Foi a próstata que piorou?"' },
@@ -66,7 +84,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Retenção urinária por efeito anticolinérgico do anti-histamínico de primeira geração; sonolência pela penetração no SNC', pts: 2 },
+        { tarefa: 1, item: 'Perguntou os remédios novos: retenção urinária pelo efeito anticolinérgico da difenidramina (anti-H1 de primeira geração); sonolência pela penetração no SNC', pts: 2 },
         { tarefa: 1, item: 'A hiperplasia prostática o torna mais vulnerável ao efeito anticolinérgico sobre a bexiga', pts: 1 },
         { tarefa: 2, item: 'Suspender o anti-histamínico de primeira geração', pts: 1 },
         { tarefa: 2, item: 'Se precisar, segunda geração (cetirizina, loratadina, fexofenadina): sem efeitos anticolinérgicos relevantes e com menos sedação', pts: 1 },
@@ -76,7 +94,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Manter o anti-histamínico de primeira geração', 'Atribuir a retenção só à próstata, sem investigar o medicamento novo'],
     falaModelo: [
-      { tarefa: 1, texto: 'Ele teve retenção urinária pelo efeito anticolinérgico do anti-histamínico de primeira geração, e a sonolência vem da maior penetração desse grupo no sistema nervoso central. Como ele tem hiperplasia prostática, já tem dificuldade para esvaziar a bexiga, e o efeito anticolinérgico foi o que faltava para travar.', tempo: '30 s' },
+      { tarefa: 1, texto: 'Ele começou difenidramina há 5 dias e teve retenção urinária pelo efeito anticolinérgico desse anti-histamínico de primeira geração, e a sonolência vem da maior penetração desse grupo no sistema nervoso central. Como ele tem hiperplasia prostática, já tem dificuldade para esvaziar a bexiga, e o efeito anticolinérgico foi o que faltava para travar.', tempo: '30 s' },
       { tarefa: 2, texto: 'Suspendo esse antialérgico. Se ele precisar de anti-histamínico, uso um de segunda geração, como loratadina, cetirizina ou fexofenadina, que não têm efeitos anticolinérgicos relevantes e dão menos sono.', tempo: '20 s' },
       { tarefa: 3, texto: 'O anti-histamínico funciona melhor de forma preventiva, antes da exposição. E reduzir o contato com o alérgeno, limpando a poeira e controlando a umidade, complementa o tratamento.', tempo: '20 s' },
       { tarefa: 4, texto: 'Seu Armando, a próstata aumentada já deixa a saída da bexiga apertada, como uma mangueira meio dobrada. Esse antialérgico antigo também dificulta o esvaziamento da bexiga; os dois juntos fecharam a passagem. O seu vizinho não tem a próstata aumentada, por isso não sentiu nada. Vamos parar esse remédio. Se precisar de antialérgico, use só o que eu indicar, dos mais novos, que não têm esse efeito. Se voltar a não conseguir urinar, vá ao pronto-socorro na hora. Me conta: qual remédio o senhor vai deixar de tomar?', tempo: '50 s', analogia: 'Mangueira meio dobrada' },
@@ -89,15 +107,23 @@ ESTACOES.push(
     id: 'FAR-03', materia: 'farmaco',
     titulo: 'O nariz só desentope com o spray',
     local: 'UBS — consulta', papel: 'Médico(a) da UBS', interacao: 'paciente',
-    cenario: 'Márcia, 34 anos, tem rinite alérgica com espirros e coceira há anos. Há 3 semanas, por nariz muito entupido, começou um spray descongestionante nasal de oximetazolina comprado na farmácia. No começo "abria tudo na hora"; agora usa 5 a 6 vezes ao dia, e o nariz entope de novo, pior, poucas horas depois de cada aplicação. Não é hipertensa e não está grávida.\n\nExame: mucosa nasal edemaciada e congesta.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resumo', linhas: [['Spray em uso', 'oximetazolina, 5 a 6 vezes ao dia, há 3 semanas'], ['Sintomas atuais', 'congestão intensa; espirros e coceira ocasionais'], ['Ambiente', 'casa úmida, com mofo no quarto']] },
-    ],
+    cenario: 'Márcia, 34 anos, tem rinite alérgica há anos e diz que "ficou viciada" num spray para o nariz. Identifique a reação, maneje e oriente a paciente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual reação adversa ela apresenta? Como o descongestionante age, e por que o nariz passou a entupir mais?',
       'Qual é o limite seguro de uso desse spray? Que medida você toma agora?',
       'Que classe controla melhor a congestão dela, e por quê? Que papel sobra para o anti-histamínico?',
       'Márcia tem medo de ficar "sem respirar" se parar o spray. Explique e oriente.',
+    ],
+    anamnese: [
+      { tema: 'Qual spray e como usa', resposta: '"Oximetazolina, da farmácia. Comecei há 3 semanas. Hoje uso 5 a 6 vezes por dia."' },
+      { tema: 'Evolução', resposta: '"No começo abria tudo na hora. Agora entope de novo, pior, poucas horas depois."' },
+      { tema: 'Sintomas da rinite', resposta: '"O pior é o nariz entupido. Espirro e coceira, de vez em quando."' },
+      { tema: 'Ambiente', resposta: '"Minha casa é úmida e tem mofo no quarto."' },
+      { tema: 'Pressão, gestação e outros remédios', resposta: '"Não tenho pressão alta, não estou grávida e não tomo outro remédio."' },
+    ],
+    placas: [
+      { pedido: 'o exame do nariz', placa: 'Mucosa nasal edemaciada e congesta.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), eu fiquei viciada no spray. Sem ele não respiro."' },
@@ -108,7 +134,7 @@ ESTACOES.push(
       conteudo: [
         { tarefa: 1, item: 'Rinite medicamentosa com congestão rebote, pelo uso contínuo do descongestionante tópico', pts: 1 },
         { tarefa: 1, item: 'Descongestionante tópico é simpaticomimético: estimulação simpática → vasoconstrição e abertura das vias nasais; o uso contínuo leva ao rebote', pts: 1 },
-        { tarefa: 2, item: 'Uso do descongestionante tópico limitado a 3 a 5 dias', pts: 1 },
+        { tarefa: 2, item: 'Perguntou há quanto tempo e quantas vezes usa: o descongestionante tópico deve ficar limitado a 3 a 5 dias', pts: 1 },
         { tarefa: 2, item: 'Suspender o descongestionante tópico', pts: 1 },
         { tarefa: 3, item: 'Corticosteroide nasal (beclometasona, budesonida, fluticasona): inibe mediadores inflamatórios de forma ampla e é mais eficaz também sobre a congestão', pts: 1 },
         { tarefa: 3, item: 'Anti-histamínico bloqueia principalmente espirros, coceira e coriza, com eficácia limitada sobre a congestão; pode ser mantido junto', pts: 1 },
@@ -130,15 +156,22 @@ ESTACOES.push(
     id: 'FAR-04', materia: 'farmaco',
     titulo: 'A pressão subiu depois do antigripal',
     local: 'UBS — consulta', papel: 'Médico(a) da UBS', interacao: 'paciente',
-    cenario: 'Seu Nelson, 63 anos, hipertenso em tratamento, com pressão habitualmente controlada. Tem rinite alérgica com nariz muito entupido. Há 4 dias toma, por conta própria, um antigripal com pseudoefedrina várias vezes ao dia, "para desentupir". Desde então a pressão medida na farmácia ficou bem acima do habitual. Nega dor no peito e falta de ar.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Pressão arterial', linhas: [['Habitual', 'cerca de 130 × 80 mmHg'], ['Hoje', '166 × 98 mmHg'], ['Medicamento novo', 'antigripal com pseudoefedrina, várias vezes ao dia, há 4 dias']] },
-    ],
+    cenario: 'Seu Nelson, 63 anos, hipertenso, mediu a pressão na farmácia e ela está bem acima do habitual. Ele acha que precisa aumentar o remédio da pressão. Investigue, maneje e oriente o paciente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Que reação adversa ele apresenta, e qual é o mecanismo?',
       'Que medida você toma? É o caso de aumentar o remédio da pressão?',
       'Como tratar a congestão dele com segurança? E o spray descongestionante nasal, que ele pensa em usar no lugar?',
       'Explique ao paciente e oriente sobre a automedicação.',
+    ],
+    anamnese: [
+      { tema: 'Pressão habitual e tratamento', resposta: '"Tomo losartana há anos, e a pressão fica em 13 por 8."' },
+      { tema: 'Remédios novos', resposta: '"Há 4 dias tomo um antigripal com pseudoefedrina, várias vezes ao dia, para desentupir o nariz."' },
+      { tema: 'Nariz', resposta: '"Tenho rinite, e o nariz anda muito entupido."' },
+      { tema: 'Sintomas de alarme', resposta: '"Não tenho dor no peito nem falta de ar. Só sinto o coração um pouco acelerado."' },
+    ],
+    placas: [
+      { pedido: 'a pressão arterial e a frequência cardíaca', placa: 'PA 166 × 98 mmHg · FC 102 bpm.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Minha pressão sempre foi boa, doutor(a). Será que preciso aumentar o remédio dela?"' },
@@ -147,9 +180,9 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Elevação da pressão arterial pelo descongestionante sistêmico (pseudoefedrina) em doses elevadas', pts: 1 },
+        { tarefa: 1, item: 'Perguntou os remédios novos: aumento da PA e da FC pela pseudoefedrina em doses elevadas (acima de 180 mg)', pts: 1 },
         { tarefa: 1, item: 'Mecanismo simpaticomimético: estimulação simpática → vasoconstrição', pts: 1 },
-        { tarefa: 2, item: 'Suspender o descongestionante sistêmico; cautela com essa classe em hipertensos', pts: 1 },
+        { tarefa: 2, item: 'Suspender o descongestionante sistêmico: essa classe não deve ser usada em hipertensos', pts: 1 },
         { tarefa: 2, item: 'Não aumentar o anti-hipertensivo: retirar a causa e reavaliar a pressão', pts: 1 },
         { tarefa: 3, item: 'Corticosteroide nasal: atua também sobre a congestão, sem esse risco cardiovascular', pts: 1 },
         { tarefa: 3, item: 'Descongestionante tópico só por 3 a 5 dias, pelo risco de rinite medicamentosa (congestão rebote)', pts: 1 },
@@ -158,8 +191,8 @@ ESTACOES.push(
     },
     errosCriticos: ['Aumentar o anti-hipertensivo mantendo a pseudoefedrina', 'Liberar o descongestionante tópico sem limite de dias'],
     falaModelo: [
-      { tarefa: 1, texto: 'A pressão subiu por causa da pseudoefedrina, um descongestionante sistêmico. Ela é simpaticomimética: a estimulação simpática contrai os vasos, o que desentope o nariz, mas em doses elevadas também altera a pressão arterial, e ele é hipertenso.', tempo: '25 s' },
-      { tarefa: 2, texto: 'Suspendo o antigripal: num hipertenso, essa classe exige cautela. Não aumento o remédio da pressão; primeiro retiro a causa e reavalio a pressão depois.', tempo: '15 s' },
+      { tarefa: 1, texto: 'A pressão subiu por causa da pseudoefedrina, um descongestionante sistêmico. Ela é simpaticomimética: a estimulação simpática contrai os vasos, o que desentope o nariz, mas em doses acima de 180 mg aumenta a frequência cardíaca e a pressão, e ele é hipertenso.', tempo: '25 s' },
+      { tarefa: 2, texto: 'Suspendo o antigripal: descongestionante sistêmico não deve ser usado em hipertensos. Não aumento o remédio da pressão; primeiro retiro a causa e reavalio a pressão depois.', tempo: '15 s' },
       { tarefa: 3, texto: 'Para a congestão, uso corticosteroide nasal, que atua também sobre o nariz entupido, sem esse risco cardiovascular. O spray descongestionante nasal, se usado, fica restrito a 3 a 5 dias, porque o uso prolongado causa rinite medicamentosa, com o nariz entupindo de novo, e pior.', tempo: '30 s' },
       { tarefa: 4, texto: 'Seu Nelson, esse antigripal desentope o nariz apertando os vasos, como fechar um pouco o bico de uma mangueira: a pressão lá dentro sobe. Não foi o seu remédio da pressão que falhou. Vamos parar o antigripal, usar um spray de corticoide para o nariz e medir a pressão de novo em alguns dias. Antes de comprar remédio para gripe ou nariz entupido, me pergunte. Me conta: o que o senhor vai parar de tomar?', tempo: '40 s', analogia: 'Fechar o bico da mangueira' },
     ],
@@ -171,15 +204,24 @@ ESTACOES.push(
     id: 'FAR-05', materia: 'farmaco',
     titulo: 'Desde o remédio novo, ele não dorme e anda triste',
     local: 'Ambulatório de pediatria', papel: 'Médico(a)', interacao: 'paciente',
-    cenario: 'Gabriel, 15 anos, tem asma leve e rinite alérgica. Há 2 meses começou montelucaste, um comprimido por dia, sem corticoide, e o chiado melhorou. A mãe, dona Cláudia, o trouxe porque desde então ele tem dor de cabeça frequente, tontura, dificuldade para dormir e anda triste e isolado, o que "não é dele". Nega uso de outras substâncias. Na última crise de chiado, tomou dois comprimidos de montelucaste "para passar mais rápido", sem melhora.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resumo', linhas: [['Medicamento', 'montelucaste, 1 vez ao dia, há 2 meses'], ['Sintomas novos', 'cefaleia, tontura, insônia, tristeza'], ['Na crise', 'tomou montelucaste a mais, sem melhora']] },
-    ],
+    cenario: 'Gabriel, 15 anos, tem asma leve e rinite alérgica. A mãe, dona Cláudia, o trouxe porque ele "mudou" nos últimos meses. Investigue, relacione com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Os sintomas novos podem ser reação adversa? Relacione com o fármaco e cite as reações descritas para essa classe.',
       'Como você maneja essa reação? Que alternativa existe para controlar a asma e a rinite dele?',
       'Por que o montelucaste não resolveu a crise? O que ele deveria usar na crise?',
       'Explique ao Gabriel e à mãe, acolhendo a preocupação com o humor.',
+    ],
+    anamnese: [
+      { tema: 'Medicamentos', resposta: '"Há 2 meses tomo montelucaste, um comprimido por dia. Corticoide, não uso."' },
+      { tema: 'Sintomas novos', resposta: 'Mãe: "Desde então tem dor de cabeça quase todo dia, tontura, não dorme direito e anda triste e isolado. Isso não é dele."' },
+      { tema: 'Controle da asma', resposta: '"O chiado melhorou com o remédio."' },
+      { tema: 'Última crise', resposta: '"Na última crise tomei dois comprimidos de montelucaste para passar mais rápido. Não passou."' },
+      { tema: 'Uso de substâncias', resposta: '"Não uso nada e não bebo."' },
+      { tema: 'Ideação suicida', resposta: '"Não, nunca pensei em me machucar."' },
+    ],
+    placas: [
+      { pedido: 'o exame físico', placa: 'Ausculta pulmonar sem sibilos. Mucosa nasal pálida.' },
     ],
     ator: [
       { gatilho: 'Mãe, ao se apresentar', fala: '"Ele mudou, doutor(a). Está triste, não dorme, vive com dor de cabeça."' },
@@ -188,7 +230,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Relação temporal: os sintomas começaram depois do montelucaste (antileucotrieno)', pts: 1 },
+        { tarefa: 1, item: 'Perguntou medicamentos e início: os sintomas começaram depois do montelucaste (antileucotrieno); perguntou sobre ideação suicida', pts: 1 },
         { tarefa: 1, item: 'Antileucotrienos: cefaleia, tontura, depressão e insônia entre os efeitos adversos descritos', pts: 1 },
         { tarefa: 2, item: 'Reação a manejar: suspender o antileucotrieno e acompanhar o humor e o sono', pts: 1 },
         { tarefa: 2, item: 'Alternativa: corticoide inalatório para a asma (reverte a inflamação crônica, com broncosseletividade) e corticosteroide nasal para a rinite', pts: 1 },
@@ -250,15 +292,23 @@ ESTACOES.push(
     id: 'FAR-07', materia: 'farmaco',
     titulo: 'Tremendo e com o coração disparado',
     local: 'UBS — demanda espontânea', papel: 'Médico(a) da UBS', interacao: 'paciente',
-    cenario: 'Roberta, 38 anos, asmática, trocou por conta própria a bombinha de salbutamol por salbutamol em comprimido, "que é mais prático". Toma o comprimido quase todo dia, porque tem chiado e falta de ar quase diariamente e acorda à noite 2 a 3 vezes por semana. Há 1 semana tem tremor nas mãos, coração acelerado e cãibras nas pernas. Não usa nenhum outro remédio para asma.\n\nFC 108 bpm · PA 124 × 78 mmHg · SatO₂ 96% · sibilos esparsos.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resumo', linhas: [['Medicamento atual', 'salbutamol comprimido, quase todo dia'], ['Antes', 'salbutamol em aerossol, só nas crises'], ['Asma', 'sintomas quase diários; despertares noturnos 2 a 3 vezes por semana']] },
-    ],
+    cenario: 'Roberta, 38 anos, asmática, procura a UBS porque está "tremendo toda e com o coração disparado". Investigue, relacione com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Quais reações adversas ela apresenta, e por que a via oral as favorece?',
       'Que medida você toma em relação à via de administração? Em quem a via oral ainda tem lugar?',
       'O uso quase diário do broncodilatador indica o quê? O que precisa ser associado, e por quê?',
       'Explique à Roberta e oriente o uso de cada bombinha.',
+    ],
+    anamnese: [
+      { tema: 'Remédios da asma', resposta: '"Troquei a bombinha de salbutamol pelo salbutamol em comprimido, que é mais prático. Não uso outro remédio para asma."' },
+      { tema: 'Frequência de uso', resposta: '"Tomo o comprimido quase todo dia."' },
+      { tema: 'Controle da asma', resposta: '"Tenho chiado e falta de ar quase todo dia e acordo à noite 2 a 3 vezes por semana."' },
+      { tema: 'Sintomas novos', resposta: '"Há 1 semana tenho tremor nas mãos, coração acelerado e cãibras nas pernas."' },
+      { tema: 'Outras doenças', resposta: '"Não tenho problema de tireoide nem de coração."' },
+    ],
+    placas: [
+      { pedido: 'os sinais vitais e a ausculta', placa: 'FC 108 bpm · PA 124 × 78 mmHg · SatO₂ 96% · sibilos esparsos.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), estou tremendo toda e com o coração disparado."' },
@@ -271,7 +321,7 @@ ESTACOES.push(
         { tarefa: 1, item: 'A via oral tem mais efeitos sistêmicos; em aerossol há maior broncosseletividade', pts: 1 },
         { tarefa: 2, item: 'Voltar à via inalatória (aerossol)', pts: 1 },
         { tarefa: 2, item: 'Via oral reservada principalmente a crianças que não conseguem usar dispositivos inalatórios', pts: 1 },
-        { tarefa: 3, item: 'Uso de beta-2 de curta ação 4 ou mais vezes por semana indica iniciar terapia anti-inflamatória', pts: 1 },
+        { tarefa: 3, item: 'Perguntou a frequência de uso e o controle: beta-2 de curta ação 4 ou mais vezes por semana indica iniciar terapia anti-inflamatória', pts: 1 },
         { tarefa: 3, item: 'Corticoide inalatório de manutenção (controla a inflamação crônica), com o beta-2 de curta ação só para alívio', pts: 1 },
         { tarefa: 4, item: 'Explicou com linguagem acessível a diferença entre a bombinha de alívio e a de controle', pts: 1 },
       ],
@@ -291,15 +341,23 @@ ESTACOES.push(
     id: 'FAR-08', materia: 'farmaco',
     titulo: 'Palpitações e tontura com o remédio antigo da asma',
     local: 'Pronto atendimento', papel: 'Médico(a) plantonista', interacao: 'paciente',
-    cenario: 'Dona Eunice, 66 anos, asmática há 30 anos, usa teofilina oral há muito tempo. Na última semana, por estar com mais falta de ar, dobrou a dose por conta própria. Chega com palpitações, tontura, dor de cabeça e sensação de desmaio ao se levantar. Não usa a bombinha de corticoide "porque tem medo de corticoide".\n\nPA 96 × 58 mmHg · FC 118 bpm · consciente e orientada · sibilos esparsos.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resumo', linhas: [['Teofilina', 'uso antigo; dose dobrada há 1 semana'], ['Corticoide inalatório', 'não usa, por medo'], ['Sinais', 'PA 96 × 58 mmHg · FC 118 bpm']] },
-    ],
+    cenario: 'Dona Eunice, 66 anos, asmática há 30 anos, chega ao pronto atendimento com palpitações e tontura. Investigue, relacione com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual a hipótese? Que reações da teofilina ela apresenta, e quais ainda podem acontecer?',
       'Por que a teofilina é tão perigosa quando a dose sobe? Qual é a medida agora?',
       'Que lugar a teofilina ocupa hoje no tratamento da asma? O que deveria ser a base do tratamento dela?',
       'Dona Eunice tem medo de corticoide. Explique e oriente.',
+    ],
+    anamnese: [
+      { tema: 'Remédios da asma', resposta: '"Uso teofilina há muitos anos. A bombinha de corticoide eu não uso: tenho medo de corticoide."' },
+      { tema: 'Mudança recente', resposta: '"Semana passada eu estava com mais falta de ar e dobrei a teofilina por conta própria."' },
+      { tema: 'Sintomas', resposta: '"Coração disparado, tontura, dor de cabeça e sensação de desmaio quando levanto."' },
+      { tema: 'Convulsão e desmaio', resposta: '"Não desmaiei nem tive convulsão."' },
+    ],
+    placas: [
+      { pedido: 'os sinais vitais', placa: 'PA 96 × 58 mmHg · FC 118 bpm · consciente e orientada.' },
+      { pedido: 'a ausculta pulmonar', placa: 'Sibilos esparsos.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Dobrei o remédio porque estava com mais falta de ar."' },
@@ -308,7 +366,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Toxicidade da teofilina pelo aumento da dose: palpitações, tontura, cefaleia e hipotensão', pts: 1 },
+        { tarefa: 1, item: 'Perguntou mudanças na dose: toxicidade da teofilina pela dose dobrada (palpitações, tontura, cefaleia e hipotensão)', pts: 1 },
         { tarefa: 1, item: 'Em doses elevadas pode causar convulsões e até morte súbita', pts: 1 },
         { tarefa: 2, item: 'Baixo índice terapêutico: a dose que trata fica perto da que intoxica', pts: 1 },
         { tarefa: 2, item: 'Suspender a teofilina e manter a paciente monitorizada', pts: 1 },
@@ -332,15 +390,22 @@ ESTACOES.push(
     id: 'FAR-09', materia: 'farmaco',
     titulo: 'O chiado começou depois do comprimido para cólica',
     local: 'Pronto atendimento', papel: 'Médico(a) plantonista', interacao: 'paciente',
-    cenario: 'Sandra, 41 anos, tem rinite alérgica e asma. Há 2 horas tomou ibuprofeno para cólica menstrual e, cerca de 40 minutos depois, começou com coriza, chiado e falta de ar. Lembra que "já passou mal com AAS" uma vez. Fez 3 inalações de salbutamol em casa, com melhora pequena.\n\nFR 26 irpm · SatO₂ 93% · sibilos difusos · fala frases completas.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resumo', linhas: [['Fármaco recente', 'ibuprofeno, há 2 horas'], ['Antecedente', 'mal-estar com AAS no passado'], ['Em casa', '3 inalações de salbutamol, melhora pequena']] },
-    ],
+    cenario: 'Sandra, 41 anos, com rinite alérgica e asma, chega ao pronto atendimento com chiado e falta de ar que começaram há pouco. Investigue o desencadeante, maneje a crise e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual é a reação adversa, e qual fármaco a desencadeou? Que dado da história reforça?',
       'Ela já fez 3 inalações de salbutamol sem boa resposta. Qual é a medida agora, e por que não simplesmente aumentar a dose do salbutamol?',
       'Que medidas evitam novos episódios? Que classe de antiasmático é ativa nesse tipo de asma?',
       'Explique à Sandra o que aconteceu e o que ela deve evitar.',
+    ],
+    anamnese: [
+      { tema: 'Início e desencadeante', resposta: '"Começou uns 40 minutos depois que tomei ibuprofeno para cólica, há 2 horas."' },
+      { tema: 'Reações anteriores', resposta: '"Uma vez passei mal com AAS também."' },
+      { tema: 'O que já fez', resposta: '"Fiz 3 inalações de salbutamol em casa e melhorou pouco."' },
+      { tema: 'Outros sintomas', resposta: '"O nariz começou a escorrer junto."' },
+    ],
+    placas: [
+      { pedido: 'os sinais vitais e o exame', placa: 'FR 26 irpm · SatO₂ 93% · sibilos difusos · fala frases completas.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), só tomei um remédio para cólica e fiquei assim!"' },
@@ -350,7 +415,7 @@ ESTACOES.push(
     barema: {
       conteudo: [
         { tarefa: 1, item: 'Crise de asma (broncoespasmo) desencadeada por AINE, o ibuprofeno', pts: 1 },
-        { tarefa: 1, item: 'Reação anterior ao AAS reforça a sensibilidade a AINEs, num quadro de rinite e asma', pts: 1 },
+        { tarefa: 1, item: 'Perguntou reações anteriores: o mal-estar com AAS reforça a sensibilidade a AINEs, num quadro de rinite e asma', pts: 1 },
         { tarefa: 2, item: 'Associar brometo de ipratrópio, anticolinérgico, de mecanismo distinto do beta-2 agonista', pts: 1 },
         { tarefa: 2, item: 'Não aumentar a dose do beta-2 agonista para compensar', pts: 1 },
         { tarefa: 3, item: 'Evitar AINEs, incluindo o AAS', pts: 1 },
@@ -373,15 +438,23 @@ ESTACOES.push(
     id: 'FAR-10', materia: 'farmaco',
     titulo: 'Anos de corticoide em comprimido e uma fratura na coluna',
     local: 'Ambulatório de pneumologia', papel: 'Médico(a)', interacao: 'paciente',
-    cenario: 'Dona Lúcia, 58 anos, tem asma grave e usa prednisona oral contínua há 4 anos, "porque é o único que segura". Usa a bombinha de corticoide de forma irregular: "esqueço e acho fraca". Há 2 semanas teve dor lombar súbita ao levantar uma sacola de compras. Menopausa aos 50 anos.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Exames', linhas: [['Radiografia', 'fratura por compressão de L2'], ['Densitometria', 'osteoporose'], ['Prednisona oral', 'uso contínuo há 4 anos'], ['Corticoide inalatório', 'uso irregular']] },
-    ],
+    cenario: 'Dona Lúcia, 58 anos, com asma grave, vem ao ambulatório depois de uma fratura na coluna. Investigue a relação com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual reação adversa explica a fratura? Como o corticoide causa esse efeito?',
       'Que medidas você toma em relação ao corticoide e à osteoporose?',
       'Como acompanhar? Que outros medicamentos também causam osteoporose secundária?',
       'Explique à paciente por que a bombinha de corticoide é diferente do comprimido.',
+    ],
+    anamnese: [
+      { tema: 'Remédios da asma', resposta: '"Tomo prednisona todo dia há 4 anos, porque é o único que segura. A bombinha de corticoide uso de vez em quando: esqueço e acho fraca."' },
+      { tema: 'Como foi a fratura', resposta: '"Há 2 semanas senti uma dor forte nas costas só de levantar uma sacola de compras."' },
+      { tema: 'Menopausa', resposta: '"Entrei na menopausa aos 50 anos."' },
+      { tema: 'Outros remédios', resposta: '"Não uso heparina nem remédio para convulsão."' },
+    ],
+    placas: [
+      { pedido: 'a radiografia da coluna', placa: 'Fratura por compressão de L2.' },
+      { pedido: 'a densitometria', placa: 'Osteoporose.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Só levantei uma sacola e quebrou a coluna, doutor(a)."' },
@@ -390,7 +463,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Osteoporose secundária ao corticosteroide, com fratura por fragilidade', pts: 1 },
+        { tarefa: 1, item: 'Perguntou o uso de corticoide: osteoporose secundária à prednisona oral contínua, com fratura por fragilidade', pts: 1 },
         { tarefa: 1, item: 'Corticosteroides inibem a ação osteoblástica e aumentam a ação osteoclástica', pts: 1 },
         { tarefa: 2, item: 'Reduzir a dose de prednisona quando possível, otimizando o corticoide inalatório (controle da inflamação com broncosseletividade)', pts: 1 },
         { tarefa: 2, item: 'Associar bisfosfonato (alendronato, risedronato), indicado também na osteoporose por glicocorticoide', pts: 1 },
@@ -453,15 +526,24 @@ ESTACOES.push(
     id: 'FAR-12', materia: 'farmaco',
     titulo: 'Sonolenta, confusa e sem evacuar desde a morfina',
     local: 'Enfermaria de clínica médica', papel: 'Médico(a) plantonista', interacao: 'paciente',
-    cenario: 'Dona Aurora, 81 anos, com dor intensa por osteoartrite de quadril que não melhorou com paracetamol, começou morfina oral há 3 dias. Usa clonazepam à noite há anos. A filha, Dona Fátima, conta que a mãe está muito sonolenta, confusa, sem evacuar há 3 dias e "respirando devagar" desde a noite passada.\n\nFR 9 irpm · SatO₂ 89% em ar ambiente · PA 98 × 60 mmHg · pupilas mióticas · desperta ao chamado alto, mas volta a dormir. Abdome distendido, sem sinais de obstrução.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Medicamentos', linhas: [['Morfina oral', 'há 3 dias'], ['Clonazepam', 'à noite, há anos'], ['Última evacuação', 'há 3 dias']] },
-    ],
+    cenario: 'Dona Aurora, 81 anos, internada por dor intensa no quadril, está muito sonolenta, e a filha, Dona Fátima, está assustada. Avalie, relacione com os medicamentos e conduza. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Quais reações adversas ela apresenta, e por que ela é mais vulnerável?',
       'Qual é a medida imediata para a depressão respiratória? Que cuidado ela exige depois?',
       'Que medidas você toma em relação ao clonazepam e à constipação?',
       'Explique à filha o que aconteceu e o que muda no tratamento da dor.',
+    ],
+    anamnese: [
+      { tema: 'Medicamentos', resposta: 'Filha: "Começaram morfina há 3 dias, porque o paracetamol não resolvia. E ela toma clonazepam à noite há anos."' },
+      { tema: 'Desde quando está assim', resposta: 'Filha: "Desde ontem está sonolenta e confusa. Desde a noite passada, respira devagar."' },
+      { tema: 'Intestino', resposta: 'Filha: "Não evacua há 3 dias."' },
+      { tema: 'Como era antes', resposta: 'Filha: "Era lúcida e conversava normalmente."' },
+    ],
+    placas: [
+      { pedido: 'os sinais vitais', placa: 'FR 9 irpm · SatO₂ 89% em ar ambiente · PA 98 × 60 mmHg.' },
+      { pedido: 'o exame neurológico', placa: 'Pupilas mióticas. Desperta ao chamado alto, mas volta a dormir.' },
+      { pedido: 'o exame do abdome', placa: 'Distendido, sem sinais de obstrução.' },
     ],
     ator: [
       { gatilho: 'Filha, ao se apresentar', fala: '"Minha mãe não acorda direito e está respirando devagar!"' },
@@ -471,7 +553,7 @@ ESTACOES.push(
     barema: {
       conteudo: [
         { tarefa: 1, item: 'Depressão respiratória, sedação com confusão, hipotensão e constipação pelo opioide', pts: 1 },
-        { tarefa: 1, item: 'Sedação mais facilitada em idosos; o clonazepam (sedativo) intensifica a depressão do SNC; constipação pela diminuição do peristaltismo', pts: 1 },
+        { tarefa: 1, item: 'Perguntou os medicamentos: o clonazepam (sedativo) intensifica a depressão do SNC; idosos sedam com mais facilidade; constipação pela diminuição do peristaltismo', pts: 1 },
         { tarefa: 2, item: 'Garantir via aérea e ventilação; naloxona intravenosa lenta, repetindo se necessário', pts: 2 },
         { tarefa: 2, item: 'A naloxona dura menos que muitos opioides: manter monitorização, porque a depressão pode voltar', pts: 1 },
         { tarefa: 3, item: 'Rever o sedativo associado (clonazepam), que potencializa a depressão central', pts: 1 },
@@ -494,15 +576,24 @@ ESTACOES.push(
     id: 'FAR-13', materia: 'farmaco',
     titulo: 'Pernas inchadas e creatinina subindo',
     local: 'Ambulatório de clínica médica', papel: 'Médico(a) clínico(a)', interacao: 'paciente',
-    cenario: 'Seu Raimundo, 74 anos, hipertenso, usa diurético há anos e varfarina por fibrilação atrial. Por dor no joelho por osteoartrite, toma ibuprofeno todos os dias há 2 meses, comprado na farmácia. Notou as pernas mais inchadas, e nos exames de rotina a creatinina subiu.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Exames e medicamentos', linhas: [['Creatinina (6 meses atrás)', '1,0 mg/dL'], ['Creatinina (hoje)', '1,8 mg/dL'], ['Medicamentos', 'diurético, varfarina e ibuprofeno diário (por conta própria)']] },
-    ],
+    cenario: 'Seu Raimundo, 74 anos, hipertenso, veio porque as pernas incharam e a creatinina subiu nos exames de rotina. Investigue, relacione com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Que reação adversa explica o edema e a creatinina? Qual é o mecanismo, e por que o diurético piora?',
       'Que outro risco grave a combinação de medicamentos dele traz?',
       'Que medidas você toma? Como tratar a dor do joelho?',
       'Explique ao paciente e oriente sobre o uso de anti-inflamatórios.',
+    ],
+    anamnese: [
+      { tema: 'Medicamentos de uso contínuo', resposta: '"Tomo diurético há anos e varfarina por arritmia."' },
+      { tema: 'Remédios por conta própria', resposta: '"Para a dor no joelho, tomo ibuprofeno todo dia há 2 meses. Comprei na farmácia."' },
+      { tema: 'Dor', resposta: '"É a artrose do joelho. Sem o ibuprofeno, dói para andar."' },
+      { tema: 'Sangramentos', resposta: '"Às vezes a gengiva sangra quando escovo os dentes."' },
+      { tema: 'Falta de ar', resposta: '"Não sinto falta de ar, nem para deitar."' },
+    ],
+    placas: [
+      { pedido: 'os exames', placa: 'Creatinina 1,8 mg/dL (há 6 meses: 1,0 mg/dL).' },
+      { pedido: 'o exame físico', placa: 'Edema de membros inferiores 2+/4+. PA 148 × 88 mmHg. Ausculta pulmonar limpa.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), as pernas incharam. É o coração?"' },
@@ -511,7 +602,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Comprometimento da função renal pelo AINE: inibição das prostaglandinas vasodilatadoras renais', pts: 1 },
+        { tarefa: 1, item: 'Perguntou a automedicação: comprometimento renal pelo ibuprofeno (inibição das prostaglandinas vasodilatadoras renais)', pts: 1 },
         { tarefa: 1, item: 'Efeito somado ao do diurético, explicando a piora do edema e a elevação da creatinina', pts: 1 },
         { tarefa: 2, item: 'AINE + anticoagulante (varfarina): maior risco de hemorragia; associação a evitar', pts: 1 },
         { tarefa: 3, item: 'Suspender o AINE e monitorizar a função renal', pts: 1 },
@@ -535,15 +626,24 @@ ESTACOES.push(
     id: 'FAR-14', materia: 'farmaco',
     titulo: 'Fezes escuras depois do remédio da cólica',
     local: 'Ambulatório de clínica médica', papel: 'Médico(a) clínico(a)', interacao: 'paciente',
-    cenario: 'Juliana, 27 anos, toma naproxeno quase todos os dias há 3 meses, para cólica menstrual e dor nas costas. Há 2 semanas tem dor em queimação na "boca do estômago" e, há 2 dias, notou as fezes escurecidas. Nega vômito com sangue. Não usa anticoagulante. Planeja engravidar no próximo ano.\n\nPA 116 × 72 mmHg · FC 86 bpm. A endoscopia de ontem mostrou úlcera gástrica sem sangramento ativo; pesquisa de H. pylori negativa.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Resumo', linhas: [['Naproxeno', 'quase todo dia, há 3 meses'], ['Endoscopia', 'úlcera gástrica, sem sangramento ativo'], ['H. pylori', 'negativo']] },
-    ],
+    cenario: 'Juliana, 27 anos, vem ao ambulatório com queimação no estômago e o resultado da endoscopia feita ontem. Investigue, relacione com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual reação adversa ela apresenta? Por que o AINE lesa a mucosa gástrica?',
       'Que medidas você toma agora? Como o sucralfato pode somar ao tratamento?',
       'Se ela precisar de anti-inflamatório no futuro, como reduzir o risco gástrico? O misoprostol é uma boa opção para ela?',
       'Explique à paciente e oriente os sinais de alarme.',
+    ],
+    anamnese: [
+      { tema: 'Medicamentos', resposta: '"Tomo naproxeno quase todo dia há 3 meses, para cólica e dor nas costas."' },
+      { tema: 'Sintomas', resposta: '"Há 2 semanas tenho queimação na boca do estômago. Há 2 dias as fezes ficaram escuras."' },
+      { tema: 'Sinais de gravidade', resposta: '"Não vomitei sangue nem desmaiei."' },
+      { tema: 'Planos de gravidez', resposta: '"Quero engravidar no ano que vem."' },
+      { tema: 'Outros remédios', resposta: '"Não tomo anticoagulante nem outro remédio."' },
+    ],
+    placas: [
+      { pedido: 'os sinais vitais', placa: 'PA 116 × 72 mmHg · FC 86 bpm.' },
+      { pedido: 'a endoscopia e a pesquisa de H. pylori', placa: 'Úlcera gástrica sem sangramento ativo; H. pylori negativo.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Achei que anti-inflamatório era remédio leve, doutor(a)."' },
@@ -557,7 +657,7 @@ ESTACOES.push(
         { tarefa: 2, item: 'Suspender o AINE (retirar o fator etiológico): sem isso, a úlcera recidiva', pts: 1 },
         { tarefa: 2, item: 'IBP para reduzir a secreção ácida e cicatrizar; sucralfato forma barreira aderente sobre a lesão (citoproteção local), complementar ao IBP', pts: 1 },
         { tarefa: 3, item: 'Seletivo da COX-2 reduz parte da toxicidade gastrointestinal (cautela se houver risco cardiovascular); proteção com IBP', pts: 1 },
-        { tarefa: 3, item: 'Misoprostol provoca contrações uterinas: cautela em mulher em idade fértil que planeja engravidar', pts: 1 },
+        { tarefa: 3, item: 'Perguntou os planos de gravidez: o misoprostol provoca contrações uterinas, cautela em quem planeja engravidar', pts: 1 },
         { tarefa: 4, item: 'Sinais de alarme: fezes escurecidas e vômito com sangue, mesmo sem dor intensa → procurar a emergência', pts: 1 },
       ],
     },
@@ -576,16 +676,22 @@ ESTACOES.push(
     id: 'FAR-15', materia: 'farmaco',
     titulo: 'Queimação no peito desde o remédio do osso',
     local: 'Ambulatório de clínica médica', papel: 'Médico(a) clínico(a)', interacao: 'paciente',
-    cenario: 'Dona Cida, 69 anos, tem osteoporose pós-menopausa e começou há 2 meses alendronato semanal e carbonato de cálcio. Toma o alendronato com café com leite, junto com os outros remédios, e logo depois volta a deitar. Desde então sente queimação atrás do esterno e dor ao engolir. Toma o cálcio em jejum, ao acordar, e está com o intestino preso.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Como ela toma', linhas: [['Alendronato', 'semanal, com café com leite, e volta a deitar'], ['Carbonato de cálcio', 'em jejum, ao acordar'], ['Queixas', 'queimação retroesternal, dor ao engolir, constipação']] },
-    ],
+    cenario: 'Dona Cida, 69 anos, com osteoporose, sente queimação no peito desde que começou o remédio para os ossos. Investigue como ela usa os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Qual reação adversa explica a queimação e a dor ao engolir? Por que ela aconteceu?',
       'Ensine a paciente a tomar o alendronato, explicando o motivo dos cuidados.',
       'E o cálcio? Como manejar a constipação e como tomá-lo?',
       'Se a esofagite fosse grave, ou se ela tivesse úlcera péptica, qual seria a alternativa? Explique o plano à paciente.',
     ],
+    anamnese: [
+      { tema: 'Remédios para o osso', resposta: '"Há 2 meses tomo alendronato uma vez por semana e carbonato de cálcio."' },
+      { tema: 'Como toma o alendronato', resposta: '"Tomo com café com leite, junto com os outros remédios, e volto a deitar."' },
+      { tema: 'Como toma o cálcio', resposta: '"O cálcio eu tomo em jejum, ao acordar."' },
+      { tema: 'Sintomas', resposta: '"Queimação atrás do peito e dor para engolir. E o intestino está preso."' },
+      { tema: 'Úlcera e estômago', resposta: '"Nunca tive úlcera."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), desde esse remédio do osso parece que engoli fogo."' },
       { gatilho: 'Se explicar como tomar', fala: '"Mas eu tomo todos os remédios juntos com o café, para não esquecer."' },
@@ -593,7 +699,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Esofagite pelo alendronato (bisfosfonato oral), por uso incorreto', pts: 1 },
+        { tarefa: 1, item: 'Perguntou como ela toma: esofagite pelo alendronato por uso incorreto (com café com leite e deitando em seguida)', pts: 1 },
         { tarefa: 2, item: 'Em jejum, só com água, e permanecer ereta por pelo menos 30 minutos', pts: 1 },
         { tarefa: 2, item: 'Ficar ereta evita o refluxo do comprimido e a esofagite', pts: 1 },
         { tarefa: 3, item: 'Carbonato de cálcio com as refeições: absorção melhor em pH ácido', pts: 1 },
@@ -617,15 +723,24 @@ ESTACOES.push(
     id: 'FAR-16', materia: 'farmaco',
     titulo: 'Visão dupla e medo de a pílula falhar',
     local: 'Ambulatório de neurologia', papel: 'Médico(a)', interacao: 'paciente',
-    cenario: 'Renata, 26 anos, tem epilepsia focal e usa carbamazepina há 6 meses, sem crises desde então. A dose foi aumentada há 2 semanas, e desde o aumento ela tem visão dupla e tontura. Usa anticoncepcional oral e leu na internet que "o remédio da epilepsia corta o efeito da pílula". Não quer engravidar agora.\n\nExame neurológico sem déficits.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Exames', linhas: [['Sódio', '129 mEq/L'], ['Hemograma', 'normal'], ['Pele', 'sem lesões'], ['Contracepção', 'anticoncepcional oral']] },
-    ],
+    cenario: 'Renata, 26 anos, tem epilepsia focal em tratamento e veio com visão dupla e uma dúvida sobre a pílula. Investigue, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Quais reações adversas da carbamazepina ela apresenta? Que reações graves você precisa lembrar e vigiar?',
       'Ela tem razão sobre a pílula? Explique o mecanismo e a medida.',
       'Se for trocar o anticonvulsivante, que opção de 2ª geração tem bom perfil para ela? Que trocas seriam ruins, e por quê?',
       'Explique à Renata e responda à preocupação dela.',
+    ],
+    anamnese: [
+      { tema: 'Tratamento da epilepsia', resposta: '"Uso carbamazepina há 6 meses, sem crises. Aumentaram a dose há 2 semanas."' },
+      { tema: 'Sintomas novos', resposta: '"Desde o aumento, vejo tudo dobrado e fico tonta."' },
+      { tema: 'Contracepção', resposta: '"Tomo anticoncepcional oral. Li na internet que o remédio da epilepsia corta o efeito da pílula."' },
+      { tema: 'Planos de gravidez', resposta: '"Não quero engravidar agora."' },
+      { tema: 'Pele', resposta: '"Não apareceu mancha nem bolha na pele."' },
+    ],
+    placas: [
+      { pedido: 'o exame neurológico', placa: 'Sem déficits focais.' },
+      { pedido: 'os exames', placa: 'Sódio 129 mEq/L · hemograma normal.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Estou vendo tudo dobrado, doutor(a). E li que esse remédio corta a pílula."' },
@@ -634,7 +749,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Diplopia, tontura e hiponatremia, surgidas após o aumento da dose', pts: 1 },
+        { tarefa: 1, item: 'Perguntou desde quando: diplopia, tontura e hiponatremia surgidas após o aumento da dose', pts: 1 },
         { tarefa: 1, item: 'Vigiar reações graves: síndrome de Stevens-Johnson / necrólise epidérmica tóxica e discrasias sanguíneas', pts: 1 },
         { tarefa: 2, item: 'Sim: a carbamazepina é forte indutora enzimática e reduz os níveis do anticoncepcional', pts: 1 },
         { tarefa: 2, item: 'Orientar que a pílula pode falhar e discutir a contracepção junto com a escolha do anticonvulsivante', pts: 1 },
@@ -697,15 +812,22 @@ ESTACOES.push(
     id: 'FAR-18', materia: 'farmaco',
     titulo: 'O intestino desandou com os remédios do estômago',
     local: 'UBS — consulta', papel: 'Médico(a) da UBS', interacao: 'paciente',
-    cenario: 'Seu Jorge, 58 anos, tem doença do refluxo e usa omeprazol há 2 meses, com boa melhora da queimação. Mesmo assim, toma um antiácido à base de magnésio 4 a 5 vezes ao dia, "por garantia". Há 3 semanas tem diarreia, com 3 a 4 evacuações líquidas por dia, sem febre e sem sangue. A esposa, Dona Neide, que veio junto, usa um antiácido à base de alumínio e está com o intestino preso.',
-    mesa: [
-      { tipo: 'tabela', titulo: 'Medicamentos', linhas: [['Seu Jorge', 'omeprazol + antiácido de magnésio 4 a 5 vezes ao dia'], ['Dona Neide', 'antiácido de alumínio'], ['Queixas', 'diarreia (ele) · constipação (ela)']] },
-    ],
+    cenario: 'Seu Jorge, 58 anos, com doença do refluxo, vem com diarreia há 3 semanas. A esposa, Dona Neide, veio junto e também tem uma queixa. Investigue, relacione com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
+    mesa: [],
     tarefas: [
       'Que reações adversas explicam o quadro de cada um? Qual é o mecanismo da diarreia dele?',
       'O omeprazol também pode contribuir para a diarreia? Como?',
       'Que medida você toma? Qual é o papel do antiácido para quem já usa IBP?',
       'Explique ao casal a diferença entre os remédios.',
+    ],
+    anamnese: [
+      { tema: 'Remédios do Seu Jorge', resposta: '"Tomo omeprazol há 2 meses e a queimação melhorou muito. Mesmo assim, tomo um antiácido de magnésio 4 a 5 vezes ao dia, por garantia."' },
+      { tema: 'Diarreia', resposta: '"São 3 a 4 evacuações líquidas por dia, sem febre e sem sangue."' },
+      { tema: 'Queixa da Dona Neide', resposta: 'Dona Neide: "Eu uso um antiácido de alumínio e estou com o intestino preso."' },
+      { tema: 'Alimentação e contatos', resposta: '"Não comi nada diferente e ninguém em casa teve diarreia."' },
+    ],
+    placas: [
+      { pedido: 'o exame físico do Seu Jorge', placa: 'Hidratado, afebril, abdome indolor, ruídos hidroaéreos aumentados.' },
     ],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), o refluxo melhorou, mas agora vivo no banheiro."' },
@@ -714,7 +836,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Seu Jorge: diarreia osmótica pelo antiácido à base de magnésio', pts: 1 },
+        { tarefa: 1, item: 'Perguntou todos os remédios: diarreia osmótica do Seu Jorge pelo antiácido à base de magnésio', pts: 1 },
         { tarefa: 1, item: 'Dona Neide: constipação pelo antiácido à base de alumínio', pts: 1 },
         { tarefa: 2, item: 'IBP, ao reduzir a secreção ácida, pode alterar a flora intestinal e favorecer diarreia em alguns pacientes', pts: 1 },
         { tarefa: 3, item: 'Antiácido neutraliza o ácido já presente: alívio imediato, mas não é o tratamento definitivo; com o IBP funcionando, suspender o uso contínuo "por garantia"', pts: 1 },

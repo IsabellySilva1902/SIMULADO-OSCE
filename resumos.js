@@ -408,6 +408,7 @@ const RESUMOS = {
   // ===================================================== FARMACOLOGIA (manejo de reações adversas)
   'FAR-01': { tema: 'Anti-histamínico de 1ª geração: sedação', pontos: [
     'Anti-H1 de 1ª geração: maior penetração no SNC (atravessa a barreira hematoencefálica) → sedação; mais efeitos anticolinérgicos.',
+    'Sedação na 1ª geração: difenidramina e prometazina +++; clemastina e dimenidrato ++; dexclorfeniramina e ciproeptadina +. Prometazina também é a mais antiemética (++++).',
     'Medida: trocar por 2ª geração (cetirizina, loratadina, fexofenadina), que não atravessa facilmente a barreira e dá menos sedação.',
     'Anti-H1 funciona melhor preventivo, antes da exposição, do que na crise já instalada.',
     'Bloqueio H1 competitivo e reversível: exposição intensa libera mais histamina e supera o bloqueio.',
@@ -416,7 +417,7 @@ const RESUMOS = {
   ], pegadinha: 'Sono com antialérgico não é "normal de todo antialérgico": é próprio da 1ª geração, e a 2ª geração resolve.' },
 
   'FAR-02': { tema: 'Anti-histamínico de 1ª geração: efeito anticolinérgico', pontos: [
-    'Efeito anticolinérgico da 1ª geração pode causar retenção urinária.',
+    'Efeito anticolinérgico da 1ª geração pode causar retenção urinária: clemastina, dimenidrato, difenidramina e prometazina +++; dexclorfeniramina e ciproeptadina ++.',
     'Hiperplasia prostática benigna aumenta a vulnerabilidade a esse efeito.',
     'Medida: suspender a 1ª geração; se precisar, 2ª geração, sem efeitos anticolinérgicos relevantes.',
     'A sonolência associada vem da penetração no SNC.',
@@ -433,8 +434,9 @@ const RESUMOS = {
   ], pegadinha: 'Usar o spray mais vezes piora o problema: o rebote só para quando o spray para.' },
 
   'FAR-04': { tema: 'Descongestionante sistêmico: pressão arterial', pontos: [
-    'Pseudoefedrina (descongestionante sistêmico) é simpaticomimética e, em doses elevadas, pode alterar a pressão arterial.',
-    'Cautela em hipertensos; medida: suspender.',
+    'Pseudoefedrina (descongestionante sistêmico, oral) é simpaticomimética: até 180 mg não muda de forma mensurável a pressão; doses maiores aumentam a frequência cardíaca e causam hipertensão.',
+    'Não deve ser usada em hipertensos; medida: suspender.',
+    'Diferente do tópico, é mais lenta, dura mais e não causa rinite medicamentosa nem ressecamento.',
     'Não aumentar o anti-hipertensivo antes de retirar a causa.',
     'Congestão com segurança: corticosteroide nasal.',
     'Descongestionante tópico, se usado, por no máximo 3 a 5 dias.',
@@ -442,7 +444,7 @@ const RESUMOS = {
 
   'FAR-05': { tema: 'Antileucotrienos: efeitos adversos', pontos: [
     'Antileucotrienos (montelucaste, zafirlucaste): antagonistas dos receptores de leucotrienos, para terapia crônica.',
-    'Efeitos adversos descritos: cefaleia, tontura, depressão e insônia; devem ser monitorados.',
+    'Efeitos adversos descritos: cefaleia, tontura, depressão e insônia (na rinite); dor abdominal (na asma); devem ser monitorados.',
     'Não têm ação imediata e não revertem crise instalada.',
     'Na crise: beta-2 agonista de curta ação inalatório.',
     'Alternativas de controle: corticoide inalatório (asma) e corticosteroide nasal (rinite).',
@@ -453,7 +455,7 @@ const RESUMOS = {
     'Anti-H1 de 1ª geração: sedação (SNC) e efeitos anticolinérgicos (retenção urinária).',
     'Anti-H1 de 2ª geração: menos sedação e sem efeitos anticolinérgicos relevantes.',
     'Descongestionante tópico: rinite medicamentosa após 3 a 5 dias.',
-    'Descongestionante sistêmico: alteração da pressão em doses elevadas.',
+    'Descongestionante sistêmico: aumento da FC e da pressão acima de 180 mg; não usar em hipertensos.',
     'Corticosteroide nasal: controla a congestão sem esses riscos.',
     'Anti-H1: melhor preventivo; bloqueio competitivo e reversível.',
   ], pegadinha: 'Anti-H1 não desentope bem o nariz: congestão pede corticosteroide nasal.' },
