@@ -14,7 +14,7 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 
 ## Estações
 
-113 estações, escritas só com o conteúdo dos slides, do banco de questões das disciplinas e dos relatos da prova anterior:
+104 estações, escritas só com o conteúdo dos slides, do banco de questões das disciplinas e dos relatos da prova anterior:
 
 | Matéria | Estações | Arquivo |
 |---|---|---|
@@ -22,6 +22,6 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 | Saúde Mental | 21 | `estacoes.js` (MEN-01), `estacoes-mental.js` e `estacoes-prova.js` (MEN-21) |
 | Farmacologia | 19 (manejo de reações adversas: anti-histamínicos, asma e outros temas) | `estacoes-farmaco.js` e `estacoes-prova.js` (FAR-19) |
 | Epidemiologia | 24 | `estacoes.js` (EPI-01), `estacoes-epi.js` e `estacoes-prova.js` (EPI-21) |
-| Saúde da Mulher | 24 (infecções genitais e fisiologia do ciclo menstrual) | `estacoes-mulher.js` e `estacoes-prova.js` (MUL-15) |
+| Saúde da Mulher | 15 (infecções genitais) | `estacoes-mulher.js` e `estacoes-prova.js` (MUL-15) |
 
 Matérias, barema padrão e a primeira estação de Saúde Mental e de Epidemiologia ficam em `estacoes.js`. Os resumos ficam em `resumos.js`.

@@ -247,7 +247,11 @@
           <span class="text-xs px-1.5 py-0.5 rounded ${cor}">${n === null ? '—' : n.toFixed(1)}</span></button>${RES[e.id] ? `<button class="res-open shrink-0 px-2 py-1 rounded-lg hover:bg-indigo-50" data-id="${e.id}" title="Resumo do assunto" aria-label="Resumo do assunto">📚</button>` : ''}</div>`;
       }).join('') + `</div>`;
     }).join('');
-    const c = load(LS.circ, null);
+    let c = load(LS.circ, null);
+    if (c && c.ids && c.ids.some(id => !BY_ID[id])) {
+      const pos = c.ids.slice(0, c.pos).filter(id => BY_ID[id]).length;
+      c.ids = c.ids.filter(id => BY_ID[id]); c.pos = pos; save(LS.circ, c.ids.length ? c : null); if (!c.ids.length) c = null;
+    }
     if (c && c.ids && c.pos < c.ids.length) { $('resume-box').classList.remove('hidden'); $('resume-info').textContent = `Estação ${c.pos + 1} de ${c.ids.length}${c.code ? ` (${PAPEL[c.papel] || c.papel}${c.rodizio ? ', revezando' : ''})` : ''}.`; }
     else $('resume-box').classList.add('hidden');
   }
