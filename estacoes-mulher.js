@@ -1,6 +1,7 @@
 // Estações de Saúde da Mulher. Conteúdo restrito aos slides da disciplina.
 // MUL-01 a MUL-14: Infecções genitais (vulvovaginites, cervicites e úlceras genitais).
 // MUL-15 (prova 25.2) está em estacoes-prova.js.
+// O caso continua completo no cenário; a anamnese em caixinhas treina as perguntas da consulta.
 ESTACOES.push(
   // ----------------------------------------------------- MUL-01 · Abordagem da queixa de corrimento
   {
@@ -17,6 +18,19 @@ ESTACOES.push(
       'Explique como é o meio vaginal normal e como ele protege contra infecções. Qual a diferença entre vaginite e vaginose?',
       'Juliana pergunta, envergonhada, se "isso é falta de higiene" e se "é doença venérea". Responda.',
     ],
+    anamnese: [
+      { tema: 'Características do corrimento', resposta: '"É esbranquiçado, mais ralo que o normal, em pouca quantidade. Às vezes sinto um cheiro diferente."' },
+      { tema: 'Relação com o ciclo e fatores de melhora e piora', resposta: '"Parece pior depois da relação e logo depois da menstruação. O banho alivia por pouco tempo."' },
+      { tema: 'Coceira, ardor e sintomas urinários', resposta: '"Coça pouco. Não arde, nem para urinar."' },
+      { tema: 'Dor na relação e dor pélvica', resposta: '"Não dói na relação e não sinto dor no pé da barriga."' },
+      { tema: 'Doenças e imunidade', resposta: '"Não tenho diabetes nem outra doença."' },
+      { tema: 'Medicações', resposta: '"Só tomo a pílula. Não usei antibiótico."' },
+      { tema: 'Método contraceptivo e chance de gestação', resposta: '"Tomo pílula certinho. A menstruação veio há 2 semanas, normal."' },
+      { tema: 'Parcerias e preservativo', resposta: '"Tenho um namorado novo há 2 meses, só ele. Camisinha é só às vezes."' },
+      { tema: 'Tipo de contato sexual', resposta: '"Vaginal e oral."' },
+      { tema: 'Higiene íntima', resposta: '"Comecei a usar um sabonete íntimo perfumado para tirar o cheiro."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"É um corrimento diferente... tenho vergonha de falar disso."' },
       { gatilho: 'Se perguntar sobre vida sexual e contracepção', fala: '"Tenho um namorado novo há 2 meses. Tomo pílula, mas camisinha é só às vezes."' },
@@ -60,6 +74,18 @@ ESTACOES.push(
       'Como você trata? Cite o esquema de escolha e as alternativas.',
       'Patrícia quer saber por que "isso volta" e se pode beber no fim de semana. Oriente-a.',
     ],
+    anamnese: [
+      { tema: 'Características do corrimento', resposta: '"É acinzentado, ralo, em pouca quantidade, com cheiro de peixe."' },
+      { tema: 'Relação com o ciclo e fatores de piora', resposta: '"O cheiro piora muito depois da relação sem camisinha e quando estou menstruada."' },
+      { tema: 'Coceira, ardor e dor na relação', resposta: '"Não coça, não arde e não dói na relação."' },
+      { tema: 'Dor pélvica e febre', resposta: '"Nada disso."' },
+      { tema: 'Episódios anteriores', resposta: '"Tive algo parecido há 1 ano. Melhorou com um remédio, mas voltou."' },
+      { tema: 'Doenças, imunidade e medicações', resposta: '"Não tenho doença nenhuma e não usei antibiótico."' },
+      { tema: 'Método contraceptivo e chance de gestação', resposta: '"Uso camisinha só às vezes, e nenhum outro método. Fiz teste de farmácia esta semana: negativo."' },
+      { tema: 'Parceria', resposta: '"Tenho um parceiro fixo há 5 anos. Ele não tem sintoma nenhum."' },
+      { tema: 'Álcool', resposta: '"Tomo cerveja no fim de semana."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Tenho vergonha desse cheiro, doutor(a). Depois da relação fica muito pior."' },
       { gatilho: 'Se perguntar sobre coceira', fala: '"Não coça, nem arde. É só o corrimento e o cheiro."' },
@@ -67,6 +93,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese direcionada: caracterizou o corrimento e a relação com o ciclo, perguntou doenças (DM, imunossupressão), medicações, método contraceptivo e gestação e a história sexual (parcerias, preservativo, dispareunia, dor pélvica)', pts: 1 },
         { tarefa: 1, item: 'Vaginose bacteriana', pts: 1 },
         { tarefa: 1, item: 'Critérios de Amsel (3 de 4): corrimento branco-acinzentado, fino e homogêneo; pH > 4,5; teste das aminas positivo; clue cells (aqui, os 4 presentes)', pts: 2 },
         { tarefa: 1, item: 'Citou o escore de Nugent (bacterioscopia pelo Gram) como padrão-ouro', pts: 1 },
@@ -80,7 +107,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Tratar com antifúngico', 'Não orientar a abstenção de álcool com o metronidazol'],
     falaModelo: [
-      { tarefa: 1, texto: 'É vaginose bacteriana. Pelos critérios de Amsel, preciso de 3 dos 4, e ela tem os 4: corrimento branco-acinzentado, fino e homogêneo; pH acima de 4,5; teste das aminas positivo; e clue cells no exame a fresco. O padrão-ouro seria o escore de Nugent, na bacterioscopia pelo Gram.', tempo: '30 s' },
+      { tarefa: 1, texto: 'Na anamnese, caracterizo o corrimento e a relação com o ciclo e pergunto doenças, remédios, método contraceptivo, chance de gestação e a história sexual. É vaginose bacteriana. Pelos critérios de Amsel, preciso de 3 dos 4, e ela tem os 4: corrimento branco-acinzentado, fino e homogêneo; pH acima de 4,5; teste das aminas positivo; e clue cells no exame a fresco. O padrão-ouro seria o escore de Nugent, na bacterioscopia pelo Gram.', tempo: '30 s' },
       { tarefa: 2, texto: 'Os lactobacilos diminuem e as bactérias anaeróbias, como a Gardnerella, proliferam. Não há resposta inflamatória, por isso é vaginose e não vaginite, e ela não tem coceira nem vermelhidão. O odor piora com substâncias alcalinas, como o sêmen e o sangue menstrual.', tempo: '25 s' },
       { tarefa: 3, texto: 'O objetivo é eliminar os sintomas e reequilibrar a flora. Prescrevo metronidazol 500 mg por via oral de 12 em 12 horas por 7 dias. Como alternativas, metronidazol gel vaginal por 5 dias, clindamicina oral ou em creme vaginal por 7 dias, ou tinidazol.', tempo: '25 s' },
       { tarefa: 4, texto: 'Patrícia, a vagina é como um jardim cuidado pelos lactobacilos; nessa infecção eles diminuem e outras bactérias tomam o lugar, como mato que cresce quando o jardineiro se afasta. O remédio tira o mato, mas às vezes ele volta: isso acontece com 15 a 30% das mulheres, e, se voltar, temos um esquema de manutenção com gel. Vale tratar, porque esse desequilíbrio deixa a vagina mais vulnerável a HPV, HIV e outras infecções. Durante o metronidazol e por 24 horas depois, nada de álcool. Me conta como você vai tomar o remédio?', tempo: '50 s', analogia: 'Mato que cresce quando o jardineiro (lactobacilo) se afasta' },
@@ -103,6 +130,19 @@ ESTACOES.push(
       'O quadro é complicado ou não complicado? Como você trata?',
       'Larissa pergunta se precisa fazer cultura e como evitar novos episódios. Oriente-a.',
     ],
+    anamnese: [
+      { tema: 'Características do corrimento', resposta: '"Branco, em pedaços, parecendo leite talhado. Não tem cheiro."' },
+      { tema: 'Coceira e ardor', resposta: '"A coceira é insuportável. Arde para urinar."' },
+      { tema: 'Dor na relação e dor pélvica', resposta: '"Dói na relação. No pé da barriga, não."' },
+      { tema: 'Relação com o ciclo', resposta: '"Não notei relação com a menstruação."' },
+      { tema: 'Medicações recentes', resposta: '"Terminei amoxicilina há 5 dias, por sinusite."' },
+      { tema: 'Doenças e imunidade', resposta: '"Não tenho diabetes nem outra doença."' },
+      { tema: 'Método contraceptivo e chance de gestação', resposta: '"Tomo anticoncepcional oral. Fiz teste de farmácia ontem: negativo."' },
+      { tema: 'Parceria', resposta: '"Namoro há 1 ano, só com ele. Ele não tem sintomas."' },
+      { tema: 'Episódios anteriores', resposta: '"Nunca tive isso antes."' },
+      { tema: 'Hábitos e higiene íntima', resposta: '"Uso sabonete íntimo perfumado e calça jeans apertada, mesmo no calor."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Não aguento mais essa coceira, doutor(a)! Começou depois do antibiótico."' },
       { gatilho: 'Se citar o fluconazol', fala: '"Minha amiga que está grávida pode tomar esse comprimido também, né?"' },
@@ -110,6 +150,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese direcionada: caracterizou o corrimento e a relação com o ciclo, perguntou doenças (DM, imunossupressão), medicações, método contraceptivo e gestação e a história sexual (parcerias, preservativo, dispareunia, dor pélvica)', pts: 1 },
         { tarefa: 1, item: 'Candidíase vulvovaginal', pts: 1 },
         { tarefa: 1, item: 'Clínica: prurido, corrimento esbranquiçado em leite talhado, disúria, dispareunia; hiperemia, edema e fissuras vulvares', pts: 1 },
         { tarefa: 1, item: 'Exames: pH < 4,5, teste das aminas negativo e fungo confirmado no exame a fresco com KOH', pts: 1 },
@@ -123,7 +164,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Prescrever fluconazol para gestante', 'Pedir cultura de rotina num primeiro episódio já confirmado no exame a fresco'],
     falaModelo: [
-      { tarefa: 1, texto: 'É candidíase vulvovaginal. Ela tem prurido intenso, corrimento branco em leite talhado, ardor ao urinar e dor na relação, com a vulva vermelha, inchada e com fissuras. O pH está abaixo de 4,5, o teste das aminas é negativo, e o exame a fresco com KOH mostrou o fungo, o que confirma.', tempo: '30 s' },
+      { tarefa: 1, texto: 'Na anamnese, caracterizo o corrimento e a relação com o ciclo e pergunto doenças, remédios, método contraceptivo, chance de gestação e a história sexual. É candidíase vulvovaginal. Ela tem prurido intenso, corrimento branco em leite talhado, ardor ao urinar e dor na relação, com a vulva vermelha, inchada e com fissuras. O pH está abaixo de 4,5, o teste das aminas é negativo, e o exame a fresco com KOH mostrou o fungo, o que confirma.', tempo: '30 s' },
       { tarefa: 2, texto: 'O principal é o antibiótico recente, que desequilibrou a microbiota. Somam-se o anticoncepcional oral, a calça apertada no calor, que aumenta a umidade e o calor locais, e o sabonete íntimo perfumado, que irrita.', tempo: '20 s' },
       { tarefa: 3, texto: 'É não complicada: episódio isolado, provavelmente por Candida albicans, que causa 85 a 95% dos casos, numa mulher sem imunossupressão. Trato com fluconazol 150 mg por via oral em dose única, ou miconazol creme vaginal por 7 noites; a nistatina vaginal por 14 dias é outra opção. Para gestante eu não prescrevo fluconazol: escolho uma das opções vaginais.', tempo: '30 s' },
       { tarefa: 4, texto: 'Larissa, como o exame já mostrou o fungo, não precisa de cultura: ela fica para quando a candidíase se repete. Esse fungo pode viver na vagina em pequena quantidade sem causar nada; ele cresce quando o ambiente muda, como o mofo que aparece num cômodo quente e úmido. O antibiótico tirou as bactérias que o seguravam, e a roupa apertada e o sabonete perfumado ajudaram. Prefira roupas mais ventiladas e evite sabonetes, perfumes e desodorantes íntimos. Me conta como você vai usar o remédio?', tempo: '45 s', analogia: 'Mofo que cresce num cômodo quente e úmido' },
@@ -146,6 +187,17 @@ ESTACOES.push(
       'Como você trata o episódio atual e como previne novos episódios?',
       'A cultura identifica Candida glabrata. O que muda? Explique à paciente.',
     ],
+    anamnese: [
+      { tema: 'Número de episódios', resposta: '"Este ano já foram 5 vezes."' },
+      { tema: 'Como tratou', resposta: '"Toda vez compro fluconazol na farmácia, por conta própria. Melhora uns dias e volta."' },
+      { tema: 'Exames anteriores', resposta: '"Nunca fizeram exame do corrimento."' },
+      { tema: 'Características do corrimento', resposta: '"Branco, em grumos, com coceira forte. Não tem cheiro."' },
+      { tema: 'Diabetes e controle', resposta: '"Tenho diabetes. A hemoglobina glicada deu 9,8. Às vezes esqueço o remédio."' },
+      { tema: 'Outras doenças e medicações', resposta: '"Só o remédio do diabetes. Não uso corticoide."' },
+      { tema: 'Ciclo, contracepção e gestação', resposta: '"Ainda menstruo. Meu marido fez vasectomia: não tem chance de gravidez."' },
+      { tema: 'Parceria e dor na relação', resposta: '"Casada há 20 anos, só com ele. Dói na relação quando está assim."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Doutor(a), só me passa o comprimido de sempre, eu já sei o que é."' },
       { gatilho: 'Examinador, após a tarefa 3', fala: '"A cultura identificou Candida glabrata."' },
@@ -153,6 +205,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese direcionada: caracterizou o corrimento e a relação com o ciclo, perguntou doenças (DM, imunossupressão), medicações, método contraceptivo e gestação e a história sexual (parcerias, preservativo, dispareunia, dor pélvica)', pts: 1 },
         { tarefa: 1, item: 'Candidíase de repetição: 4 ou mais episódios ao ano, confirmados laboratorialmente (os dela não foram)', pts: 1 },
         { tarefa: 1, item: 'Confirmar porque outras afecções dão os mesmos sintomas (vaginose citolítica, alergias, dermatites vulvares) e para identificar espécies não albicans: cultura (Sabouraud, Nickerson)', pts: 2 },
         { tarefa: 2, item: 'Complicada: recorrente e em mulher diabética (também: severa, por não albicans, imunossupressão, debilitada ou em uso de imunossupressores)', pts: 1 },
@@ -165,7 +218,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Repetir fluconazol em dose única sem confirmar o diagnóstico', 'Manter fluconazol depois de identificar Candida glabrata'],
     falaModelo: [
-      { tarefa: 1, texto: 'Ela relata 5 episódios no ano, mas nenhum foi confirmado. Candidíase de repetição exige 4 ou mais episódios por ano confirmados laboratorialmente. Confirmar importa porque outras afecções dão os mesmos sintomas, como a vaginose citolítica, as alergias e as dermatites vulvares, e porque preciso identificar espécies não albicans. Por isso peço cultura em meio específico, como Sabouraud ou Nickerson.', tempo: '35 s' },
+      { tarefa: 1, texto: 'Na anamnese, caracterizo o corrimento e a relação com o ciclo e pergunto doenças, remédios, método contraceptivo, chance de gestação e a história sexual. Ela relata 5 episódios no ano, mas nenhum foi confirmado. Candidíase de repetição exige 4 ou mais episódios por ano confirmados laboratorialmente. Confirmar importa porque outras afecções dão os mesmos sintomas, como a vaginose citolítica, as alergias e as dermatites vulvares, e porque preciso identificar espécies não albicans. Por isso peço cultura em meio específico, como Sabouraud ou Nickerson.', tempo: '35 s' },
       { tarefa: 2, texto: 'É complicada porque é recorrente e ela é diabética. Também seria complicada se fosse severa, por espécie não albicans, ou numa mulher imunossuprimida ou debilitada. As recidivas se explicam pelo diabetes descompensado, pela obesidade e pela capacidade da Candida de formar biofilme.', tempo: '25 s' },
       { tarefa: 3, texto: 'Na complicada o tratamento é prolongado: via local ou oral por 7 a 14 dias, ou fluconazol 150 mg de 3 em 3 dias, três doses. Depois, para prevenir, faço supressão com fluconazol 150 mg uma vez por semana por 6 meses.', tempo: '20 s' },
       { tarefa: 4, texto: 'Com Candida glabrata não há tratamento comprovadamente eficaz. Faço tratamento prolongado, de 7 a 14 dias, com medicamento sem fluconazol, ou óvulos de ácido bórico 600 mg por 14 dias. Dona Rosângela, o seu fungo não é o mais comum, e o comprimido da farmácia não é o indicado para ele. Além disso, ele forma uma película protetora, como o limo que gruda no fundo de uma caixa de água e volta se a limpeza for rápida. Por isso precisamos do remédio certo, por mais tempo, e de controlar o diabetes. Me conta o que vai mudar no seu tratamento?', tempo: '50 s', analogia: 'Biofilme como o limo no fundo da caixa de água' },
@@ -188,6 +241,18 @@ ESTACOES.push(
       'Prescreva o tratamento.',
       'Camila pergunta se o namorado também precisa se tratar e se "isso é sério". Oriente-a.',
     ],
+    anamnese: [
+      { tema: 'Características do corrimento', resposta: '"Muito corrimento, amarelo-esverdeado, com bolhinhas. Tem cheiro ruim."' },
+      { tema: 'Coceira e ardor', resposta: '"Coça e arde para fazer xixi."' },
+      { tema: 'Dor na relação e dor pélvica', resposta: '"Dói na relação. No pé da barriga, não."' },
+      { tema: 'Parcerias e preservativo', resposta: '"Comecei a namorar há 2 meses. Não usamos camisinha."' },
+      { tema: 'Sintomas do parceiro', resposta: '"Ele diz que não sente nada."' },
+      { tema: 'Método contraceptivo e chance de gestação', resposta: '"Tomo pílula. Fiz teste e deu negativo."' },
+      { tema: 'Doenças e medicações', resposta: '"Não tenho doença e não tomo outro remédio."' },
+      { tema: 'ISTs anteriores e exames', resposta: '"Nunca tive IST. Nunca fiz teste de HIV nem de sífilis."' },
+      { tema: 'Álcool', resposta: '"Bebo nos fins de semana."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Está saindo muito corrimento, e agora ficou meio verde. Estou com medo."' },
       { gatilho: 'Se falar em tratar o parceiro', fala: '"Mas ele não sente nada!"' },
@@ -195,6 +260,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese direcionada: caracterizou o corrimento e a relação com o ciclo, perguntou doenças (DM, imunossupressão), medicações, método contraceptivo e gestação e a história sexual (parcerias, preservativo, dispareunia, dor pélvica)', pts: 1 },
         { tarefa: 1, item: 'Tricomoníase, por Trichomonas vaginalis (protozoário flagelado anaeróbio, de transmissão sexual)', pts: 1 },
         { tarefa: 1, item: 'Corrimento abundante amarelo-esverdeado e bolhoso, edema vulvar, colo em framboesa (colpite tigroide); pH > 4,5; parasita em movimento no exame a fresco', pts: 1 },
         { tarefa: 2, item: 'Não afasta: o teste das aminas pode ser positivo pela presença de germes anaeróbios', pts: 1 },
@@ -207,7 +273,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Não referenciar o parceiro para tratamento', 'Não orientar a abstenção de álcool'],
     falaModelo: [
-      { tarefa: 1, texto: 'É tricomoníase, causada pelo Trichomonas vaginalis, um protozoário flagelado anaeróbio transmitido pela relação sexual. Ela tem corrimento abundante, amarelo-esverdeado e bolhoso, edema vulvar e o colo em framboesa, a colpite tigroide. O pH está acima de 4,5 e o exame a fresco mostrou o parasita se movendo.', tempo: '30 s' },
+      { tarefa: 1, texto: 'Na anamnese, caracterizo o corrimento e a relação com o ciclo e pergunto doenças, remédios, método contraceptivo, chance de gestação e a história sexual. É tricomoníase, causada pelo Trichomonas vaginalis, um protozoário flagelado anaeróbio transmitido pela relação sexual. Ela tem corrimento abundante, amarelo-esverdeado e bolhoso, edema vulvar e o colo em framboesa, a colpite tigroide. O pH está acima de 4,5 e o exame a fresco mostrou o parasita se movendo.', tempo: '30 s' },
       { tarefa: 2, texto: 'Não afasta: na tricomoníase o teste das aminas pode ser positivo, porque há germes anaeróbios associados. O exame a fresco é o mais usado, mas a sensibilidade é de só 51 a 65%. Se viesse negativo com esses sintomas, eu pediria a cultura em meio de Diamond.', tempo: '25 s' },
       { tarefa: 3, texto: 'Prescrevo metronidazol 2 g por via oral em dose única. Outras opções são metronidazol 500 mg de 12 em 12 horas por 7 dias, ou tinidazol 2 g em dose única.', tempo: '15 s' },
       { tarefa: 4, texto: 'Camila, essa infecção passa pela relação, então seu namorado precisa ser tratado também, mesmo sem sintomas, porque ela pode não dar sinais. Tratar só você é como apagar o fogo numa casa e deixar a brasa acesa na casa do vizinho: o fogo volta. Nada de bebida alcoólica durante o remédio e por 24 horas depois. É sério, sim, porque a inflamação facilita pegar outras infecções, inclusive o HIV; por isso vou pedir exames para outras ISTs. Me conta: como você vai conversar com ele?', tempo: '45 s', analogia: 'Brasa acesa na casa do vizinho' },
@@ -230,6 +296,17 @@ ESTACOES.push(
       'Qual é o tratamento?',
       'Explique à paciente o que ela tem, acolhendo a frustração dela.',
     ],
+    anamnese: [
+      { tema: 'Características do corrimento', resposta: '"Branco, em grumos, sem cheiro."' },
+      { tema: 'Relação com o ciclo', resposta: '"Piora sempre na semana antes de menstruar."' },
+      { tema: 'Coceira, ardor e dor na relação', resposta: '"Coça, arde e dói na relação."' },
+      { tema: 'Tratamentos anteriores', resposta: '"Já usei creme e comprimido para candidíase 5 vezes. Nunca fizeram exame, e nunca melhorou."' },
+      { tema: 'Doenças, imunidade e medicações', resposta: '"Não tenho doença. Não uso antibiótico nem corticoide."' },
+      { tema: 'Método contraceptivo e chance de gestação', resposta: '"Uso pílula. Não estou grávida."' },
+      { tema: 'Parceria', resposta: '"Casada, só com meu marido. Ele não tem sintomas."' },
+      { tema: 'Higiene íntima', resposta: '"Já parei com o sabonete íntimo, e não mudou nada."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Já tratei candidíase cinco vezes. Ninguém acerta!"' },
       { gatilho: 'Se falar em bicarbonato', fala: '"Bicarbonato? Mas isso não é remédio de verdade."' },
@@ -237,6 +314,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese direcionada: caracterizou o corrimento e a relação com o ciclo, perguntou doenças (DM, imunossupressão), medicações, método contraceptivo e gestação e a história sexual (parcerias, preservativo, dispareunia, dor pélvica)', pts: 1 },
         { tarefa: 1, item: 'Vaginose citolítica', pts: 1 },
         { tarefa: 1, item: 'pH < 4,0; excesso de lactobacilos, leucócitos raros, núcleos desnudos e ausência de fungos; prurido que piora no período pré-menstrual', pts: 2 },
         { tarefa: 2, item: 'Proliferação excessiva de lactobacilos, que reduz o pH e aumenta a citólise; os produtos da citólise causam os sintomas (fatores desencadeantes desconhecidos)', pts: 1 },
@@ -247,7 +325,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Prescrever mais um antifúngico', 'Diagnosticar candidíase sem confirmar a presença de fungos'],
     falaModelo: [
-      { tarefa: 1, texto: 'É vaginose citolítica. O pH está abaixo de 4,0, mais ácido que o normal; o Gram mostra excesso de lactobacilos, poucos leucócitos, núcleos desnudos e nenhum fungo. A piora no pré-menstrual também é típica.', tempo: '25 s' },
+      { tarefa: 1, texto: 'Na anamnese, caracterizo o corrimento e a relação com o ciclo e pergunto doenças, remédios, método contraceptivo, chance de gestação e a história sexual. É vaginose citolítica. O pH está abaixo de 4,0, mais ácido que o normal; o Gram mostra excesso de lactobacilos, poucos leucócitos, núcleos desnudos e nenhum fungo. A piora no pré-menstrual também é típica.', tempo: '25 s' },
       { tarefa: 2, texto: 'O problema é o excesso de lactobacilos: eles baixam demais o pH e aumentam a citólise, a destruição das células do epitélio, e os produtos dessa citólise causam os sintomas. Não se sabe o que desencadeia a proliferação. Como não há fungo, o antifúngico não tinha onde agir. Por isso, na suspeita de candidíase, principalmente quando recorre, é preciso confirmar o fungo antes de tratar.', tempo: '35 s' },
       { tarefa: 3, texto: 'Não existe tratamento específico. O que se recomenda é alcalinizar o meio temporariamente, com bicarbonato de sódio aplicado de forma periódica, em óvulos ou duchas vaginais.', tempo: '15 s' },
       { tarefa: 4, texto: 'Fernanda, entendo a sua frustração: você tratou várias vezes uma coisa que, pelo exame de hoje, não é fungo. Os lactobacilos são as bactérias boas da vagina, mas no seu caso estão em excesso, como um tempero bom colocado demais, que estraga a comida: o meio fica ácido demais e irrita. Por isso o tratamento é deixar o meio menos ácido, com bicarbonato, e não mais um antifúngico. Vou acompanhar de perto como você responde. Me conta com suas palavras o que você tem?', tempo: '45 s', analogia: 'Tempero bom colocado em excesso' },
@@ -270,6 +348,16 @@ ESTACOES.push(
       'Como você trata, considerando o que predomina no caso dela?',
       'Explique à paciente o tratamento e por que o creme antifúngico não resolveu.',
     ],
+    anamnese: [
+      { tema: 'Características do corrimento', resposta: '"Amarelado, às vezes parece pus, com cheiro ruim."' },
+      { tema: 'Tempo e tratamentos', resposta: '"Faz 4 meses. Passei creme de candidíase e não melhorou."' },
+      { tema: 'Ardor, sintomas urinários e dor na relação', resposta: '"Arde por fora, arde para urinar e dói na relação."' },
+      { tema: 'Menopausa e reposição hormonal', resposta: '"Parei de menstruar há 7 anos. Nunca usei hormônio."' },
+      { tema: 'Sangramento após a menopausa', resposta: '"Não tive nenhum sangramento."' },
+      { tema: 'Doenças, imunidade e medicações', resposta: '"Tenho pressão alta e tomo o remédio. Não tenho diabetes."' },
+      { tema: 'Parceria', resposta: '"Casada há 30 anos, só com meu marido."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Já passei creme de candidíase e não adiantou nada."' },
       { gatilho: 'Se falar em estrogênio', fala: '"Hormônio, na minha idade? Achei que não precisava mais."' },
@@ -277,6 +365,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese direcionada: caracterizou o corrimento e a relação com o ciclo, perguntou doenças (DM, imunossupressão), medicações, método contraceptivo e gestação e a história sexual (parcerias, preservativo, dispareunia, dor pélvica)', pts: 1 },
         { tarefa: 1, item: 'Vaginite aeróbica: bactérias aeróbicas entéricas (E. coli, Enterococcus faecalis, S. aureus, S. epidermidis, estreptococo do grupo B), redução ou ausência de lactobacilos e inflamação', pts: 2 },
         { tarefa: 1, item: 'Difere da VB pela inflamação (aumento de polimorfonucleares, corrimento purulento); a VB é por anaeróbios e não tem resposta inflamatória', pts: 1 },
         { tarefa: 2, item: 'Vaginite inflamatória descamativa: pouco frequente e severa, considerada o espectro mais grave ou estágio final da vaginite aeróbica', pts: 1 },
@@ -288,7 +377,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Tratar de novo como candidíase', 'Não afastar tricomoníase numa vaginite purulenta'],
     falaModelo: [
-      { tarefa: 1, texto: 'É vaginite aeróbica: os lactobacilos sumiram e foram substituídos por bactérias aeróbicas entéricas, como a Escherichia coli e o Enterococcus, com inflamação, que aparece no aumento de polimorfonucleares e no corrimento purulento. É diferente da vaginose bacteriana, em que as bactérias são anaeróbias e não há resposta inflamatória.', tempo: '30 s' },
+      { tarefa: 1, texto: 'Na anamnese, caracterizo o corrimento e a relação com o ciclo e pergunto doenças, remédios, método contraceptivo, chance de gestação e a história sexual. É vaginite aeróbica: os lactobacilos sumiram e foram substituídos por bactérias aeróbicas entéricas, como a Escherichia coli e o Enterococcus, com inflamação, que aparece no aumento de polimorfonucleares e no corrimento purulento. É diferente da vaginose bacteriana, em que as bactérias são anaeróbias e não há resposta inflamatória.', tempo: '30 s' },
       { tarefa: 2, texto: 'No mesmo espectro está a vaginite inflamatória descamativa, pouco frequente e severa, considerada a forma mais grave ou o estágio final da vaginite aeróbica. A inflamação é intensa, com eritema, petéquias e até equimoses na mucosa, e a queixa costuma ser longa. Nela é importante afastar a tricomoníase; aqui o exame a fresco não mostrou parasitas.', tempo: '30 s' },
       { tarefa: 3, texto: 'Não há tratamento normatizado; escolho pelo que predomina. Como há muitas bactérias e inflamação, uso um creme vaginal manipulado com clindamicina 2% e hidrocortisona 10%, por 21 dias. Como há atrofia, associo estrogênio vaginal, que melhora o trofismo e previne recorrências.', tempo: '25 s' },
       { tarefa: 4, texto: 'Dona Célia, o creme de candidíase não ajudou porque não é fungo: são bactérias do intestino que ocuparam o lugar das bactérias boas da vagina. Depois da menopausa, a parede da vagina fica mais fina, como um gramado que seca e deixa a terra exposta para as ervas daninhas. O creme com antibiótico e anti-inflamatório trata agora, e o hormônio, aplicado só no local, deixa essa parede mais forte de novo, para o problema não voltar. Me conta: como a senhora vai usar os cremes?', tempo: '45 s', analogia: 'Gramado seco que deixa a terra exposta' },
@@ -351,12 +440,25 @@ ESTACOES.push(
       'Que achados da história e do exame sustentam o diagnóstico? Qual é o exame padrão-ouro para confirmar o agente?',
       'Bianca diz que "não tem corrimento, então não pode ser infecção". Oriente-a.',
     ],
+    anamnese: [
+      { tema: 'Sangramento', resposta: '"Sangrou depois da relação algumas vezes nas últimas semanas, e tive escapes fora da menstruação."' },
+      { tema: 'Corrimento', resposta: '"Não tenho corrimento."' },
+      { tema: 'Dor na relação e dor pélvica', resposta: '"Às vezes dói na relação. No pé da barriga, um pouco."' },
+      { tema: 'Sintomas urinários', resposta: '"Tenho ido mais vezes ao banheiro, mas não arde."' },
+      { tema: 'Parcerias e preservativo', resposta: '"Tive dois parceiros nos últimos 6 meses. Camisinha, só de vez em quando."' },
+      { tema: 'IST na parceria', resposta: '"Um deles me contou que tratou uma infecção no mês passado. Não sei qual."' },
+      { tema: 'Método contraceptivo e chance de gestação', resposta: '"Tomo pílula sem esquecer. O teste deu negativo."' },
+      { tema: 'Febre', resposta: '"Não tive febre."' },
+      { tema: 'Doenças e medicações', resposta: '"Nenhuma doença, só a pílula."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Fiquei assustada, sangrou depois da relação."' },
       { gatilho: 'Ao ouvir a hipótese', fala: '"Mas eu não tenho corrimento nenhum! Então não pode ser infecção, né?"' },
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese: sangramento pós-coito e intermenstrual, corrimento, dispareunia, dor pélvica, sintomas urinários, parcerias, preservativo, IST na parceria, contracepção e gestação', pts: 1 },
         { tarefa: 1, item: 'Cervicite', pts: 1 },
         { tarefa: 1, item: 'Agentes: Neisseria gonorrhoeae e Chlamydia trachomatis', pts: 1 },
         { tarefa: 2, item: 'Idade abaixo de 25 anos, novas ou múltiplas parcerias e uso irregular de preservativo (perguntou se alguma parceria teve IST)', pts: 2 },
@@ -368,7 +470,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Afastar infecção pela ausência de corrimento', 'Julgar a paciente pelo número de parceiros'],
     falaModelo: [
-      { tarefa: 1, texto: 'É cervicite, uma inflamação do colo do útero, e os agentes mais prováveis são a Neisseria gonorrhoeae e a Chlamydia trachomatis.', tempo: '15 s' },
+      { tarefa: 1, texto: 'Na anamnese, pergunto sobre o sangramento, corrimento, dor na relação e no pé da barriga, sintomas urinários, parcerias, preservativo, IST na parceria, contracepção e gestação. É cervicite, uma inflamação do colo do útero, e os agentes mais prováveis são a Neisseria gonorrhoeae e a Chlamydia trachomatis.', tempo: '15 s' },
       { tarefa: 2, texto: 'Ela tem menos de 25 anos, teve duas parcerias recentes e usa preservativo de forma irregular. Também pergunto se algum parceiro teve IST.', tempo: '15 s' },
       { tarefa: 3, texto: 'Na história, sangramento depois da relação e fora da menstruação, dor na relação e polaciúria. No exame, colo edemaciado e friável, que sangra ao toque, mucopus saindo pelo orifício externo e dor à mobilização do colo. Para confirmar o agente, o padrão-ouro é a biologia molecular.', tempo: '25 s' },
       { tarefa: 4, texto: 'Bianca, não ter corrimento não afasta infecção: 70 a 80% das cervicites não dão sintoma nenhum, e o corrimento é até incomum. É como um vazamento dentro da parede: não aparece mancha, mas está lá. O sangramento depois da relação foi o sinal que apareceu. Não é questão de julgamento: o que protege é usar camisinha em todas as relações. Vamos confirmar com o exame. Me conta o que você entendeu?', tempo: '40 s', analogia: 'Vazamento dentro da parede, sem mancha aparente' },
@@ -391,6 +493,17 @@ ESTACOES.push(
       'Qual é o objetivo do tratamento? Explique à paciente o que esperar da doença.',
       'Ela pergunta o que fazer "se voltar". Oriente-a.',
     ],
+    anamnese: [
+      { tema: 'Início e evolução', resposta: '"Começou há 4 dias com ardor. Depois vieram bolhinhas, que viraram feridas."' },
+      { tema: 'Dor', resposta: '"Dói muito, até para fazer xixi."' },
+      { tema: 'Sintomas gerais', resposta: '"Estou com febre baixa e dor no corpo, sem forças."' },
+      { tema: 'Ínguas', resposta: '"Tem caroços doloridos nas duas virilhas."' },
+      { tema: 'Episódios anteriores', resposta: '"Nunca tive nada parecido."' },
+      { tema: 'Exposição sexual e preservativo', resposta: '"Tive relação sem camisinha com um parceiro novo há uma semana."' },
+      { tema: 'Método contraceptivo e chance de gestação', resposta: '"Tomo pílula. O teste deu negativo."' },
+      { tema: 'Doenças e alergias', resposta: '"Não tenho doença nem alergia a remédio."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Está doendo muito, doutor(a). Até para fazer xixi."' },
       { gatilho: 'Ao ouvir o diagnóstico', fala: '"Esse remédio cura de vez, né?"' },
@@ -398,6 +511,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese: início e evolução da lesão, dor, episódios anteriores, sintomas gerais e ínguas, exposição sexual e preservativo, gestação e alergias', pts: 1 },
         { tarefa: 1, item: 'Herpes genital (HSV), primoinfecção', pts: 1 },
         { tarefa: 1, item: 'Evolução vesícula → úlcera (fase de maior dor) → crosta; as três fases podem coexistir na mesma paciente', pts: 1 },
         { tarefa: 1, item: 'Primoinfecção: incubação média de 6 dias, sintomas severos e sistêmicos, linfadenomegalia bilateral, 2–3 semanas (recorrência: leve, localizada, sem linfadenomegalia, 7–10 dias)', pts: 1 },
@@ -410,7 +524,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Dizer que o tratamento cura a infecção', 'Adiar o início do tratamento'],
     falaModelo: [
-      { tarefa: 1, texto: 'É herpes genital, uma primoinfecção. A lesão evolui de vesícula para úlcera, que é a fase mais dolorosa, e depois para crosta, e é comum ver as três fases ao mesmo tempo, como aqui. É primeiro episódio porque ela nunca teve antes, a exposição foi há cerca de uma semana, compatível com a incubação média de 6 dias, e há sintomas sistêmicos e linfonodos dos dois lados. A recorrência costuma ser leve, localizada, sem linfonodos, e dura 7 a 10 dias.', tempo: '40 s' },
+      { tarefa: 1, texto: 'Na anamnese, pergunto o início e a evolução da lesão, se dói, se já teve antes, sintomas gerais e ínguas, a exposição sexual, gestação e alergias. É herpes genital, uma primoinfecção. A lesão evolui de vesícula para úlcera, que é a fase mais dolorosa, e depois para crosta, e é comum ver as três fases ao mesmo tempo, como aqui. É primeiro episódio porque ela nunca teve antes, a exposição foi há cerca de uma semana, compatível com a incubação média de 6 dias, e há sintomas sistêmicos e linfonodos dos dois lados. A recorrência costuma ser leve, localizada, sem linfonodos, e dura 7 a 10 dias.', tempo: '40 s' },
       { tarefa: 2, texto: 'Prescrevo aciclovir 200 mg, 2 comprimidos por via oral 3 vezes ao dia, por 7 a 10 dias, ou 1 comprimido 5 vezes ao dia pelo mesmo tempo. Começo o quanto antes; se após 10 dias a cicatrização estiver incompleta, prolongo.', tempo: '20 s' },
       { tarefa: 3, texto: 'O objetivo é acelerar a melhora dos sintomas. Aline, esse remédio não elimina o vírus: o herpes fica no corpo e pode voltar. Ele funciona como baixar o volume de um rádio que não dá para desligar: as feridas saram mais rápido, mas o vírus continua lá, quieto. A primeira vez costuma ser a mais forte e dura 2 a 3 semanas; as próximas, se vierem, são mais leves.', tempo: '35 s', analogia: 'Rádio que não desliga, só baixa o volume' },
       { tarefa: 4, texto: 'Se voltar, você vai sentir antes um ardor, coceira ou sensibilidade no local. É nessa hora que o tratamento funciona melhor: aciclovir por 5 dias, começando no primeiro sinal. Se as crises forem muito frequentes, 6 ou mais por ano, existe um tratamento contínuo para preveni-las. Me conta: o que você vai fazer se sentir aquele ardor de novo?', tempo: '30 s' },
@@ -433,6 +547,17 @@ ESTACOES.push(
       'E na gestação, qual a conduta para prevenir crises no fim da gravidez? E se fosse um primeiro episódio na gestação?',
       'Tatiane tem medo de o remédio fazer mal ao bebê. Explique o plano até o parto.',
     ],
+    anamnese: [
+      { tema: 'Sintomas atuais', resposta: '"Desde ontem à noite formiga, arde e coça no mesmo lugar das outras vezes. Ainda não tem ferida."' },
+      { tema: 'Diagnóstico', resposta: '"Descobri o herpes há 3 anos."' },
+      { tema: 'Frequência das crises', resposta: '"Antes de engravidar eram umas 7 crises por ano. Nesta gravidez já foram 3."' },
+      { tema: 'Tratamentos anteriores', resposta: '"Só tomei remédio nas crises. Tratamento contínuo, nunca."' },
+      { tema: 'Gestação', resposta: '"Estou com 30 semanas. O pré-natal está normal."' },
+      { tema: 'Febre e ínguas', resposta: '"Sem febre e sem ínguas."' },
+      { tema: 'Rins e fígado', resposta: '"Nunca tive problema de rim nem de fígado."' },
+      { tema: 'Preocupações', resposta: '"Tenho medo de passar para o bebê."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Está começando de novo, aquele formigamento. Ainda não apareceu ferida."' },
       { gatilho: 'Se falar em aciclovir', fala: '"Mas eu estou grávida. Esse remédio não faz mal ao bebê?"' },
@@ -440,6 +565,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese: sintomas atuais, número de crises antes e durante a gestação, tratamentos anteriores, idade gestacional, sintomas gerais e doença renal ou hepática', pts: 1 },
         { tarefa: 1, item: 'Pródromo de recorrência (formigamento, ardor, prurido e hiperemia local), sem sintomas sistêmicos nem linfonodos', pts: 1 },
         { tarefa: 1, item: 'Aciclovir 200 mg, 2 comprimidos 3 vezes ao dia por 5 dias (ou 4 comprimidos 2 vezes ao dia por 5 dias), iniciado de preferência no pródromo', pts: 2 },
         { tarefa: 2, item: 'Supressão com 6 ou mais episódios por ano: aciclovir 200 mg, 2 comprimidos 2 vezes ao dia, por até 6 meses, podendo chegar a 2 anos', pts: 1 },
@@ -451,7 +577,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Esperar as lesões aparecerem para tratar', 'Não planejar a supressão a partir de 36 semanas'],
     falaModelo: [
-      { tarefa: 1, texto: 'É o pródromo de uma recorrência: formigamento, ardor e coceira no mesmo local, com discreta hiperemia, sem febre nem linfonodos. É o melhor momento para tratar, porque a recidiva deve ser tratada de preferência no pródromo. Prescrevo aciclovir 200 mg, 2 comprimidos 3 vezes ao dia por 5 dias, ou 4 comprimidos 2 vezes ao dia por 5 dias.', tempo: '30 s' },
+      { tarefa: 1, texto: 'Na anamnese, pergunto os sintomas de agora, quantas crises teve antes e durante a gestação, como tratou, a idade gestacional, sintomas gerais e problemas de rim ou fígado. É o pródromo de uma recorrência: formigamento, ardor e coceira no mesmo local, com discreta hiperemia, sem febre nem linfonodos. É o melhor momento para tratar, porque a recidiva deve ser tratada de preferência no pródromo. Prescrevo aciclovir 200 mg, 2 comprimidos 3 vezes ao dia por 5 dias, ou 4 comprimidos 2 vezes ao dia por 5 dias.', tempo: '30 s' },
       { tarefa: 2, texto: 'Com 7 crises por ano ela já tinha indicação de terapia supressiva, que vale para 6 ou mais episódios por ano: aciclovir 200 mg, 2 comprimidos 2 vezes ao dia, por até 6 meses, podendo prolongar até 2 anos, com avaliação periódica das funções renal e hepática.', tempo: '25 s' },
       { tarefa: 3, texto: 'Na gestação, como as recidivas são frequentes, faço terapia supressiva a partir da 36ª semana, com aciclovir 400 mg 3 vezes ao dia. Se fosse um primeiro episódio na gestação, eu trataria em qualquer trimestre, como um primeiro episódio comum, e também faria a supressão a partir de 36 semanas.', tempo: '25 s' },
       { tarefa: 4, texto: 'Tatiane, esse remédio é usado na gestação, em qualquer trimestre, quando é preciso. O plano é tratar esta crise agora, nos primeiros sinais, como apagar um fósforo antes de virar incêndio. E, a partir de 36 semanas, você passa a tomar o remédio todos os dias, para diminuir a chance de crise na reta final da gravidez. Me conta com suas palavras como vai ser o tratamento?', tempo: '35 s', analogia: 'Apagar o fósforo antes de virar incêndio' },
@@ -474,6 +600,17 @@ ESTACOES.push(
       'Como é feito o seguimento depois do tratamento?',
       'Vanessa diz que, "se a ferida vai sumir sozinha, não precisa de injeção". Responda.',
     ],
+    anamnese: [
+      { tema: 'Início e evolução', resposta: '"Percebi há 10 dias, no banho. Ainda não fechou."' },
+      { tema: 'Número de lesões e dor', resposta: '"É uma ferida só. Não dói nada."' },
+      { tema: 'Sintomas gerais', resposta: '"Sem febre, sem manchas no corpo. Ínguas, não notei."' },
+      { tema: 'Episódios anteriores', resposta: '"Nunca tive ferida assim."' },
+      { tema: 'Exposição sexual e preservativo', resposta: '"Tive relação sem camisinha com um parceiro eventual há umas 3 semanas."' },
+      { tema: 'Método contraceptivo e chance de gestação', resposta: '"Tomo pílula. O teste de gravidez deu negativo."' },
+      { tema: 'Alergias', resposta: '"Não tenho alergia a penicilina nem a outro remédio."' },
+      { tema: 'Testes anteriores', resposta: '"Nunca fiz teste de sífilis nem de HIV."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"É só uma feridinha, nem dói."' },
       { gatilho: 'Se falar na injeção', fala: '"Injeção? Duas? Se a ferida vai sumir sozinha, pra que isso?"' },
@@ -481,6 +618,7 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
+        { tarefa: 1, item: 'Anamnese: início e evolução da lesão, dor, episódios anteriores, sintomas gerais e ínguas, exposição sexual e preservativo, gestação e alergias', pts: 1 },
         { tarefa: 1, item: 'Sífilis primária (cancro duro), por Treponema pallidum', pts: 1 },
         { tarefa: 1, item: 'Lesão única, indolor, endurecida, de fundo limpo; incubação de 10 a 90 dias (média de 21), compatível com a exposição há 3 semanas', pts: 2 },
         { tarefa: 2, item: 'Benzilpenicilina benzatina 2,4 milhões UI IM, dose única (1,2 milhão UI em cada glúteo)', pts: 2 },
@@ -491,7 +629,7 @@ ESTACOES.push(
     },
     errosCriticos: ['Dispensar o tratamento porque a lesão é indolor ou some sozinha', 'Prescrever doxiciclina para gestante'],
     falaModelo: [
-      { tarefa: 1, texto: 'O diagnóstico mais provável é sífilis primária, o cancro duro, pelo Treponema pallidum. A lesão é única, indolor, endurecida e de fundo limpo, e a exposição foi há 3 semanas: a incubação vai de 10 a 90 dias, com média de 21.', tempo: '25 s' },
+      { tarefa: 1, texto: 'Na anamnese, pergunto o início e a evolução da lesão, se dói, se já teve antes, sintomas gerais e ínguas, a exposição sexual, gestação e alergias. O diagnóstico mais provável é sífilis primária, o cancro duro, pelo Treponema pallidum. A lesão é única, indolor, endurecida e de fundo limpo, e a exposição foi há 3 semanas: a incubação vai de 10 a 90 dias, com média de 21.', tempo: '25 s' },
       { tarefa: 2, texto: 'Trato com benzilpenicilina benzatina 2,4 milhões de unidades, intramuscular, em dose única, aplicando 1,2 milhão em cada glúteo. A alternativa é doxiciclina 100 mg de 12 em 12 horas por 15 dias, que não pode ser usada em gestantes.', tempo: '25 s' },
       { tarefa: 3, texto: 'O seguimento é feito com teste não treponêmico a cada três meses.', tempo: '10 s' },
       { tarefa: 4, texto: 'Vanessa, a ferida da sífilis some sozinha em 2 a 6 semanas, mas a infecção não vai embora com ela. É como a fumaça que some da janela enquanto o fogo continua aceso dentro de casa. Por isso precisamos tratar agora, com as duas injeções no mesmo dia, uma em cada lado do bumbum, e depois fazer o exame de sangue de 3 em 3 meses para confirmar que deu certo. Se estivesse grávida, só a injeção serviria, porque o comprimido alternativo não pode ser usado na gestação. Me conta: por que tratar mesmo com a ferida sumindo?', tempo: '50 s', analogia: 'Fumaça que some enquanto o fogo continua aceso' },
@@ -552,6 +690,16 @@ ESTACOES.push(
       'Como diferenciar essa adenopatia da que ocorre no cancro mole, no herpes e na donovanose?',
       'Quais as sequelas se a doença evoluir? Explique à paciente por que ela precisa ser tratada.',
     ],
+    anamnese: [
+      { tema: 'Início e evolução da íngua', resposta: '"Apareceu há 3 semanas, foi crescendo e doendo. Há 4 dias abriu e sai secreção por vários buraquinhos."' },
+      { tema: 'Ferida genital anterior', resposta: '"Teve uma feridinha há uns 2 meses, mas não doía e sumiu em poucos dias."' },
+      { tema: 'Exposição sexual e preservativo', resposta: '"Tive relação sem camisinha com um parceiro novo há 2 meses."' },
+      { tema: 'Sintomas gerais', resposta: '"Me sinto um pouco febril à noite."' },
+      { tema: 'Sintomas ao urinar e evacuar', resposta: '"Não dói para urinar nem para evacuar."' },
+      { tema: 'Chance de gestação', resposta: '"Não estou grávida, o teste deu negativo."' },
+      { tema: 'Doenças e alergias', resposta: '"Não tenho doença nem alergia."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Ao se apresentar', fala: '"Essa íngua abriu e está saindo secreção por vários buraquinhos."' },
       { gatilho: 'Se perguntar sobre feridas genitais anteriores', fala: '"Teve uma feridinha há uns dois meses, mas não doía e sumiu sozinha em poucos dias."' },
