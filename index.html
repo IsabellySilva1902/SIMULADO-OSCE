@@ -64,6 +64,7 @@
       <div class="flex flex-wrap gap-4 text-sm mb-4">
         <label class="flex items-center gap-1.5"><input id="opt-ditado" type="checkbox" class="w-4 h-4"> 🎙️ Ditado por voz (transcreve o que eu falo)</label>
         <label class="flex items-center gap-1.5"><input id="opt-som" type="checkbox" class="w-4 h-4" checked> 🔔 Avisos sonoros</label>
+        <label class="flex items-center gap-1.5"><input id="opt-revisao" type="checkbox" class="w-4 h-4" checked> 🔁 Revisão espaçada no circuito (20%)</label>
       </div>
       <div class="grid sm:grid-cols-3 gap-2">
         <button id="btn-circuito" class="btn bg-blue-600 text-white hover:bg-blue-700">🔔 Circuito (1 por matéria)</button>
@@ -71,6 +72,7 @@
         <button id="btn-revisao" class="btn bg-rose-600 text-white hover:bg-rose-700">🔁 Rever notas baixas (<span id="rev-count">0</span>)</button>
       </div>
       <button id="btn-prova" class="btn w-full mt-2 bg-amber-500 text-white hover:bg-amber-600">⭐ Estações que caíram na prova anterior (25.2) · <span id="prova-count">0</span></button>
+      <details id="srs-box" class="mt-3 p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-sm"><summary id="srs-sum" class="cursor-pointer text-indigo-900"></summary><div id="srs-list" class="mt-2"></div></details>
     </div>
 
     <div class="mt-4 p-5 rounded-2xl bg-white border border-emerald-300 shadow-sm">
@@ -171,8 +173,15 @@
     <p>Para estudar com calma: a estação abre sem cronômetro e sem avisos, e aparece um espaço de <b>anotações</b> que vai junto para o caderno de erros. Escolha o modo em "Montar treino".</p>
     <h3 class="font-semibold mt-3">📓 Caderno de erros</h3>
     <p>No feedback, depois de marcar o barema, aparece a caixa do caderno. Os itens do barema que você não fez, a anamnese que faltou e os erros críticos entram sozinhos; escreva com suas palavras o que errou e o que quer lembrar. A caixa "Guardar no caderno" já vem marcada quando a nota fica abaixo de 7, há erro crítico ou você escreve uma anotação. No caderno, você edita as anotações, refaz a estação, vê o resumo, marca como revisada e copia ou baixa tudo para estudar. O caderno fica guardado neste aparelho e neste navegador.</p>
-    <h3 class="font-semibold mt-3">🔁 Revisão</h3>
-    <p>Estações com nota abaixo de 7 entram na fila de revisão. Nada se repete até você passar por todas as estações das matérias marcadas.</p>
+    <h3 class="font-semibold mt-3">🔁 Revisão espaçada (como no Anki)</h3>
+    <p>Estações com nota abaixo de 7, com erro crítico ou guardadas no caderno de erros entram numa fila. No <b>circuito</b>, cerca de <b>20%</b> das estações vêm dessa fila (1 em cada 5, uma por matéria), no lugar de uma estação nova da mesma matéria, com o selo <b>🔁 revisão</b>. O intervalo é contado em <b>circuitos feitos</b>, não em dias.</p>
+    <table class="w-full mt-2 text-xs">
+      <tr class="border-t border-slate-200"><td class="py-1.5 pr-2 font-medium align-top whitespace-nowrap">❌ Nota abaixo de 7 ou erro crítico</td><td class="py-1.5 align-top">Volta no próximo circuito.</td></tr>
+      <tr class="border-t border-slate-200"><td class="py-1.5 pr-2 font-medium align-top whitespace-nowrap">✅ 7 ou mais na revisão</td><td class="py-1.5 align-top">O intervalo aumenta: volta depois de 2, depois de 4 e depois de 8 circuitos.</td></tr>
+      <tr class="border-t border-slate-200"><td class="py-1.5 pr-2 font-medium align-top whitespace-nowrap">🏁 4 revisões seguidas com 7 ou mais</td><td class="py-1.5 align-top">Sai da fila e fica marcada como revisada no caderno.</td></tr>
+      <tr class="border-t border-slate-200"><td class="py-1.5 pr-2 font-medium align-top whitespace-nowrap">🔄 Abaixo de 7 de novo</td><td class="py-1.5 align-top">Recomeça do início, em qualquer etapa.</td></tr>
+    </table>
+    <p class="mt-2">Só o circuito sozinho avança a agenda. Estação sorteada, catálogo, prova anterior, "Rever notas baixas" e "Refazer" do caderno são treino extra: uma nota abaixo de 7 neles reinicia a estação, mas uma nota boa não avança a etapa. No treino em dupla ou trio não entram revisões, para todos terem as mesmas estações, e só o candidato tem a nota registrada. Marcar uma estação como revisada no caderno a tira da fila; "Voltar para revisar" a coloca de novo. Nada se repete até você passar por todas as estações de cada matéria.</p>
   </div>
 </div>
 
@@ -196,7 +205,7 @@
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
-  const LS = { prefs: 'osce_prefs', hist: 'osce_hist', circ: 'osce_circuito', deck: 'osce_deck', cad: 'osce_caderno' };
+  const LS = { prefs: 'osce_prefs', hist: 'osce_hist', circ: 'osce_circuito', deck: 'osce_deck', cad: 'osce_caderno', srs: 'osce_srs' };
   const T_STATION = 240;
   const BY_ID = {}; ESTACOES.forEach(e => { BY_ID[e.id] = e; });
   const MAT = {}; MATERIAS.forEach(m => { MAT[m.key] = m; });
@@ -213,8 +222,59 @@
   function shuffle(a, rng) { rng = rng || Math.random; a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
   function fmt(s) { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 
-  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false, modo: 'prova' }, load(LS.prefs, {}));
+  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false, modo: 'prova', revisao: true }, load(LS.prefs, {}));
   function cad() { const c = load(LS.cad, {}); Object.keys(c).forEach(id => { if (!BY_ID[id]) delete c[id]; }); return c; }
+  // ---------- revisão espaçada (estilo Anki, contada em circuitos) ----------
+  // Nota < 7 ou erro crítico -> volta no próximo circuito. Cada revisão com 7 ou mais aumenta o
+  // intervalo (1, 2, 4, 8 circuitos); passou na última etapa -> sai da fila. Só o circuito sozinho avança.
+  const SRS_INT = [1, 2, 4, 8], SRS_SHARE = 0.2;
+  function srsLoad() {
+    let s = load(LS.srs, null);
+    if (!s || typeof s !== 'object' || !s.items || typeof s.counter !== 'number') {
+      s = { counter: 0, items: {} };
+      const h = load(LS.hist, {}), c = load(LS.cad, {});
+      Object.keys(h).forEach(id => { const l = h[id][h[id].length - 1]; if (BY_ID[id] && l && (l.nota < 7 || l.crit)) s.items[id] = { box: 0, due: 1 }; });
+      Object.keys(c).forEach(id => { if (BY_ID[id] && !c[id].revisado) s.items[id] = { box: 0, due: 1 }; });
+      save(LS.srs, s);
+    }
+    Object.keys(s.items).forEach(id => { if (!BY_ID[id]) delete s.items[id]; });
+    return s;
+  }
+  function srsAdd(id) { const s = srsLoad(); if (!s.items[id]) { s.items[id] = { box: 0, due: s.counter + 1 }; save(LS.srs, s); } }
+  function srsDel(id) { const s = srsLoad(); if (s.items[id]) { delete s.items[id]; save(LS.srs, s); } }
+  function srsQuando(it, s) { const n = it.due - s.counter; return n <= 1 ? 'volta no próximo circuito' : `volta daqui a ${n} circuitos`; }
+  function srsDue(materias) {
+    const s = srsLoad();
+    return Object.entries(s.items).filter(([id, it]) => it.due <= s.counter && materias.includes(BY_ID[id].materia))
+      .map(([id, it]) => ({ id, it, n: lastNota(id) }))
+      .sort((a, b) => a.it.due - b.it.due || a.it.box - b.it.box || (a.n === null ? 11 : a.n) - (b.n === null ? 11 : b.n));
+  }
+  function srsRegistrar(id, n, critN, regular) {
+    const s = srsLoad(), it = s.items[id], ok = n >= 7 && !critN;
+    let msg = '';
+    if (!ok) { s.items[id] = { box: 0, due: s.counter + 1 }; msg = '🔁 Entrou na revisão: volta no próximo circuito.'; }
+    else if (it && regular && it.due <= s.counter) {
+      const box = it.box + 1;
+      if (box >= SRS_INT.length) {
+        delete s.items[id]; msg = '🏁 Saiu da fila de revisão!';
+        const c = load(LS.cad, {}); if (c[id]) { c[id].revisado = true; save(LS.cad, c); }
+      } else { s.items[id] = { box, due: s.counter + SRS_INT[box] }; msg = `✅ Revisão ${box} de ${SRS_INT.length}: ${srsQuando(s.items[id], s)}.`; }
+    } else if (it) msg = `🔁 Na fila: ${srsQuando(it, s)}.`;
+    save(LS.srs, s);
+    return msg;
+  }
+  function revMotivo(id) {
+    const h = hist()[id] || [], l = h[h.length - 1], c = cad()[id], it = srsLoad().items[id], p = [];
+    if (l) p.push(`você tirou ${l.nota.toFixed(1).replace('.', ',')}${l.crit ? ' com erro crítico' : ''} em ${dataBR(l.t)}`);
+    if (c && !c.revisado) p.push('está no seu caderno de erros');
+    return (p.length ? p.join(' e ') : 'está na sua fila de revisão') + (it ? ` · etapa ${it.box + 1} de ${SRS_INT.length}` : '');
+  }
+  function renderSrs() {
+    const s = srsLoad(), rows = Object.entries(s.items).map(([id, it]) => ({ id, it, e: BY_ID[id] })).sort((a, b) => a.it.due - b.it.due || a.id.localeCompare(b.id, 'pt', { numeric: true }));
+    const prontas = rows.filter(x => x.it.due <= s.counter + 1).length;
+    $('srs-sum').innerHTML = rows.length ? `🔁 <b>Fila de revisão:</b> ${rows.length} ${rows.length === 1 ? 'estação' : 'estações'}, ${prontas} ${prontas === 1 ? 'pronta' : 'prontas'} para o próximo circuito · ver` : '🔁 <b>Revisão espaçada:</b> estações com nota abaixo de 7 ou no caderno voltam sozinhas nos próximos circuitos.';
+    $('srs-list').innerHTML = rows.length ? rows.map(x => `<div class="flex items-start justify-between gap-2 py-1 border-b border-indigo-100"><span class="min-w-0">${MAT[x.e.materia].icon} <span class="font-mono text-xs text-slate-500">${x.id}</span> ${esc(x.e.titulo)}</span><span class="text-xs text-indigo-800 shrink-0 text-right">etapa ${x.it.box + 1}/${SRS_INT.length}<br>${srsQuando(x.it, s)}</span></div>`).join('') : '<p class="text-indigo-900">Fila vazia. Quando você tirar menos de 7 numa estação ou guardar uma no caderno, ela aparece aqui.</p>';
+  }
   function dataBR(t) { const d = new Date(t); return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0'); }
   const PAPEL = { candidato: '🧑‍⚕️ candidato', examinador: '📋 avaliador', ator: '🎭 ator' };
   function papeisDo(formato) { return formato === 'trio' ? ['candidato', 'examinador', 'ator'] : ['candidato', 'examinador']; }
@@ -246,7 +306,8 @@
       if (!n) return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-400"><input type="checkbox" class="w-4 h-4" disabled> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs">aguardando material</span></label>`;
       return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="checkbox" class="w-4 h-4 mat-chk" value="${m.key}" ${prefs.materias.includes(m.key) ? 'checked' : ''}> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs text-slate-400">${n} ${n === 1 ? 'estação' : 'estações'}</span></label>`;
     }).join('');
-    $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som;
+    $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som; $('opt-revisao').checked = prefs.revisao !== false;
+    renderSrs(); const srsIt = srsLoad().items;
     document.querySelectorAll('.modo-radio').forEach(r => { r.checked = r.value === (prefs.modo || 'prova'); });
     const cd = cad(), cdN = Object.keys(cd).length, cdRev = Object.values(cd).filter(x => !x.revisado).length;
     $('cad-count').textContent = cdN ? `${cdN} ${cdN === 1 ? 'estação' : 'estações'} · ${cdRev} para revisar` : 'vazio';
@@ -266,7 +327,7 @@
         const hh = h[e.id] || []; const n = hh.length ? hh[hh.length - 1].nota : null;
         const cor = n === null ? 'bg-slate-100 text-slate-500' : n >= 7 ? 'bg-green-100 text-green-800' : n >= 5 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800';
         return `<div class="flex items-center gap-1"><button class="cat-item flex-1 min-w-0 text-left flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-slate-50" data-id="${e.id}">
-          <span class="font-mono text-xs text-slate-400 w-14 shrink-0">${e.id}</span><span class="flex-1">${esc(e.titulo)}${e.exemplo ? ' <span class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">exemplo</span>' : ''}${e.prova ? ` <span class="text-[10px] px-1 rounded bg-amber-200 text-amber-900">⭐ prova ${esc(e.prova)}</span>` : ''}${cd[e.id] ? ` <span class="text-[10px] px-1 rounded ${cd[e.id].revisado ? 'bg-slate-200 text-slate-600' : 'bg-emerald-200 text-emerald-900'}">📓 caderno</span>` : ''}</span>
+          <span class="font-mono text-xs text-slate-400 w-14 shrink-0">${e.id}</span><span class="flex-1">${esc(e.titulo)}${e.exemplo ? ' <span class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">exemplo</span>' : ''}${e.prova ? ` <span class="text-[10px] px-1 rounded bg-amber-200 text-amber-900">⭐ prova ${esc(e.prova)}</span>` : ''}${cd[e.id] ? ` <span class="text-[10px] px-1 rounded ${cd[e.id].revisado ? 'bg-slate-200 text-slate-600' : 'bg-emerald-200 text-emerald-900'}">📓 caderno</span>` : ''}${srsIt[e.id] ? ' <span class="text-[10px] px-1 rounded bg-indigo-100 text-indigo-800">🔁 fila</span>' : ''}</span>
           <span class="text-xs px-1.5 py-0.5 rounded ${cor}">${n === null ? '—' : n.toFixed(1)}</span></button>${RES[e.id] ? `<button class="res-open shrink-0 px-2 py-1 rounded-lg hover:bg-indigo-50" data-id="${e.id}" title="Resumo do assunto" aria-label="Resumo do assunto">📚</button>` : ''}</div>`;
       }).join('') + `</div>`;
     }).join('');
@@ -282,6 +343,7 @@
     prefs.materias = [...document.querySelectorAll('.mat-chk:checked')].map(x => x.value);
     prefs.ditado = $('opt-ditado').checked; prefs.som = $('opt-som').checked;
     const mr = document.querySelector('.modo-radio:checked'); prefs.modo = mr ? mr.value : 'prova';
+    prefs.revisao = $('opt-revisao').checked;
     prefs.code = $('dupla-code').value.trim(); prefs.papel = $('dupla-papel').value;
     prefs.formato = $('dupla-formato').value; prefs.rodizio = $('dupla-rodizio').checked;
     if (prefs.formato !== 'trio' && prefs.papel === 'ator') prefs.papel = 'candidato';
@@ -304,15 +366,27 @@
   function startCircuit(opts) {
     readPrefs();
     if (!opts.ids && !prefs.materias.length) { toast('Marque pelo menos uma matéria.'); return; }
-    let ids;
+    let ids, regular = false; const rev = {};
     const seed = opts.code ? 'osce|' + opts.code.toLowerCase() + '|' + prefs.materias.slice().sort().join(',') : '';
     const rng = rngFor(seed);
     if (opts.ids) ids = opts.ids;
     else if (opts.tipo === 'avulsa') { const m = shuffle(prefs.materias, rng)[0]; ids = [nextFromDeck(m, rng, !!seed)]; }
-    else ids = shuffle(prefs.materias, rng).map(m => nextFromDeck(m, rng, !!seed)).filter(Boolean);
+    else {
+      const ms = shuffle(prefs.materias, rng);
+      if (!seed) {
+        // circuito sozinho: conta para a agenda e traz ~20% de revisão (uma por matéria, no lugar de uma nova)
+        regular = true; const s = srsLoad(); s.counter++; save(LS.srs, s);
+        if (prefs.revisao !== false) {
+          const k = Math.round(ms.length * SRS_SHARE), usadas = new Set();
+          srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia; if (Object.keys(rev).length < k && !usadas.has(m)) { usadas.add(m); rev[x.id] = revMotivo(x.id); } });
+        }
+      }
+      const porMat = {}; Object.keys(rev).forEach(id => { porMat[BY_ID[id].materia] = id; });
+      ids = ms.map(m => porMat[m] || nextFromDeck(m, rng, !!seed));
+    }
     ids = ids.filter(Boolean);
     if (!ids.length) { toast('Ainda não há estações nas matérias marcadas.'); return; }
-    circ = { ids, pos: 0, res: {}, papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodizio: !!(opts.code && prefs.rodizio), estudo: prefs.modo === 'estudo', ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
+    circ = { ids, pos: 0, res: {}, papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodizio: !!(opts.code && prefs.rodizio), estudo: prefs.modo === 'estudo', regular, rev, ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
     save(LS.circ, circ);
     openStation();
   }
@@ -450,6 +524,7 @@
       <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">⏱ Estação ${esc(e.id)}</div>
       <h2 class="text-xl sm:text-2xl font-extrabold mt-1">${esc(e.titulo)}</h2>
       ${e.prova ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-amber-200 text-amber-900">⭐ Caiu na prova ${esc(e.prova)}</div>` : ''}
+      ${circ.rev && circ.rev[e.id] ? `<div class="mt-2 p-2 rounded-lg bg-indigo-50 border border-indigo-200 text-sm text-indigo-900">🔁 <b>Revisão:</b> ${esc(circ.rev[e.id])}.</div>` : ''}
       <div class="grid sm:grid-cols-3 gap-2 mt-3 text-sm">
         <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Local</div><b>${esc(e.local)}</b></div>
         <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Seu papel</div><b>${esc(e.papel)}</b></div>
@@ -591,7 +666,7 @@
     const c = load(LS.cad, {}), d = cadDados(e), ant = c[e.id] || {};
     c[e.id] = { id: e.id, criado: ant.criado || Date.now(), t: Date.now(), vezes: (ant.vezes || 0) + 1, revisado: false,
       nota: d.nota, faltou: d.faltou, naoPerguntou: d.naoPerguntou, naoPediu: d.naoPediu, criticos: d.criticos, notas: $('cad-notas').value.trim() };
-    save(LS.cad, c); return true;
+    save(LS.cad, c); srsAdd(e.id); return true;
   }
 
   function startFeedback(timeout) {
@@ -629,8 +704,13 @@
     const n = nota(e, marks);
     const faltou = its.filter(x => (marks[x.k] || 0) < 1).map(x => x.item);
     const critN = Object.values(crit).filter(Boolean).length;
-    circ.res[e.id] = { nota: n, marcados, total: its.length, faltou, crit: critN, transcript, papel: circ.code ? papelAtual() : 'candidato' };
-    if (marcados) { const h = hist(); (h[e.id] = h[e.id] || []).push({ t: Date.now(), nota: n, crit: critN }); save(LS.hist, h); }
+    const papel = circ.code ? papelAtual() : 'candidato';
+    circ.res[e.id] = { nota: n, marcados, total: its.length, faltou, crit: critN, transcript, papel };
+    if (marcados && papel === 'candidato') {
+      const h = hist(); (h[e.id] = h[e.id] || []).push({ t: Date.now(), nota: n, crit: critN }); save(LS.hist, h);
+      circ.res[e.id].srs = srsRegistrar(e.id, n, critN, !!circ.regular);
+      if (circ.res[e.id].srs) toast(circ.res[e.id].srs);
+    }
     save(LS.circ, circ);
   }
   function advance() {
@@ -657,7 +737,7 @@
           <button id="btn-r-cad" class="btn bg-emerald-600 text-white">📓 Caderno de erros</button>
           <button id="btn-r-home" class="btn border border-slate-300 bg-white">🏠 Início</button>
         </div></div>
-      <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm"><h3 class="font-bold mb-2">Estações</h3>${rows.map(x => `<div class="flex items-center justify-between py-1.5 border-b border-slate-100 text-sm"><span>${MAT[x.e.materia].icon} <span class="font-mono text-xs text-slate-400">${x.e.id}</span> ${esc(x.e.titulo)}</span><span class="flex items-center gap-2 shrink-0">${RES[x.e.id] ? `<button class="res-open px-1" data-id="${x.e.id}" aria-label="Resumo do assunto">📚</button>` : ''}<span class="font-semibold">${x.r.pulada ? 'pulada' : x.r.papel === 'ator' && !x.r.marcados ? '🎭 ator' : x.r.marcados ? x.r.nota.toFixed(1).replace('.', ',') + (x.r.crit ? ' ⚠️' : '') : 'sem barema'}</span></span></div>`).join('')}</div>
+      <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm"><h3 class="font-bold mb-2">Estações</h3>${rows.map(x => `<div class="flex items-center justify-between py-1.5 border-b border-slate-100 text-sm"><span class="min-w-0">${MAT[x.e.materia].icon} <span class="font-mono text-xs text-slate-400">${x.e.id}</span> ${esc(x.e.titulo)}${c.rev && c.rev[x.e.id] ? ' <span class="text-[10px] px-1 rounded bg-indigo-100 text-indigo-800">🔁 revisão</span>' : ''}${x.r.srs ? `<span class="block text-xs text-indigo-700">${esc(x.r.srs)}</span>` : ''}</span><span class="flex items-center gap-2 shrink-0">${RES[x.e.id] ? `<button class="res-open px-1" data-id="${x.e.id}" aria-label="Resumo do assunto">📚</button>` : ''}<span class="font-semibold">${x.r.pulada ? 'pulada' : x.r.papel === 'ator' && !x.r.marcados ? '🎭 ator' : x.r.marcados ? x.r.nota.toFixed(1).replace('.', ',') + (x.r.crit ? ' ⚠️' : '') : 'sem barema'}</span></span></div>`).join('')}</div>
       ${top.length ? `<div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm"><h3 class="font-bold mb-2">O que mais faltou</h3><ul class="list-disc pl-5 text-sm space-y-1">${top.map(([f]) => `<li>${esc(f)}</li>`).join('')}</ul></div>` : ''}`;
     show('result');
     $('btn-r-new').onclick = () => startCircuit({ tipo: 'circuito', code: c.code, papel: c.papel });
@@ -667,7 +747,7 @@
   }
 
   // ---------- eventos ----------
-  document.addEventListener('change', e => { if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, .modo-radio, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); } });
+  document.addEventListener('change', e => { if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, #opt-revisao, .modo-radio, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); } });
   $('btn-grupo-sair').onclick = () => { $('dupla-code').value = ''; readPrefs(); renderHome(); toast('Modo grupo desligado. Agora você treina sozinho(a).'); };
   $('dupla-code').addEventListener('input', () => { readPrefs(); renderHome(); });
   $('btn-circuito').onclick = () => startCircuit({ tipo: 'circuito' });
@@ -701,6 +781,7 @@
     const nRev = todos.filter(x => !x.revisado).length, nOk = todos.length - nRev;
     const lista = todos.filter(x => cadFiltro === 'todas' || (cadFiltro === 'revisadas' ? x.revisado : !x.revisado)).sort((a, b) => b.t - a.t);
     const fbtn = (k, rot) => `<button class="cad-filtro text-sm px-3 py-1.5 rounded-lg border ${cadFiltro === k ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white border-slate-300'}" data-f="${k}">${rot}</button>`;
+    const srsS = srsLoad();
     let h = `<div class="p-5 rounded-2xl bg-white border border-emerald-300 shadow-sm">
       <div class="flex items-center justify-between gap-2"><h2 class="font-bold text-lg">📓 Caderno de erros</h2><button id="cad-home" class="btn border border-slate-300 bg-white text-sm">🏠 Início</button></div>
       <p class="text-sm text-slate-500 mt-1">${todos.length ? `${todos.length} ${todos.length === 1 ? 'estação' : 'estações'} · ${nRev} para revisar · ${nOk} revisadas. Guardado neste aparelho.` : 'Ainda vazio. No feedback de cada estação, marque "Guardar esta estação no caderno".'}</p>
@@ -715,7 +796,7 @@
     h += lista.map(x => {
       const e = BY_ID[x.id], m = MAT[e.materia], r = RES[x.id];
       return `<div class="mt-3 p-4 rounded-2xl bg-white border ${x.revisado ? 'border-slate-200' : 'border-emerald-300'} shadow-sm" data-id="${x.id}">
-        <div class="flex items-start justify-between gap-2"><div class="min-w-0"><div class="text-xs text-slate-500">${m.icon} ${esc(m.label)} · <span class="font-mono">${x.id}</span> · ${dataBR(x.t)}${x.vezes > 1 ? ` · ${x.vezes}× no caderno` : ''}</div><div class="font-bold leading-snug">${esc(e.titulo)}</div></div>
+        <div class="flex items-start justify-between gap-2"><div class="min-w-0"><div class="text-xs text-slate-500">${m.icon} ${esc(m.label)} · <span class="font-mono">${x.id}</span> · ${dataBR(x.t)}${x.vezes > 1 ? ` · ${x.vezes}× no caderno` : ''}${srsS.items[x.id] ? ` · 🔁 ${srsQuando(srsS.items[x.id], srsS)}` : ''}</div><div class="font-bold leading-snug">${esc(e.titulo)}</div></div>
         <div class="shrink-0 text-right"><div class="text-lg font-extrabold ${x.nota === null ? 'text-slate-400' : x.nota >= 7 ? 'text-green-600' : x.nota >= 5 ? 'text-amber-500' : 'text-rose-600'}">${x.nota === null ? '—' : x.nota.toFixed(1).replace('.', ',')}</div>${x.revisado ? '<div class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">✅ revisada</div>' : ''}</div></div>
         ${cadLista(x.criticos, '⚠️ Erros críticos', 'text-rose-700')}
         ${cadLista(x.faltou, '❌ O que faltou no barema', 'text-rose-700')}
@@ -753,7 +834,7 @@
     else if (t.id === 'cad-copiar') copyText(cadTexto(), 'Caderno copiado! Cole nas suas anotações.');
     else if (t.id === 'cad-baixar') { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([cadTexto()], { type: 'text/plain;charset=utf-8' })); a.download = 'caderno-de-erros-osce.txt'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
     else if (t.classList.contains('cad-refazer-1')) { readPrefs(); startCircuit({ ids: [id], code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); }
-    else if (t.classList.contains('cad-rev') && c[id]) { c[id].revisado = !c[id].revisado; save(LS.cad, c); renderCaderno(); toast(c[id].revisado ? '✅ Marcada como revisada.' : '↩️ Voltou para revisar.'); }
+    else if (t.classList.contains('cad-rev') && c[id]) { c[id].revisado = !c[id].revisado; save(LS.cad, c); if (c[id].revisado) srsDel(id); else srsAdd(id); renderCaderno(); toast(c[id].revisado ? '✅ Marcada como revisada: saiu da fila de revisão.' : '↩️ Voltou para revisar: entra no próximo circuito.'); }
     else if (t.classList.contains('cad-del') && c[id]) { if (confirm('Excluir esta estação do caderno?')) { delete c[id]; save(LS.cad, c); renderCaderno(); } }
   });
   $('caderno-box').addEventListener('input', ev => {
