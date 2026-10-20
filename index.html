@@ -75,6 +75,11 @@
       <details id="srs-box" class="mt-3 p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-sm"><summary id="srs-sum" class="cursor-pointer text-indigo-900"></summary><div id="srs-list" class="mt-2"></div></details>
     </div>
 
+    <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+      <div class="flex items-center justify-between gap-2"><h2 class="font-bold text-lg">📈 Histórico de rodadas</h2><span id="rod-count" class="text-xs text-slate-500"></span></div>
+      <div id="rod-box"></div>
+    </div>
+
     <div class="mt-4 p-5 rounded-2xl bg-white border border-emerald-300 shadow-sm">
       <div class="flex items-center justify-between gap-2"><h2 class="font-bold text-lg">📓 Caderno de erros</h2><span id="cad-count" class="text-xs text-slate-500"></span></div>
       <p class="text-sm text-slate-500 mt-1">No feedback de cada estação, guarde o que faltou no barema e na anamnese e as suas anotações. Depois revise aqui, refaça as estações e marque como revisadas.</p>
@@ -162,6 +167,8 @@
     <h3 class="font-semibold mt-3">🔔 Circuito</h3>
     <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
     <p class="mt-1">Na porta da estação, <b>⤵️ Deixar para o final</b> manda a estação para o fim da mesma rodada, e você segue para a próxima. <b>Pular de vez</b> tira a estação da rodada sem nota. Na dupla ou no trio, todos tocam no mesmo botão para continuar na mesma estação.</p>
+    <h3 class="font-semibold mt-3">📈 Histórico de rodadas</h3>
+    <p>Cada rodada que você termina (circuito, estação sorteada, prova anterior, catálogo ou caderno) guarda a sua média. Na página inicial aparecem a última rodada, a melhor média e a média geral, um gráfico com as últimas 15 rodadas (linha tracejada no 7,0) e a lista de rodadas com a nota de cada estação e a diferença para a rodada anterior. Na dupla e no trio, entra só a nota de quando você foi o candidato. Estações puladas e rodadas interrompidas não entram.</p>
     <h3 class="font-semibold mt-3">👥 Dupla ou trio</h3>
     <p>Todos colocam o mesmo código, o mesmo formato e as mesmas matérias, e cada um escolhe o seu papel. Na <b>dupla</b>, o <b>avaliador</b> vê o caso, o roteiro do paciente (o que responder se o candidato perguntar), as placas e o barema. No <b>trio</b>, o <b>ator</b> recebe uma tela própria, com quem ele é, o cenário, as falas e o que contar só se perguntarem, sem barema; o <b>avaliador</b> mostra as placas, marca o que o candidato perguntou e preenche o barema. Com <b>🔄 Revezar os papéis</b>, os papéis giram a cada estação (candidato → avaliador → ator), para todos treinarem como candidato. Toquem em "Entrar na estação" juntos. Enquanto o código estiver preenchido, as estações abertas pelo catálogo e pela prova anterior também entram no modo grupo.</p>
     <h3 class="font-semibold mt-3">🗣️ Anamnese e placas (como na prova)</h3>
@@ -206,7 +213,7 @@
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
-  const LS = { prefs: 'osce_prefs', hist: 'osce_hist', circ: 'osce_circuito', deck: 'osce_deck', cad: 'osce_caderno', srs: 'osce_srs' };
+  const LS = { prefs: 'osce_prefs', hist: 'osce_hist', circ: 'osce_circuito', deck: 'osce_deck', cad: 'osce_caderno', srs: 'osce_srs', rod: 'osce_rodadas' };
   const T_STATION = 240;
   const BY_ID = {}; ESTACOES.forEach(e => { BY_ID[e.id] = e; });
   const MAT = {}; MATERIAS.forEach(m => { MAT[m.key] = m; });
@@ -301,6 +308,35 @@
   function lastNota(id) { const h = hist()[id]; return h && h.length ? h[h.length - 1].nota : null; }
   function revList() { return ESTACOES.filter(e => prefs.materias.includes(e.materia)).filter(e => { const n = lastNota(e.id); return n !== null && n < 7; }); }
 
+  // ---------- histórico de rodadas ----------
+  const ORIGEM = { circuito: 'Circuito', avulsa: 'Estação sorteada', prova: '⭐ Prova anterior', revisao: 'Notas baixas', catalogo: 'Catálogo', caderno: 'Caderno de erros', resumo: 'Resumo' };
+  function f1(n) { return n.toFixed(1).replace('.', ','); }
+  function corNota(n, tipo) { return n >= 7 ? { bg: 'bg-green-500', txt: 'text-green-700', chip: 'bg-green-100 text-green-800' }[tipo] : n >= 5 ? { bg: 'bg-amber-400', txt: 'text-amber-600', chip: 'bg-amber-100 text-amber-800' }[tipo] : { bg: 'bg-rose-500', txt: 'text-rose-600', chip: 'bg-rose-100 text-rose-800' }[tipo]; }
+  function fmtData(t) { const d = new Date(t); return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); }
+  function rodadas() { return load(LS.rod, []).filter(r => r && typeof r.media === 'number'); }
+  function renderRodadas() {
+    const l = rodadas();
+    $('rod-count').textContent = l.length ? `${l.length} ${l.length === 1 ? 'rodada' : 'rodadas'}` : '';
+    if (!l.length) { $('rod-box').innerHTML = '<p class="text-sm text-slate-500 mt-1">Termine um circuito (ou uma estação) e a sua média na rodada aparece aqui, para comparar com as próximas.</p>'; return; }
+    const ms = l.map(r => r.media), best = Math.max(...ms), avg = ms.reduce((a, b) => a + b, 0) / ms.length;
+    const ult = l.slice(0, 15).reverse();
+    const barras = ult.map(r => { const h = Math.max(r.media * 10, 3); return `<div class="relative flex-1 h-full flex items-end min-w-0" title="${f1(r.media)} em ${fmtData(r.t)}"><span class="absolute left-0 right-0 text-center text-[9px] text-slate-600 leading-none" style="bottom:calc(${h}% + 2px)">${f1(r.media)}</span><div class="w-full rounded-t ${corNota(r.media, 'bg')}" style="height:${h}%"></div></div>`; }).join('');
+    const linhas = l.map((r, i) => {
+      const ant = l[i + 1], d = ant ? Math.round(10 * (r.media - ant.media)) / 10 : null;
+      const delta = d === null ? '' : d > 0 ? `<span class="text-[10px] text-green-700">▲ ${f1(d)}</span>` : d < 0 ? `<span class="text-[10px] text-rose-600">▼ ${f1(-d)}</span>` : '<span class="text-[10px] text-slate-400">=</span>';
+      const chips = (r.est || []).filter(x => BY_ID[x.id]).map(x => `<span class="text-[10px] px-1 rounded ${corNota(x.nota, 'chip')}" title="${esc(x.id)} · ${esc(BY_ID[x.id].titulo)}">${MAT[BY_ID[x.id].materia].icon} ${f1(x.nota)}</span>`).join(' ');
+      return `<div class="flex items-start justify-between gap-2 py-1.5 border-b border-slate-100"><div class="min-w-0"><div class="text-xs text-slate-600">${fmtData(r.t)} · ${esc(ORIGEM[r.origem] || 'Rodada')}${r.estudo ? ' · sem tempo' : ''}${r.code ? ' · 👥' : ''}</div><div class="flex flex-wrap gap-1 mt-0.5">${chips}</div></div><div class="text-right shrink-0"><div class="font-bold ${corNota(r.media, 'txt')}">${f1(r.media)}</div>${delta}</div></div>`;
+    }).join('');
+    $('rod-box').innerHTML = `<div class="grid grid-cols-3 gap-2 mt-3 text-center">
+        <div class="rounded-lg bg-slate-50 p-2"><div class="text-lg font-bold ${corNota(l[0].media, 'txt')}">${f1(l[0].media)}</div><div class="text-xs text-slate-500">Última rodada</div></div>
+        <div class="rounded-lg bg-slate-50 p-2"><div class="text-lg font-bold text-green-700">${f1(best)}</div><div class="text-xs text-slate-500">Melhor média</div></div>
+        <div class="rounded-lg bg-slate-50 p-2"><div class="text-lg font-bold text-blue-700">${f1(avg)}</div><div class="text-xs text-slate-500">Média geral</div></div>
+      </div>
+      <div class="relative h-28 mt-6 pl-6"><div class="flex items-end gap-1 h-full border-b border-slate-200">${barras}</div><div class="absolute left-6 right-0 border-t border-dashed border-slate-400 pointer-events-none" style="bottom:70%"></div><span class="absolute left-0 text-[9px] text-slate-500 leading-none" style="bottom:calc(70% - 4px)">7,0</span></div>
+      <p class="text-[11px] text-slate-500 mt-1">${ult.length > 1 ? `Últimas ${ult.length} rodadas, da mais antiga à mais recente.` : 'Primeira rodada.'} Linha tracejada: 7,0.</p>
+      <div class="mt-3 max-h-64 overflow-y-auto">${linhas}</div>`;
+  }
+
   function renderHome() {
     $('materias-list').innerHTML = MATERIAS.map(m => {
       const n = ESTACOES.filter(e => e.materia === m.key).length;
@@ -308,7 +344,7 @@
       return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="checkbox" class="w-4 h-4 mat-chk" value="${m.key}" ${prefs.materias.includes(m.key) ? 'checked' : ''}> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs text-slate-400">${n} ${n === 1 ? 'estação' : 'estações'}</span></label>`;
     }).join('');
     $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som; $('opt-revisao').checked = prefs.revisao !== false;
-    renderSrs(); const srsIt = srsLoad().items;
+    renderSrs(); renderRodadas(); const srsIt = srsLoad().items;
     document.querySelectorAll('.modo-radio').forEach(r => { r.checked = r.value === (prefs.modo || 'prova'); });
     const cd = cad(), cdN = Object.keys(cd).length, cdRev = Object.values(cd).filter(x => !x.revisado).length;
     $('cad-count').textContent = cdN ? `${cdN} ${cdN === 1 ? 'estação' : 'estações'} · ${cdRev} para revisar` : 'vazio';
@@ -387,7 +423,7 @@
     }
     ids = ids.filter(Boolean);
     if (!ids.length) { toast('Ainda não há estações nas matérias marcadas.'); return; }
-    circ = { ids, pos: 0, res: {}, papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodizio: !!(opts.code && prefs.rodizio), estudo: prefs.modo === 'estudo', regular, rev, ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
+    circ = { ids, pos: 0, res: {}, origem: opts.origem || opts.tipo || 'catalogo', papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodizio: !!(opts.code && prefs.rodizio), estudo: prefs.modo === 'estudo', regular, rev, ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
     save(LS.circ, circ);
     openStation();
   }
@@ -738,9 +774,19 @@
     const media = ok.length ? ok.reduce((a, x) => a + x.r.nota, 0) / ok.length : null;
     const faltas = {}; ok.forEach(x => x.r.faltou.forEach(f => { faltas[f] = (faltas[f] || 0) + 1; }));
     const top = Object.entries(faltas).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    // histórico de rodadas: só as notas que você tirou como candidato(a)
+    const minhas = ok.filter(x => (x.r.papel || 'candidato') === 'candidato');
+    const ant = rodadas()[0] || null; let rod = null;
+    if (minhas.length) {
+      rod = { t: Date.now(), media: Math.round(10 * minhas.reduce((a, x) => a + x.r.nota, 0) / minhas.length) / 10, est: minhas.map(x => ({ id: x.e.id, nota: x.r.nota })), total: c.ids.length, origem: c.origem || 'circuito', estudo: !!c.estudo, code: c.code || '' };
+      save(LS.rod, [rod].concat(rodadas()).slice(0, 60));
+    }
+    const dAnt = rod && ant ? Math.round(10 * (rod.media - ant.media)) / 10 : null;
     $('result-box').innerHTML = `<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm text-center">
         <div class="text-sm text-slate-500">${c.code ? `👥 ${esc(c.code)} · ` : ''}Média do circuito</div>
         <div class="text-5xl font-extrabold ${media === null ? 'text-slate-400' : media >= 7 ? 'text-green-600' : media >= 5 ? 'text-amber-500' : 'text-rose-600'}">${media === null ? '—' : media.toFixed(1).replace('.', ',')}</div>
+        ${rod && c.code ? `<div class="text-sm text-slate-600 mt-1">Sua média como candidato(a): <b>${f1(rod.media)}</b></div>` : ''}
+        ${dAnt !== null ? `<div class="text-sm mt-1 ${dAnt > 0 ? 'text-green-700' : dAnt < 0 ? 'text-rose-600' : 'text-slate-500'}">${dAnt > 0 ? '▲' : dAnt < 0 ? '▼' : '='} ${dAnt ? f1(Math.abs(dAnt)) + ' em relação à rodada anterior' : 'igual à rodada anterior'} (${f1(ant.media)})</div>` : ''}
         <div class="flex flex-wrap justify-center gap-2 mt-4">
           <button id="btn-r-new" class="btn bg-blue-600 text-white">🔔 Novo circuito</button>
           <button id="btn-r-cad" class="btn bg-emerald-600 text-white">📓 Caderno de erros</button>
@@ -761,8 +807,8 @@
   $('dupla-code').addEventListener('input', () => { readPrefs(); renderHome(); });
   $('btn-circuito').onclick = () => startCircuit({ tipo: 'circuito' });
   $('btn-avulsa').onclick = () => startCircuit({ tipo: 'avulsa' });
-  $('btn-prova').onclick = () => { readPrefs(); const ids = provaIds(); if (!ids.length) { toast('Ainda não há estações da prova anterior.'); return; } startCircuit({ ids, code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); };
-  $('btn-revisao').onclick = () => { readPrefs(); const l = revList(); if (!l.length) { toast('Nenhuma estação com nota abaixo de 7. 🎉'); return; } startCircuit({ ids: shuffle(l.map(e => e.id)) }); };
+  $('btn-prova').onclick = () => { readPrefs(); const ids = provaIds(); if (!ids.length) { toast('Ainda não há estações da prova anterior.'); return; } startCircuit({ ids, origem: 'prova', code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); };
+  $('btn-revisao').onclick = () => { readPrefs(); const l = revList(); if (!l.length) { toast('Nenhuma estação com nota abaixo de 7. 🎉'); return; } startCircuit({ ids: shuffle(l.map(e => e.id)), origem: 'revisao' }); };
   $('btn-dupla').onclick = () => { readPrefs(); if (!prefs.code) { toast('Digite um código combinado com o colega.'); return; } startCircuit({ tipo: 'circuito', code: prefs.code, papel: prefs.papel }); };
   $('btn-dupla-link').onclick = () => {
     readPrefs(); if (!prefs.code) { toast('Digite um código primeiro.'); return; }
@@ -776,7 +822,7 @@
     const msg = prefs.formato === 'trio' ? `Link copiado! Ele abre como ${PAPEL[outro]}; o terceiro escolhe o papel que falta.` : 'Link copiado! O colega entra no outro papel.';
     if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast(msg), fb); else fb();
   };
-  $('catalogo').addEventListener('click', ev => { const b = ev.target.closest('.cat-item'); if (b) { readPrefs(); startCircuit({ ids: [b.dataset.id], code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); } });
+  $('catalogo').addEventListener('click', ev => { const b = ev.target.closest('.cat-item'); if (b) { readPrefs(); startCircuit({ ids: [b.dataset.id], origem: 'catalogo', code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); } });
   $('btn-resume').onclick = () => { circ = load(LS.circ, null); if (circ) openStation(); };
   $('btn-discard').onclick = () => { save(LS.circ, null); renderHome(); };
   $('btn-logo').onclick = () => { if (circ) quit(); else { renderHome(); show('home'); } };
@@ -839,10 +885,10 @@
     const c = load(LS.cad, {}), id = t.dataset.id;
     if (t.id === 'cad-home') { renderHome(); show('home'); }
     else if (t.classList.contains('cad-filtro')) { cadFiltro = t.dataset.f; renderCaderno(); }
-    else if (t.id === 'cad-refazer') { const ids = Object.values(cad()).filter(x => !x.revisado).map(x => x.id); if (ids.length) { readPrefs(); startCircuit({ ids: shuffle(ids), code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); } }
+    else if (t.id === 'cad-refazer') { const ids = Object.values(cad()).filter(x => !x.revisado).map(x => x.id); if (ids.length) { readPrefs(); startCircuit({ ids: shuffle(ids), origem: 'caderno', code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); } }
     else if (t.id === 'cad-copiar') copyText(cadTexto(), 'Caderno copiado! Cole nas suas anotações.');
     else if (t.id === 'cad-baixar') { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([cadTexto()], { type: 'text/plain;charset=utf-8' })); a.download = 'caderno-de-erros-osce.txt'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
-    else if (t.classList.contains('cad-refazer-1')) { readPrefs(); startCircuit({ ids: [id], code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); }
+    else if (t.classList.contains('cad-refazer-1')) { readPrefs(); startCircuit({ ids: [id], origem: 'caderno', code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); }
     else if (t.classList.contains('cad-rev') && c[id]) { c[id].revisado = !c[id].revisado; save(LS.cad, c); if (c[id].revisado) srsDel(id); else srsAdd(id); renderCaderno(); toast(c[id].revisado ? '✅ Marcada como revisada: saiu da fila de revisão.' : '↩️ Voltou para revisar: entra no próximo circuito.'); }
     else if (t.classList.contains('cad-del') && c[id]) { if (confirm('Excluir esta estação do caderno?')) { delete c[id]; save(LS.cad, c); renderCaderno(); } }
   });
@@ -887,7 +933,7 @@
   });
   $('btn-res-close').onclick = closeResumo;
   $('modal-res').onclick = ev => { if (ev.target === $('modal-res')) closeResumo(); };
-  $('res-start').onclick = () => { const id = $('res-start').dataset.id; closeResumo(); readPrefs(); startCircuit({ ids: [id], code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); };
+  $('res-start').onclick = () => { const id = $('res-start').dataset.id; closeResumo(); readPrefs(); startCircuit({ ids: [id], origem: 'resumo', code: prefs.code, papel: prefs.code ? prefs.papel : 'candidato' }); };
 
   $('btn-how').onclick = () => { $('modal-how').classList.remove('hidden'); $('modal-how').style.display = 'flex'; };
   $('btn-how-close').onclick = () => { $('modal-how').classList.add('hidden'); $('modal-how').style.display = ''; };
