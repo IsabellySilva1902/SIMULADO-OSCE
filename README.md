@@ -18,13 +18,13 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 
 ## Estações
 
-94 estações, escritas só com o conteúdo dos slides, do banco de questões das disciplinas e dos relatos da prova anterior:
+104 estações, escritas só com o conteúdo dos slides, do banco de questões das disciplinas e dos relatos da prova anterior:
 
 | Matéria | Estações | Arquivo |
 |---|---|---|
 | Clínica Cirúrgica | 25 | `estacoes-cir.js` (CIR-01 a CIR-25, no formato da prova) e `estacoes-prova.js` (CIR-23) |
 | Saúde Mental | 21 | `estacoes.js` (MEN-01), `estacoes-mental.js` e `estacoes-prova.js` (MEN-21) |
-| Farmacologia | 8 (mecanismo de ação e reações adversas dos anti-histamínicos; reações adversas dos antiasmáticos), mais a FAR-19 da prova anterior (AINEs), que fica só no botão ⭐ | `estacoes-farmaco.js` e `estacoes-prova.js` (FAR-19) |
+| Farmacologia | 18 (mecanismo de ação e reações adversas dos anti-histamínicos e descongestionantes; reações adversas dos antiasmáticos), mais a FAR-19 da prova anterior (AINEs), que fica só no botão ⭐ | `estacoes-farmaco.js` e `estacoes-prova.js` (FAR-19) |
 | Epidemiologia | 24 | `estacoes.js` (EPI-01), `estacoes-epi.js` e `estacoes-prova.js` (EPI-21) |
 | Saúde da Mulher | 15 (infecções genitais) | `estacoes-mulher.js` e `estacoes-prova.js` (MUL-15) |
 

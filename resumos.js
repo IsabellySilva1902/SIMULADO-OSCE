@@ -405,7 +405,7 @@ const RESUMOS = {
     'Psicoterapia é o eixo; remédio só para sintomas-alvo, nunca para o núcleo do transtorno.',
   ], pegadinha: 'Personalidade antissocial não se diagnostica antes dos 18 anos.' },
 
-  // ===================================================== FARMACOLOGIA (anti-histamínicos e antiasmáticos)
+  // ===================================================== FARMACOLOGIA (anti-histamínicos, descongestionantes e antiasmáticos)
   'FAR-01': { tema: 'Anti-histamínico de 1ª geração: sedação', pontos: [
     'Anti-H1 de 1ª geração: maior penetração no SNC (atravessa a barreira hematoencefálica) → sedação; mais efeitos anticolinérgicos.',
     'Sedação na 1ª geração: difenidramina e prometazina +++; clemastina e dimenidrato ++; dexclorfeniramina e ciproeptadina +. Prometazina também é a mais antiemética (++++).',
@@ -423,6 +423,24 @@ const RESUMOS = {
     'A sonolência associada vem da penetração no SNC.',
     'Usar o anti-H1 de forma preventiva e reduzir a exposição ao alérgeno.',
   ], pegadinha: 'O mesmo remédio que não faz nada no vizinho trava a bexiga de quem tem próstata aumentada.' },
+
+  'FAR-03': { tema: 'Descongestionante tópico: rinite medicamentosa', pontos: [
+    'Descongestionantes tópicos (fenilefrina, nafazolina, oximetazolina) são simpaticomiméticos: vasoconstrição e abertura das vias nasais.',
+    'Uso contínuo por mais de 3 a 5 dias → rinite medicamentosa, com congestão rebote.',
+    'Medida: suspender o descongestionante tópico.',
+    'Corticosteroide nasal (beclometasona, budesonida, fluticasona): ação anti-inflamatória ampla, eficaz também na congestão.',
+    'Anti-H1 pode ser mantido para espirros, coceira e coriza, mas controla mal a congestão.',
+    'Controle ambiental: umidade, mofo, poeira.',
+  ], pegadinha: 'Usar o spray mais vezes piora o problema: o rebote só para quando o spray para.' },
+
+  'FAR-04': { tema: 'Descongestionante sistêmico: pressão arterial', pontos: [
+    'Pseudoefedrina (descongestionante sistêmico, oral) é simpaticomimética: até 180 mg não muda de forma mensurável a pressão; doses maiores aumentam a frequência cardíaca e causam hipertensão.',
+    'Não deve ser usada em hipertensos; medida: suspender.',
+    'Diferente do tópico, é mais lenta, dura mais e não causa rinite medicamentosa nem ressecamento.',
+    'Não aumentar o anti-hipertensivo antes de retirar a causa.',
+    'Congestão com segurança: corticosteroide nasal.',
+    'Descongestionante tópico, se usado, por no máximo 3 a 5 dias.',
+  ], pegadinha: 'A pressão que "não responde" pode ser o antigripal, e não o anti-hipertensivo.' },
 
   'FAR-05': { tema: 'Antileucotrienos: efeitos adversos', pontos: [
     'Antileucotrienos (montelucaste, zafirlucaste): antagonistas dos receptores de leucotrienos, para terapia crônica.',
@@ -459,6 +477,15 @@ const RESUMOS = {
     'Base do tratamento: corticoide inalatório, com beta-2 de curta ação para alívio.',
   ], pegadinha: 'Dobrar a teofilina por conta própria pode levar a convulsão: a margem de segurança é estreita.' },
 
+  'FAR-09': { tema: 'Asma desencadeada por AINE', pontos: [
+    'AINEs (inclusive AAS) podem desencadear crise de asma em pacientes sensíveis, sobretudo com rinite e asma.',
+    'Broncoespasmo grave sem resposta a várias inalações de beta-2: associar brometo de ipratrópio (anticolinérgico).',
+    'Não aumentar a dose do beta-2 para compensar.',
+    'Prevenção: evitar AINEs e informar a sensibilidade em todo atendimento.',
+    'Antileucotrienos são ativos na asma desencadeada por AINEs.',
+    'Associações com ipratrópio: com fenoterol e com salbutamol.',
+  ], pegadinha: 'Na crise que não cede, a saída é somar outro mecanismo (ipratrópio), e não dobrar o salbutamol.' },
+
   'FAR-10': { tema: 'Corticoide oral crônico: osteoporose secundária', pontos: [
     'Corticosteroides inibem a ação osteoblástica e aumentam a osteoclástica.',
     'Medidas: reduzir a prednisona quando possível e associar bisfosfonato (alendronato, risedronato).',
@@ -475,6 +502,67 @@ const RESUMOS = {
     'Prednisona oral crônica: osteoporose secundária.',
     'Via inalatória: broncosseletividade e menos efeitos sistêmicos.',
   ], pegadinha: 'Reação local do omalizumabe é comum, mas a anafilaxia está entre as reações sérias: a vigilância continua.' },
+
+  'FAR-20': { tema: 'Reações adversas no tratamento da rinite', pontos: [
+    'Anti-H1 de 1ª geração: sedação (SNC) e efeitos anticolinérgicos (retenção urinária).',
+    'Anti-H1 de 2ª geração: menos sedação e sem efeitos anticolinérgicos relevantes.',
+    'Descongestionante tópico: rinite medicamentosa após 3 a 5 dias.',
+    'Descongestionante sistêmico: aumento da FC e da pressão acima de 180 mg; não usar em hipertensos.',
+    'Corticosteroide nasal: controla a congestão sem esses riscos.',
+    'Anti-H1: melhor preventivo; bloqueio competitivo e reversível.',
+  ], pegadinha: 'Anti-H1 não desentope bem o nariz: congestão pede corticosteroide nasal.' },
+
+  'FAR-21': { tema: 'Anti-H1 de 1ª geração: mecanismo, efeitos, riscos e uso racional', pontos: [
+    'Antagonista H1 competitivo e reversível: alivia espirros, coceira e coriza; efeito limitado na congestão.',
+    'Sem ação imediata: usar de forma preventiva e regular, não só na crise.',
+    '1ª geração: sedação e redução da atenção (atravessa a barreira hematoencefálica) e efeitos anticolinérgicos; dexclorfeniramina e ciproeptadina são as menos sedativas (+), mas ainda sedam.',
+    'Medida: trocar por 2ª geração (cetirizina, loratadina, fexofenadina).',
+    'Congestão predominante: associar corticosteroide nasal.',
+    'Controle ambiental: poeira, tapetes, umidade abaixo de 50%.',
+  ], pegadinha: '"Só renovar a receita" é a hora de rever o remédio: o antialérgico antigo seda até entre os menos sedativos da tabela.' },
+
+  'FAR-22': { tema: 'Anti-H1 de 1ª geração: insônia paradoxal', pontos: [
+    'Insônia paradoxal: agitação e insônia em vez de sono, efeito central da 1ª geração.',
+    '1ª geração atravessa a barreira hematoencefálica; também causa sedação, redução da atenção e efeitos anticolinérgicos.',
+    '2ª geração: sem ação relevante no SNC, com eficácia antialérgica semelhante.',
+    'Não reintroduzir a classe que já causou a reação.',
+    'Uso preventivo e controle ambiental (poeira, umidade abaixo de 50%).',
+  ], pegadinha: 'O antialérgico "que dá sono" pode fazer o contrário: o efeito central da 1ª geração também aparece como insônia.' },
+
+  'FAR-23': { tema: 'Congestão: anti-H1, corticoide nasal e descongestionante', pontos: [
+    'Anti-H1 bloqueia a histamina (espirros, coceira, coriza), com eficácia limitada na congestão; dobrar a dose não resolve.',
+    'Corticoide nasal: inibe a liberação de mediadores, a quimiotaxia de neutrófilos e a permeabilidade vascular, com vasoconstrição; alivia também a congestão, com efeitos colaterais mínimos; pode ser associado ao anti-H1.',
+    'Descongestionante tópico (simpaticomimético): no máximo 3 a 5 dias, pelo risco de rinite medicamentosa com congestão rebote.',
+    'Descongestionante sistêmico + anti-H1: associação racional (mecanismos diferentes), mas não em hipertensos.',
+    'Controle ambiental: animais fora do quarto, poeira, umidade abaixo de 50%.',
+  ], pegadinha: 'Nariz entupido apesar do anti-H1 pede corticoide nasal, e não dose dobrada nem spray todo dia.' },
+
+  'FAR-24': { tema: 'Omalizumabe: reações adversas e farmacocinética', pontos: [
+    'Anticorpo monoclonal anti-IgE; indicado com IgE sérica elevada e alergia grave sem controle com corticoide, de 11 a 50 anos.',
+    'Reações comuns: no local da aplicação, cefaleia, faringite, sinusite, infecção respiratória, doença viral.',
+    'Reações sérias: trombocitopenia, anafilaxia e câncer.',
+    'Trombocitopenia: suspender e acompanhar as plaquetas, mantendo o corticoide inalatório.',
+    'Absorção lenta, biodisponibilidade de 62%, excreção biliar/hepática e meia-vida de cerca de 26 dias: o efeito persiste semanas.',
+  ], pegadinha: 'Petéquia não é "a reação local de sempre": plaqueta baixa é reação séria do omalizumabe.' },
+
+  'FAR-25': { tema: 'Antileucotrienos: mecanismo, efeitos, riscos e uso racional', pontos: [
+    'Antagonistas dos receptores de leucotrienos (montelucaste, zafirlucaste); os cisteinil-leucotrienos aumentam muco, edema, recrutamento de eosinófilos e contração do músculo liso.',
+    'Terapia crônica; opção na asma leve sem glicocorticoide; sem ação imediata.',
+    'Reações: na asma, poucas (dor abdominal); na classe, cefaleia, tontura, depressão e insônia, a monitorar.',
+    'Na crise: beta-2 de curta ação inalatório; comprimido a mais não ajuda.',
+    'Alívio 4 ou mais vezes por semana: indicar corticoide inalatório.',
+    'Ativos na asma relacionada ao uso de AINEs.',
+  ], pegadinha: 'Antileucotrieno é muro, não bombeiro: não apaga crise.' },
+
+  'FAR-26': { tema: 'Antiasmáticos: mecanismo e reação adversa de cada um', pontos: [
+    'Beta-2 agonista: relaxa o músculo liso e estabiliza mastócitos; via oral → taquicardia, tremores e cãibras.',
+    'Corticoide inalatório: reverte a inflamação crônica com broncosseletividade; a osteoporose secundária é do oral prolongado.',
+    'Teofilina: relaxa o músculo liso; baixo índice terapêutico (cefaleia, tontura, hipotensão, palpitações, náuseas, convulsões, morte súbita).',
+    'Ipratrópio: anticolinérgico; associar no broncoespasmo grave em vez de aumentar o beta-2.',
+    'Antileucotrieno: cefaleia, tontura, depressão, insônia; na asma, dor abdominal.',
+    'Omalizumabe (anti-IgE): reação local, cefaleia, faringite; sérias: trombocitopenia, anafilaxia, câncer.',
+    'Salmeterol (longa ação, mais de 12 h): não serve para alívio; entra associado ao corticoide.',
+  ], pegadinha: 'Broncoespasmo que não cede: somar o ipratrópio, e não dobrar o salbutamol.' },
 
   // ===================================================== EPIDEMIOLOGIA
   'EPI-01': { tema: 'Surto, taxa de ataque e risco relativo', pontos: [
