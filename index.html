@@ -61,10 +61,14 @@
       </div>
       <div class="text-sm font-semibold mb-2">Matérias</div>
       <div id="materias-list" class="grid sm:grid-cols-2 gap-2 mb-4"></div>
+      <div class="text-sm font-semibold mb-2">Revisão nesta rodada <span class="font-normal text-slate-500">(circuito sozinho)</span></div>
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <label class="flex items-start gap-2 p-2.5 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="radio" name="revisao" value="sim" class="rev-radio mt-1 w-4 h-4"> <span><b>🔁 Com revisão</b><span id="rev-sim-info" class="block text-xs text-slate-500"></span></span></label>
+        <label class="flex items-start gap-2 p-2.5 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="radio" name="revisao" value="nao" class="rev-radio mt-1 w-4 h-4"> <span><b>🆕 Só novas</b><span id="rev-nao-info" class="block text-xs text-slate-500"></span></span></label>
+      </div>
       <div class="flex flex-wrap gap-4 text-sm mb-4">
         <label class="flex items-center gap-1.5"><input id="opt-ditado" type="checkbox" class="w-4 h-4"> 🎙️ Ditado por voz (transcreve o que eu falo)</label>
         <label class="flex items-center gap-1.5"><input id="opt-som" type="checkbox" class="w-4 h-4" checked> 🔔 Avisos sonoros</label>
-        <label class="flex items-center gap-1.5"><input id="opt-revisao" type="checkbox" class="w-4 h-4" checked> 🔁 Revisão espaçada no circuito (20%)</label>
       </div>
       <div class="grid sm:grid-cols-3 gap-2">
         <button id="btn-circuito" class="btn bg-blue-600 text-white hover:bg-blue-700">🔔 Circuito (1 por matéria)</button>
@@ -182,7 +186,7 @@
     <h3 class="font-semibold mt-3">📓 Caderno de erros</h3>
     <p>No feedback, depois de marcar o barema, aparece a caixa do caderno. Os itens do barema que você não fez, a anamnese que faltou e os erros críticos entram sozinhos; escreva com suas palavras o que errou e o que quer lembrar. A caixa "Guardar no caderno" já vem marcada quando a nota fica abaixo de 7, há erro crítico ou você escreve uma anotação. No caderno, você edita as anotações, refaz a estação, vê o resumo, marca como revisada e copia ou baixa tudo para estudar. O caderno fica guardado neste aparelho e neste navegador.</p>
     <h3 class="font-semibold mt-3">🔁 Revisão espaçada (como no Anki)</h3>
-    <p>Estações com nota abaixo de 7, com erro crítico ou guardadas no caderno de erros entram numa fila. No <b>circuito</b>, cerca de <b>20%</b> das estações vêm dessa fila (1 em cada 5, uma por matéria), no lugar de uma estação nova da mesma matéria, com o selo <b>🔁 revisão</b>. O intervalo é contado em <b>circuitos feitos</b>, não em dias.</p>
+    <p>Estações com nota abaixo de 7, com erro crítico ou guardadas no caderno de erros entram numa fila. Em "Montar treino", escolha a cada rodada: <b>🔁 Com revisão</b>, em que cerca de <b>20%</b> das estações do circuito vêm dessa fila (1 em cada 5, uma por matéria, pelo menos 1), no lugar de uma estação nova da mesma matéria, com o selo <b>🔁 revisão</b>; ou <b>🆕 Só novas</b>, sem revisão. Nos dois casos, as estações novas saem primeiro entre as que você ainda não fez. O intervalo é contado em <b>circuitos feitos</b>, não em dias, e a rodada só com novas também conta: as revisões que ficaram prontas esperam a próxima rodada com revisão.</p>
     <table class="w-full mt-2 text-xs">
       <tr class="border-t border-slate-200"><td class="py-1.5 pr-2 font-medium align-top whitespace-nowrap">❌ Nota abaixo de 7 ou erro crítico</td><td class="py-1.5 align-top">Volta no próximo circuito.</td></tr>
       <tr class="border-t border-slate-200"><td class="py-1.5 pr-2 font-medium align-top whitespace-nowrap">✅ 7 ou mais na revisão</td><td class="py-1.5 align-top">O intervalo aumenta: volta depois de 2, depois de 4 e depois de 8 circuitos.</td></tr>
@@ -284,6 +288,14 @@
     $('srs-sum').innerHTML = rows.length ? `🔁 <b>Fila de revisão:</b> ${rows.length} ${rows.length === 1 ? 'estação' : 'estações'}, ${prontas} ${prontas === 1 ? 'pronta' : 'prontas'} para o próximo circuito · ver` : '🔁 <b>Revisão espaçada:</b> estações com nota abaixo de 7 ou no caderno voltam sozinhas nos próximos circuitos.';
     $('srs-list').innerHTML = rows.length ? rows.map(x => `<div class="flex items-start justify-between gap-2 py-1 border-b border-indigo-100"><span class="min-w-0">${MAT[x.e.materia].icon} <span class="font-mono text-xs text-slate-500">${x.id}</span> ${esc(x.e.titulo)}</span><span class="text-xs text-indigo-800 shrink-0 text-right">etapa ${x.it.box + 1}/${SRS_INT.length}<br>${srsQuando(x.it, s)}</span></div>`).join('') : '<p class="text-indigo-900">Fila vazia. Quando você tirar menos de 7 numa estação ou guardar uma no caderno, ela aparece aqui.</p>';
   }
+  function nuncaFeitas(materias) { const h = hist(); return ESTACOES.filter(e => !e.fora && materias.includes(e.materia) && !(h[e.id] && h[e.id].length)); }
+  function renderRevOpcao() {
+    const s = srsLoad(), ms = prefs.materias;
+    const prontas = Object.entries(s.items).filter(([id, it]) => it.due <= s.counter + 1 && ms.includes(BY_ID[id].materia)).length;
+    const novas = nuncaFeitas(ms).length;
+    $('rev-sim-info').textContent = prontas ? `até 1 em cada 5 vem da fila · ${prontas} ${prontas === 1 ? 'pronta' : 'prontas'} agora` : 'nenhuma revisão pronta agora: sai só com novas';
+    $('rev-nao-info').textContent = `nenhuma revisão · ${novas} ${novas === 1 ? 'estação que você ainda não fez' : 'estações que você ainda não fez'}`;
+  }
   function dataBR(t) { const d = new Date(t); return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0'); }
   const PAPEL = { candidato: '🧑‍⚕️ candidato', examinador: '📋 avaliador', ator: '🎭 ator' };
   function papeisDo(formato) { return formato === 'trio' ? ['candidato', 'examinador', 'ator'] : ['candidato', 'examinador']; }
@@ -344,7 +356,9 @@
       if (!n) return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-400"><input type="checkbox" class="w-4 h-4" disabled> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs">aguardando material</span></label>`;
       return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="checkbox" class="w-4 h-4 mat-chk" value="${m.key}" ${prefs.materias.includes(m.key) ? 'checked' : ''}> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs text-slate-400">${n} ${n === 1 ? 'estação' : 'estações'}</span></label>`;
     }).join('');
-    $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som; $('opt-revisao').checked = prefs.revisao !== false;
+    $('opt-ditado').checked = !!prefs.ditado; $('opt-som').checked = !!prefs.som;
+    document.querySelectorAll('.rev-radio').forEach(r => { r.checked = r.value === (prefs.revisao === false ? 'nao' : 'sim'); });
+    renderRevOpcao();
     renderSrs(); renderRodadas(); const srsIt = srsLoad().items;
     document.querySelectorAll('.modo-radio').forEach(r => { r.checked = r.value === (prefs.modo || 'prova'); });
     const cd = cad(), cdN = Object.keys(cd).length, cdRev = Object.values(cd).filter(x => !x.revisado).length;
@@ -381,7 +395,7 @@
     prefs.materias = [...document.querySelectorAll('.mat-chk:checked')].map(x => x.value);
     prefs.ditado = $('opt-ditado').checked; prefs.som = $('opt-som').checked;
     const mr = document.querySelector('.modo-radio:checked'); prefs.modo = mr ? mr.value : 'prova';
-    prefs.revisao = $('opt-revisao').checked;
+    const rr = document.querySelector('.rev-radio:checked'); prefs.revisao = rr ? rr.value !== 'nao' : true;
     prefs.code = $('dupla-code').value.trim(); prefs.papel = $('dupla-papel').value;
     prefs.formato = $('dupla-formato').value; prefs.rodizio = $('dupla-rodizio').checked;
     if (prefs.formato !== 'trio' && prefs.papel === 'ator') prefs.papel = 'candidato';
@@ -398,6 +412,9 @@
     let d = deck[materia];
     if (!d || !d.order || d.order.length !== pool.length || !d.order.every(id => BY_ID[id])) d = { order: shuffle(pool), pos: 0 };
     if (d.pos >= d.order.length) d = { order: shuffle(pool), pos: 0 };
+    // dentro da volta do baralho, as que você ainda não fez vêm primeiro
+    const h = hist(), j = d.order.findIndex((x, i) => i >= d.pos && !(h[x] && h[x].length));
+    if (j > d.pos) [d.order[d.pos], d.order[j]] = [d.order[j], d.order[d.pos]];
     const id = d.order[d.pos]; d.pos++; deck[materia] = d; save(LS.deck, deck);
     return id;
   }
@@ -412,10 +429,11 @@
     else {
       const ms = shuffle(prefs.materias, rng);
       if (!seed) {
-        // circuito sozinho: conta para a agenda e traz ~20% de revisão (uma por matéria, no lugar de uma nova)
+        // circuito sozinho: conta para a agenda e, se escolhido "Com revisão", traz ~20% de revisão
+        // (pelo menos 1, uma por matéria, no lugar de uma nova)
         regular = true; const s = srsLoad(); s.counter++; save(LS.srs, s);
         if (prefs.revisao !== false) {
-          const k = Math.round(ms.length * SRS_SHARE), usadas = new Set();
+          const k = Math.max(1, Math.round(ms.length * SRS_SHARE)), usadas = new Set();
           srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia; if (Object.keys(rev).length < k && !usadas.has(m)) { usadas.add(m); rev[x.id] = revMotivo(x.id); } });
         }
       }
@@ -804,7 +822,7 @@
   }
 
   // ---------- eventos ----------
-  document.addEventListener('change', e => { if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, #opt-revisao, .modo-radio, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); } });
+  document.addEventListener('change', e => { if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, .rev-radio, .modo-radio, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); } });
   $('btn-grupo-sair').onclick = () => { $('dupla-code').value = ''; readPrefs(); renderHome(); toast('Modo grupo desligado. Agora você treina sozinho(a).'); };
   $('dupla-code').addEventListener('input', () => { readPrefs(); renderHome(); });
   $('btn-circuito').onclick = () => startCircuit({ tipo: 'circuito' });
