@@ -40,6 +40,18 @@ const ESTACOES = [
       'Quais causas você investiga e corrige neste caso, e qual é o manejo?',
       'Explique à filha a diferença entre o que está acontecendo e demência.',
     ],
+    anamnese: [
+      { tema: 'Como ela era antes', resposta: 'Filha: "Era lúcida, cozinhava e cuidava das contas sozinha. Nunca teve esquecimento."' },
+      { tema: 'Início e curso', resposta: 'Filha: "Começou ontem à noite. De manhã parecia melhor, à noite piorou de novo."' },
+      { tema: 'Atenção e orientação', resposta: 'Dona Lurdes: "Que lugar é este? … Desculpa, o que você perguntou?"' },
+      { tema: 'Medicamentos novos', resposta: 'Filha: "Começaram o tramadol, e ontem deram um diazepam para ela dormir."' },
+      { tema: 'Urina e intestino', resposta: 'Filha: "Ela não urina desde a madrugada e reclama da barriga."' },
+      { tema: 'Dor', resposta: 'Dona Lurdes: "Dói muito a perna operada."' },
+      { tema: 'Sinais de infecção', resposta: 'Filha: "Não teve febre nem tosse."' },
+      { tema: 'Óculos e aparelho auditivo', resposta: 'Filha: "Ela usa óculos e aparelho de surdez. Ficaram em casa."' },
+      { tema: 'Sono', resposta: 'Filha: "Cochila de dia e fica acordada e agitada à noite."' },
+    ],
+    placas: [],
     ator: [
       { gatilho: 'Filha, ao se apresentar', fala: '"Ela nunca foi assim! É Alzheimer, né?"' },
       { gatilho: 'Se falar em remédio para acalmar', fala: '"Dá logo um calmante forte pra ela dormir a noite toda."' },
@@ -47,6 +59,7 @@ const ESTACOES = [
     ],
     barema: {
       conteudo: [
+        { tarefa: 2, item: 'Anamnese com a filha: como era antes, início e flutuação, medicamentos novos, diurese, dor, sinais de infecção e déficits sensoriais (óculos, aparelho auditivo)', pts: 1 },
         { tarefa: 1, item: 'Delirium (misto: agitação alternando com sonolência)', pts: 2 },
         { tarefa: 1, item: 'CAM: início agudo e curso flutuante + desatenção + (pensamento desorganizado ou alteração do nível de consciência)', pts: 2 },
         { tarefa: 2, item: 'Causas: medicamento (diazepam), retenção urinária, distúrbio hidroeletrolítico (sódio 129), dor; investigar infecção', pts: 2 },
@@ -59,7 +72,7 @@ const ESTACOES = [
     errosCriticos: ['Prescrever mais benzodiazepínico para "acalmar"', 'Não investigar a causa orgânica'],
     falaModelo: [
       { tarefa: 1, texto: 'É delirium, do tipo misto. Pelo CAM: início agudo com curso flutuante, desatenção e alteração do nível de consciência, alternando agitação e sonolência.', tempo: '20 s' },
-      { tarefa: 2, texto: 'Procuro as causas: ela começou diazepam ontem, está com retenção urinária, sódio de 129 e dor; investigo infecção. Suspendo o diazepam, alivio a bexiga, corrijo o sódio e trato a dor. Primeiro as medidas não farmacológicas: reoriento, corrijo déficits sensoriais, como óculos, normalizo o sono, mobilizo e mantenho a família por perto, evitando contenção. Haloperidol em dose baixa só se a agitação colocar ela em risco.', tempo: '45 s' },
+      { tarefa: 2, texto: 'Com a filha, confirmo como ela era antes, quando começou, os remédios novos, a urina, a dor, sinais de infecção e se ela usa óculos ou aparelho auditivo. Procuro as causas: ela começou diazepam ontem, está com retenção urinária, sódio de 129 e dor; investigo infecção. Suspendo o diazepam, alivio a bexiga, corrijo o sódio e trato a dor. Primeiro as medidas não farmacológicas: reoriento, corrijo déficits sensoriais, como óculos, normalizo o sono, mobilizo e mantenho a família por perto, evitando contenção. Haloperidol em dose baixa só se a agitação colocar ela em risco.', tempo: '45 s' },
       { tarefa: 3, texto: 'A sua mãe não ficou louca e isso não é Alzheimer. O cérebro dela está como um computador que travou por excesso de programas abertos: a cirurgia, a dor, um remédio para dormir e a bexiga cheia. A demência é lenta e vai acontecendo em anos; isso começou de ontem para hoje. Quando a gente fecha esses programas, tratando cada causa, na maioria das vezes ela volta a ser como era. A sua presença ajuda muito. Ficou alguma dúvida?', tempo: '45 s', analogia: 'Cérebro como computador travado' },
     ],
     extra: 'Qual é a principal diferença entre delirium e demência no início e na atenção? (Delirium: início agudo, flutuante e com desatenção; demência: insidiosa, progressiva, atenção preservada no início.)',
