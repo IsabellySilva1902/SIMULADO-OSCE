@@ -21,6 +21,7 @@
   @keyframes pulse { 50% { opacity:.25; } }
   .st-btn[data-on="1"] { outline: 3px solid currentColor; outline-offset: 1px; }
   #lightbox { display:none; } #lightbox.open { display:flex; }
+  mark.hl { background:#fde047; color:inherit; border-radius:.2rem; padding:0 .05rem; cursor:pointer; }
 </style>
 </head>
 <body class="min-h-screen">
@@ -168,6 +169,8 @@
     <p>Cada estação é corrigida em três blocos: <b>conteúdo</b> (o que precisava ser atingido em cada tarefa), <b>comunicação e cordialidade</b> (apresentar-se, empatia, linguagem clara, analogia, checar compreensão) e <b>clareza</b> (organização e tempo).</p>
     <h3 class="font-semibold mt-3">🎙️ Ditado por voz</h3>
     <p>Com a opção ligada, o celular transcreve o que você fala durante a estação, e o texto aparece no feedback ao lado da fala-modelo para você comparar. Funciona no Chrome (Android/computador) e no Safari do iPhone, com internet. Na primeira vez, o navegador pede permissão para o microfone.</p>
+    <h3 class="font-semibold mt-3">🖍️ Marca-texto</h3>
+    <p>Na estação, selecione um trecho do cenário, dos dados da mesa, das tarefas, de uma resposta do paciente ou de uma placa para grifar em amarelo. Com mouse, o grifo entra ao soltar a seleção; no celular ou tablet, selecione e toque em <b>Grifar trecho</b>. Toque num grifo para apagá-lo, ou em <b>Limpar grifos</b> para apagar todos. No feedback dá para grifar a fala-modelo e a pergunta extra, e as respostas e placas grifadas continuam grifadas. Os grifos valem só para aquela estação.</p>
     <h3 class="font-semibold mt-3">🔔 Circuito</h3>
     <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
     <p class="mt-1">Na porta da estação, <b>⤵️ Deixar para o final</b> manda a estação para o fim da mesma rodada, e você segue para a próxima. <b>Pular de vez</b> tira a estação da rodada sem nota. Na dupla ou no trio, todos tocam no mesmo botão para continuar na mesma estação.</p>
@@ -526,6 +529,83 @@
     $('st-bar').style.background = phase === 'feedback' ? '#f59e0b' : warn ? '#dc2626' : rem <= 60 ? '#f59e0b' : '#2563eb';
   }
 
+  // ---------- marca-texto ----------
+  // Grifos da estação por área (atributo data-hl): { cen: [{ start, end }], a3: [...] }, em posições do texto.
+  // Valem da entrada na estação até o feedback (as respostas e as placas grifadas continuam grifadas lá).
+  // Com mouse, grifa ao soltar a seleção; no toque, aparece o botão "Grifar trecho". Tocar num grifo apaga.
+  let grifos = {}, ultimoPonteiro = 'mouse', grifoPendente = null;
+  function hlBar() { return '<div class="flex items-center justify-between gap-2 mt-1 text-xs text-slate-500"><span>🖍️ Selecione um trecho para grifar; toque no grifo para apagar.</span><button type="button" class="hl-clear hidden shrink-0 underline">Limpar grifos</button></div>'; }
+  function juntarGrifos(rs) {
+    const out = [];
+    rs.slice().sort((a, b) => a.start - b.start).forEach(r => { const u = out[out.length - 1]; if (u && r.start <= u.end) u.end = Math.max(u.end, r.end); else out.push({ start: r.start, end: r.end }); });
+    return out;
+  }
+  function posTexto(zona, no, off) { const r = document.createRange(); r.selectNodeContents(zona); r.setEnd(no, off); return r.toString().length; }
+  function pintarZona(z) {
+    z.querySelectorAll('mark.hl').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+    z.normalize();
+    (grifos[z.dataset.hl] || []).forEach((r, i) => {
+      const w = document.createTreeWalker(z, NodeFilter.SHOW_TEXT), alvo = []; let n, pos = 0;
+      while ((n = w.nextNode())) {
+        const len = n.nodeValue.length, s = Math.max(r.start, pos), f = Math.min(r.end, pos + len);
+        if (s < f && !/^(TABLE|TBODY|THEAD|TR|OL|UL)$/.test(n.parentNode.nodeName)) alvo.push([n, s - pos, f - pos]);
+        pos += len;
+      }
+      alvo.forEach(([t, s, f]) => {
+        const meio = s > 0 ? t.splitText(s) : t;
+        if (f - s < meio.nodeValue.length) meio.splitText(f - s);
+        const m = document.createElement('mark'); m.className = 'hl'; m.dataset.i = i; m.title = 'Toque para apagar o grifo';
+        meio.parentNode.insertBefore(m, meio); m.appendChild(meio);
+      });
+    });
+  }
+  function pintarGrifos() {
+    document.querySelectorAll('#st-body [data-hl]').forEach(pintarZona);
+    const tem = Object.values(grifos).some(r => r.length);
+    document.querySelectorAll('#st-body .hl-clear').forEach(b => b.classList.toggle('hidden', !tem));
+  }
+  // a seleção atual recortada por área visível: [{ k, start, end }]
+  function selecaoGrifo() {
+    const sel = window.getSelection(); if (!sel || !sel.rangeCount || sel.isCollapsed) return null;
+    const r = sel.getRangeAt(0), body = $('st-body'); if (!body.contains(r.commonAncestorContainer)) return null;
+    const out = [];
+    body.querySelectorAll('[data-hl]').forEach(z => {
+      if (!z.offsetParent || !r.intersectsNode(z)) return;
+      const zr = document.createRange(); zr.selectNodeContents(z); const txt = zr.toString();
+      const ini = r.compareBoundaryPoints(Range.START_TO_START, zr) > 0 ? posTexto(z, r.startContainer, r.startOffset) : 0;
+      const fim = r.compareBoundaryPoints(Range.END_TO_END, zr) < 0 ? posTexto(z, r.endContainer, r.endOffset) : txt.length;
+      if (fim > ini && txt.slice(ini, fim).trim()) out.push({ k: z.dataset.hl, start: ini, end: fim });
+    });
+    return out.length ? out : null;
+  }
+  function aplicarGrifo(lista) {
+    lista.forEach(x => { grifos[x.k] = juntarGrifos((grifos[x.k] || []).concat({ start: x.start, end: x.end })); });
+    const sel = window.getSelection(); if (sel) sel.removeAllRanges();
+    esconderBotaoGrifo(); pintarGrifos();
+  }
+  function botaoGrifo() {
+    let b = $('btn-grifar'); if (b) return b;
+    b = document.createElement('button'); b.id = 'btn-grifar'; b.type = 'button'; b.textContent = '🖍️ Grifar trecho';
+    Object.assign(b.style, { display: 'none', position: 'fixed', left: '50%', bottom: '24px', transform: 'translateX(-50%)', zIndex: '95', padding: '12px 22px', borderRadius: '9999px', border: 'none', background: '#fde047', color: '#0f172a', fontWeight: '700', fontSize: '16px', boxShadow: '0 6px 20px rgba(0,0,0,.25)', touchAction: 'manipulation' });
+    // aplica já no pointerdown, antes de o toque desfazer a seleção
+    b.addEventListener('pointerdown', ev => { ev.preventDefault(); const l = grifoPendente || selecaoGrifo(); if (l) aplicarGrifo(l); else esconderBotaoGrifo(); });
+    document.body.appendChild(b); return b;
+  }
+  function esconderBotaoGrifo() { grifoPendente = null; const b = $('btn-grifar'); if (b) b.style.display = 'none'; }
+  document.addEventListener('pointerdown', ev => { if (ev.target.id !== 'btn-grifar') ultimoPonteiro = ev.pointerType || 'mouse'; }, true);
+  document.addEventListener('touchstart', ev => { if (ev.target.id !== 'btn-grifar') ultimoPonteiro = 'touch'; }, { capture: true, passive: true });
+  document.addEventListener('selectionchange', () => {
+    if (ultimoPonteiro === 'mouse' || !$('screen-station').classList.contains('active')) return esconderBotaoGrifo();
+    const l = selecaoGrifo(); if (!l) return esconderBotaoGrifo();
+    grifoPendente = l; botaoGrifo().style.display = 'block';
+  });
+  $('st-body').addEventListener('mouseup', () => { if (ultimoPonteiro === 'mouse') setTimeout(() => { const l = selecaoGrifo(); if (l) aplicarGrifo(l); }, 0); });
+  $('st-body').addEventListener('click', ev => {
+    const m = ev.target.closest('mark.hl');
+    if (m) { ev.preventDefault(); ev.stopPropagation(); const k = m.closest('[data-hl]').dataset.hl; (grifos[k] || []).splice(+m.dataset.i, 1); pintarGrifos(); return; }
+    if (ev.target.closest('.hl-clear')) { grifos = {}; pintarGrifos(); }
+  }, true);
+
   function mesaHtml(e) {
     return (e.mesa || []).map(x => {
       if (x.tipo === 'tabela') return `<div class="mt-2"><div class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">${esc(x.titulo || '')}</div><table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">${x.linhas.map((l, i) => `<tr class="${i % 2 ? 'bg-slate-50' : 'bg-white'}"><td class="p-1.5 pl-2 text-slate-600">${esc(l[0])}</td><td class="p-1.5 font-semibold">${esc(l[1])}</td></tr>`).join('')}</table></div>`;
@@ -538,8 +618,8 @@
   function anamHtml(e, marc) {
     const tag = (t, i) => !marc ? '' : marc[t][i] ? '<span class="text-green-700">✅</span> ' : '<span class="text-rose-700 text-xs font-semibold">⬜ não perguntou ·</span> ';
     let h = '';
-    if (e.anamnese && e.anamnese.length) h += `<div class="mt-2"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🗣️ O que o paciente conta, se perguntado</div>${e.anamnese.map((a, i) => `<div class="text-sm mt-1">${tag('a', i)}<b>${esc(a.tema)}:</b> ${esc(a.resposta)}</div>`).join('')}</div>`;
-    if (e.placas && e.placas.length) h += `<div class="mt-3"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🪧 Placas do avaliador</div>${e.placas.map((p, i) => `<div class="mt-1 p-2 rounded-lg bg-white border border-amber-300 text-sm">${tag('p', i).replace('não perguntou', 'não pediu')}<span class="text-amber-800 font-semibold">Se pedir ${esc(p.pedido)}:</span> ${esc(p.placa)}</div>`).join('')}</div>`;
+    if (e.anamnese && e.anamnese.length) h += `<div class="mt-2"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🗣️ O que o paciente conta, se perguntado</div>${e.anamnese.map((a, i) => `<div class="text-sm mt-1">${tag('a', i)}<b>${esc(a.tema)}:</b> <span data-hl="a${i}">${esc(a.resposta)}</span></div>`).join('')}</div>`;
+    if (e.placas && e.placas.length) h += `<div class="mt-3"><div class="text-xs font-semibold uppercase tracking-wide text-amber-800">🪧 Placas do avaliador</div>${e.placas.map((p, i) => `<div class="mt-1 p-2 rounded-lg bg-white border border-amber-300 text-sm">${tag('p', i).replace('não perguntou', 'não pediu')}<span class="text-amber-800 font-semibold">Se pedir ${esc(p.pedido)}:</span> <span data-hl="p${i}">${esc(p.placa)}</span></div>`).join('')}</div>`;
     return h;
   }
   function anamResumo(e) {
@@ -551,7 +631,7 @@
     return partes.length ? 'Você ' + partes.join(' e ') + '.' : '';
   }
   function anamInterHtml(e, exam) {
-    const q = (t, i, rot, resp, cls) => `<label class="anam-q flex items-start gap-2 mt-1.5 p-2 rounded-lg bg-white border border-amber-200 cursor-pointer text-sm"><input type="checkbox" class="anam-chk mt-0.5 w-4 h-4 shrink-0" data-t="${t}" data-i="${i}"><span class="flex-1 min-w-0"><b>${rot}</b><span class="anam-r ${exam ? '' : 'hidden'} block mt-1 ${cls}">${resp}</span></span></label>`;
+    const q = (t, i, rot, resp, cls) => `<label class="anam-q flex items-start gap-2 mt-1.5 p-2 rounded-lg bg-white border border-amber-200 cursor-pointer text-sm"><input type="checkbox" class="anam-chk mt-0.5 w-4 h-4 shrink-0" data-t="${t}" data-i="${i}"><span class="flex-1 min-w-0"><b>${rot}</b><span class="anam-r ${exam ? '' : 'hidden'} block mt-1 ${cls}" data-hl="${t}${i}">${resp}</span></span></label>`;
     let h = '';
     if (e.anamnese && e.anamnese.length) h += `<div class="mt-2 text-xs font-semibold uppercase tracking-wide text-amber-800">🗣️ Perguntas ao paciente</div>` + e.anamnese.map((a, i) => q('a', i, esc(a.tema), esc(a.resposta), 'text-slate-800')).join('');
     if (e.placas && e.placas.length) h += `<div class="mt-3 text-xs font-semibold uppercase tracking-wide text-amber-800">🪧 Pedidos ao avaliador</div>` + e.placas.map((p, i) => q('p', i, 'Pedir ' + esc(p.pedido), esc(p.placa), 'p-2 rounded-lg bg-amber-100 border border-amber-300 text-amber-950')).join('');
@@ -607,14 +687,15 @@
 
   function enterStation() {
     ensureAudio(); keepAwake(true);
-    const e = cur(); setPhase('estacao'); marks = {}; crit = {}; asked = { a: {}, p: {} }; transcript = ''; interim = ''; fired = {};
+    const e = cur(); setPhase('estacao'); marks = {}; crit = {}; asked = { a: {}, p: {} }; transcript = ''; interim = ''; fired = {}; grifos = {};
     const exam = isExam(), ator = isAtor(), cand = !exam && !ator;
     let h = ator ? atorPanel(e) : `<div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in">
       <div class="text-xs text-slate-500">${esc(e.local)} · ${esc(e.papel)}</div>
       <h2 class="text-lg font-extrabold">${esc(e.titulo)}</h2>
-      <div class="mt-2 text-[15px] leading-relaxed pre-line">${esc(e.cenario)}</div>
-      ${e.mesa && e.mesa.length ? `<div class="mt-3 p-3 rounded-xl bg-sky-50 border border-sky-200"><div class="font-semibold text-sm text-sky-800">📎 Dados na mesa</div>${mesaHtml(e)}</div>` : ''}
-      <div class="mt-3 p-3 rounded-xl bg-blue-50 border border-blue-200"><div class="font-semibold text-sm text-blue-800 mb-1">📝 Tarefas</div>${tarefasHtml(e)}</div>
+      ${hlBar()}
+      <div class="mt-2 text-[15px] leading-relaxed pre-line" data-hl="cen">${esc(e.cenario)}</div>
+      ${e.mesa && e.mesa.length ? `<div class="mt-3 p-3 rounded-xl bg-sky-50 border border-sky-200"><div class="font-semibold text-sm text-sky-800">📎 Dados na mesa</div><div data-hl="mesa">${mesaHtml(e)}</div></div>` : ''}
+      <div class="mt-3 p-3 rounded-xl bg-blue-50 border border-blue-200"><div class="font-semibold text-sm text-blue-800 mb-1">📝 Tarefas</div><div data-hl="tar">${tarefasHtml(e)}</div></div>
     </div>`;
     if (cand && temAnam(e) && circ.code) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ Anamnese e exames</div><p class="text-sm text-amber-900 mt-1">Como na prova: pergunte ao paciente em voz alta e peça ao avaliador os exames de que precisar. ${isTrio() ? 'O ator responde só ao que você perguntar, e o avaliador mostra a placa quando você pedir.' : 'O avaliador está com as respostas e as placas e só conta o que você perguntar.'}</p></div>`;
     else if (cand && temAnam(e)) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800">🗣️ ${e.placas && e.placas.length ? 'Anamnese e exames' : 'Anamnese'}</div><p class="text-sm text-amber-900 mt-1">Como na prova: faça a pergunta em voz alta e marque o tema que você perguntou. A resposta do paciente aparece na hora e ajuda a decidir a próxima pergunta.${e.placas && e.placas.length ? ' Para exames, marque o que você pediria ao avaliador e veja a placa.' : ''} Pergunte só o que faria sentido no caso: no feedback aparece o que ficou faltando.</p>${anamInterHtml(e)}</div>`;
@@ -622,7 +703,7 @@
     if (cand && circ.estudo) { const ant = (cad()[e.id] || {}).notas || ''; h += `<div class="mt-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200"><div class="font-semibold text-sm text-emerald-800">📝 Minhas anotações</div><p class="text-xs text-emerald-900 mt-0.5">Raciocínio, dúvidas, o que procurar depois. Vão para o caderno de erros no feedback.</p><textarea id="st-notas" rows="4" class="mt-2 w-full rounded-lg border border-emerald-300 p-2 text-sm bg-white" placeholder="Ex.: pensei em caso-controle porque partiram dos doentes…">${esc(ant)}</textarea></div>`; }
     if (exam) h += examinerPanel(e, true);
     h += `<button id="btn-end" class="btn w-full mt-3 border border-slate-300 bg-white hover:bg-slate-100">⏹️ Terminei — ir para o feedback</button>`;
-    $('st-body').innerHTML = h;
+    $('st-body').innerHTML = h; pintarGrifos();
     if (exam) bindBarema(e);
     $('btn-end').onclick = () => startFeedback(false);
     if (temAnam(e) && (exam || !circ.code)) bindAnam(e);
@@ -645,11 +726,12 @@
       <div class="text-xs font-semibold uppercase tracking-wide text-violet-700">🎭 Você é o ator</div>
       <h2 class="text-lg font-extrabold">${esc(e.titulo)}</h2>
       <p class="text-sm text-slate-600 mt-1">Você faz <b>${quem}</b>. O candidato está lendo este cenário:</p>
-      <div class="mt-2 p-3 rounded-xl bg-slate-50 text-[15px] leading-relaxed pre-line">${esc(e.cenario)}</div>
+      ${hlBar()}
+      <div class="mt-2 p-3 rounded-xl bg-slate-50 text-[15px] leading-relaxed pre-line" data-hl="cen">${esc(e.cenario)}</div>
       <div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200 text-sm text-violet-900"><b>Como atuar:</b> responda só ao que for perguntado, com as palavras do roteiro; não entregue o diagnóstico nem a conduta; mostre as emoções do caso (medo, pressa, desconfiança); se o candidato usar um termo técnico sem explicar, pergunte o que significa. As placas e o barema ficam com o avaliador.</div>
     </div>`;
     if (e.ator && e.ator.length) h += `<div class="mt-3 p-3 rounded-xl bg-violet-50 border border-violet-200"><div class="font-semibold text-sm text-violet-800 mb-1">🗨️ Suas falas (use no momento indicado)</div>${e.ator.map(a => `<div class="text-sm mt-1.5"><span class="text-violet-700 font-semibold">${esc(a.gatilho)}:</span> ${esc(a.fala)}</div>`).join('')}</div>`;
-    if (e.anamnese && e.anamnese.length) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800 mb-1">🤫 O que você conta só se perguntarem</div>${e.anamnese.map(a => `<div class="text-sm mt-1.5"><b>${esc(a.tema)}:</b> ${esc(a.resposta)}</div>`).join('')}</div>`;
+    if (e.anamnese && e.anamnese.length) h += `<div class="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200"><div class="font-semibold text-sm text-amber-800 mb-1">🤫 O que você conta só se perguntarem</div>${e.anamnese.map((a, i) => `<div class="text-sm mt-1.5"><b>${esc(a.tema)}:</b> <span data-hl="a${i}">${esc(a.resposta)}</span></div>`).join('')}</div>`;
     else h += `<div class="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-600">Esta estação não tem anamnese: use as falas acima e reaja ao que o candidato explicar.</div>`;
     h += `<details class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><summary class="cursor-pointer text-sm font-semibold">📝 Tarefas do candidato</summary>${tarefasHtml(e)}</details>`;
     return h;
@@ -744,9 +826,9 @@
     const ator = isAtor();
     if (ator) h += `<div class="p-3 rounded-xl bg-violet-50 border border-violet-200 text-sm text-violet-900 mb-3">🎭 O avaliador marca o barema. Compare a fala do colega com a fala-modelo e conte a ele como foi ser o paciente: ele se apresentou, acolheu, explicou de um jeito que você entendeu?</div>`;
     if (transcript) h += `<div class="p-3 rounded-xl bg-white border border-rose-200 mb-3"><div class="text-xs font-semibold text-rose-700">🎙️ O que você falou</div><div class="text-sm mt-1">${esc(transcript)}</div></div>`;
-    h += `<div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 fade-in"><div class="font-bold text-emerald-800">💬 Fala-modelo</div>` +
-      e.falaModelo.map(f => `<div class="mt-3"><div class="text-xs font-semibold text-emerald-700">Tarefa ${f.tarefa}${f.tempo ? ` · ~${esc(f.tempo)}` : ''}</div><div class="text-[15px] mt-0.5">${esc(f.texto)}</div>${f.analogia ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-yellow-200 text-yellow-900">💡 Analogia: ${esc(f.analogia)}</div>` : ''}</div>`).join('') + `</div>`;
-    if (e.extra) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><summary class="cursor-pointer text-sm font-semibold">❔ Pergunta extra da banca</summary><div class="text-sm mt-1">${esc(e.extra)}</div></details>`;
+    h += `<div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 fade-in"><div class="font-bold text-emerald-800">💬 Fala-modelo</div>${hlBar()}` +
+      e.falaModelo.map((f, i) => `<div class="mt-3"><div class="text-xs font-semibold text-emerald-700">Tarefa ${f.tarefa}${f.tempo ? ` · ~${esc(f.tempo)}` : ''}</div><div class="text-[15px] mt-0.5" data-hl="f${i}">${esc(f.texto)}</div>${f.analogia ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-yellow-200 text-yellow-900">💡 Analogia: ${esc(f.analogia)}</div>` : ''}</div>`).join('') + `</div>`;
+    if (e.extra) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-slate-200"><summary class="cursor-pointer text-sm font-semibold">❔ Pergunta extra da banca</summary><div class="text-sm mt-1" data-hl="x">${esc(e.extra)}</div></details>`;
     if (temAnam(e)) { const marc = circ.code && !isExam() ? null : asked;
       h += `<details class="mt-3 p-3 rounded-xl bg-white border border-amber-200" open><summary class="cursor-pointer text-sm font-semibold text-amber-800">${marc ? '🗣️ Anamnese: o que foi perguntado e o que ficou faltando' : '🗣️ O que o paciente contava e as placas'}</summary>${marc ? `<div class="text-sm mt-1 text-amber-900">${anamResumo(e).replace('Você', isExam() ? 'O candidato' : 'Você')}</div>` : ''}${anamHtml(e, marc)}</details>`; }
     if (!isExam() && !ator && e.ator && e.ator.length) h += `<details class="mt-3 p-3 rounded-xl bg-white border border-violet-200"><summary class="cursor-pointer text-sm font-semibold text-violet-800">🎭 O que o paciente diria</summary>${e.ator.map(a => `<div class="text-sm mt-1"><b>${esc(a.gatilho)}:</b> ${esc(a.fala)}</div>`).join('')}</details>`;
@@ -754,7 +836,7 @@
     if (papelAtual() === 'candidato') h += cadBox(e);
     h += resumoHtml(e.id);
     h += `<button id="btn-next" class="btn w-full mt-3 bg-blue-600 text-white hover:bg-blue-700">${circ.pos < circ.ids.length - 1 ? 'Salvar e ir para a próxima estação →' : 'Salvar e ver o resultado'}</button>`;
-    $('st-body').innerHTML = h; window.scrollTo(0, 0);
+    $('st-body').innerHTML = h; window.scrollTo(0, 0); pintarGrifos();
     bindBarema(e);
     $('btn-next').onclick = () => { if (salvarCad(e)) toast('📓 Guardado no caderno de erros.'); record(); advance(); };
     if ($('cad-salvar')) { $('cad-salvar').onchange = () => { cadTocado = true; updCad(e); }; $('cad-notas').oninput = () => updCad(e); updCad(e); }
