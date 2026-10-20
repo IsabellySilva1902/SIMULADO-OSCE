@@ -161,6 +161,7 @@
     <p>Com a opção ligada, o celular transcreve o que você fala durante a estação, e o texto aparece no feedback ao lado da fala-modelo para você comparar. Funciona no Chrome (Android/computador) e no Safari do iPhone, com internet. Na primeira vez, o navegador pede permissão para o microfone.</p>
     <h3 class="font-semibold mt-3">🔔 Circuito</h3>
     <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
+    <p class="mt-1">Na porta da estação, <b>⤵️ Deixar para o final</b> manda a estação para o fim da mesma rodada, e você segue para a próxima. <b>Pular de vez</b> tira a estação da rodada sem nota. Na dupla ou no trio, todos tocam no mesmo botão para continuar na mesma estação.</p>
     <h3 class="font-semibold mt-3">👥 Dupla ou trio</h3>
     <p>Todos colocam o mesmo código, o mesmo formato e as mesmas matérias, e cada um escolhe o seu papel. Na <b>dupla</b>, o <b>avaliador</b> vê o caso, o roteiro do paciente (o que responder se o candidato perguntar), as placas e o barema. No <b>trio</b>, o <b>ator</b> recebe uma tela própria, com quem ele é, o cenário, as falas e o que contar só se perguntarem, sem barema; o <b>avaliador</b> mostra as placas, marca o que o candidato perguntou e preenche o barema. Com <b>🔄 Revezar os papéis</b>, os papéis giram a cada estação (candidato → avaliador → ator), para todos treinarem como candidato. Toquem em "Entrar na estação" juntos. Enquanto o código estiver preenchido, as estações abertas pelo catálogo e pela prova anterior também entram no modo grupo.</p>
     <h3 class="font-semibold mt-3">🗣️ Anamnese e placas (como na prova)</h3>
@@ -525,6 +526,7 @@
       <h2 class="text-xl sm:text-2xl font-extrabold mt-1">${esc(e.titulo)}</h2>
       ${e.prova ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-amber-200 text-amber-900">⭐ Caiu na prova ${esc(e.prova)}</div>` : ''}
       ${circ.rev && circ.rev[e.id] ? `<div class="mt-2 p-2 rounded-lg bg-indigo-50 border border-indigo-200 text-sm text-indigo-900">🔁 <b>Revisão:</b> ${esc(circ.rev[e.id])}.</div>` : ''}
+      ${circ.adiadas && circ.adiadas[e.id] ? '<div class="mt-2 p-2 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-700">⤵️ Você deixou esta estação para o final da rodada.</div>' : ''}
       <div class="grid sm:grid-cols-3 gap-2 mt-3 text-sm">
         <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Local</div><b>${esc(e.local)}</b></div>
         <div class="p-2 rounded-lg bg-slate-50"><div class="text-xs text-slate-500">Seu papel</div><b>${esc(e.papel)}</b></div>
@@ -533,11 +535,18 @@
       ${circ.code ? `<div class="mt-3 p-2 rounded-lg bg-violet-50 border border-violet-200 text-sm text-violet-900">Nesta estação você é: <b>${PAPEL[papelAtual()]}</b>${circ.rodizio ? ' (os papéis giram a cada estação)' : ''}</div>` : ''}
       <p class="text-sm text-slate-500 mt-3">${isExam() ? (isTrio() ? 'Você é o <b>avaliador</b>: toque junto com os colegas. Você verá o caso, as placas para mostrar quando o candidato pedir e o barema para marcar.' : 'Você é o <b>avaliador</b>: toque junto com o candidato. Você verá o caso, o roteiro do paciente, as placas e o barema para marcar.') : isAtor() ? 'Você é o <b>ator</b>: toque junto com os colegas. Você verá quem você é, o cenário, as suas falas e o que contar só se o candidato perguntar.' : circ.estudo ? '📖 <b>Modo sem tempo:</b> leia com calma, anote o que quiser e responda em voz alta. As anotações vão para o caderno de erros.' : 'Ao entrar, o cronômetro de <b>4:00</b> começa. Leia, apresente-se e responda em voz alta.'}${circ.ditado && papelAtual() === 'candidato' ? ' 🎙️ O ditado vai gravar o que você falar.' : ''}</p>
       <button id="btn-enter" class="btn w-full mt-4 bg-blue-600 text-white hover:bg-blue-700 text-lg">▶️ Entrar na estação ${circ.estudo ? '(sem tempo)' : '(4:00)'}</button>
-      <div class="flex justify-between mt-3 text-xs"><button id="btn-quit" class="text-slate-500 underline">Sair (salva o circuito)</button>${circ.ids.length > 1 ? '<button id="btn-skip" class="text-slate-500 underline">Pular esta estação</button>' : ''}</div>
+      <div class="flex flex-wrap justify-between gap-x-4 gap-y-2 mt-3 text-xs"><button id="btn-quit" class="text-slate-500 underline">Sair (salva o circuito)</button>${circ.ids.length > 1 ? `<span class="flex gap-4 ml-auto">${circ.pos < circ.ids.length - 1 ? '<button id="btn-adiar" class="text-slate-500 underline">⤵️ Deixar para o final</button>' : ''}<button id="btn-skip" class="text-slate-500 underline">${circ.pos < circ.ids.length - 1 ? 'Pular de vez' : 'Pular esta estação'}</button></span>` : ''}</div>
     </div>`;
     $('btn-enter').onclick = enterStation;
     $('btn-quit').onclick = quit;
     if ($('btn-skip')) $('btn-skip').onclick = () => { circ.res[cur().id] = { pulada: true }; advance(); };
+    if ($('btn-adiar')) $('btn-adiar').onclick = adiar;
+  }
+  // tira a estação da posição atual e a coloca no fim da rodada; quem estava depois sobe uma posição
+  function adiar() {
+    const id = circ.ids.splice(circ.pos, 1)[0]; circ.ids.push(id);
+    circ.adiadas = circ.adiadas || {}; circ.adiadas[id] = (circ.adiadas[id] || 0) + 1;
+    save(LS.circ, circ); toast('Estação deixada para o final da rodada.'); renderPorta();
   }
 
   function enterStation() {
