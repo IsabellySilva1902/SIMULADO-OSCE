@@ -114,6 +114,7 @@ ESTACOES.push(
   // ----------------------------------------------------- FAR-19 · AINE: mecanismo, riscos e uso racional
   {
     id: 'FAR-19', materia: 'farmaco', prova: '25.2',
+    fora: 'O tema desta estação (AINEs) não cai neste OSCE. Ela fica só no botão da prova anterior, para treinar o formato, e não entra no circuito, na revisão nem na contagem da matéria.',
     titulo: 'Tomo o anti-inflamatório todo dia, por garantia',
     local: 'UBS — consulta', papel: 'Médico(a) da UBS', interacao: 'paciente',
     cenario: 'Dona Vera, 62 anos, hipertensa, vem renovar a receita de ibuprofeno, que usa todos os dias há 4 meses, desde uma dor no joelho. Explique como o medicamento age, seus efeitos e riscos, e oriente o uso.',

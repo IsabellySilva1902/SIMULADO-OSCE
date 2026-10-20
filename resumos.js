@@ -405,7 +405,7 @@ const RESUMOS = {
     'Psicoterapia é o eixo; remédio só para sintomas-alvo, nunca para o núcleo do transtorno.',
   ], pegadinha: 'Personalidade antissocial não se diagnostica antes dos 18 anos.' },
 
-  // ===================================================== FARMACOLOGIA (manejo de reações adversas)
+  // ===================================================== FARMACOLOGIA (anti-histamínicos e antiasmáticos)
   'FAR-01': { tema: 'Anti-histamínico de 1ª geração: sedação', pontos: [
     'Anti-H1 de 1ª geração: maior penetração no SNC (atravessa a barreira hematoencefálica) → sedação; mais efeitos anticolinérgicos.',
     'Sedação na 1ª geração: difenidramina e prometazina +++; clemastina e dimenidrato ++; dexclorfeniramina e ciproeptadina +. Prometazina também é a mais antiemética (++++).',
@@ -424,24 +424,6 @@ const RESUMOS = {
     'Usar o anti-H1 de forma preventiva e reduzir a exposição ao alérgeno.',
   ], pegadinha: 'O mesmo remédio que não faz nada no vizinho trava a bexiga de quem tem próstata aumentada.' },
 
-  'FAR-03': { tema: 'Descongestionante tópico: rinite medicamentosa', pontos: [
-    'Descongestionantes tópicos (fenilefrina, nafazolina, oximetazolina) são simpaticomiméticos: vasoconstrição e abertura das vias nasais.',
-    'Uso contínuo por mais de 3 a 5 dias → rinite medicamentosa, com congestão rebote.',
-    'Medida: suspender o descongestionante tópico.',
-    'Corticosteroide nasal (beclometasona, budesonida, fluticasona): ação anti-inflamatória ampla, eficaz também na congestão.',
-    'Anti-H1 pode ser mantido para espirros, coceira e coriza, mas controla mal a congestão.',
-    'Controle ambiental: umidade, mofo, poeira.',
-  ], pegadinha: 'Usar o spray mais vezes piora o problema: o rebote só para quando o spray para.' },
-
-  'FAR-04': { tema: 'Descongestionante sistêmico: pressão arterial', pontos: [
-    'Pseudoefedrina (descongestionante sistêmico, oral) é simpaticomimética: até 180 mg não muda de forma mensurável a pressão; doses maiores aumentam a frequência cardíaca e causam hipertensão.',
-    'Não deve ser usada em hipertensos; medida: suspender.',
-    'Diferente do tópico, é mais lenta, dura mais e não causa rinite medicamentosa nem ressecamento.',
-    'Não aumentar o anti-hipertensivo antes de retirar a causa.',
-    'Congestão com segurança: corticosteroide nasal.',
-    'Descongestionante tópico, se usado, por no máximo 3 a 5 dias.',
-  ], pegadinha: 'A pressão que "não responde" pode ser o antigripal, e não o anti-hipertensivo.' },
-
   'FAR-05': { tema: 'Antileucotrienos: efeitos adversos', pontos: [
     'Antileucotrienos (montelucaste, zafirlucaste): antagonistas dos receptores de leucotrienos, para terapia crônica.',
     'Efeitos adversos descritos: cefaleia, tontura, depressão e insônia (na rinite); dor abdominal (na asma); devem ser monitorados.',
@@ -451,14 +433,14 @@ const RESUMOS = {
     'São ativos na asma desencadeada por AINEs.',
   ], pegadinha: 'Mudança de humor num adolescente em uso de montelucaste pode ser o remédio, e não "coisa da idade".' },
 
-  'FAR-06': { tema: 'Reações adversas no tratamento da rinite', pontos: [
-    'Anti-H1 de 1ª geração: sedação (SNC) e efeitos anticolinérgicos (retenção urinária).',
-    'Anti-H1 de 2ª geração: menos sedação e sem efeitos anticolinérgicos relevantes.',
-    'Descongestionante tópico: rinite medicamentosa após 3 a 5 dias.',
-    'Descongestionante sistêmico: aumento da FC e da pressão acima de 180 mg; não usar em hipertensos.',
-    'Corticosteroide nasal: controla a congestão sem esses riscos.',
-    'Anti-H1: melhor preventivo; bloqueio competitivo e reversível.',
-  ], pegadinha: 'Anti-H1 não desentope bem o nariz: congestão pede corticosteroide nasal.' },
+  'FAR-06': { tema: 'Anti-histamínicos H1: mecanismo de ação e gerações', pontos: [
+    'Antagonistas H1: inibidores competitivos e reversíveis; sem ação imediata, mais eficazes na prevenção.',
+    'Bloqueiam espirros, coceira e coriza; efeito limitado na congestão (o corticosteroide nasal é mais eficaz nela).',
+    '1ª geração (sedação / anticolinérgico / antiemético): difenidramina +++ / +++ / ++ a +++; prometazina +++ / +++ / ++++; clemastina e dimenidrato ++ / +++ / ++ a +++; dexclorfeniramina e ciproeptadina + / ++ / –.',
+    '2ª geração (cetirizina, loratadina, fexofenadina): não atravessa de modo apreciável a barreira hematoencefálica; sem ação no SNC e sem efeitos anticolinérgicos.',
+    'Tópicos: azelastina (solução nasal) e levocabastina (spray nasal e colírio).',
+    'Bloqueio competitivo: exposição intensa libera mais histamina e supera o bloqueio → uso preventivo e controle ambiental (poeira, umidade abaixo de 50%).',
+  ], pegadinha: 'Anti-histamínico não é remédio de crise: tomado depois da exposição, chega tarde à disputa pelo receptor.' },
 
   'FAR-07': { tema: 'Beta-2 agonista: via oral × inalatória', pontos: [
     'Beta-2 agonistas relaxam a musculatura brônquica e estabilizam mastócitos.',
@@ -477,15 +459,6 @@ const RESUMOS = {
     'Base do tratamento: corticoide inalatório, com beta-2 de curta ação para alívio.',
   ], pegadinha: 'Dobrar a teofilina por conta própria pode levar a convulsão: a margem de segurança é estreita.' },
 
-  'FAR-09': { tema: 'Asma desencadeada por AINE', pontos: [
-    'AINEs (inclusive AAS) podem desencadear crise de asma em pacientes sensíveis, sobretudo com rinite e asma.',
-    'Broncoespasmo grave sem resposta a várias inalações de beta-2: associar brometo de ipratrópio (anticolinérgico).',
-    'Não aumentar a dose do beta-2 para compensar.',
-    'Prevenção: evitar AINEs e informar a sensibilidade em todo atendimento.',
-    'Antileucotrienos são ativos na asma desencadeada por AINEs.',
-    'Associações com ipratrópio: com fenoterol e com salbutamol.',
-  ], pegadinha: 'Na crise que não cede, a saída é somar outro mecanismo (ipratrópio), e não dobrar o salbutamol.' },
-
   'FAR-10': { tema: 'Corticoide oral crônico: osteoporose secundária', pontos: [
     'Corticosteroides inibem a ação osteoblástica e aumentam a osteoclástica.',
     'Medidas: reduzir a prednisona quando possível e associar bisfosfonato (alendronato, risedronato).',
@@ -502,67 +475,6 @@ const RESUMOS = {
     'Prednisona oral crônica: osteoporose secundária.',
     'Via inalatória: broncosseletividade e menos efeitos sistêmicos.',
   ], pegadinha: 'Reação local do omalizumabe é comum, mas a anafilaxia está entre as reações sérias: a vigilância continua.' },
-
-  'FAR-12': { tema: 'Opioides: depressão respiratória, sedação e constipação', pontos: [
-    'Receptor mu: analgesia, euforia, sedação, inibição respiratória e dependência.',
-    'Idosos sedam com mais facilidade; sedativos associados (benzodiazepínicos) intensificam a depressão do SNC.',
-    'Intoxicação: coma, miose e depressão respiratória.',
-    'Manejo: via aérea e ventilação; naloxona IV lenta, repetindo se necessário; monitorizar, porque a naloxona dura menos que muitos opioides.',
-    'Constipação por diminuição do peristaltismo: terapia laxante.',
-    'Opioides podem causar hipotensão; a urticária é mais frequente na via parenteral.',
-  ], pegadinha: 'Acordou com a naloxona não é alta: o efeito dela acaba antes do opioide.' },
-
-  'FAR-13': { tema: 'AINEs: rim e risco hemorrágico', pontos: [
-    'AINEs inibem as prostaglandinas vasodilatadoras renais e podem comprometer a função renal.',
-    'Com diurético, o efeito se soma: edema e elevação da creatinina.',
-    'AINE + anticoagulante: maior risco de hemorragia; evitar.',
-    'Medidas: suspender o AINE e monitorizar a função renal.',
-    'Paracetamol: primeira linha para dor leve a moderada, sem risco de sangramento gastrointestinal; cautela em etilistas (fígado).',
-    'Osteoartrite: atividade física adequada ao perfil do paciente.',
-  ], pegadinha: 'Perna inchada em idoso com diurético e AINE pode ser o rim, não o coração.' },
-
-  'FAR-14': { tema: 'AINEs: úlcera e sangramento', pontos: [
-    'AINEs inibem as prostaglandinas que protegem a mucosa; os não seletivos (COX-1 e COX-2) têm maior risco gastrointestinal.',
-    'Medidas: suspender o AINE (sem isso a úlcera recidiva) e IBP para cicatrizar.',
-    'Sucralfato: barreira aderente sobre a lesão, complementar ao IBP.',
-    'Seletivo da COX-2 reduz parte do risco gástrico, com cautela em risco cardiovascular.',
-    'Misoprostol repõe a proteção, mas provoca contrações uterinas: cautela em mulher em idade fértil.',
-    'Sinais de alarme: fezes escurecidas e hematêmese, mesmo sem dor intensa.',
-  ], pegadinha: 'Úlcera sangra sem dor forte: fezes escuras bastam para procurar a emergência.' },
-
-  'FAR-15': { tema: 'Alendronato e cálcio: esofagite e constipação', pontos: [
-    'Alendronato liga-se à hidroxiapatita e reduz a atividade dos osteoclastos.',
-    'Pode causar esofagite quando tomado de forma incorreta.',
-    'Como tomar: em jejum, só com água, e permanecer ereta por 30 minutos.',
-    'Alternativa se esofagite grave ou úlcera péptica: calcitonina intranasal.',
-    'Carbonato de cálcio: com as refeições (absorção melhor em pH ácido); constipação → água e fibras.',
-  ], pegadinha: 'O problema da esofagite costuma ser o jeito de tomar, não o remédio em si.' },
-
-  'FAR-16': { tema: 'Carbamazepina: efeitos adversos e interações', pontos: [
-    'Bloqueia canais de Na⁺; útil em crises focais e tônico-clônicas; pode piorar ausências.',
-    'Lembrar: diplopia, tontura, hiponatremia, SJS/NET e discrasias sanguíneas.',
-    'Forte indutora enzimática: reduz os níveis do anticoncepcional, que pode falhar.',
-    'Oxcarbazepina também causa hiponatremia e reduz a eficácia do anticoncepcional.',
-    'Levetiracetam: amplo espectro, poucas interações, eliminação renal; limitação: irritabilidade.',
-    'Valproato: alta teratogenicidade.',
-  ], pegadinha: 'Trocar carbamazepina por oxcarbazepina não resolve nem o sódio nem a pílula.' },
-
-  'FAR-17': { tema: 'Reações adversas dos anticonvulsivantes', pontos: [
-    'Fenitoína: nistagmo, ataxia, hiperplasia gengival, hirsutismo e doença óssea; monitorização sérica.',
-    'Valproato: ganho de peso, hepatotoxicidade, pancreatite e alta teratogenicidade.',
-    'Lamotrigina: rash/SJS; titulação lenta; risco maior com valproato; poucos efeitos cognitivos.',
-    'Fenobarbital: sedação e prejuízo cognitivo; tolerância, dependência e depressão respiratória.',
-    'Etossuximida: náusea, dor abdominal e fadiga; segue como escolha na ausência típica.',
-    '2ª geração: menor incidência global de RAMs, menos interações, faixa terapêutica mais ampla.',
-  ], pegadinha: 'Mancha na pele com lamotrigina não é "só alergia": pode ser o começo de Stevens-Johnson.' },
-
-  'FAR-18': { tema: 'Antiácidos e IBP: hábito intestinal', pontos: [
-    'Antiácido à base de magnésio: diarreia osmótica.',
-    'Antiácido à base de alumínio: constipação.',
-    'IBP pode alterar a flora intestinal e favorecer diarreia em alguns pacientes.',
-    'Antiácido neutraliza o ácido já presente: alívio imediato, não é o tratamento definitivo.',
-    'IBP bloqueia irreversivelmente a bomba de prótons: é o que trata o refluxo.',
-  ], pegadinha: 'Antiácido "por garantia" em quem já está bem com IBP só acrescenta efeito adverso.' },
 
   // ===================================================== EPIDEMIOLOGIA
   'EPI-01': { tema: 'Surto, taxa de ataque e risco relativo', pontos: [

@@ -245,10 +245,10 @@
       Object.keys(c).forEach(id => { if (BY_ID[id] && !c[id].revisado) s.items[id] = { box: 0, due: 1 }; });
       save(LS.srs, s);
     }
-    Object.keys(s.items).forEach(id => { if (!BY_ID[id]) delete s.items[id]; });
+    Object.keys(s.items).forEach(id => { if (!BY_ID[id] || BY_ID[id].fora) delete s.items[id]; });
     return s;
   }
-  function srsAdd(id) { const s = srsLoad(); if (!s.items[id]) { s.items[id] = { box: 0, due: s.counter + 1 }; save(LS.srs, s); } }
+  function srsAdd(id) { const s = srsLoad(); if (BY_ID[id] && !BY_ID[id].fora && !s.items[id]) { s.items[id] = { box: 0, due: s.counter + 1 }; save(LS.srs, s); } }
   function srsDel(id) { const s = srsLoad(); if (s.items[id]) { delete s.items[id]; save(LS.srs, s); } }
   function srsQuando(it, s) { const n = it.due - s.counter; return n <= 1 ? 'volta no próximo circuito' : `volta daqui a ${n} circuitos`; }
   function srsDue(materias) {
@@ -258,6 +258,7 @@
       .sort((a, b) => a.it.due - b.it.due || a.it.box - b.it.box || (a.n === null ? 11 : a.n) - (b.n === null ? 11 : b.n));
   }
   function srsRegistrar(id, n, critN, regular) {
+    if (BY_ID[id] && BY_ID[id].fora) return '';
     const s = srsLoad(), it = s.items[id], ok = n >= 7 && !critN;
     let msg = '';
     if (!ok) { s.items[id] = { box: 0, due: s.counter + 1 }; msg = '🔁 Entrou na revisão: volta no próximo circuito.'; }
@@ -306,7 +307,7 @@
   // ---------- home ----------
   function hist() { return load(LS.hist, {}); }
   function lastNota(id) { const h = hist()[id]; return h && h.length ? h[h.length - 1].nota : null; }
-  function revList() { return ESTACOES.filter(e => prefs.materias.includes(e.materia)).filter(e => { const n = lastNota(e.id); return n !== null && n < 7; }); }
+  function revList() { return ESTACOES.filter(e => !e.fora && prefs.materias.includes(e.materia)).filter(e => { const n = lastNota(e.id); return n !== null && n < 7; }); }
 
   // ---------- histórico de rodadas ----------
   const ORIGEM = { circuito: 'Circuito', avulsa: 'Estação sorteada', prova: '⭐ Prova anterior', revisao: 'Notas baixas', catalogo: 'Catálogo', caderno: 'Caderno de erros', resumo: 'Resumo' };
@@ -339,7 +340,7 @@
 
   function renderHome() {
     $('materias-list').innerHTML = MATERIAS.map(m => {
-      const n = ESTACOES.filter(e => e.materia === m.key).length;
+      const n = ESTACOES.filter(e => e.materia === m.key && !e.fora).length;
       if (!n) return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-400"><input type="checkbox" class="w-4 h-4" disabled> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs">aguardando material</span></label>`;
       return `<label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="checkbox" class="w-4 h-4 mat-chk" value="${m.key}" ${prefs.materias.includes(m.key) ? 'checked' : ''}> <span>${m.icon} ${esc(m.label)}</span><span class="ml-auto text-xs text-slate-400">${n} ${n === 1 ? 'estação' : 'estações'}</span></label>`;
     }).join('');
@@ -364,7 +365,7 @@
         const hh = h[e.id] || []; const n = hh.length ? hh[hh.length - 1].nota : null;
         const cor = n === null ? 'bg-slate-100 text-slate-500' : n >= 7 ? 'bg-green-100 text-green-800' : n >= 5 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800';
         return `<div class="flex items-center gap-1"><button class="cat-item flex-1 min-w-0 text-left flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-slate-50" data-id="${e.id}">
-          <span class="font-mono text-xs text-slate-400 w-14 shrink-0">${e.id}</span><span class="flex-1">${esc(e.titulo)}${e.exemplo ? ' <span class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">exemplo</span>' : ''}${e.prova ? ` <span class="text-[10px] px-1 rounded bg-amber-200 text-amber-900">⭐ prova ${esc(e.prova)}</span>` : ''}${cd[e.id] ? ` <span class="text-[10px] px-1 rounded ${cd[e.id].revisado ? 'bg-slate-200 text-slate-600' : 'bg-emerald-200 text-emerald-900'}">📓 caderno</span>` : ''}${srsIt[e.id] ? ' <span class="text-[10px] px-1 rounded bg-indigo-100 text-indigo-800">🔁 fila</span>' : ''}</span>
+          <span class="font-mono text-xs text-slate-400 w-14 shrink-0">${e.id}</span><span class="flex-1">${esc(e.titulo)}${e.exemplo ? ' <span class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">exemplo</span>' : ''}${e.prova ? ` <span class="text-[10px] px-1 rounded bg-amber-200 text-amber-900">⭐ prova ${esc(e.prova)}</span>` : ''}${e.fora ? ' <span class="text-[10px] px-1 rounded bg-slate-200 text-slate-600">não cai neste OSCE</span>' : ''}${cd[e.id] ? ` <span class="text-[10px] px-1 rounded ${cd[e.id].revisado ? 'bg-slate-200 text-slate-600' : 'bg-emerald-200 text-emerald-900'}">📓 caderno</span>` : ''}${srsIt[e.id] ? ' <span class="text-[10px] px-1 rounded bg-indigo-100 text-indigo-800">🔁 fila</span>' : ''}</span>
           <span class="text-xs px-1.5 py-0.5 rounded ${cor}">${n === null ? '—' : n.toFixed(1)}</span></button>${RES[e.id] ? `<button class="res-open shrink-0 px-2 py-1 rounded-lg hover:bg-indigo-50" data-id="${e.id}" title="Resumo do assunto" aria-label="Resumo do assunto">📚</button>` : ''}</div>`;
       }).join('') + `</div>`;
     }).join('');
@@ -390,7 +391,7 @@
   // ---------- montar circuito ----------
   function nextFromDeck(materia, rng, seeded) {
     // baralho sem repetição por matéria (no modo dupla, ordem determinística pelo código)
-    const pool = ESTACOES.filter(e => e.materia === materia).map(e => e.id);
+    const pool = ESTACOES.filter(e => e.materia === materia && !e.fora).map(e => e.id);
     if (!pool.length) return null;
     if (seeded) return shuffle(pool, rng)[0];
     const deck = load(LS.deck, {});
@@ -561,6 +562,7 @@
       <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">⏱ Estação ${esc(e.id)}</div>
       <h2 class="text-xl sm:text-2xl font-extrabold mt-1">${esc(e.titulo)}</h2>
       ${e.prova ? `<div class="mt-1 inline-block text-xs px-2 py-0.5 rounded bg-amber-200 text-amber-900">⭐ Caiu na prova ${esc(e.prova)}</div>` : ''}
+      ${e.fora ? `<div class="mt-2 p-2 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-700">ℹ️ ${esc(e.fora)}</div>` : ''}
       ${circ.rev && circ.rev[e.id] ? `<div class="mt-2 p-2 rounded-lg bg-indigo-50 border border-indigo-200 text-sm text-indigo-900">🔁 <b>Revisão:</b> ${esc(circ.rev[e.id])}.</div>` : ''}
       ${circ.adiadas && circ.adiadas[e.id] ? '<div class="mt-2 p-2 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-700">⤵️ Você deixou esta estação para o final da rodada.</div>' : ''}
       <div class="grid sm:grid-cols-3 gap-2 mt-3 text-sm">
