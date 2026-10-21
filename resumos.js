@@ -8,7 +8,8 @@ const RESUMOS = {
     'No hospital (ATLS 11ª ed.): 2 mL × peso × %SCQ ÷ 16 = mL/h de Ringer lactato aquecido, reavaliado de hora em hora.',
     'Quem manda é a meta de diurese: 0,5 mL/kg/h no adulto (30–50 mL/h). A fórmula só dá o ponto de partida.',
     'Parkland (aparece em questões): 4 mL × peso × %SCQ em 24 h, metade nas primeiras 8 h contadas da queimadura, descontando o pré-hospitalar. Taxa pré-hospitalar: ≥ 14 anos 500 mL/h.',
-    'Transferência: qualquer espessura total; espessura parcial ≥ 10%; face, mãos, pés, genitália, períneo ou grandes articulações; suspeita de inalação; químicas; elétricas de alta voltagem.',
+    'Transferência (ABA): qualquer espessura total; espessura parcial ≥ 10% da SCQ, em qualquer idade; espessura parcial ou total em face, mãos, pés, genitália, períneo ou grandes articulações; comorbidade que agrave, trauma associado ou dor de difícil controle; suspeita de inalação; todas as químicas; elétricas de alta voltagem (≥ 1.000 V) e raio; criança ≤ 14 anos ou < 30 kg.',
+    'Não confundir com o critério nacional (MS e SBQ): grande queimado é 2º grau > 20% da SCQ no adulto e > 10% na criança. Região nobre transfere independentemente da área: ali o problema é função, não extensão.',
     'Antitetânica em todos. Sem antibiótico sistêmico profilático. Água corrente em temperatura ambiente, prevenir hipotermia.',
   ], pegadinha: 'A diurese abaixo da meta pede aumento da taxa: não basta acertar a conta inicial.' },
 

@@ -41,7 +41,7 @@ ESTACOES.push(
         { tarefa: 1, item: 'SCQ = tronco anterior 18% + membro superior 9% = 27%; o 1º grau da face não entra', pts: 1 },
         { tarefa: 2, item: 'Perguntou o peso e calculou pelo ATLS: 2 mL × 70 kg × 27 ÷ 16 ≈ 236 mL/h de Ringer lactato aquecido', pts: 2 },
         { tarefa: 2, item: 'Titulou pela diurese: meta de 0,5 mL/kg/h (≈ 35 mL/h), reavaliada de hora em hora; com 20 mL/h, aumentou a taxa', pts: 1 },
-        { tarefa: 3, item: 'Centro especializado: espessura total, espessura parcial acima de 10% da SCQ e queimadura na mão (região nobre)', pts: 1 },
+        { tarefa: 3, item: 'Centro especializado (ABA): espessura total, espessura parcial de 10% ou mais da SCQ e queimadura na mão (região nobre)', pts: 1 },
         { tarefa: 3, item: 'Perguntou a vacina e indicou profilaxia antitetânica; analgesia e prevenção de hipotermia; sem antibiótico sistêmico profilático', pts: 1 },
         { tarefa: 4, item: 'Explicou à esposa a perda de líquido pela pele queimada e o controle pela diurese, em linguagem simples', pts: 1 },
       ],
@@ -50,7 +50,7 @@ ESTACOES.push(
     falaModelo: [
       { tarefa: 1, texto: 'No tronco anterior há bolhas com leito pálido, seco e pouco doloroso: 2º grau profundo. O membro superior direito está esbranquiçado, seco, inelástico e indolor, com aspecto de couro: 3º grau. A face tem só eritema: 1º grau, que não entra na conta. Pela regra dos nove, tronco anterior 18% mais membro superior 9%: 27% de superfície queimada.', tempo: '35 s' },
       { tarefa: 2, texto: 'Ele pesa 70 kg. No hospital, pelo ATLS, calculo a taxa por hora: 2 mL vezes 70 vezes 27, dividido por 16, dá cerca de 236 mL por hora de Ringer lactato aquecido. A fórmula é só o ponto de partida: quem manda é a diurese, com meta de 0,5 mL/kg/h, uns 35 mL por hora. Com 20 mL na primeira hora, aumento a taxa e reavalio de hora em hora.', tempo: '40 s' },
-      { tarefa: 3, texto: 'Ele vai para centro especializado: tem espessura total, mais de 10% de espessura parcial e queimadura na mão, que é região nobre. Não posso esquecer a profilaxia antitetânica, porque ele não lembra da vacina, a analgesia e a prevenção da hipotermia. Antibiótico sistêmico profilático não se faz.', tempo: '30 s' },
+      { tarefa: 3, texto: 'Ele vai para centro especializado: tem espessura total, 10% ou mais de espessura parcial e queimadura na mão, que é região nobre. Não posso esquecer a profilaxia antitetânica, porque ele não lembra da vacina, a analgesia e a prevenção da hipotermia. Antibiótico sistêmico profilático não se faz.', tempo: '30 s' },
       { tarefa: 4, texto: 'Senhora, a pele funciona como a lona de uma barraca, que segura a água lá dentro. Com um quarto da pele queimada, o corpo vaza líquido por esses buracos, e beber água não dá conta. Por isso o soro vai pela veia, e quem diz se a quantidade está certa é o xixi dele, que vamos medir de hora em hora. O que mais preocupa a senhora?', tempo: '40 s', analogia: 'Pele como a lona de uma barraca' },
     ],
     extra: 'E pela fórmula de Parkland, que aparece em muitas questões? (4 mL × 70 × 27 = 7.560 mL em 24 h; metade nas primeiras 8 h contadas a partir da queimadura, descontando o que já correu no pré-hospitalar.) Qual é a taxa pré-hospitalar, antes de qualquer conta? (14 anos ou mais: 500 mL/h; 6 a 13 anos: 250 mL/h; até 5 anos: 125 mL/h.)',
