@@ -212,13 +212,13 @@ ESTACOES.push(
   // ----------------------------------------------------- CIR-05 · REMIT no pós-operatório
   {
     id: 'CIR-05', materia: 'cir',
-    titulo: 'Sem fome, sem urina e com o coração acelerado',
+    titulo: 'Primeiro dia depois da laparotomia',
     local: 'UTI cirúrgica', papel: 'Médico(a) plantonista', interacao: 'paciente',
     cenario: 'Sr. Alberto, 25 anos, está no 1º dia de pós-operatório de laparotomia exploradora por trauma de baço: caiu e foi pisoteado na fuga de um incêndio numa boate. Ele está consciente e estável, mas alguns sinais chamaram a sua atenção. Avalie o paciente, explique os achados e defina a conduta. Peça ao avaliador os dados de exame de que precisar.',
     mesa: [],
     tarefas: [
-      'Explique, pela resposta endócrino-metabólica ao trauma (REMIT), a falta de apetite, a ausência de dejeções, a oligúria e a taquicardia.',
-      'O que você checa antes de atribuir tudo à REMIT?',
+      'Que achados você encontrou? Explique cada um pela resposta do organismo ao trauma.',
+      'O que você checa antes de atribuir tudo a essa resposta?',
       'Como você ajuda esse paciente? Atue nos gatilhos da resposta.',
       'Explique ao paciente o que está acontecendo com o corpo dele.',
     ],
@@ -677,7 +677,7 @@ ESTACOES.push(
     mesa: [],
     tarefas: [
       'Classifique a ferida e diga como ela deve ser fechada, diferenciando primeira, segunda e terceira intenção.',
-      'Por que é preciso desbridar o tecido desvitalizado?',
+      'Pelo exame da ferida, o que precisa ser feito antes de fechá-la, e por quê?',
       'Quais fatores da ferida e do paciente atrasam a cicatrização neste caso?',
       'Responda à pergunta sobre o queloide, diferenciando queloide de cicatriz hipertrófica.',
     ],
@@ -721,14 +721,14 @@ ESTACOES.push(
   // ----------------------------------------------------- CIR-15 · Queimadura elétrica
   {
     id: 'CIR-15', materia: 'cir',
-    titulo: 'O choque na rede de alta tensão',
+    titulo: 'O choque na rede elétrica',
     local: 'Pronto-socorro — sala de emergência', papel: 'Médico(a) plantonista', interacao: 'paciente',
     cenario: 'Josué, 32 anos, eletricista, levou um choque numa rede elétrica há 2 horas. Tem uma lesão escura de 2 cm na palma da mão direita e outra de 1 cm na sola do pé esquerdo. A esposa pergunta "por que tanta preocupação, se a queimadura é pequenininha". Avalie e defina a conduta. Peça ao avaliador os dados de exame de que precisar.',
     mesa: [],
     tarefas: [
       'Por que as lesões pequenas na pele não mostram a gravidade?',
-      'O que significa a urina escura e qual é a conduta, com a meta?',
-      'O que está acontecendo no antebraço e qual é a conduta? Diferencie de escarotomia.',
+      'Que exames você pede, o que eles mostram e qual é a conduta, com a meta?',
+      'Investigue a dor que ele refere: o que está acontecendo, e qual é a conduta? Diferencie da escarotomia.',
       'Ele precisa de centro especializado e de monitorização? Responda à esposa.',
     ],
     anamnese: [
@@ -779,7 +779,7 @@ ESTACOES.push(
     mesa: [],
     tarefas: [
       'Qual é a primeira conduta, passo a passo?',
-      'Por que não se deve neutralizar com vinagre?',
+      'O que você responde sobre o vinagre? Justifique pelo mecanismo.',
       'Qual é mais grave, queimadura por ácido ou por álcali? Por quê?',
       'Ele precisa de centro especializado? Explique ao paciente.',
     ],
@@ -827,8 +827,8 @@ ESTACOES.push(
     mesa: [],
     tarefas: [
       'Por onde você começa? Avalie a via aérea: há indicação de via aérea definitiva?',
-      'Avalie a ventilação. O que fazer com a queimadura do tórax?',
-      'Ele está hipotenso. A hipotensão é da queimadura? O que você faz?',
+      'Avalie a ventilação: o que você encontra, e o que faz?',
+      'Avalie a circulação: o que você encontra, de onde isso vem, e o que você faz?',
       'Avalie o neurológico. Que intoxicações você suspeita e como trata?',
     ],
     anamnese: [
@@ -1114,7 +1114,7 @@ ESTACOES.push(
   // ----------------------------------------------------- CIR-24 · Hipertermia maligna × anafilaxia no intraoperatório
   {
     id: 'CIR-24', materia: 'cir',
-    titulo: 'Rigidez e febre na sala de cirurgia',
+    titulo: 'Alguma coisa está errada na sala de cirurgia',
     local: 'Sala cirúrgica', papel: 'Residente de cirurgia', interacao: 'examinador',
     cenario: 'Você está na sala de uma apendicectomia num homem de 24 anos, hígido, sob anestesia geral. Cerca de 20 minutos após a indução, o anestesista (examinador) pede ajuda: "Alguma coisa está errada". Reconheça o quadro e conduza. Peça ao avaliador os dados de que precisar.',
     mesa: [],

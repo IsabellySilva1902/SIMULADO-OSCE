@@ -147,7 +147,7 @@ ESTACOES.push(
     tarefas: [
       'Explique ao Sr. Josué como funciona o estudo e os direitos dele.',
       'Calcule o risco em cada grupo, o risco relativo e a redução absoluta de risco. Interprete.',
-      'Os 150 que abandonaram devem ser analisados em qual grupo? Justifique.',
+      'Pelos resultados, como você analisa quem não seguiu o tratamento até o fim? Justifique.',
     ],
     anamnese: [
       { tema: 'Medos e dúvidas', resposta: '"Tenho medo de ser cobaia. E se eu cair no grupo do remédio de mentira, fico sem tratamento?"' },
@@ -230,7 +230,7 @@ ESTACOES.push(
   // ----------------------------------------------------- EPI-07 · Canal endêmico e epidemia
   {
     id: 'EPI-07', materia: 'epi',
-    titulo: 'Os casos passaram do canal endêmico',
+    titulo: 'É epidemia ou exagero da televisão?',
     local: 'Vigilância epidemiológica municipal', papel: 'Médico(a) da vigilância', interacao: 'paciente',
     cenario: 'Todo inverno aumentam os casos de uma doença respiratória no município, e a vigilância acompanha os casos notificados por semana epidemiológica (SE). Um líder comunitário vem saber "se é epidemia mesmo ou se é exagero da televisão". Converse com ele, interprete os dados e explique. Peça os dados de que precisar.',
     mesa: [],
@@ -360,7 +360,7 @@ ESTACOES.push(
     tarefas: [
       'Calcule a incidência, a mortalidade e a letalidade de cada doença.',
       'Interprete: qual é mais grave para quem adoece e qual pesa mais para a população?',
-      'Por que a letalidade da influenza pode estar superestimada mesmo assim? Explique à jornalista.',
+      'Os casos notificados de influenza são todos os casos? O que isso muda na letalidade? Explique à jornalista.',
     ],
     anamnese: [
       { tema: 'Tamanho da cidade', resposta: '"A cidade tem 200.000 habitantes."' },
@@ -734,10 +734,10 @@ ESTACOES.push(
     cenario: 'Sr. Wagner, 55 anos, chega assustado com uma reportagem: "Estudo mostra que café aumenta em 80% o risco de infarto". Converse com ele, interprete o estudo e oriente. Peça os dados de que precisar.',
     mesa: [],
     tarefas: [
-      'O que é confundimento? Por que o tabagismo é um confundidor aqui?',
-      'Interprete a análise bruta e a ajustada. O que o intervalo de confiança da ajustada mostra?',
-      'Qual a diferença entre um confundidor e uma variável intermediária? Por que não se deve ajustar para uma intermediária?',
-      'Explique ao paciente o que o estudo realmente mostra e o que mais pesa no risco dele.',
+      'O estudo prova que o café causa infarto? Que outra explicação você precisa considerar, e por quê? Justifique com o que investigou.',
+      'Interprete os resultados do estudo. A associação se mantém? O que mostra o intervalo de confiança?',
+      'Nem toda variável deve entrar no ajuste. Qual não deve, e por quê? Como controlar até as variáveis que não se conhece?',
+      'Explique ao paciente o que o estudo realmente mostra e oriente-o sobre o risco dele.',
     ],
     anamnese: [
       { tema: 'Hábitos', resposta: '"Tomo 6 xícaras de café por dia. E fumo um maço por dia há 30 anos."' },
@@ -754,8 +754,8 @@ ESTACOES.push(
     ],
     barema: {
       conteudo: [
-        { tarefa: 1, item: 'Confundidor: terceira variável, causa comum, associada à exposição e ao desfecho, que distorce a associação', pts: 1 },
-        { tarefa: 1, item: 'Tabagismo: mais frequente entre quem toma muito café e associado ao infarto', pts: 1 },
+        { tarefa: 1, item: 'Reconheceu confundimento: terceira variável, causa comum, associada à exposição e ao desfecho, que distorce a associação', pts: 1 },
+        { tarefa: 1, item: 'Perguntou os hábitos e pediu o artigo: tabagismo, mais frequente entre quem toma muito café e associado ao infarto, é o confundidor', pts: 1 },
         { tarefa: 2, item: 'A associação bruta (1,8) quase desaparece após ajuste (1,1): grande parte era efeito do tabagismo', pts: 1 },
         { tarefa: 2, item: 'IC95% da ajustada inclui 1: associação não estatisticamente significativa', pts: 1 },
         { tarefa: 3, item: 'Confundidor é causa comum, anterior à exposição e ao desfecho; a intermediária é um elo no caminho causal entre eles', pts: 1 },
@@ -765,9 +765,9 @@ ESTACOES.push(
     },
     errosCriticos: ['Interpretar a análise bruta como efeito do café', 'Ajustar para variável intermediária como se fosse confundidor'],
     falaModelo: [
-      { tarefa: 1, texto: 'Confundimento é quando uma terceira variável, ligada tanto à exposição quanto ao desfecho, distorce a associação. Aqui, quem toma mais café fuma mais, e o cigarro está ligado ao infarto: o tabagismo é o confundidor.', tempo: '25 s' },
+      { tarefa: 1, texto: 'Não necessariamente: preciso pensar em confundimento, quando uma terceira variável, ligada tanto à exposição quanto ao desfecho, distorce a associação. Ele me contou que fuma, e o artigo mostra que quem toma mais café fuma mais; o cigarro está ligado ao infarto: o tabagismo é o confundidor.', tempo: '25 s' },
       { tarefa: 2, texto: 'Na análise bruta, o risco parecia 80% maior. Quando se ajusta para o tabagismo, cai para 1,1, e o intervalo de confiança inclui 1, então não há associação estatisticamente significativa. Quase todo o efeito era do cigarro.', tempo: '30 s' },
-      { tarefa: 3, texto: 'O confundidor é uma causa comum, que vem antes da exposição e do desfecho. A variável intermediária fica no meio do caminho causal: a exposição causa a intermediária, que causa o desfecho. Se eu ajustar para ela, apago parte do efeito que quero medir. E o único jeito de controlar até os confundidores que não conheço é a randomização.', tempo: '35 s' },
+      { tarefa: 3, texto: 'Não se ajusta para uma variável intermediária. O confundidor é uma causa comum, que vem antes da exposição e do desfecho; a variável intermediária fica no meio do caminho causal: a exposição causa a intermediária, que causa o desfecho. Se eu ajustar para ela, apago parte do efeito que quero medir. E o único jeito de controlar até os confundidores que não conheço é a randomização.', tempo: '35 s' },
       { tarefa: 4, texto: 'Seu Wagner, a manchete pegou o número errado. É como achar que guarda-chuva causa trânsito, porque nos dias de muito guarda-chuva tem muito engarrafamento: quem causa os dois é a chuva. No seu caso, a chuva é o cigarro. O estudo, depois de considerar o cigarro, não mostrou que o café aumente o infarto. O que mais pesa no seu risco é o cigarro, e é aí que eu gostaria de ajudar o senhor. O que acha?', tempo: '50 s', analogia: 'Guarda-chuva e trânsito: a causa é a chuva' },
     ],
     extra: 'O que é causalidade reversa? (O desfecho influenciando a exposição; aparece sobretudo em estudos transversais.) Qual critério de Bradford Hill a correlação sorvete–afogamento viola? (Plausibilidade biológica/coerência: o calor do verão explica os dois.)',

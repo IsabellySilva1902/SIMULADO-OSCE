@@ -60,14 +60,14 @@ ESTACOES.push(
   // ----------------------------------------------------- FAR-02 · Retenção urinária por efeito anticolinérgico
   {
     id: 'FAR-02', materia: 'farmaco',
-    titulo: 'Não consegui urinar depois do remédio da alergia',
+    titulo: 'Travei e precisei de sonda',
     local: 'Ambulatório de clínica médica — retorno', papel: 'Médico(a) clínico(a)', interacao: 'paciente',
     cenario: 'Seu Armando, 72 anos, foi sondado ontem no pronto-socorro porque não conseguia urinar e veio ao clínico com medo de "travar de novo". Investigue a causa, maneje e oriente o paciente. Peça ao avaliador os dados de que precisar.',
     mesa: [],
     tarefas: [
       'Quais reações adversas ele teve? Que propriedades do fármaco as explicam, e por que ele estava mais vulnerável?',
-      'Que medida você toma com o antialérgico? Que alternativa é mais segura para ele, e por quê?',
-      'Além do medicamento, que medidas ajudam a controlar a rinite dele?',
+      'Que medida você toma com o medicamento? Que alternativa é mais segura para ele, e por quê?',
+      'Além do medicamento, que medidas ajudam a controlar o problema que o levou a tomá-lo?',
       'Explique ao Seu Armando o que aconteceu e o que ele deve fazer daqui para frente.',
     ],
     anamnese: [
@@ -157,14 +157,14 @@ ESTACOES.push(
   // ----------------------------------------------------- FAR-04 · Descongestionante sistêmico e pressão arterial
   {
     id: 'FAR-04', materia: 'farmaco',
-    titulo: 'A pressão subiu depois do antigripal',
+    titulo: 'A pressão subiu, e ele quer aumentar o remédio',
     local: 'UBS — consulta', papel: 'Médico(a) da UBS', interacao: 'paciente',
     cenario: 'Seu Nelson, 63 anos, hipertenso, mediu a pressão na farmácia e ela está bem acima do habitual. Ele acha que precisa aumentar o remédio da pressão. Investigue, maneje e oriente o paciente. Peça ao avaliador os dados de que precisar.',
     mesa: [],
     tarefas: [
       'Que reação adversa ele apresenta, e qual é o mecanismo?',
       'Que medida você toma? É o caso de aumentar o remédio da pressão?',
-      'Como tratar a congestão dele com segurança? E o spray descongestionante nasal, que ele pensa em usar no lugar?',
+      'Como tratar com segurança o sintoma que o levou a esse medicamento? Responda também à pergunta dele no final.',
       'Explique ao paciente e oriente sobre a automedicação.',
     ],
     anamnese: [
@@ -205,7 +205,7 @@ ESTACOES.push(
   // ----------------------------------------------------- FAR-05 · Efeitos adversos do antileucotrieno
   {
     id: 'FAR-05', materia: 'farmaco',
-    titulo: 'Desde o remédio novo, ele não dorme e anda triste',
+    titulo: 'Ele mudou nos últimos meses',
     local: 'Ambulatório de pediatria', papel: 'Médico(a)', interacao: 'paciente',
     cenario: 'Gabriel, 15 anos, tem asma leve e rinite alérgica. A mãe, dona Cláudia, o trouxe porque ele "mudou" nos últimos meses. Investigue, relacione com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
     mesa: [],
@@ -530,7 +530,7 @@ ESTACOES.push(
   // ----------------------------------------------------- FAR-08 · Toxicidade da teofilina
   {
     id: 'FAR-08', materia: 'farmaco',
-    titulo: 'Palpitações e tontura com o remédio antigo da asma',
+    titulo: 'Palpitações e tontura em quem tem asma há 30 anos',
     local: 'Pronto atendimento', papel: 'Médico(a) plantonista', interacao: 'paciente',
     cenario: 'Dona Eunice, 66 anos, asmática há 30 anos, chega ao pronto atendimento com palpitações e tontura. Investigue, relacione com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
     mesa: [],
@@ -579,7 +579,7 @@ ESTACOES.push(
   // ----------------------------------------------------- FAR-09 · Asma desencadeada por AINE
   {
     id: 'FAR-09', materia: 'farmaco',
-    titulo: 'O chiado começou depois do comprimido para cólica',
+    titulo: 'Chiado e falta de ar que começaram há pouco',
     local: 'Pronto atendimento', papel: 'Médico(a) plantonista', interacao: 'paciente',
     cenario: 'Sandra, 41 anos, com rinite alérgica e asma, chega ao pronto atendimento com chiado e falta de ar que começaram há pouco. Investigue o desencadeante, maneje a crise e oriente. Peça ao avaliador os dados de que precisar.',
     mesa: [],
@@ -627,14 +627,14 @@ ESTACOES.push(
   // ----------------------------------------------------- FAR-10 · Corticoide oral crônico e osteoporose
   {
     id: 'FAR-10', materia: 'farmaco',
-    titulo: 'Anos de corticoide em comprimido e uma fratura na coluna',
+    titulo: 'A asmática que fraturou a coluna',
     local: 'Ambulatório de pneumologia', papel: 'Médico(a)', interacao: 'paciente',
     cenario: 'Dona Lúcia, 58 anos, com asma grave, vem ao ambulatório depois de uma fratura na coluna. Investigue a relação com os medicamentos, maneje e oriente. Peça ao avaliador os dados de que precisar.',
     mesa: [],
     tarefas: [
       'Qual reação adversa explica a fratura? Relacione com o medicamento e explique o mecanismo.',
-      'Que medidas você toma em relação ao corticoide e à osteoporose?',
-      'Como acompanhar? Que outros medicamentos também causam osteoporose secundária?',
+      'Que medidas você toma em relação ao medicamento e aos ossos?',
+      'Como acompanhar? Que outros medicamentos também podem causar esse problema?',
       'Explique à paciente o que aconteceu e como o tratamento da asma pode proteger os ossos.',
     ],
     anamnese: [
