@@ -248,11 +248,12 @@ const RESUMOS = {
   ], pegadinha: 'Humor que muda várias vezes no dia, após conflitos, sugere borderline, e não transtorno bipolar.' },
 
   'MEN-04': { tema: 'Síndrome de abstinência alcoólica', pontos: [
-    '2 ou mais sinais após parar uso intenso: hiperatividade autonômica, tremor, insônia, náusea, alucinações transitórias, agitação, ansiedade, convulsões.',
-    '70–90% têm SAA leve/moderada (início em 24–36 h); cerca de 5%, grave; convulsões em menos de 3%; mortalidade da grave em torno de 1%.',
-    'Nível I (leve/moderada, orientado): ambulatorial, diazepam 20–40 mg/dia ou clordiazepóxido 100–200 mg/dia + tiamina 300 mg IM/dia.',
-    'Nível II ou CIWA-Ar ≥ 20: internação, benzodiazepínico em doses maiores e horárias.',
-    'Tiamina sempre antes da glicose.',
+    'Diagnóstico: 2 ou mais sinais após parar uso intenso e prolongado: hiperatividade autonômica, tremor, insônia, náusea, alucinações transitórias, agitação, ansiedade, convulsões.',
+    'Nível I (leve/moderada, 70–90% dos casos, começa 24–36 h após a última dose): tremor, sudorese, taquicardia, ansiedade, insônia; orientado, sem alucinações, juízo crítico preservado; CIWA-Ar < 20.',
+    'Conduta no nível I: ambulatorial; diazepam 20–40 mg/dia (ou clordiazepóxido 100–200 mg/dia) + tiamina 300 mg IM/dia. Orientar os sinais de alarme: alucinações, desorientação, convulsão, agitação.',
+    'Nível II (grave, cerca de 5%): desorientação, alucinações, agitação e tremor intensos, convulsões (menos de 3%) e delirium tremens, 48–96 h após a última dose; CIWA-Ar ≥ 20; mortalidade em torno de 1%.',
+    'Conduta no nível II: internação; benzodiazepínico em doses maiores e horárias + tiamina; haloperidol só como adjuvante, se sintomas psicóticos proeminentes (sozinho, não trata a hiperatividade autonômica).',
+    'Tiamina sempre antes da glicose. Wernicke (falta de tiamina): confusão + oftalmoparesia/nistagmo + ataxia, diferente da hiperatividade autonômica do delirium tremens.',
     'Manutenção: naltrexona (após retirar o benzodiazepínico), dissulfiram (supervisionado, com TCLE; contraindicado em epilepsia, hepatopatia e cardiopatia grave), topiramato, baclofeno. O acamprosato não está disponível no Brasil.',
   ], pegadinha: 'Glicose antes da tiamina pode precipitar a encefalopatia de Wernicke.' },
 
