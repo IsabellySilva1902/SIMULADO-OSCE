@@ -184,7 +184,7 @@
     <p>Na estação, selecione um trecho do cenário, dos dados da mesa, das tarefas, de uma resposta do paciente ou de uma placa para grifar em amarelo. Com mouse, o grifo entra ao soltar a seleção; no celular ou tablet, selecione e toque em <b>Grifar trecho</b>. Toque num grifo para apagá-lo, ou em <b>Limpar grifos</b> para apagar todos. No feedback dá para grifar a fala-modelo e a pergunta extra, e as respostas e placas grifadas continuam grifadas. Os grifos valem só para aquela estação.</p>
     <h3 class="font-semibold mt-3">🔔 Circuito</h3>
     <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
-    <p class="mt-1">Em <b>Matérias</b>, marque só o que quer treinar: uma matéria, algumas ou todas. Em <b>Estações no circuito</b>, escolha <b>1 de cada matéria marcada</b> (como na prova) ou 3, 5, 8 ou todas as estações; nesse caso elas se dividem entre as matérias marcadas, sem repetir. Vale também no treino em dupla ou trio: o quadro do grupo tem as mesmas escolhas, todos usam as mesmas (o link 🔗 já as leva) e recebem as mesmas estações.</p>
+    <p class="mt-1">Em <b>Matérias</b>, marque só o que quer treinar: uma matéria, algumas ou todas. Em <b>Estações no circuito</b>, escolha <b>1 de cada matéria marcada</b> (como na prova) ou 3, 5, 8 ou todas as estações; nesse caso elas se dividem entre as matérias marcadas, sem repetir estação. Dentro de cada matéria, o sorteio também não repete <b>assunto</b> enquanto houver outro (por exemplo, não saem duas estações de lesões de pele em Clínica Cirúrgica); só repete quando o circuito tem mais estações do que a matéria tem assuntos. Vale também no treino em dupla ou trio: o quadro do grupo tem as mesmas escolhas, todos usam as mesmas (o link 🔗 já as leva) e recebem as mesmas estações.</p>
     <p class="mt-1">Na porta da estação, <b>⤵️ Deixar para o final</b> manda a estação para o fim da mesma rodada, e você segue para a próxima. <b>Pular de vez</b> tira a estação da rodada sem nota. Na dupla ou no trio, todos tocam no mesmo botão para continuar na mesma estação.</p>
     <h3 class="font-semibold mt-3">📈 Histórico de rodadas</h3>
     <p>Cada rodada que você termina (circuito, estação sorteada, prova anterior, catálogo ou caderno) guarda a sua média. Na página inicial aparecem a última rodada, a melhor média e a média geral, um gráfico com as últimas 15 rodadas (linha tracejada no 7,0) e a lista de rodadas com a nota de cada estação e a diferença para a rodada anterior. Na dupla e no trio, entra só a nota de quando você foi o candidato. Estações puladas e rodadas interrompidas não entram.</p>
@@ -227,6 +227,7 @@
 <script src="estacoes-epi.js"></script>
 <script src="estacoes-mulher.js"></script>
 <script src="estacoes-prova.js"></script>
+<script src="assuntos.js"></script>
 <script src="resumos.js"></script>
 <script>
 (function () {
@@ -236,6 +237,9 @@
   const T_STATION = 240;
   const BY_ID = {}; ESTACOES.forEach(e => { BY_ID[e.id] = e; });
   const MAT = {}; MATERIAS.forEach(m => { MAT[m.key] = m; });
+  // assunto de cada estação (assuntos.js): com várias da mesma matéria, o sorteio não repete assunto
+  const ASSUNTO_DE = {}; Object.values(typeof ASSUNTOS === 'undefined' ? {} : ASSUNTOS).forEach(l => l.forEach(([nome, ids]) => ids.split(' ').forEach(id => { ASSUNTO_DE[id] = nome; })));
+  function assuntoDe(id) { return ASSUNTO_DE[id] || id; }
   const ATIVAS = MATERIAS.filter(m => ESTACOES.some(e => e.materia === m.key && !e.fora)).map(m => m.key);
   const RES = (typeof RESUMOS !== 'undefined') ? RESUMOS : {};
 
@@ -388,7 +392,7 @@
     $('circ-n').value = prefs.circN || '1'; $('dupla-n').value = $('circ-n').value;
     const cms = circMaterias(), cq = circQtd();
     $('circ-n-info').textContent = !cms.length ? 'Marque pelo menos uma matéria.' : prefs.circN === '1' ? `${cms.length} ${cms.length === 1 ? 'estação' : 'estações'}, uma de cada matéria marcada, em ordem sorteada.`
-      : `${cq} ${cq === 1 ? 'estação' : 'estações'} ${cms.length > 1 ? `divididas entre as ${cms.length} matérias marcadas` : 'de ' + MAT[cms[0]].label}, sem repetir, em ordem sorteada.`;
+      : `${cq} ${cq === 1 ? 'estação' : 'estações'} ${cms.length > 1 ? `divididas entre as ${cms.length} matérias marcadas` : 'de ' + MAT[cms[0]].label}, ${prefs.circN === 'todas' ? 'todas as que existem' : 'sem repetir assunto enquanto houver outro'}, em ordem sorteada.`;
     $('btn-circuito').textContent = '🔔 ' + circNome();
     $('dupla-mats').innerHTML = MATERIAS.filter(m => ATIVAS.includes(m.key)).map(m => { const on = prefs.materias.includes(m.key); return `<label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border cursor-pointer ${on ? 'border-violet-400 bg-violet-50' : 'border-slate-300 bg-white'}"><input type="checkbox" class="dupla-mat w-4 h-4" value="${m.key}" ${on ? 'checked' : ''}> ${m.icon} ${esc(m.label)}</label>`; }).join('');
     $('btn-dupla').textContent = 'Começar ' + circNome().replace(/^C/, 'c');
@@ -452,19 +456,25 @@
     for (let t = 0, i = 0; t < n && ms.some(m => q[m] < cap[m]); i++) { const m = ms[i % ms.length]; if (q[m] < cap[m]) { q[m]++; t++; } }
     return q;
   }
-  function nextFromDeck(materia, rng, seeded) {
-    // baralho sem repetição por matéria (no modo dupla, ordem determinística pelo código)
-    const pool = ESTACOES.filter(e => e.materia === materia && !e.fora).map(e => e.id);
+  // a candidata de menor custo; no empate, vale a ordem sorteada
+  function melhor(l, custo) { let b = null, bc = Infinity; l.forEach(id => { const c = custo(id); if (c < bc) { b = id; bc = c; } }); return b; }
+  function nextFromDeck(materia, rng, seeded, ja) {
+    // baralho sem repetição por matéria (no grupo, sorteio determinístico pelo código).
+    // "ja": estações que já estão no circuito; antes de repetir um assunto, saem todos os outros
+    ja = ja || [];
+    const pool = poolDe(materia).filter(id => !ja.includes(id));
     if (!pool.length) return null;
-    if (seeded) return shuffle(pool, rng)[0];
-    const deck = load(LS.deck, {});
-    let d = deck[materia];
-    if (!d || !d.order || d.order.length !== pool.length || !d.order.every(id => BY_ID[id])) d = { order: shuffle(pool), pos: 0 };
-    if (d.pos >= d.order.length) d = { order: shuffle(pool), pos: 0 };
-    // dentro da volta do baralho, as que você ainda não fez vêm primeiro
-    const h = hist(), j = d.order.findIndex((x, i) => i >= d.pos && !(h[x] && h[x].length));
-    if (j > d.pos) [d.order[d.pos], d.order[j]] = [d.order[j], d.order[d.pos]];
-    const id = d.order[d.pos]; d.pos++; deck[materia] = d; save(LS.deck, deck);
+    const cont = {}; ja.forEach(id => { const a = assuntoDe(id); cont[a] = (cont[a] || 0) + 1; });
+    const rep = id => cont[assuntoDe(id)] || 0;
+    if (seeded) return melhor(shuffle(pool, rng), rep);
+    // volta do baralho: as que já saíram só voltam depois que todas saírem; dentro da volta,
+    // as que você ainda não fez vêm primeiro. Assunto diferente vem antes de tudo isso.
+    const deck = load(LS.deck, {}), d0 = deck[materia] || {}, h = hist();
+    let saiu = (Array.isArray(d0.saiu) ? d0.saiu : Array.isArray(d0.order) ? d0.order.slice(0, d0.pos) : []).filter(id => BY_ID[id] && BY_ID[id].materia === materia && !BY_ID[id].fora);
+    if (pool.every(id => saiu.includes(id))) saiu = ja.filter(id => BY_ID[id] && BY_ID[id].materia === materia);
+    const id = melhor(shuffle(pool, rng), x => rep(x) * 4 + (saiu.includes(x) ? 2 : 0) + (h[x] && h[x].length ? 1 : 0));
+    if (!saiu.includes(id)) saiu.push(id);
+    deck[materia] = { saiu }; save(LS.deck, deck);
     return id;
   }
   function startCircuit(opts) {
@@ -477,7 +487,7 @@
     if (opts.ids) ids = opts.ids;
     else if (multi) {
       const n = circQtd(), ms = shuffle(ms0.slice().sort(), rng), q = cotas(ms, n);
-      if (seed) ids = shuffle(ms.flatMap(m => shuffle(poolDe(m), rng).slice(0, q[m])), rng);
+      if (seed) { ids = []; ms.forEach(m => { for (let i = 0; i < q[m]; i++) ids.push(nextFromDeck(m, rng, true, ids)); }); ids = shuffle(ids.filter(Boolean), rng); }
       else {
         // sozinho: conta para a agenda; com revisão, ~20% vêm da fila dessas matérias (pelo menos 1),
         // dentro da parte de cada matéria
@@ -485,10 +495,10 @@
         const usa = {}; ms.forEach(m => { usa[m] = 0; });
         if (prefs.revisao !== false) {
           const k = Math.max(1, Math.round(n * SRS_SHARE));
-          srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia; if (Object.keys(rev).length < k && usa[m] < q[m]) { usa[m]++; rev[x.id] = revMotivo(x.id); } });
+          srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia, a = assuntoDe(x.id); if (Object.keys(rev).length < k && usa[m] < q[m] && !Object.keys(rev).some(r => assuntoDe(r) === a)) { usa[m]++; rev[x.id] = revMotivo(x.id); } });
         }
         ids = Object.keys(rev);
-        ms.forEach(m => { const t = poolDe(m).length * 2; for (let i = 0; usa[m] < q[m] && i < t; i++) { const id = nextFromDeck(m, rng, false); if (id && !ids.includes(id)) { ids.push(id); usa[m]++; } } });
+        ms.forEach(m => { while (usa[m] < q[m]) { const id = nextFromDeck(m, rng, false, ids); if (!id) break; ids.push(id); usa[m]++; } });
         ids = shuffle(ids);
       }
     }
