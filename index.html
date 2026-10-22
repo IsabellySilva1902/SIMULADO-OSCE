@@ -60,14 +60,13 @@
         <label class="flex items-start gap-2 p-2.5 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="radio" name="modo" value="prova" class="modo-radio mt-1 w-4 h-4"> <span><b>⏱️ Com tempo</b><span class="block text-xs text-slate-500">4 minutos, como na prova</span></span></label>
         <label class="flex items-start gap-2 p-2.5 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="radio" name="modo" value="estudo" class="modo-radio mt-1 w-4 h-4"> <span><b>📖 Sem tempo</b><span class="block text-xs text-slate-500">estudo com calma e anotações</span></span></label>
       </div>
-      <div class="text-sm font-semibold mb-2">Matérias</div>
-      <div id="materias-list" class="grid sm:grid-cols-2 gap-2 mb-4"></div>
-      <div class="text-sm font-semibold mb-2">Tipo de circuito</div>
-      <div class="grid sm:grid-cols-2 gap-2 mb-4">
-        <label class="flex items-start gap-2 p-2.5 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="radio" name="circtipo" value="misto" class="circ-radio mt-1 w-4 h-4"> <span><b>🔀 Uma de cada matéria</b><span class="block text-xs text-slate-500">das matérias marcadas acima, como na prova</span></span></label>
-        <label class="flex items-start gap-2 p-2.5 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="radio" name="circtipo" value="materia" class="circ-radio mt-1 w-4 h-4"> <span class="flex-1 min-w-0"><b>📚 Só uma matéria</b><span class="block text-xs text-slate-500">várias estações seguidas da mesma matéria</span>
-          <span class="flex flex-wrap gap-2 mt-2"><select id="circ-mat" class="rounded-lg border border-slate-300 px-2 py-1 text-sm bg-white" aria-label="Matéria do circuito"></select><select id="circ-n" class="rounded-lg border border-slate-300 px-2 py-1 text-sm bg-white" aria-label="Quantidade de estações"><option value="3">3 estações</option><option value="5">5 estações</option><option value="8">8 estações</option><option value="todas">todas</option></select></span></span></label>
-      </div>
+      <div class="flex items-center justify-between gap-2 mb-2"><span class="text-sm font-semibold">Matérias</span><span class="text-xs text-slate-500"><button type="button" id="mat-todas" class="underline">marcar todas</button> · <button type="button" id="mat-nenhuma" class="underline">desmarcar todas</button></span></div>
+      <div id="materias-list" class="grid sm:grid-cols-2 gap-2 mb-1"></div>
+      <p class="text-xs text-slate-500 mb-4">Marque só o que quer treinar: uma matéria, algumas ou todas.</p>
+      <label class="block text-sm font-semibold mb-4">Estações no circuito
+        <select id="circ-n" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white font-normal"><option value="1">1 de cada matéria marcada (como na prova)</option><option value="3">3 estações</option><option value="5">5 estações</option><option value="8">8 estações</option><option value="todas">todas as estações das matérias marcadas</option></select>
+        <span id="circ-n-info" class="block text-xs font-normal text-slate-500 mt-1"></span>
+      </label>
       <div class="text-sm font-semibold mb-2">Revisão nesta rodada <span class="font-normal text-slate-500">(circuito sozinho)</span></div>
       <div class="grid grid-cols-2 gap-2 mb-4">
         <label class="flex items-start gap-2 p-2.5 rounded-lg border border-slate-200 bg-white cursor-pointer"><input type="radio" name="revisao" value="sim" class="rev-radio mt-1 w-4 h-4"> <span><b>🔁 Com revisão</b><span id="rev-sim-info" class="block text-xs text-slate-500"></span></span></label>
@@ -99,7 +98,7 @@
 
     <div class="mt-4 p-5 rounded-2xl bg-white border border-violet-300 shadow-sm">
       <h2 class="font-bold text-lg mb-1">👥 Treino em dupla ou trio</h2>
-      <p class="text-sm text-slate-500 mb-3"><b>Dupla:</b> um é o <b>candidato</b> e o outro é o <b>avaliador</b>, que faz o paciente, mostra as placas e marca o barema. <b>Trio:</b> entra o <b>ator</b>, que faz o paciente (ou o acompanhante, o gestor, o preceptor) seguindo o roteiro, e o avaliador fica com as placas e o barema. Todos usam o <b>mesmo código</b> e o <b>mesmo circuito</b> (escolha abaixo: uma de cada matéria ou só uma matéria) e tocam em "Entrar na estação" juntos. O link 🔗 já leva essas escolhas.</p>
+      <p class="text-sm text-slate-500 mb-3"><b>Dupla:</b> um é o <b>candidato</b> e o outro é o <b>avaliador</b>, que faz o paciente, mostra as placas e marca o barema. <b>Trio:</b> entra o <b>ator</b>, que faz o paciente (ou o acompanhante, o gestor, o preceptor) seguindo o roteiro, e o avaliador fica com as placas e o barema. Todos usam o <b>mesmo código</b> e o <b>mesmo circuito</b> (as mesmas matérias e a mesma quantidade, escolhidas abaixo) e tocam em "Entrar na estação" juntos. O link 🔗 já leva essas escolhas.</p>
       <div class="grid sm:grid-cols-2 gap-2">
         <label class="text-sm">Código
           <input id="dupla-code" type="text" placeholder="ex.: grupo-osce-1" autocomplete="off" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
@@ -118,11 +117,11 @@
           </select>
         </label>
         <label class="text-sm flex items-center gap-2 sm:mt-6"><input id="dupla-rodizio" type="checkbox" class="w-4 h-4"> 🔄 Revezar os papéis a cada estação</label>
-        <label class="text-sm">Circuito
-          <select id="dupla-circ" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white"></select>
-        </label>
-        <label class="text-sm">Quantas estações
-          <select id="dupla-n" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white"><option value="3">3 estações</option><option value="5">5 estações</option><option value="8">8 estações</option><option value="todas">todas</option></select>
+        <div class="text-sm sm:col-span-2">Matérias do circuito
+          <div id="dupla-mats" class="flex flex-wrap gap-1.5 mt-1"></div>
+        </div>
+        <label class="text-sm sm:col-span-2">Estações no circuito
+          <select id="dupla-n" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white"><option value="1">1 de cada matéria marcada (como na prova)</option><option value="3">3 estações</option><option value="5">5 estações</option><option value="8">8 estações</option><option value="todas">todas as estações das matérias marcadas</option></select>
         </label>
       </div>
       <div class="flex gap-2 mt-3">
@@ -185,7 +184,7 @@
     <p>Na estação, selecione um trecho do cenário, dos dados da mesa, das tarefas, de uma resposta do paciente ou de uma placa para grifar em amarelo. Com mouse, o grifo entra ao soltar a seleção; no celular ou tablet, selecione e toque em <b>Grifar trecho</b>. Toque num grifo para apagá-lo, ou em <b>Limpar grifos</b> para apagar todos. No feedback dá para grifar a fala-modelo e a pergunta extra, e as respostas e placas grifadas continuam grifadas. Os grifos valem só para aquela estação.</p>
     <h3 class="font-semibold mt-3">🔔 Circuito</h3>
     <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
-    <p class="mt-1">Em <b>Tipo de circuito</b>, escolha <b>📚 Só uma matéria</b> para fazer 3, 5, 8 ou todas as estações de uma matéria em sequência. Vale também no treino em dupla ou trio: todos escolhem a mesma matéria e a mesma quantidade (o link 🔗 já leva a escolha) e recebem as mesmas estações.</p>
+    <p class="mt-1">Em <b>Matérias</b>, marque só o que quer treinar: uma matéria, algumas ou todas. Em <b>Estações no circuito</b>, escolha <b>1 de cada matéria marcada</b> (como na prova) ou 3, 5, 8 ou todas as estações; nesse caso elas se dividem entre as matérias marcadas, sem repetir. Vale também no treino em dupla ou trio: o quadro do grupo tem as mesmas escolhas, todos usam as mesmas (o link 🔗 já as leva) e recebem as mesmas estações.</p>
     <p class="mt-1">Na porta da estação, <b>⤵️ Deixar para o final</b> manda a estação para o fim da mesma rodada, e você segue para a próxima. <b>Pular de vez</b> tira a estação da rodada sem nota. Na dupla ou no trio, todos tocam no mesmo botão para continuar na mesma estação.</p>
     <h3 class="font-semibold mt-3">📈 Histórico de rodadas</h3>
     <p>Cada rodada que você termina (circuito, estação sorteada, prova anterior, catálogo ou caderno) guarda a sua média. Na página inicial aparecem a última rodada, a melhor média e a média geral, um gráfico com as últimas 15 rodadas (linha tracejada no 7,0) e a lista de rodadas com a nota de cada estação e a diferença para a rodada anterior. Na dupla e no trio, entra só a nota de quando você foi o candidato. Estações puladas e rodadas interrompidas não entram.</p>
@@ -237,6 +236,7 @@
   const T_STATION = 240;
   const BY_ID = {}; ESTACOES.forEach(e => { BY_ID[e.id] = e; });
   const MAT = {}; MATERIAS.forEach(m => { MAT[m.key] = m; });
+  const ATIVAS = MATERIAS.filter(m => ESTACOES.some(e => e.materia === m.key && !e.fora)).map(m => m.key);
   const RES = (typeof RESUMOS !== 'undefined') ? RESUMOS : {};
 
   function load(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
@@ -250,7 +250,9 @@
   function shuffle(a, rng) { rng = rng || Math.random; a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
   function fmt(s) { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 
-  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false, modo: 'prova', revisao: true, circTipo: 'misto', circMat: 'farmaco', circN: '5' }, load(LS.prefs, {}));
+  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false, modo: 'prova', revisao: true, circN: '1' }, load(LS.prefs, {}));
+  // versão anterior: "Só uma matéria" (circTipo/circMat) virou "matérias marcadas + quantidade"
+  if ('circTipo' in prefs) { if (prefs.circTipo === 'materia' && prefs.circMat) prefs.materias = [prefs.circMat]; else prefs.circN = '1'; delete prefs.circTipo; delete prefs.circMat; save(LS.prefs, prefs); }
   function cad() { const c = load(LS.cad, {}); Object.keys(c).forEach(id => { if (!BY_ID[id]) delete c[id]; }); return c; }
   // ---------- revisão espaçada (estilo Anki, contada em circuitos) ----------
   // Nota < 7 ou erro crítico -> volta no próximo circuito. Cada revisão com 7 ou mais aumenta o
@@ -338,7 +340,7 @@
   function revList() { return ESTACOES.filter(e => !e.fora && prefs.materias.includes(e.materia)).filter(e => { const n = lastNota(e.id); return n !== null && n < 7; }); }
 
   // ---------- histórico de rodadas ----------
-  const ORIGEM = { circuito: 'Circuito', materia: 'Circuito de uma matéria', avulsa: 'Estação sorteada', prova: '⭐ Prova anterior', revisao: 'Notas baixas', catalogo: 'Catálogo', caderno: 'Caderno de erros', resumo: 'Resumo' };
+  const ORIGEM = { circuito: 'Circuito', materia: 'Circuito de matérias escolhidas', avulsa: 'Estação sorteada', prova: '⭐ Prova anterior', revisao: 'Notas baixas', catalogo: 'Catálogo', caderno: 'Caderno de erros', resumo: 'Resumo' };
   function f1(n) { return n.toFixed(1).replace('.', ','); }
   function corNota(n, tipo) { return n >= 7 ? { bg: 'bg-green-500', txt: 'text-green-700', chip: 'bg-green-100 text-green-800' }[tipo] : n >= 5 ? { bg: 'bg-amber-400', txt: 'text-amber-600', chip: 'bg-amber-100 text-amber-800' }[tipo] : { bg: 'bg-rose-500', txt: 'text-rose-600', chip: 'bg-rose-100 text-rose-800' }[tipo]; }
   function fmtData(t) { const d = new Date(t); return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); }
@@ -354,7 +356,7 @@
       const ant = l[i + 1], d = ant ? Math.round(10 * (r.media - ant.media)) / 10 : null;
       const delta = d === null ? '' : d > 0 ? `<span class="text-[10px] text-green-700">▲ ${f1(d)}</span>` : d < 0 ? `<span class="text-[10px] text-rose-600">▼ ${f1(-d)}</span>` : '<span class="text-[10px] text-slate-400">=</span>';
       const chips = (r.est || []).filter(x => BY_ID[x.id]).map(x => `<span class="text-[10px] px-1 rounded ${corNota(x.nota, 'chip')}" title="${esc(x.id)} · ${esc(BY_ID[x.id].titulo)}">${MAT[BY_ID[x.id].materia].icon} ${f1(x.nota)}</span>`).join(' ');
-      return `<div class="flex items-start justify-between gap-2 py-1.5 border-b border-slate-100"><div class="min-w-0"><div class="text-xs text-slate-600">${fmtData(r.t)} · ${esc(r.origem === 'materia' && MAT[r.mat] ? 'Circuito só de ' + MAT[r.mat].label : ORIGEM[r.origem] || 'Rodada')}${r.estudo ? ' · sem tempo' : ''}${r.code ? ' · 👥' : ''}</div><div class="flex flex-wrap gap-1 mt-0.5">${chips}</div></div><div class="text-right shrink-0"><div class="font-bold ${corNota(r.media, 'txt')}">${f1(r.media)}</div>${delta}</div></div>`;
+      return `<div class="flex items-start justify-between gap-2 py-1.5 border-b border-slate-100"><div class="min-w-0"><div class="text-xs text-slate-600">${fmtData(r.t)} · ${esc(rodNome(r))}${r.estudo ? ' · sem tempo' : ''}${r.code ? ' · 👥' : ''}</div><div class="flex flex-wrap gap-1 mt-0.5">${chips}</div></div><div class="text-right shrink-0"><div class="font-bold ${corNota(r.media, 'txt')}">${f1(r.media)}</div>${delta}</div></div>`;
     }).join('');
     $('rod-box').innerHTML = `<div class="grid grid-cols-3 gap-2 mt-3 text-center">
         <div class="rounded-lg bg-slate-50 p-2"><div class="text-lg font-bold ${corNota(l[0].media, 'txt')}">${f1(l[0].media)}</div><div class="text-xs text-slate-500">Última rodada</div></div>
@@ -366,6 +368,12 @@
       <div class="mt-3 max-h-64 overflow-y-auto">${linhas}</div>`;
   }
 
+  function rodNome(r) {
+    const ms = (r.mats || (r.mat ? [r.mat] : [])).filter(k => MAT[k]);
+    if (r.origem !== 'materia' || !ms.length) return ORIGEM[r.origem] || 'Rodada';
+    if (ms.length === 1) return 'Circuito só de ' + MAT[ms[0]].label;
+    return ms.length < ATIVAS.length ? 'Circuito de ' + ms.map(k => MAT[k].label).join(' + ') : 'Circuito de todas as matérias';
+  }
   function renderHome() {
     $('materias-list').innerHTML = MATERIAS.map(m => {
       const n = ESTACOES.filter(e => e.materia === m.key && !e.fora).length;
@@ -377,15 +385,13 @@
     renderRevOpcao();
     renderSrs(); renderRodadas(); const srsIt = srsLoad().items;
     document.querySelectorAll('.modo-radio').forEach(r => { r.checked = r.value === (prefs.modo || 'prova'); });
-    $('circ-mat').innerHTML = MATERIAS.filter(m => ESTACOES.some(e => e.materia === m.key && !e.fora)).map(m => `<option value="${m.key}">${m.icon} ${esc(m.label)}</option>`).join('');
-    if (!MAT[prefs.circMat]) prefs.circMat = MATERIAS[0].key;
-    $('circ-mat').value = prefs.circMat; $('circ-n').value = prefs.circN || '5';
-    document.querySelectorAll('.circ-radio').forEach(r => { r.checked = r.value === (prefs.circTipo === 'materia' ? 'materia' : 'misto'); });
+    $('circ-n').value = prefs.circN || '1'; $('dupla-n').value = $('circ-n').value;
+    const cms = circMaterias(), cq = circQtd();
+    $('circ-n-info').textContent = !cms.length ? 'Marque pelo menos uma matéria.' : prefs.circN === '1' ? `${cms.length} ${cms.length === 1 ? 'estação' : 'estações'}, uma de cada matéria marcada, em ordem sorteada.`
+      : `${cq} ${cq === 1 ? 'estação' : 'estações'} ${cms.length > 1 ? `divididas entre as ${cms.length} matérias marcadas` : 'de ' + MAT[cms[0]].label}, sem repetir, em ordem sorteada.`;
     $('btn-circuito').textContent = '🔔 ' + circNome();
-    $('dupla-circ').innerHTML = '<option value="misto">🔀 Uma de cada matéria (as marcadas em Montar treino)</option>' + MATERIAS.filter(m => ESTACOES.some(e => e.materia === m.key && !e.fora)).map(m => `<option value="${m.key}">📚 Só ${m.icon} ${esc(m.label)}</option>`).join('');
-    $('dupla-circ').value = prefs.circTipo === 'materia' ? prefs.circMat : 'misto';
-    $('dupla-n').value = prefs.circN || '5'; $('dupla-n').disabled = prefs.circTipo !== 'materia';
-    $('btn-dupla').textContent = prefs.circTipo === 'materia' ? 'Começar ' + circNome().replace(/^C/, 'c') : 'Começar circuito';
+    $('dupla-mats').innerHTML = MATERIAS.filter(m => ATIVAS.includes(m.key)).map(m => { const on = prefs.materias.includes(m.key); return `<label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border cursor-pointer ${on ? 'border-violet-400 bg-violet-50' : 'border-slate-300 bg-white'}"><input type="checkbox" class="dupla-mat w-4 h-4" value="${m.key}" ${on ? 'checked' : ''}> ${m.icon} ${esc(m.label)}</label>`; }).join('');
+    $('btn-dupla').textContent = 'Começar ' + circNome().replace(/^C/, 'c');
     const cd = cad(), cdN = Object.keys(cd).length, cdRev = Object.values(cd).filter(x => !x.revisado).length;
     $('cad-count').textContent = cdN ? `${cdN} ${cdN === 1 ? 'estação' : 'estações'} · ${cdRev} para revisar` : 'vazio';
     $('dupla-code').value = prefs.code || ''; $('dupla-formato').value = prefs.formato || 'dupla';
@@ -421,8 +427,7 @@
     prefs.ditado = $('opt-ditado').checked; prefs.som = $('opt-som').checked;
     const mr = document.querySelector('.modo-radio:checked'); prefs.modo = mr ? mr.value : 'prova';
     const rr = document.querySelector('.rev-radio:checked'); prefs.revisao = rr ? rr.value !== 'nao' : true;
-    const cr = document.querySelector('.circ-radio:checked'); prefs.circTipo = cr && cr.value === 'materia' ? 'materia' : 'misto';
-    prefs.circMat = $('circ-mat').value || prefs.circMat; prefs.circN = $('circ-n').value || '5';
+    prefs.circN = $('circ-n').value || '1';
     prefs.code = $('dupla-code').value.trim(); prefs.papel = $('dupla-papel').value;
     prefs.formato = $('dupla-formato').value; prefs.rodizio = $('dupla-rodizio').checked;
     if (prefs.formato !== 'trio' && prefs.papel === 'ator') prefs.papel = 'candidato';
@@ -430,10 +435,23 @@
   }
 
   // ---------- montar circuito ----------
-  // "Só uma matéria": n estações seguidas da matéria escolhida (no grupo, as mesmas em todos os aparelhos)
-  function circMaterias() { return prefs.circTipo === 'materia' ? [prefs.circMat] : prefs.materias; }
-  function circQtd() { const pool = ESTACOES.filter(e => e.materia === prefs.circMat && !e.fora).length; return prefs.circN === 'todas' ? pool : Math.min(+prefs.circN || 5, pool); }
-  function circNome() { const m = MAT[prefs.circMat]; return prefs.circTipo === 'materia' && m ? `Circuito de ${m.icon} ${m.label} (${circQtd()})` : 'Circuito (1 por matéria)'; }
+  // "1 de cada": uma estação de cada matéria marcada, como na prova. 3, 5, 8 ou todas: as estações se
+  // dividem entre as matérias marcadas, sem repetir (no grupo, as mesmas em todos os aparelhos)
+  function poolDe(m) { return ESTACOES.filter(e => e.materia === m && !e.fora).map(e => e.id); }
+  function circMaterias() { return prefs.materias.filter(k => ATIVAS.includes(k)); }
+  function circQtd() { const total = circMaterias().reduce((a, m) => a + poolDe(m).length, 0); return prefs.circN === 'todas' ? total : Math.min(+prefs.circN || 1, total); }
+  function circNome() {
+    const ms = circMaterias(), parte = ms.length < ATIVAS.length;
+    if (prefs.circN === '1' || !ms.length) return ms.length && parte ? `Circuito (1 de cada: ${ms.map(k => MAT[k].icon).join(' ')})` : 'Circuito (1 por matéria)';
+    const nome = !parte ? 'todas as matérias' : ms.length === 1 ? `${MAT[ms[0]].icon} ${MAT[ms[0]].label}` : ms.length === 2 ? ms.map(k => `${MAT[k].icon} ${MAT[k].label}`).join(' + ') : ms.map(k => MAT[k].icon).join(' ');
+    return `Circuito de ${nome} (${circQtd()})`;
+  }
+  function cotas(ms, n) {
+    // divide n estações entre as matérias, em rodízio, sem passar do que cada uma tem
+    const q = {}, cap = {}; ms.forEach(m => { q[m] = 0; cap[m] = poolDe(m).length; });
+    for (let t = 0, i = 0; t < n && ms.some(m => q[m] < cap[m]); i++) { const m = ms[i % ms.length]; if (q[m] < cap[m]) { q[m]++; t++; } }
+    return q;
+  }
   function nextFromDeck(materia, rng, seeded) {
     // baralho sem repetição por matéria (no modo dupla, ordem determinística pelo código)
     const pool = ESTACOES.filter(e => e.materia === materia && !e.fora).map(e => e.id);
@@ -451,27 +469,32 @@
   }
   function startCircuit(opts) {
     readPrefs();
-    const unica = !opts.ids && opts.tipo === 'circuito' && prefs.circTipo === 'materia' ? prefs.circMat : '';
-    if (!opts.ids && !unica && !prefs.materias.length) { toast('Marque pelo menos uma matéria.'); return; }
+    const ms0 = circMaterias(), multi = !opts.ids && opts.tipo === 'circuito' && prefs.circN !== '1';
+    if (!opts.ids && !ms0.length) { toast('Marque pelo menos uma matéria.'); return; }
     let ids, regular = false; const rev = {};
-    const seed = !opts.code ? '' : unica ? `osce|${opts.code.toLowerCase()}|so:${unica}|${circQtd()}` : 'osce|' + opts.code.toLowerCase() + '|' + prefs.materias.slice().sort().join(',');
+    const seed = !opts.code ? '' : 'osce|' + opts.code.toLowerCase() + '|' + ms0.slice().sort().join(',') + (multi ? '|' + circQtd() : '');
     const rng = rngFor(seed);
     if (opts.ids) ids = opts.ids;
-    else if (unica) {
-      const pool = ESTACOES.filter(e => e.materia === unica && !e.fora).map(e => e.id), n = circQtd();
-      if (seed) ids = shuffle(pool, rng).slice(0, n);
+    else if (multi) {
+      const n = circQtd(), ms = shuffle(ms0.slice().sort(), rng), q = cotas(ms, n);
+      if (seed) ids = shuffle(ms.flatMap(m => shuffle(poolDe(m), rng).slice(0, q[m])), rng);
       else {
-        // sozinho: conta para a agenda; com revisão, ~20% vêm da fila desta matéria (pelo menos 1)
+        // sozinho: conta para a agenda; com revisão, ~20% vêm da fila dessas matérias (pelo menos 1),
+        // dentro da parte de cada matéria
         regular = true; const s = srsLoad(); s.counter++; save(LS.srs, s);
-        if (prefs.revisao !== false) srsDue([unica]).slice(0, Math.max(1, Math.round(n * SRS_SHARE))).forEach(x => { rev[x.id] = revMotivo(x.id); });
-        ids = Object.keys(rev).slice(0, n);
-        for (let i = 0; ids.length < n && i < pool.length * 2; i++) { const id = nextFromDeck(unica, rng, false); if (id && !ids.includes(id)) ids.push(id); }
+        const usa = {}; ms.forEach(m => { usa[m] = 0; });
+        if (prefs.revisao !== false) {
+          const k = Math.max(1, Math.round(n * SRS_SHARE));
+          srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia; if (Object.keys(rev).length < k && usa[m] < q[m]) { usa[m]++; rev[x.id] = revMotivo(x.id); } });
+        }
+        ids = Object.keys(rev);
+        ms.forEach(m => { const t = poolDe(m).length * 2; for (let i = 0; usa[m] < q[m] && i < t; i++) { const id = nextFromDeck(m, rng, false); if (id && !ids.includes(id)) { ids.push(id); usa[m]++; } } });
         ids = shuffle(ids);
       }
     }
-    else if (opts.tipo === 'avulsa') { const m = shuffle(prefs.materias, rng)[0]; ids = [nextFromDeck(m, rng, !!seed)]; }
+    else if (opts.tipo === 'avulsa') { const m = shuffle(ms0, rng)[0]; ids = [nextFromDeck(m, rng, !!seed)]; }
     else {
-      const ms = shuffle(prefs.materias, rng);
+      const ms = shuffle(ms0, rng);
       if (!seed) {
         // circuito sozinho: conta para a agenda e, se escolhido "Com revisão", traz ~20% de revisão
         // (pelo menos 1, uma por matéria, no lugar de uma nova)
@@ -486,7 +509,7 @@
     }
     ids = ids.filter(Boolean);
     if (!ids.length) { toast('Ainda não há estações nas matérias marcadas.'); return; }
-    circ = { ids, pos: 0, res: {}, origem: unica ? 'materia' : opts.origem || opts.tipo || 'catalogo', unica, papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodizio: !!(opts.code && prefs.rodizio), estudo: prefs.modo === 'estudo', regular, rev, ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
+    circ = { ids, pos: 0, res: {}, origem: multi ? 'materia' : opts.origem || opts.tipo || 'catalogo', mats: multi ? ms0 : [], papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodizio: !!(opts.code && prefs.rodizio), estudo: prefs.modo === 'estudo', regular, rev, ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
     save(LS.circ, circ);
     openStation();
   }
@@ -921,7 +944,7 @@
     const minhas = ok.filter(x => (x.r.papel || 'candidato') === 'candidato');
     const ant = rodadas()[0] || null; let rod = null;
     if (minhas.length) {
-      rod = { t: Date.now(), media: Math.round(10 * minhas.reduce((a, x) => a + x.r.nota, 0) / minhas.length) / 10, est: minhas.map(x => ({ id: x.e.id, nota: x.r.nota })), total: c.ids.length, origem: c.origem || 'circuito', mat: c.unica || '', estudo: !!c.estudo, code: c.code || '' };
+      rod = { t: Date.now(), media: Math.round(10 * minhas.reduce((a, x) => a + x.r.nota, 0) / minhas.length) / 10, est: minhas.map(x => ({ id: x.e.id, nota: x.r.nota })), total: c.ids.length, origem: c.origem || 'circuito', mats: c.mats || [], estudo: !!c.estudo, code: c.code || '' };
       save(LS.rod, [rod].concat(rodadas()).slice(0, 60));
     }
     const dAnt = rod && ant ? Math.round(10 * (rod.media - ant.media)) / 10 : null;
@@ -946,12 +969,13 @@
 
   // ---------- eventos ----------
   document.addEventListener('change', e => {
-    if (e.target.matches('#circ-mat, #circ-n')) document.querySelector('.circ-radio[value="materia"]').checked = true;
-    // a escolha do circuito no quadro do grupo e em "Montar treino" é a mesma
-    if (e.target.id === 'dupla-circ') { const v = e.target.value; document.querySelector(`.circ-radio[value="${v === 'misto' ? 'misto' : 'materia'}"]`).checked = true; if (v !== 'misto') $('circ-mat').value = v; }
+    // as matérias e a quantidade no quadro do grupo e em "Montar treino" são as mesmas
+    if (e.target.matches('.dupla-mat')) { const c = document.querySelector(`.mat-chk[value="${e.target.value}"]`); if (c) c.checked = e.target.checked; }
     if (e.target.id === 'dupla-n') $('circ-n').value = e.target.value;
-    if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, .rev-radio, .modo-radio, .circ-radio, #circ-mat, #circ-n, #dupla-circ, #dupla-n, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); }
+    if (e.target.matches('.mat-chk, .dupla-mat, #opt-ditado, #opt-som, .rev-radio, .modo-radio, #circ-n, #dupla-n, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); }
   });
+  $('mat-todas').onclick = () => { document.querySelectorAll('.mat-chk').forEach(x => { x.checked = true; }); readPrefs(); renderHome(); };
+  $('mat-nenhuma').onclick = () => { document.querySelectorAll('.mat-chk').forEach(x => { x.checked = false; }); readPrefs(); renderHome(); };
   $('btn-grupo-sair').onclick = () => { $('dupla-code').value = ''; readPrefs(); renderHome(); toast('Modo grupo desligado. Agora você treina sozinho(a).'); };
   $('dupla-code').addEventListener('input', () => { readPrefs(); renderHome(); });
   $('btn-circuito').onclick = () => startCircuit({ tipo: 'circuito' });
@@ -966,7 +990,7 @@
     const r = papeisDo(prefs.formato); const outro = r[(r.indexOf(prefs.papel) + 1) % r.length];
     u.searchParams.set('papel', outro); u.searchParams.set('formato', prefs.formato);
     if (prefs.rodizio) u.searchParams.set('rodizio', '1');
-    if (prefs.circTipo === 'materia') { u.searchParams.set('circuito', prefs.circMat); u.searchParams.set('n', prefs.circN); }
+    u.searchParams.set('n', prefs.circN || '1');
     const txt = u.toString();
     const fb = () => window.prompt('Copie o link:', txt);
     const msg = prefs.formato === 'trio' ? `Link copiado! Ele abre como ${PAPEL[outro]}; o terceiro escolhe o papel que falta.` : 'Link copiado! O colega entra no outro papel.';
@@ -1101,8 +1125,9 @@
       if (['candidato', 'examinador', 'ator'].includes(q.get('papel'))) prefs.papel = q.get('papel');
       if (prefs.formato !== 'trio' && prefs.papel === 'ator') prefs.papel = 'candidato';
       prefs.rodizio = q.get('rodizio') === '1';
-      if (MAT[q.get('circuito')]) { prefs.circTipo = 'materia'; prefs.circMat = q.get('circuito'); prefs.circN = ['3', '5', '8', 'todas'].includes(q.get('n')) ? q.get('n') : '5'; }
-      else prefs.circTipo = 'misto';
+      // convites da versão anterior traziam "circuito=<matéria>"
+      if (MAT[q.get('circuito')]) prefs.materias = [q.get('circuito')];
+      prefs.circN = ['1', '3', '5', '8', 'todas'].includes(q.get('n')) ? q.get('n') : MAT[q.get('circuito')] ? '5' : '1';
       save(LS.prefs, prefs); history.replaceState(null, '', location.pathname);
       setTimeout(() => toast(`Convite de ${prefs.formato === 'trio' ? 'trio' : 'dupla'} carregado. Confira o seu papel e toque em "Começar circuito" junto com os colegas.`), 300);
     }
