@@ -98,7 +98,7 @@
 
     <div class="mt-4 p-5 rounded-2xl bg-white border border-violet-300 shadow-sm">
       <h2 class="font-bold text-lg mb-1">👥 Treino em dupla ou trio</h2>
-      <p class="text-sm text-slate-500 mb-3"><b>Dupla:</b> um é o <b>candidato</b> e o outro é o <b>avaliador</b>, que faz o paciente, mostra as placas e marca o barema. <b>Trio:</b> entra o <b>ator</b>, que faz o paciente (ou o acompanhante, o gestor, o preceptor) seguindo o roteiro, e o avaliador fica com as placas e o barema. Todos usam o <b>mesmo código</b> e o <b>mesmo circuito</b> (as mesmas matérias e a mesma quantidade, escolhidas abaixo) e tocam em "Entrar na estação" juntos. O link 🔗 já leva essas escolhas.</p>
+      <p class="text-sm text-slate-500 mb-3"><b>Dupla:</b> um é o <b>candidato</b> e o outro é o <b>avaliador</b>, que faz o paciente, mostra as placas e marca o barema. <b>Trio:</b> entra o <b>ator</b>, que faz o paciente (ou o acompanhante, o gestor, o preceptor) seguindo o roteiro, e o avaliador fica com as placas e o barema. Todos usam o <b>mesmo código</b> e o <b>mesmo circuito</b> (as mesmas matérias, a mesma quantidade e a mesma rodada, escolhidas abaixo) e tocam em "Entrar na estação" juntos. O link 🔗 já leva essas escolhas.</p>
       <div class="grid sm:grid-cols-2 gap-2">
         <label class="text-sm">Código
           <input id="dupla-code" type="text" placeholder="ex.: grupo-osce-1" autocomplete="off" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
@@ -120,8 +120,12 @@
         <div class="text-sm sm:col-span-2">Matérias do circuito
           <div id="dupla-mats" class="flex flex-wrap gap-1.5 mt-1"></div>
         </div>
-        <label class="text-sm sm:col-span-2">Estações no circuito
+        <label class="text-sm">Estações no circuito
           <select id="dupla-n" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white"><option value="1">1 de cada matéria marcada (como na prova)</option><option value="3">3 estações</option><option value="5">5 estações</option><option value="8">8 estações</option><option value="todas">todas as estações das matérias marcadas</option></select>
+        </label>
+        <label class="text-sm">Rodada
+          <input id="dupla-rodada" type="number" min="1" max="99" inputmode="numeric" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
+          <span class="block text-xs text-slate-500 mt-1">Todos com o mesmo número. Sobe sozinha a cada circuito, e cada rodada traz estações que o grupo ainda não fez.</span>
         </label>
       </div>
       <div class="flex gap-2 mt-3">
@@ -190,6 +194,7 @@
     <p>Cada rodada que você termina (circuito, estação sorteada, prova anterior, catálogo ou caderno) guarda a sua média. Na página inicial aparecem a última rodada, a melhor média e a média geral, um gráfico com as últimas 15 rodadas (linha tracejada no 7,0) e a lista de rodadas com a nota de cada estação e a diferença para a rodada anterior. Na dupla e no trio, entra só a nota de quando você foi o candidato. Estações puladas e rodadas interrompidas não entram.</p>
     <h3 class="font-semibold mt-3">👥 Dupla ou trio</h3>
     <p>Todos colocam o mesmo código, o mesmo formato e as mesmas matérias, e cada um escolhe o seu papel. Na <b>dupla</b>, o <b>avaliador</b> vê o caso, o roteiro do paciente (o que responder se o candidato perguntar), as placas e o barema. No <b>trio</b>, o <b>ator</b> recebe uma tela própria, com quem ele é, o cenário, as falas e o que contar só se perguntarem, sem barema; o <b>avaliador</b> mostra as placas, marca o que o candidato perguntou e preenche o barema. Com <b>🔄 Revezar os papéis</b>, os papéis giram a cada estação (candidato → avaliador → ator), para todos treinarem como candidato. Toquem em "Entrar na estação" juntos. Enquanto o código estiver preenchido, as estações abertas pelo catálogo e pela prova anterior também entram no modo grupo.</p>
+    <p class="mt-1">Cada circuito em grupo tem um número de <b>rodada</b>. Todos usam o mesmo número, que sobe sozinho a cada circuito; com o mesmo código e as mesmas escolhas, cada rodada traz estações que o grupo ainda não fez e, dentro de cada matéria, de assuntos diferentes. Se alguém ficar com outro número (por exemplo, porque descartou um circuito), ajuste para ficar igual ao dos colegas. O link 🔗 leva a rodada.</p>
     <h3 class="font-semibold mt-3">🗣️ Anamnese e placas (como na prova)</h3>
     <p>Nas estações com anamnese, o paciente só conta o que você perguntar, e o avaliador só mostra a placa do exame que você pedir. Faça cada pergunta em voz alta e marque a caixinha do tema que perguntou: a resposta do paciente aparece na hora e guia a próxima pergunta. Para exames, marque o que pediria ao avaliador e veja a placa. No feedback aparece o que você perguntou e o que ficou faltando. Na dupla, o avaliador vê as respostas e as placas desde o início e só revela o que for pedido; no trio, quem responde à anamnese é o ator.</p>
     <h3 class="font-semibold mt-3">⭐ Prova anterior</h3>
@@ -254,7 +259,7 @@
   function shuffle(a, rng) { rng = rng || Math.random; a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
   function fmt(s) { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 
-  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false, modo: 'prova', revisao: true, circN: '1' }, load(LS.prefs, {}));
+  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false, modo: 'prova', revisao: true, circN: '1', rodGrupo: {} }, load(LS.prefs, {}));
   // versão anterior: "Só uma matéria" (circTipo/circMat) virou "matérias marcadas + quantidade"
   if ('circTipo' in prefs) { if (prefs.circTipo === 'materia' && prefs.circMat) prefs.materias = [prefs.circMat]; else prefs.circN = '1'; delete prefs.circTipo; delete prefs.circMat; save(LS.prefs, prefs); }
   function cad() { const c = load(LS.cad, {}); Object.keys(c).forEach(id => { if (!BY_ID[id]) delete c[id]; }); return c; }
@@ -401,8 +406,9 @@
     $('dupla-code').value = prefs.code || ''; $('dupla-formato').value = prefs.formato || 'dupla';
     $('dupla-papel').querySelector('option[value="ator"]').disabled = prefs.formato !== 'trio';
     $('dupla-papel').value = prefs.papel || 'candidato'; $('dupla-rodizio').checked = !!prefs.rodizio;
+    $('dupla-rodada').value = rodadaGrupo(prefs.code); $('dupla-rodada').disabled = !prefs.code;
     $('grupo-ativo').classList.toggle('hidden', !prefs.code);
-    $('grupo-info').innerHTML = prefs.code ? `Modo grupo ativo: código <b>${esc(prefs.code)}</b>, ${prefs.formato === 'trio' ? 'trio' : 'dupla'}, você é ${PAPEL[prefs.papel]}${prefs.rodizio ? ' (revezando)' : ''}; ${esc(circNome().replace(/^C/, 'c'))}. O catálogo e a prova anterior também abrem nesse modo.` : '';
+    $('grupo-info').innerHTML = prefs.code ? `Modo grupo ativo: código <b>${esc(prefs.code)}</b>, ${prefs.formato === 'trio' ? 'trio' : 'dupla'}, você é ${PAPEL[prefs.papel]}${prefs.rodizio ? ' (revezando)' : ''}; ${esc(circNome().replace(/^C/, 'c'))}, rodada ${rodadaGrupo(prefs.code)}. O catálogo e a prova anterior também abrem nesse modo.` : '';
     $('rev-count').textContent = revList().length;
     $('prova-count').textContent = provaIds().length;
     const h = hist();
@@ -423,7 +429,7 @@
       const pos = c.ids.slice(0, c.pos).filter(id => BY_ID[id]).length;
       c.ids = c.ids.filter(id => BY_ID[id]); c.pos = pos; save(LS.circ, c.ids.length ? c : null); if (!c.ids.length) c = null;
     }
-    if (c && c.ids && c.pos < c.ids.length) { $('resume-box').classList.remove('hidden'); $('resume-info').textContent = `Estação ${c.pos + 1} de ${c.ids.length}${c.code ? ` (${PAPEL[c.papel] || c.papel}${c.rodizio ? ', revezando' : ''})` : ''}.`; }
+    if (c && c.ids && c.pos < c.ids.length) { $('resume-box').classList.remove('hidden'); $('resume-info').textContent = `Estação ${c.pos + 1} de ${c.ids.length}${c.code ? ` (${PAPEL[c.papel] || c.papel}${c.rodizio ? ', revezando' : ''}${c.rodada ? ', rodada ' + c.rodada : ''})` : ''}.`; }
     else $('resume-box').classList.add('hidden');
   }
   function readPrefs() {
@@ -458,68 +464,80 @@
   }
   // a candidata de menor custo; no empate, vale a ordem sorteada
   function melhor(l, custo) { let b = null, bc = Infinity; l.forEach(id => { const c = custo(id); if (c < bc) { b = id; bc = c; } }); return b; }
-  function nextFromDeck(materia, rng, seeded, ja) {
-    // baralho sem repetição por matéria (no grupo, sorteio determinístico pelo código).
+  function nextFromDeck(materia, rng, seeded, ja, virt) {
+    // baralho sem repetição por matéria. Sozinho, fica guardado no aparelho; no grupo, "virt" é o
+    // baralho refeito a partir do código, igual em todos os aparelhos.
     // "ja": estações que já estão no circuito; antes de repetir um assunto, saem todos os outros
     ja = ja || [];
     const pool = poolDe(materia).filter(id => !ja.includes(id));
     if (!pool.length) return null;
     const cont = {}; ja.forEach(id => { const a = assuntoDe(id); cont[a] = (cont[a] || 0) + 1; });
     const rep = id => cont[assuntoDe(id)] || 0;
-    if (seeded) return melhor(shuffle(pool, rng), rep);
     // volta do baralho: as que já saíram só voltam depois que todas saírem; dentro da volta,
-    // as que você ainda não fez vêm primeiro. Assunto diferente vem antes de tudo isso.
-    const deck = load(LS.deck, {}), d0 = deck[materia] || {}, h = hist();
+    // as que você ainda não fez vêm primeiro. Assunto diferente vem antes de tudo isso; se para isso
+    // precisar repetir estação da volta, volta a que saiu há mais tempo.
+    const deck = seeded ? virt || {} : load(LS.deck, {}), d0 = deck[materia] || {}, h = seeded ? {} : hist();
     let saiu = (Array.isArray(d0.saiu) ? d0.saiu : Array.isArray(d0.order) ? d0.order.slice(0, d0.pos) : []).filter(id => BY_ID[id] && BY_ID[id].materia === materia && !BY_ID[id].fora);
     if (pool.every(id => saiu.includes(id))) saiu = ja.filter(id => BY_ID[id] && BY_ID[id].materia === materia);
-    const id = melhor(shuffle(pool, rng), x => rep(x) * 4 + (saiu.includes(x) ? 2 : 0) + (h[x] && h[x].length ? 1 : 0));
+    const id = melhor(shuffle(pool, rng), x => rep(x) * 4 + (saiu.includes(x) ? 2 + saiu.indexOf(x) / 1000 : 0) + (h[x] && h[x].length ? 1 : 0));
     if (!saiu.includes(id)) saiu.push(id);
-    deck[materia] = { saiu }; save(LS.deck, deck);
+    deck[materia] = { saiu }; if (!seeded) save(LS.deck, deck);
     return id;
+  }
+  // grupo: o sorteio depende só do código, das matérias, da quantidade e da rodada, então sai igual em
+  // todos os aparelhos. As rodadas anteriores do mesmo código são refeitas para a nova não repetir estação.
+  function chaveGrupo(code) { return String(code || '').trim().toLowerCase(); }
+  function rodadaGrupo(code) { return Math.min(99, Math.max(1, parseInt((prefs.rodGrupo || {})[chaveGrupo(code)], 10) || 1)); }
+  function sorteioGrupo(code, ms0, multi, n, rodada) {
+    const base = 'osce|' + chaveGrupo(code) + '|' + ms0.slice().sort().join(',') + (multi ? '|' + n : ''), virt = {};
+    let ids = [];
+    for (let r = 1; r <= rodada; r++) {
+      const rng = rngFor(base + '|r' + r), ms = shuffle(ms0.slice().sort(), rng);
+      if (multi) { const q = cotas(ms, n); ids = []; ms.forEach(m => { for (let i = 0; i < q[m]; i++) ids.push(nextFromDeck(m, rng, true, ids, virt)); }); ids = shuffle(ids.filter(Boolean), rng); }
+      else ids = ms.map(m => nextFromDeck(m, rng, true, [], virt)).filter(Boolean);
+    }
+    return ids;
   }
   function startCircuit(opts) {
     readPrefs();
     const ms0 = circMaterias(), multi = !opts.ids && opts.tipo === 'circuito' && prefs.circN !== '1';
     if (!opts.ids && !ms0.length) { toast('Marque pelo menos uma matéria.'); return; }
+    const grupo = !opts.ids && opts.tipo === 'circuito' && !!opts.code, rodada = grupo ? rodadaGrupo(opts.code) : 0;
     let ids, regular = false; const rev = {};
-    const seed = !opts.code ? '' : 'osce|' + opts.code.toLowerCase() + '|' + ms0.slice().sort().join(',') + (multi ? '|' + circQtd() : '');
-    const rng = rngFor(seed);
     if (opts.ids) ids = opts.ids;
+    else if (grupo) ids = sorteioGrupo(opts.code, ms0, multi, circQtd(), rodada);
     else if (multi) {
-      const n = circQtd(), ms = shuffle(ms0.slice().sort(), rng), q = cotas(ms, n);
-      if (seed) { ids = []; ms.forEach(m => { for (let i = 0; i < q[m]; i++) ids.push(nextFromDeck(m, rng, true, ids)); }); ids = shuffle(ids.filter(Boolean), rng); }
-      else {
-        // sozinho: conta para a agenda; com revisão, ~20% vêm da fila dessas matérias (pelo menos 1),
-        // dentro da parte de cada matéria
-        regular = true; const s = srsLoad(); s.counter++; save(LS.srs, s);
-        const usa = {}; ms.forEach(m => { usa[m] = 0; });
-        if (prefs.revisao !== false) {
-          const k = Math.max(1, Math.round(n * SRS_SHARE));
-          srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia, a = assuntoDe(x.id); if (Object.keys(rev).length < k && usa[m] < q[m] && !Object.keys(rev).some(r => assuntoDe(r) === a)) { usa[m]++; rev[x.id] = revMotivo(x.id); } });
-        }
-        ids = Object.keys(rev);
-        ms.forEach(m => { while (usa[m] < q[m]) { const id = nextFromDeck(m, rng, false, ids); if (!id) break; ids.push(id); usa[m]++; } });
-        ids = shuffle(ids);
+      // sozinho: conta para a agenda; com revisão, ~20% vêm da fila dessas matérias (pelo menos 1),
+      // dentro da parte de cada matéria e sem repetir assunto
+      const n = circQtd(), ms = shuffle(ms0), q = cotas(ms, n);
+      regular = true; const s = srsLoad(); s.counter++; save(LS.srs, s);
+      const usa = {}; ms.forEach(m => { usa[m] = 0; });
+      if (prefs.revisao !== false) {
+        const k = Math.max(1, Math.round(n * SRS_SHARE));
+        srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia, a = assuntoDe(x.id); if (Object.keys(rev).length < k && usa[m] < q[m] && !Object.keys(rev).some(r => assuntoDe(r) === a)) { usa[m]++; rev[x.id] = revMotivo(x.id); } });
       }
+      ids = Object.keys(rev);
+      ms.forEach(m => { while (usa[m] < q[m]) { const id = nextFromDeck(m, null, false, ids); if (!id) break; ids.push(id); usa[m]++; } });
+      ids = shuffle(ids);
     }
-    else if (opts.tipo === 'avulsa') { const m = shuffle(ms0, rng)[0]; ids = [nextFromDeck(m, rng, !!seed)]; }
+    else if (opts.tipo === 'avulsa') { const m = shuffle(ms0)[0]; ids = [nextFromDeck(m, null, false)]; }
     else {
-      const ms = shuffle(ms0, rng);
-      if (!seed) {
-        // circuito sozinho: conta para a agenda e, se escolhido "Com revisão", traz ~20% de revisão
-        // (pelo menos 1, uma por matéria, no lugar de uma nova)
-        regular = true; const s = srsLoad(); s.counter++; save(LS.srs, s);
-        if (prefs.revisao !== false) {
-          const k = Math.max(1, Math.round(ms.length * SRS_SHARE)), usadas = new Set();
-          srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia; if (Object.keys(rev).length < k && !usadas.has(m)) { usadas.add(m); rev[x.id] = revMotivo(x.id); } });
-        }
+      // circuito sozinho: conta para a agenda e, se escolhido "Com revisão", traz ~20% de revisão
+      // (pelo menos 1, uma por matéria, no lugar de uma nova)
+      const ms = shuffle(ms0);
+      regular = true; const s = srsLoad(); s.counter++; save(LS.srs, s);
+      if (prefs.revisao !== false) {
+        const k = Math.max(1, Math.round(ms.length * SRS_SHARE)), usadas = new Set();
+        srsDue(ms).forEach(x => { const m = BY_ID[x.id].materia; if (Object.keys(rev).length < k && !usadas.has(m)) { usadas.add(m); rev[x.id] = revMotivo(x.id); } });
       }
       const porMat = {}; Object.keys(rev).forEach(id => { porMat[BY_ID[id].materia] = id; });
-      ids = ms.map(m => porMat[m] || nextFromDeck(m, rng, !!seed));
+      ids = ms.map(m => porMat[m] || nextFromDeck(m, null, false));
     }
     ids = ids.filter(Boolean);
     if (!ids.length) { toast('Ainda não há estações nas matérias marcadas.'); return; }
-    circ = { ids, pos: 0, res: {}, origem: multi ? 'materia' : opts.origem || opts.tipo || 'catalogo', mats: multi ? ms0 : [], papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodizio: !!(opts.code && prefs.rodizio), estudo: prefs.modo === 'estudo', regular, rev, ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
+    // a próxima rodada do grupo traz outras estações
+    if (grupo) { prefs.rodGrupo = prefs.rodGrupo || {}; prefs.rodGrupo[chaveGrupo(opts.code)] = Math.min(99, rodada + 1); save(LS.prefs, prefs); }
+    circ = { ids, pos: 0, res: {}, origem: multi ? 'materia' : opts.origem || opts.tipo || 'catalogo', mats: multi ? ms0 : [], papel: opts.papel || 'candidato', code: opts.code || '', formato: opts.code ? prefs.formato : '', rodada, rodizio: !!(opts.code && prefs.rodizio), estudo: prefs.modo === 'estudo', regular, rev, ditado: prefs.ditado, som: prefs.som, startedAt: Date.now() };
     save(LS.circ, circ);
     openStation();
   }
@@ -959,7 +977,7 @@
     }
     const dAnt = rod && ant ? Math.round(10 * (rod.media - ant.media)) / 10 : null;
     $('result-box').innerHTML = `<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm text-center">
-        <div class="text-sm text-slate-500">${c.code ? `👥 ${esc(c.code)} · ` : ''}Média do circuito</div>
+        <div class="text-sm text-slate-500">${c.code ? `👥 ${esc(c.code)}${c.rodada ? ` · rodada ${c.rodada}` : ''} · ` : ''}Média do circuito</div>
         <div class="text-5xl font-extrabold ${media === null ? 'text-slate-400' : media >= 7 ? 'text-green-600' : media >= 5 ? 'text-amber-500' : 'text-rose-600'}">${media === null ? '—' : media.toFixed(1).replace('.', ',')}</div>
         ${rod && c.code ? `<div class="text-sm text-slate-600 mt-1">Sua média como candidato(a): <b>${f1(rod.media)}</b></div>` : ''}
         ${dAnt !== null ? `<div class="text-sm mt-1 ${dAnt > 0 ? 'text-green-700' : dAnt < 0 ? 'text-rose-600' : 'text-slate-500'}">${dAnt > 0 ? '▲' : dAnt < 0 ? '▼' : '='} ${dAnt ? f1(Math.abs(dAnt)) + ' em relação à rodada anterior' : 'igual à rodada anterior'} (${f1(ant.media)})</div>` : ''}
@@ -982,6 +1000,8 @@
     // as matérias e a quantidade no quadro do grupo e em "Montar treino" são as mesmas
     if (e.target.matches('.dupla-mat')) { const c = document.querySelector(`.mat-chk[value="${e.target.value}"]`); if (c) c.checked = e.target.checked; }
     if (e.target.id === 'dupla-n') $('circ-n').value = e.target.value;
+    // a rodada do grupo não passa por readPrefs: ela sobe sozinha a cada circuito em grupo
+    if (e.target.id === 'dupla-rodada') { readPrefs(); if (prefs.code) { prefs.rodGrupo = prefs.rodGrupo || {}; prefs.rodGrupo[chaveGrupo(prefs.code)] = Math.min(99, Math.max(1, parseInt(e.target.value, 10) || 1)); save(LS.prefs, prefs); } renderHome(); }
     if (e.target.matches('.mat-chk, .dupla-mat, #opt-ditado, #opt-som, .rev-radio, .modo-radio, #circ-n, #dupla-n, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); }
   });
   $('mat-todas').onclick = () => { document.querySelectorAll('.mat-chk').forEach(x => { x.checked = true; }); readPrefs(); renderHome(); };
@@ -1000,7 +1020,7 @@
     const r = papeisDo(prefs.formato); const outro = r[(r.indexOf(prefs.papel) + 1) % r.length];
     u.searchParams.set('papel', outro); u.searchParams.set('formato', prefs.formato);
     if (prefs.rodizio) u.searchParams.set('rodizio', '1');
-    u.searchParams.set('n', prefs.circN || '1');
+    u.searchParams.set('n', prefs.circN || '1'); u.searchParams.set('rodada', rodadaGrupo(prefs.code));
     const txt = u.toString();
     const fb = () => window.prompt('Copie o link:', txt);
     const msg = prefs.formato === 'trio' ? `Link copiado! Ele abre como ${PAPEL[outro]}; o terceiro escolhe o papel que falta.` : 'Link copiado! O colega entra no outro papel.';
@@ -1138,6 +1158,7 @@
       // convites da versão anterior traziam "circuito=<matéria>"
       if (MAT[q.get('circuito')]) prefs.materias = [q.get('circuito')];
       prefs.circN = ['1', '3', '5', '8', 'todas'].includes(q.get('n')) ? q.get('n') : MAT[q.get('circuito')] ? '5' : '1';
+      const rq = parseInt(q.get('rodada'), 10); if (rq >= 1) { prefs.rodGrupo = prefs.rodGrupo || {}; prefs.rodGrupo[chaveGrupo(prefs.code)] = Math.min(99, rq); }
       save(LS.prefs, prefs); history.replaceState(null, '', location.pathname);
       setTimeout(() => toast(`Convite de ${prefs.formato === 'trio' ? 'trio' : 'dupla'} carregado. Confira o seu papel e toque em "Começar circuito" junto com os colegas.`), 300);
     }
