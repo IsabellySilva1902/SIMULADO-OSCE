@@ -99,7 +99,7 @@
 
     <div class="mt-4 p-5 rounded-2xl bg-white border border-violet-300 shadow-sm">
       <h2 class="font-bold text-lg mb-1">👥 Treino em dupla ou trio</h2>
-      <p class="text-sm text-slate-500 mb-3"><b>Dupla:</b> um é o <b>candidato</b> e o outro é o <b>avaliador</b>, que faz o paciente, mostra as placas e marca o barema. <b>Trio:</b> entra o <b>ator</b>, que faz o paciente (ou o acompanhante, o gestor, o preceptor) seguindo o roteiro, e o avaliador fica com as placas e o barema. Todos usam o <b>mesmo código</b>, as mesmas matérias e o mesmo <b>tipo de circuito</b> (de "Montar treino": uma de cada matéria ou só uma matéria) e tocam em "Entrar na estação" juntos. O link 🔗 já leva essas escolhas.</p>
+      <p class="text-sm text-slate-500 mb-3"><b>Dupla:</b> um é o <b>candidato</b> e o outro é o <b>avaliador</b>, que faz o paciente, mostra as placas e marca o barema. <b>Trio:</b> entra o <b>ator</b>, que faz o paciente (ou o acompanhante, o gestor, o preceptor) seguindo o roteiro, e o avaliador fica com as placas e o barema. Todos usam o <b>mesmo código</b> e o <b>mesmo circuito</b> (escolha abaixo: uma de cada matéria ou só uma matéria) e tocam em "Entrar na estação" juntos. O link 🔗 já leva essas escolhas.</p>
       <div class="grid sm:grid-cols-2 gap-2">
         <label class="text-sm">Código
           <input id="dupla-code" type="text" placeholder="ex.: grupo-osce-1" autocomplete="off" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
@@ -118,6 +118,12 @@
           </select>
         </label>
         <label class="text-sm flex items-center gap-2 sm:mt-6"><input id="dupla-rodizio" type="checkbox" class="w-4 h-4"> 🔄 Revezar os papéis a cada estação</label>
+        <label class="text-sm">Circuito
+          <select id="dupla-circ" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white"></select>
+        </label>
+        <label class="text-sm">Quantas estações
+          <select id="dupla-n" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white"><option value="3">3 estações</option><option value="5">5 estações</option><option value="8">8 estações</option><option value="todas">todas</option></select>
+        </label>
       </div>
       <div class="flex gap-2 mt-3">
         <button id="btn-dupla" class="btn flex-1 bg-violet-600 text-white hover:bg-violet-700">Começar circuito</button>
@@ -376,6 +382,9 @@
     $('circ-mat').value = prefs.circMat; $('circ-n').value = prefs.circN || '5';
     document.querySelectorAll('.circ-radio').forEach(r => { r.checked = r.value === (prefs.circTipo === 'materia' ? 'materia' : 'misto'); });
     $('btn-circuito').textContent = '🔔 ' + circNome();
+    $('dupla-circ').innerHTML = '<option value="misto">🔀 Uma de cada matéria (as marcadas em Montar treino)</option>' + MATERIAS.filter(m => ESTACOES.some(e => e.materia === m.key && !e.fora)).map(m => `<option value="${m.key}">📚 Só ${m.icon} ${esc(m.label)}</option>`).join('');
+    $('dupla-circ').value = prefs.circTipo === 'materia' ? prefs.circMat : 'misto';
+    $('dupla-n').value = prefs.circN || '5'; $('dupla-n').disabled = prefs.circTipo !== 'materia';
     $('btn-dupla').textContent = prefs.circTipo === 'materia' ? 'Começar ' + circNome().replace(/^C/, 'c') : 'Começar circuito';
     const cd = cad(), cdN = Object.keys(cd).length, cdRev = Object.values(cd).filter(x => !x.revisado).length;
     $('cad-count').textContent = cdN ? `${cdN} ${cdN === 1 ? 'estação' : 'estações'} · ${cdRev} para revisar` : 'vazio';
@@ -938,7 +947,10 @@
   // ---------- eventos ----------
   document.addEventListener('change', e => {
     if (e.target.matches('#circ-mat, #circ-n')) document.querySelector('.circ-radio[value="materia"]').checked = true;
-    if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, .rev-radio, .modo-radio, .circ-radio, #circ-mat, #circ-n, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); }
+    // a escolha do circuito no quadro do grupo e em "Montar treino" é a mesma
+    if (e.target.id === 'dupla-circ') { const v = e.target.value; document.querySelector(`.circ-radio[value="${v === 'misto' ? 'misto' : 'materia'}"]`).checked = true; if (v !== 'misto') $('circ-mat').value = v; }
+    if (e.target.id === 'dupla-n') $('circ-n').value = e.target.value;
+    if (e.target.matches('.mat-chk, #opt-ditado, #opt-som, .rev-radio, .modo-radio, .circ-radio, #circ-mat, #circ-n, #dupla-circ, #dupla-n, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); }
   });
   $('btn-grupo-sair').onclick = () => { $('dupla-code').value = ''; readPrefs(); renderHome(); toast('Modo grupo desligado. Agora você treina sozinho(a).'); };
   $('dupla-code').addEventListener('input', () => { readPrefs(); renderHome(); });
