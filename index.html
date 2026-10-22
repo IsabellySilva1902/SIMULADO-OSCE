@@ -64,7 +64,7 @@
       <div id="materias-list" class="grid sm:grid-cols-2 gap-2 mb-1"></div>
       <p class="text-xs text-slate-500 mb-4">Marque só o que quer treinar: uma matéria, algumas ou todas.</p>
       <label class="block text-sm font-semibold mb-4">Estações no circuito
-        <select id="circ-n" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white font-normal"><option value="1">1 de cada matéria marcada (como na prova)</option><option value="3">3 estações</option><option value="5">5 estações</option><option value="8">8 estações</option><option value="todas">todas as estações das matérias marcadas</option></select>
+        <span class="flex gap-2 mt-1"><select id="circ-n" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-3 py-2 bg-white font-normal"><option value="1">1 de cada matéria marcada (como na prova)</option><option value="qtd">Digitar a quantidade</option><option value="todas">Todas as estações das matérias marcadas</option></select><input id="circ-qtd" type="number" min="2" max="200" step="1" inputmode="numeric" aria-label="Quantidade de estações" placeholder="nº" class="w-20 rounded-lg border border-slate-300 px-3 py-2 font-normal text-center"></span>
         <span id="circ-n-info" class="block text-xs font-normal text-slate-500 mt-1"></span>
       </label>
       <div class="text-sm font-semibold mb-2">Revisão nesta rodada <span class="font-normal text-slate-500">(circuito sozinho)</span></div>
@@ -120,8 +120,9 @@
         <div class="text-sm sm:col-span-2">Matérias do circuito
           <div id="dupla-mats" class="flex flex-wrap gap-1.5 mt-1"></div>
         </div>
-        <label class="text-sm">Estações no circuito
-          <select id="dupla-n" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 bg-white"><option value="1">1 de cada matéria marcada (como na prova)</option><option value="3">3 estações</option><option value="5">5 estações</option><option value="8">8 estações</option><option value="todas">todas as estações das matérias marcadas</option></select>
+        <label class="text-sm min-w-0">Estações no circuito
+          <span class="flex gap-2 mt-1"><select id="dupla-n" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-3 py-2 bg-white"><option value="1">1 de cada matéria marcada (como na prova)</option><option value="qtd">Digitar a quantidade</option><option value="todas">Todas as estações das matérias marcadas</option></select><input id="dupla-qtd" type="number" min="2" max="200" step="1" inputmode="numeric" aria-label="Quantidade de estações" placeholder="nº" class="w-20 rounded-lg border border-slate-300 px-3 py-2 text-center"></span>
+          <span id="dupla-n-info" class="block text-xs text-slate-500 mt-1"></span>
         </label>
         <label class="text-sm">Rodada
           <input id="dupla-rodada" type="number" min="1" max="99" inputmode="numeric" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
@@ -188,7 +189,7 @@
     <p>Na estação, selecione um trecho do cenário, dos dados da mesa, das tarefas, de uma resposta do paciente ou de uma placa para grifar em amarelo. Com mouse, o grifo entra ao soltar a seleção; no celular ou tablet, selecione e toque em <b>Grifar trecho</b>. Toque num grifo para apagá-lo, ou em <b>Limpar grifos</b> para apagar todos. No feedback dá para grifar a fala-modelo e a pergunta extra, e as respostas e placas grifadas continuam grifadas. Os grifos valem só para aquela estação.</p>
     <h3 class="font-semibold mt-3">🔔 Circuito</h3>
     <p>Uma estação de cada matéria marcada, em ordem sorteada, uma atrás da outra, como no dia da prova. No fim aparecem as notas por estação e os itens que você mais esqueceu.</p>
-    <p class="mt-1">Em <b>Matérias</b>, marque só o que quer treinar: uma matéria, algumas ou todas. Em <b>Estações no circuito</b>, escolha <b>1 de cada matéria marcada</b> (como na prova) ou 3, 5, 8 ou todas as estações; nesse caso elas se dividem entre as matérias marcadas, sem repetir estação. Dentro de cada matéria, o sorteio também não repete <b>assunto</b> enquanto houver outro (por exemplo, não saem duas estações de lesões de pele em Clínica Cirúrgica); só repete quando o circuito tem mais estações do que a matéria tem assuntos. Vale também no treino em dupla ou trio: o quadro do grupo tem as mesmas escolhas, todos usam as mesmas (o link 🔗 já as leva) e recebem as mesmas estações.</p>
+    <p class="mt-1">Em <b>Matérias</b>, marque só o que quer treinar: uma matéria, algumas ou todas. Em <b>Estações no circuito</b>, escolha <b>1 de cada matéria marcada</b> (como na prova) ou <b>Digitar a quantidade</b> (de 2 até o total das matérias marcadas) ou <b>Todas</b>. Com mais de uma matéria, as estações se dividem por igual entre elas (com 7 e duas matérias, 4 de uma e 3 da outra, sorteando qual fica com uma a mais); a matéria que tem menos estações do que a parte dela entra com todas, e o resto vai para as outras. O texto embaixo da escolha mostra como vai ficar. Não repete estação. Dentro de cada matéria, o sorteio também não repete <b>assunto</b> enquanto houver outro (por exemplo, não saem duas estações de lesões de pele em Clínica Cirúrgica); só repete quando o circuito tem mais estações do que a matéria tem assuntos. Vale também no treino em dupla ou trio: o quadro do grupo tem as mesmas escolhas, todos usam as mesmas (o link 🔗 já as leva) e recebem as mesmas estações.</p>
     <p class="mt-1">Na porta da estação, <b>⤵️ Deixar para o final</b> manda a estação para o fim da mesma rodada, e você segue para a próxima. <b>Pular de vez</b> tira a estação da rodada sem nota. Na dupla ou no trio, todos tocam no mesmo botão para continuar na mesma estação.</p>
     <h3 class="font-semibold mt-3">📈 Histórico de rodadas</h3>
     <p>Cada rodada que você termina (circuito, estação sorteada, prova anterior, catálogo ou caderno) guarda a sua média. Na página inicial aparecem a última rodada, a melhor média e a média geral, um gráfico com as últimas 15 rodadas (linha tracejada no 7,0) e a lista de rodadas com a nota de cada estação e a diferença para a rodada anterior. Na dupla e no trio, entra só a nota de quando você foi o candidato. Estações puladas e rodadas interrompidas não entram.</p>
@@ -259,8 +260,9 @@
   function shuffle(a, rng) { rng = rng || Math.random; a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
   function fmt(s) { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 
-  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false, modo: 'prova', revisao: true, circN: '1', rodGrupo: {} }, load(LS.prefs, {}));
+  let prefs = Object.assign({ materias: MATERIAS.map(m => m.key), ditado: false, som: true, code: '', papel: 'candidato', formato: 'dupla', rodizio: false, modo: 'prova', revisao: true, circN: '1', circQtdNum: 5, rodGrupo: {} }, load(LS.prefs, {}));
   // versão anterior: "Só uma matéria" (circTipo/circMat) virou "matérias marcadas + quantidade"
+  if (+prefs.circN >= 2) prefs.circQtdNum = +prefs.circN;
   if ('circTipo' in prefs) { if (prefs.circTipo === 'materia' && prefs.circMat) prefs.materias = [prefs.circMat]; else prefs.circN = '1'; delete prefs.circTipo; delete prefs.circMat; save(LS.prefs, prefs); }
   function cad() { const c = load(LS.cad, {}); Object.keys(c).forEach(id => { if (!BY_ID[id]) delete c[id]; }); return c; }
   // ---------- revisão espaçada (estilo Anki, contada em circuitos) ----------
@@ -394,10 +396,14 @@
     renderRevOpcao();
     renderSrs(); renderRodadas(); const srsIt = srsLoad().items;
     document.querySelectorAll('.modo-radio').forEach(r => { r.checked = r.value === (prefs.modo || 'prova'); });
-    $('circ-n').value = prefs.circN || '1'; $('dupla-n').value = $('circ-n').value;
-    const cms = circMaterias(), cq = circQtd();
-    $('circ-n-info').textContent = !cms.length ? 'Marque pelo menos uma matéria.' : prefs.circN === '1' ? `${cms.length} ${cms.length === 1 ? 'estação' : 'estações'}, uma de cada matéria marcada, em ordem sorteada.`
-      : `${cq} ${cq === 1 ? 'estação' : 'estações'} ${cms.length > 1 ? `divididas entre as ${cms.length} matérias marcadas` : 'de ' + MAT[cms[0]].label}, ${prefs.circN === 'todas' ? 'todas as que existem' : 'sem repetir assunto enquanto houver outro'}, em ordem sorteada.`;
+    // quantidade: "1" (uma de cada matéria), "todas" ou o número digitado (2 ou mais)
+    const modoN = prefs.circN === '1' || prefs.circN === 'todas' ? prefs.circN : 'qtd', total = circMaterias().reduce((a, m) => a + poolDe(m).length, 0);
+    ['circ', 'dupla'].forEach(p => {
+      $(p + '-n').value = modoN; const inp = $(p + '-qtd');
+      inp.classList.toggle('hidden', modoN !== 'qtd'); inp.max = Math.max(2, total);
+      if (document.activeElement !== inp) inp.value = prefs.circQtdNum || 5;
+    });
+    $('circ-n-info').textContent = $('dupla-n-info').textContent = divisaoTxt();
     $('btn-circuito').textContent = '🔔 ' + circNome();
     $('dupla-mats').innerHTML = MATERIAS.filter(m => ATIVAS.includes(m.key)).map(m => { const on = prefs.materias.includes(m.key); return `<label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border cursor-pointer ${on ? 'border-violet-400 bg-violet-50' : 'border-slate-300 bg-white'}"><input type="checkbox" class="dupla-mat w-4 h-4" value="${m.key}" ${on ? 'checked' : ''}> ${m.icon} ${esc(m.label)}</label>`; }).join('');
     $('btn-dupla').textContent = 'Começar ' + circNome().replace(/^C/, 'c');
@@ -437,7 +443,8 @@
     prefs.ditado = $('opt-ditado').checked; prefs.som = $('opt-som').checked;
     const mr = document.querySelector('.modo-radio:checked'); prefs.modo = mr ? mr.value : 'prova';
     const rr = document.querySelector('.rev-radio:checked'); prefs.revisao = rr ? rr.value !== 'nao' : true;
-    prefs.circN = $('circ-n').value || '1';
+    const qv = parseInt($('circ-qtd').value, 10); if (qv >= 2) prefs.circQtdNum = Math.min(200, qv);
+    prefs.circN = $('circ-n').value === 'qtd' ? String(prefs.circQtdNum || 5) : $('circ-n').value || '1';
     prefs.code = $('dupla-code').value.trim(); prefs.papel = $('dupla-papel').value;
     prefs.formato = $('dupla-formato').value; prefs.rodizio = $('dupla-rodizio').checked;
     if (prefs.formato !== 'trio' && prefs.papel === 'ator') prefs.papel = 'candidato';
@@ -445,8 +452,8 @@
   }
 
   // ---------- montar circuito ----------
-  // "1 de cada": uma estação de cada matéria marcada, como na prova. 3, 5, 8 ou todas: as estações se
-  // dividem entre as matérias marcadas, sem repetir (no grupo, as mesmas em todos os aparelhos)
+  // "1 de cada": uma estação de cada matéria marcada, como na prova. Quantidade digitada ou todas: as
+  // estações se dividem por igual entre as matérias marcadas, sem repetir (no grupo, as mesmas em todos os aparelhos)
   function poolDe(m) { return ESTACOES.filter(e => e.materia === m && !e.fora).map(e => e.id); }
   function circMaterias() { return prefs.materias.filter(k => ATIVAS.includes(k)); }
   function circQtd() { const total = circMaterias().reduce((a, m) => a + poolDe(m).length, 0); return prefs.circN === 'todas' ? total : Math.min(+prefs.circN || 1, total); }
@@ -455,6 +462,27 @@
     if (prefs.circN === '1' || !ms.length) return ms.length && parte ? `Circuito (1 de cada: ${ms.map(k => MAT[k].icon).join(' ')})` : 'Circuito (1 por matéria)';
     const nome = !parte ? 'todas as matérias' : ms.length === 1 ? `${MAT[ms[0]].icon} ${MAT[ms[0]].label}` : ms.length === 2 ? ms.map(k => `${MAT[k].icon} ${MAT[k].label}`).join(' + ') : ms.map(k => MAT[k].icon).join(' ');
     return `Circuito de ${nome} (${circQtd()})`;
+  }
+  function divisaoTxt() {
+    // como a quantidade escolhida vai se dividir entre as matérias marcadas
+    const ms = circMaterias(), n = circQtd(), pl = x => x === 1 ? 'estação' : 'estações';
+    if (!ms.length) return 'Marque pelo menos uma matéria.';
+    if (prefs.circN === '1') return `${ms.length} ${pl(ms.length)}, uma de cada matéria marcada, em ordem sorteada.`;
+    let t = `${n} ${pl(n)}`;
+    if (prefs.circN === 'todas') t += ms.length > 1 ? `, todas as das ${ms.length} matérias marcadas` : `, todas as de ${MAT[ms[0]].label}`;
+    else {
+      if (+prefs.circN > n) t = `Só há ${n} ${pl(n)} ${ms.length > 1 ? 'nas matérias marcadas' : 'de ' + MAT[ms[0]].label}, então o circuito terá ${n}`;
+      if (ms.length === 1) { if (+prefs.circN <= n) t += ` de ${MAT[ms[0]].label}`; }
+      else {
+        // a matéria com menos estações do que a parte dela entra com todas; o resto se divide por igual
+        const q = cotas(ms.slice().sort(), n), cheias = ms.filter(m => q[m] === poolDe(m).length && ms.some(o => q[o] > q[m]));
+        const resto = ms.filter(m => !cheias.includes(m)), rn = resto.reduce((a, m) => a + q[m], 0);
+        const parte = (k, num, quem) => { const lo = Math.floor(num / k); return num % k ? `${lo} ou ${lo + 1} de cada ${quem} (sorteado qual fica com uma a mais)` : `${lo} de cada ${quem}`; };
+        t += ': ' + (!cheias.length ? parte(ms.length, n, 'matéria') : cheias.map(m => `todas as ${q[m]} de ${MAT[m].label}`).join(', ') + (resto.length === 1 ? ` e ${rn} de ${MAT[resto[0]].label}` : ` e ${parte(resto.length, rn, 'uma das outras')}`));
+      }
+      t += ', sem repetir assunto enquanto houver outro';
+    }
+    return t + ', em ordem sorteada.';
   }
   function cotas(ms, n) {
     // divide n estações entre as matérias, em rodízio, sem passar do que cada uma tem
@@ -1000,9 +1028,19 @@
     // as matérias e a quantidade no quadro do grupo e em "Montar treino" são as mesmas
     if (e.target.matches('.dupla-mat')) { const c = document.querySelector(`.mat-chk[value="${e.target.value}"]`); if (c) c.checked = e.target.checked; }
     if (e.target.id === 'dupla-n') $('circ-n').value = e.target.value;
+    if (e.target.id === 'dupla-qtd') $('circ-qtd').value = e.target.value;
+    if (e.target.matches('#circ-qtd, #dupla-qtd')) { readPrefs(); e.target.value = prefs.circQtdNum; renderHome(); }
     // a rodada do grupo não passa por readPrefs: ela sobe sozinha a cada circuito em grupo
     if (e.target.id === 'dupla-rodada') { readPrefs(); if (prefs.code) { prefs.rodGrupo = prefs.rodGrupo || {}; prefs.rodGrupo[chaveGrupo(prefs.code)] = Math.min(99, Math.max(1, parseInt(e.target.value, 10) || 1)); save(LS.prefs, prefs); } renderHome(); }
     if (e.target.matches('.mat-chk, .dupla-mat, #opt-ditado, #opt-som, .rev-radio, .modo-radio, #circ-n, #dupla-n, #dupla-papel, #dupla-formato, #dupla-rodizio')) { readPrefs(); renderHome(); }
+    // ao escolher "Digitar a quantidade", o campo já fica pronto para digitar
+    if (e.target.matches('#circ-n, #dupla-n') && e.target.value === 'qtd') { const inp = $(e.target.id === 'dupla-n' ? 'dupla-qtd' : 'circ-qtd'); inp.focus(); inp.select(); }
+  });
+  // enquanto digita a quantidade, botões e texto acompanham sem mexer no campo
+  document.addEventListener('input', e => {
+    if (!e.target.matches('#circ-qtd, #dupla-qtd')) return;
+    if (e.target.id === 'dupla-qtd') $('circ-qtd').value = e.target.value;
+    if (parseInt(e.target.value, 10) >= 2) { readPrefs(); renderHome(); }
   });
   $('mat-todas').onclick = () => { document.querySelectorAll('.mat-chk').forEach(x => { x.checked = true; }); readPrefs(); renderHome(); };
   $('mat-nenhuma').onclick = () => { document.querySelectorAll('.mat-chk').forEach(x => { x.checked = false; }); readPrefs(); renderHome(); };
@@ -1157,7 +1195,10 @@
       prefs.rodizio = q.get('rodizio') === '1';
       // convites da versão anterior traziam "circuito=<matéria>"
       if (MAT[q.get('circuito')]) prefs.materias = [q.get('circuito')];
-      prefs.circN = ['1', '3', '5', '8', 'todas'].includes(q.get('n')) ? q.get('n') : MAT[q.get('circuito')] ? '5' : '1';
+      const nq = q.get('n'), nn = parseInt(nq, 10);
+      if (nq === '1' || nq === 'todas') prefs.circN = nq;
+      else if (nn >= 2) { prefs.circQtdNum = Math.min(200, nn); prefs.circN = String(prefs.circQtdNum); }
+      else prefs.circN = MAT[q.get('circuito')] ? '5' : '1';
       const rq = parseInt(q.get('rodada'), 10); if (rq >= 1) { prefs.rodGrupo = prefs.rodGrupo || {}; prefs.rodGrupo[chaveGrupo(prefs.code)] = Math.min(99, rq); }
       save(LS.prefs, prefs); history.replaceState(null, '', location.pathname);
       setTimeout(() => toast(`Convite de ${prefs.formato === 'trio' ? 'trio' : 'dupla'} carregado. Confira o seu papel e toque em "Começar circuito" junto com os colegas.`), 300);
