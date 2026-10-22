@@ -5,7 +5,7 @@ Simulador de estações OSCE com o tempo da prova: **4 minutos** para se apresen
 - **Matérias:** Clínica Cirúrgica, Saúde da Mulher, Farmacologia, Saúde Mental e Epidemiologia.
 - **Barema:** cada item é marcado como fez, parcial ou não, em três blocos: conteúdo, comunicação e cordialidade, e clareza. Os erros críticos aparecem em destaque.
 - **Ditado por voz (opcional):** transcreve o que você fala durante a estação, para comparar com a fala-modelo.
-- **Circuito:** uma estação de cada matéria, uma atrás da outra. Na porta, dá para deixar a estação para o final da mesma rodada ou pular de vez.
+- **Circuito:** uma estação de cada matéria, uma atrás da outra, ou, em "Tipo de circuito", só uma matéria (3, 5, 8 ou todas as estações dela), sozinho ou em grupo. Na porta, dá para deixar a estação para o final da mesma rodada ou pular de vez.
 - **Histórico de rodadas:** a média de cada rodada fica salva e aparece na página inicial em gráfico (últimas 15, com linha no 7,0) e em lista, com a nota de cada estação e a diferença para a rodada anterior.
 - **Com tempo ou sem tempo:** o modo com tempo segue a prova (4 minutos por estação); o modo sem tempo abre a estação sem cronômetro, com um espaço de anotações, para estudar com calma.
 - **Caderno de erros:** no feedback, o que faltou no barema, a anamnese que faltou, os erros críticos e as anotações vão para o caderno. Lá dá para editar as anotações, refazer as estações, ver o resumo, marcar como revisada e copiar ou baixar tudo (.txt). Fica salvo no navegador.
